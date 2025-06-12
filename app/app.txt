@@ -1,5 +1,15 @@
-  app.c (app.h)
-   Endless loops, which execute tasks with fixed computing time. This 
-   sequential execution is only deviated from when an interrupt event occurs.
+Se define la estructura 'task_cfg_t' que contiene:
+	- 2 punteros a funciones que no devuelven ningún tipo de dato y que reciben punteros genericos : init - update 
+	- 1 puntero génerico, es decir, que puede apuntar a cualquier tipo de dato
 
+Se define la estructura 'task_dta_t' que contiene una variable de 32 bits sin signo 'WCET' (Worst-case execution time in microseconds) 
+
+Se define un array de 3 'task_cfg_t' en donde cada uno de los punteros se apuntan de la siguiente manera:
+	{task_sensor_init, 	task_sensor_update, 	NULL},
+	{task_menu_init, 	task_menu_update, 	NULL},
+
+Al iniciar la aplicacion (app_init) se ingresa a cada fila de la lista 'task_cfg_t' y se le pasa como argumento el parametro de cada una (NULL). 
+
+Al llamar a app_update se espera el tiempo de incializaion de la aplicacion 'G_APP_TICK_CNT_INI', se ingresa a la lista y se ejecuta cada una de sus tareas. 
+Finalmente se guarda en la variable 'WCET' el mayor tiempo de ejecucion de cada tarea.
 ...
