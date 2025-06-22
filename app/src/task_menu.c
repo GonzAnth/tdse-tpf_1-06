@@ -61,7 +61,12 @@
 
 /********************** internal data declaration ****************************/
 task_menu_dta_t task_menu_dta =
-	{DEL_MEN_XX_MIN, ST_MEN_XX_IDLE, EV_MEN_ENT_IDLE, false};
+	{DEL_MEN_XX_MIN, ST_MEN_XX_IDLE, EV_MEN_ENT_IDLE, false, 1, true, 0, true};
+
+task_motor_dta_t task_motor_dta [] = {
+	{1, true, 0, true},
+	{2, true, 0, true}
+};
 
 #define MENU_DTA_QTY	(sizeof(task_menu_dta)/sizeof(task_menu_dta_t))
 
@@ -124,6 +129,8 @@ void task_menu_init(void *parameters)
 void task_menu_update(void *parameters)
 {
 	task_menu_dta_t *p_task_menu_dta;
+	task_motor_dta_t *p_motor_dta_t;
+
 	bool b_time_update_required = false;
 	char menu_str[8];
 
@@ -169,6 +176,8 @@ void task_menu_update(void *parameters)
 
 			p_task_menu_dta->tick = DEL_MEN_XX_MAX;
 
+			/* Implementacion maquina de estados */
+
 			if (true == any_event_task_menu())
 			{
 				p_task_menu_dta->flag = true;
@@ -177,7 +186,243 @@ void task_menu_update(void *parameters)
 
 			switch (p_task_menu_dta->state)
 			{
-				case ST_MEN_XX_IDLE:
+				case ST_MEN_MAIN:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
+						p_task_menu_dta->id_motor = 0;
+					}
+
+					break;
+
+				case ST_MEN_SELECT_MOTOR_1:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+						p_motor_dta_t = &task_motor_dta[p_task_menu_dta->id_motor];
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_2;
+						p_task_menu_dta->id_motor = 1;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+
+					break;
+
+				case ST_MEN_SELECT_MOTOR_2:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+						p_motor_dta_t = &task_motor_dta[p_task_menu_dta->id_motor];
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
+						p_task_menu_dta->id_motor = 0;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+
+					break;
+
+				case ST_MEN_SELECT_POWER:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_POWER_ON;
+						p_task_menu_dta->power = true;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_SPEED;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
+						p_task_menu_dta->id_motor = 0;
+					}
+
+					break;
+
+				case ST_MEN_SELECT_SPEED:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_CHANGE_SPEED;
+						p_task_menu_dta->speed = 0;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_SPIN;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
+						p_task_menu_dta->id_motor = 0;
+					}
+
+					break;
+
+				case ST_MEN_SELECT_SPIN:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SPIN_LEFT;
+						p_task_menu_dta->spin = true;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
+						p_task_menu_dta->id_motor = 0;
+					}
+
+					break;
+
+				case ST_MEN_POWER_ON:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+						// actualizar los datos del motor
+						p_motor_dta_t->power = p_task_menu_dta->power;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_POWER_OFF;
+						p_task_menu_dta->power = false;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+					}
+
+					break;
+
+				case ST_MEN_POWER_OFF:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+						// actualizar los datos del motor
+						p_motor_dta_t->power = p_task_menu_dta->power;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_POWER_ON;
+						p_task_menu_dta->power = true;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+					}
+
+					break;
+
+				case ST_MEN_CHANGE_SPEED:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+						// actualizar los datos del motor
+						p_motor_dta_t->speed = p_task_menu_dta->speed;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_CHANGE_SPEED;
+						p_task_menu_dta->speed = (p_task_menu_dta->speed + 1) % 10;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+					}
+
+					break;
+
+				case ST_MEN_SPIN_LEFT:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+						// actualizar los datos del motor
+						p_motor_dta_t->spin = p_task_menu_dta->spin;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SPIN_RIGTH;
+						p_task_menu_dta->spin = false;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+					}
+
+					break;
+
+				case ST_MEN_SPIN_RIGTH:
+
+					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+						// actualizar los datos del motor
+						p_motor_dta_t->spin = p_task_menu_dta->spin;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SPIN_LEFT;
+						p_task_menu_dta->spin = true;
+					}
+					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+					}
+
+					break;
+
+				/*case ST_MEN_XX_IDLE:
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
@@ -195,7 +440,7 @@ void task_menu_update(void *parameters)
 						p_task_menu_dta->state = ST_MEN_XX_IDLE;
 					}
 
-					break;
+					break;*/
 
 				default:
 

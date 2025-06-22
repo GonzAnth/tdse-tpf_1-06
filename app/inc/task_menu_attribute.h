@@ -59,6 +59,7 @@ extern "C" {
  * 	| ST_MEN_XX_ACTIVE      | EV_MEN_MEN_IDLE       |                       | ST_MEN_XX_IDLE        |                       |
  * 	|                       |                       |                       |                       |                       |
  * 	------------------------+-----------------------+-----------------------+-----------------------+------------------------
+ * 	ESTO SE DEBE CAMBIAR
  */
 
 /* Events to excite Task Menu */
@@ -71,7 +72,18 @@ typedef enum task_menu_ev {EV_MEN_ENT_IDLE,
 
 /* State of Task Menu */
 typedef enum task_menu_st {ST_MEN_XX_IDLE,
-						   ST_MEN_XX_ACTIVE} task_menu_st_t;
+						   ST_MEN_XX_ACTIVE,
+						   ST_MEN_MAIN,
+						   ST_MEN_SELECT_MOTOR_1,
+						   ST_MEN_SELECT_MOTOR_2,
+						   ST_MEN_SELECT_POWER,
+						   ST_MEN_SELECT_SPEED,
+						   ST_MEN_SELECT_SPIN,
+						   ST_MEN_POWER_ON,
+						   ST_MEN_POWER_OFF,
+						   ST_MEN_CHANGE_SPEED,
+						   ST_MEN_SPIN_LEFT,
+						   ST_MEN_SPIN_RIGTH} task_menu_st_t;
 
 typedef struct
 {
@@ -79,7 +91,19 @@ typedef struct
 	task_menu_st_t	state;
 	task_menu_ev_t	event;
 	bool			flag;
+	uint32_t		id_motor;
+	bool			power;
+	uint32_t 		speed;
+	bool 			spin;
 } task_menu_dta_t;
+
+typedef struct
+{
+	uint32_t 		id_motor;
+	bool			power;
+	uint32_t 		speed;
+	bool 			spin;
+} task_motor_dta_t;
 
 /********************** external data declaration ****************************/
 extern task_menu_dta_t task_menu_dta;
