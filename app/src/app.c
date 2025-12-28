@@ -106,6 +106,8 @@ void app_init(void)
 	/* Print out: Application execution counter */
 	LOGGER_LOG(" %s = %lu\r\n", GET_NAME(g_app_cnt), g_app_cnt);
 
+	cycle_counter_init();
+
 	/* Go through the task arrays */
 	for (index = 0; TASK_QTY > index; index++)
 	{
@@ -116,7 +118,6 @@ void app_init(void)
 		task_dta_list[index].WCET = TASK_X_WCET_INI;
 	}
 
-	cycle_counter_init();
 
 	__asm("CPSID i");	/* disable interrupts*/
 	g_app_tick_cnt = G_APP_TICK_CNT_INI;
