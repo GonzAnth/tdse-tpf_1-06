@@ -87,12 +87,14 @@ typedef struct
 {
 	uint32_t		tick;
 	task_menu_st_t	state;
+	task_menu_st_t  last_state;
 	task_menu_ev_t	event;
 	bool			flag;
 	uint32_t		id_motor;
 	bool			power;
 	uint32_t 		speed;
 	bool 			spin;
+	bool 			refresh_screen;
 } task_menu_dta_t;
 
 typedef struct

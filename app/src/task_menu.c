@@ -61,7 +61,7 @@
 
 /********************** internal data declaration ****************************/
 task_menu_dta_t task_menu_dta =
-	{DEL_MEN_XX_MIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE, false, 1, true, 0, true};
+	{DEL_MEN_XX_MIN, ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE, false, 1, true, 0, true, true};
 
 task_motor_dta_t task_motor_dta [] = {
 	{1, true, 0, true},
@@ -171,8 +171,14 @@ void task_menu_update(void *parameters)
 		{
 			p_task_menu_dta->tick = DEL_MEN_XX_MAX;
 
-			/* Implementacion maquina de estados */
+			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado */
+			if (p_task_menu_dta->state != p_task_menu_dta->last_state)
+			{
+			    p_task_menu_dta->refresh_screen = true;
+			    p_task_menu_dta->last_state = p_task_menu_dta->state;
+			}
 
+			/* Implementacion maquina de estados */
 			if (true == any_event_task_menu())
 			{
 				p_task_menu_dta->flag = true;
@@ -182,18 +188,16 @@ void task_menu_update(void *parameters)
 			switch (p_task_menu_dta->state)
 			{
 				case ST_MEN_MAIN:
-					displayCharPositionWrite(9, 0);
-					displayStringWrite("MENU MAIN");
-					displayCharPositionWrite(0, 1);
-					displayStringWrite("TOCA ENTER PARA CONTINUAR");
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(0, 5, "MENU MAIN");
+						displayUpdateRow(1, 0, "ENTER PARA CONTINUAR");
+					}
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
-
-						displayCharPositionWrite(0, 0);
-						displayStringWrite("MOTOR 1");
-
 						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
 						p_task_menu_dta->id_motor = 0;
 					}
@@ -202,19 +206,22 @@ void task_menu_update(void *parameters)
 
 
 				case ST_MEN_SELECT_MOTOR_1:
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(0, 0, "SELECCIONAR MOTOR:");
+						displayUpdateRow(1, 0, "MOTOR 1");
+					}
+
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
-						displayCharPositionWrite(0, 1);
-						displayStringWrite("POWER");
 						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
 						p_motor_dta_t = &task_motor_dta[p_task_menu_dta->id_motor];
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
-						displayCharPositionWrite(0, 0);
-						displayStringWrite("MOTOR 2");
 						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_2;
 						p_task_menu_dta->id_motor = 1;
 					}
@@ -227,6 +234,11 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_SELECT_MOTOR_2:
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(1, 0, "MOTOR 2");
+					}
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
@@ -429,26 +441,6 @@ void task_menu_update(void *parameters)
 
 					break;
 
-
-				/*case ST_MEN_XX_IDLE:
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_XX_ACTIVE;
-					}
-
-					break;
-
-				case ST_MEN_XX_ACTIVE:
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_IDLE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_XX_IDLE;
-					}
-
-					break;*/
 
 				default:
 

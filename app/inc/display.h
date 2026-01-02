@@ -28,6 +28,9 @@ void displayStringWrite( const char * str );
 
 void displayUpdateRow(uint8_t row, uint8_t col, const char *str);
 
+void displayClearRow(uint8_t row);
+
+
 //=====[#include guards - end]=================================================
 
 #endif // _DISPLAY_H_

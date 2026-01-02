@@ -2,7 +2,8 @@
 ../app/src/display.c:189:6:displayCharPositionWrite	16	static
 ../app/src/display.c:226:6:displayStringWrite	16	static
 ../app/src/display.c:233:6:displayUpdateRow	24	static
-../app/src/display.c:250:13:displayCodeWrite	16	static
-../app/src/display.c:260:13:displayPinWrite	16	static
-../app/src/display.c:297:13:displayDataBusWrite	16	static
-../app/src/display.c:339:6:display_delay_us	24	static
+../app/src/display.c:248:6:displayClearRow	16	static
+../app/src/display.c:255:13:displayCodeWrite	16	static
+../app/src/display.c:265:13:displayPinWrite	16	static
+../app/src/display.c:302:13:displayDataBusWrite	16	static
+../app/src/display.c:344:6:display_delay_us	24	static

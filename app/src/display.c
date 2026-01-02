@@ -245,6 +245,11 @@ void displayUpdateRow(uint8_t row, uint8_t col, const char *str)
 	}
 }
 
+void displayClearRow(uint8_t row)
+{
+	displayUpdateRow(0, row, "");
+}
+
 
 //=====[Implementations of private functions]==================================
 static void displayCodeWrite( bool type, uint8_t dataBus )
