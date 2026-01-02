@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 //=====[Declaration of public defines]=========================================
-
+#define ANCHO_LCD 20
 //=====[Declaration of public data types]======================================
 
 typedef enum {
@@ -25,6 +25,8 @@ void displayInit( displayConnection_t connection );
 void displayCharPositionWrite( uint8_t charPositionX, uint8_t charPositionY );
 
 void displayStringWrite( const char * str );
+
+void displayUpdateRow(uint8_t row, uint8_t col, const char *str);
 
 //=====[#include guards - end]=================================================
 

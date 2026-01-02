@@ -230,6 +230,22 @@ void displayStringWrite( const char * str )
     }
 }
 
+void displayUpdateRow(uint8_t row, uint8_t col, const char *str)
+{
+    displayCharPositionWrite(0, row);
+    for (uint8_t i = 0; i < col; i++) {
+        displayStringWrite(" ");
+    }
+
+    displayStringWrite(str);
+
+    uint8_t pos_actual = col + strlen(str);
+    for (uint8_t i = pos_actual; i < ANCHO_LCD; i++) {
+            displayStringWrite(" ");
+	}
+}
+
+
 //=====[Implementations of private functions]==================================
 static void displayCodeWrite( bool type, uint8_t dataBus )
 {

@@ -61,7 +61,7 @@
 
 /********************** internal data declaration ****************************/
 task_menu_dta_t task_menu_dta =
-	{DEL_MEN_XX_MIN, ST_MEN_XX_IDLE, EV_MEN_ENT_IDLE, false, 1, true, 0, true};
+	{DEL_MEN_XX_MIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE, false, 1, true, 0, true};
 
 task_motor_dta_t task_motor_dta [] = {
 	{1, true, 0, true},
@@ -116,6 +116,9 @@ void task_menu_init(void *parameters)
 	cycle_counter_reset();
 
 	displayInit( DISPLAY_CONNECTION_GPIO_4BITS );
+
+	displayCharPositionWrite(1, 1);
+	displayStringWrite("TEST");
 
 	displayCharPositionWrite(1, 3);
 	displayStringWrite("ENTER / NEXT / ESC");
@@ -179,11 +182,11 @@ void task_menu_update(void *parameters)
 			switch (p_task_menu_dta->state)
 			{
 				case ST_MEN_MAIN:
-					/*displayCharPositionWrite(9, 0);
-					displayStringWrite("MENU MAIN");
 					displayCharPositionWrite(9, 0);
+					displayStringWrite("MENU MAIN");
+					displayCharPositionWrite(0, 1);
 					displayStringWrite("TOCA ENTER PARA CONTINUAR");
-					*/
+
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
@@ -450,7 +453,7 @@ void task_menu_update(void *parameters)
 				default:
 
 					p_task_menu_dta->tick  = DEL_MEN_XX_MIN;
-					p_task_menu_dta->state = ST_MEN_XX_IDLE;
+					p_task_menu_dta->state = ST_MEN_MAIN;
 					p_task_menu_dta->event = EV_MEN_ENT_IDLE;
 					p_task_menu_dta->flag  = false;
 
