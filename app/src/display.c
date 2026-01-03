@@ -78,6 +78,7 @@
 #define DISPLAY_PIN_D7 14
 
 #define DISPLAY_DEL_37US	37ul
+#define DISPLAY_DEL_20US	20ul
 #define DISPLAY_DEL_01US	01ul
 
 //=====[Declaration of private data types]=====================================
@@ -232,22 +233,26 @@ void displayStringWrite( const char * str )
 
 void displayUpdateRow(uint8_t row, uint8_t col, const char *str)
 {
-    displayCharPositionWrite(0, row);
-    for (uint8_t i = 0; i < col; i++) {
-        displayStringWrite(" ");
+    char buffer_linea[ANCHO_LCD + 1];
+
+    memset(buffer_linea, ' ', ANCHO_LCD);
+    buffer_linea[ANCHO_LCD] = '\0';
+
+
+    size_t len = strlen(str);
+    if (col < ANCHO_LCD) {
+    	//me quedo con lo que entra
+        size_t len_copy = (col + len > ANCHO_LCD) ? (ANCHO_LCD - col) : len;
+        memcpy(&buffer_linea[col], str, len_copy);
     }
 
-    displayStringWrite(str);
-
-    uint8_t pos_actual = col + strlen(str);
-    for (uint8_t i = pos_actual; i < ANCHO_LCD; i++) {
-            displayStringWrite(" ");
-	}
+    displayCharPositionWrite(0, row);
+    displayStringWrite(buffer_linea);
 }
 
 void displayClearRow(uint8_t row)
 {
-	displayUpdateRow(0, row, "");
+	displayUpdateRow(row, 0, "");
 }
 
 
@@ -299,6 +304,7 @@ static void displayPinWrite( uint8_t pinName, int value )
     }
 }
 
+
 static void displayDataBusWrite( uint8_t dataBus )
 {
     displayPinWrite( DISPLAY_PIN_EN, OFF );
@@ -322,7 +328,7 @@ static void displayDataBusWrite( uint8_t dataBus )
 
                 displayPinWrite( DISPLAY_PIN_EN, OFF );
                 //HAL_Delay(1);
-                display_delay_us(DISPLAY_DEL_37US);
+                display_delay_us(DISPLAY_DEL_01US);
 
                 displayPinWrite( DISPLAY_PIN_D7, dataBus & 0b00001000 );
                 displayPinWrite( DISPLAY_PIN_D6, dataBus & 0b00000100 );
@@ -338,8 +344,10 @@ static void displayDataBusWrite( uint8_t dataBus )
 
     displayPinWrite( DISPLAY_PIN_EN, OFF );
     //HAL_Delay(1);
-    display_delay_us(DISPLAY_DEL_37US);
+    display_delay_us(DISPLAY_DEL_20US);
 }
+
+
 
 void display_delay_us(uint32_t delay_us)
 {

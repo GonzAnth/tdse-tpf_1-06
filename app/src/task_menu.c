@@ -117,9 +117,6 @@ void task_menu_init(void *parameters)
 
 	displayInit( DISPLAY_CONNECTION_GPIO_4BITS );
 
-	displayCharPositionWrite(1, 1);
-	displayStringWrite("TEST");
-
 	displayCharPositionWrite(1, 3);
 	displayStringWrite("ENTER / NEXT / ESC");
 
@@ -129,9 +126,10 @@ void task_menu_init(void *parameters)
 void task_menu_update(void *parameters)
 {
 	task_menu_dta_t *p_task_menu_dta;
-	task_motor_dta_t *p_motor_dta_t;
+	task_motor_dta_t *p_task_motor_dta;
 
 	bool b_time_update_required = false;
+	char str_buffer[ANCHO_LCD + 1]; //se suma caracter \0
 
 	/* Update Task Menu Counter */
 	g_task_menu_cnt++;
@@ -162,6 +160,7 @@ void task_menu_update(void *parameters)
 
     	/* Update Task Menu Data Pointer */
 		p_task_menu_dta = &task_menu_dta;
+		p_task_motor_dta = &task_motor_dta[p_task_menu_dta->id_motor];
 
     	if (DEL_MEN_XX_MIN < p_task_menu_dta->tick)
 		{
@@ -193,13 +192,14 @@ void task_menu_update(void *parameters)
 						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(0, 5, "MENU MAIN");
 						displayUpdateRow(1, 0, "ENTER PARA CONTINUAR");
+						displayClearRow(2);
 					}
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 0;
+						p_task_menu_dta->id_motor = 1;
 					}
 
 					break;
@@ -217,13 +217,13 @@ void task_menu_update(void *parameters)
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-						p_motor_dta_t = &task_motor_dta[p_task_menu_dta->id_motor];
+						p_task_motor_dta = &task_motor_dta[p_task_menu_dta->id_motor];
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_2;
-						p_task_menu_dta->id_motor = 1;
+						p_task_menu_dta->id_motor = 2;
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
@@ -244,13 +244,13 @@ void task_menu_update(void *parameters)
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-						p_motor_dta_t = &task_motor_dta[p_task_menu_dta->id_motor];
+						p_task_motor_dta = &task_motor_dta[p_task_menu_dta->id_motor];
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 0;
+						p_task_menu_dta->id_motor = 1;
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
@@ -261,6 +261,13 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_SELECT_POWER:
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(0, 0, "ENCENDER MOTOR?");
+						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						displayUpdateRow(1, 0, str_buffer);
+					}
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
@@ -277,12 +284,19 @@ void task_menu_update(void *parameters)
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 0;
+						p_task_menu_dta->id_motor = 1;
 					}
 
 					break;
 
 				case ST_MEN_SELECT_SPEED:
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(0, 0, "ELEGIR VELOCIDAD?");
+						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						displayUpdateRow(1, 0, str_buffer);
+					}
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
@@ -299,12 +313,19 @@ void task_menu_update(void *parameters)
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 0;
+						p_task_menu_dta->id_motor = 1;
 					}
 
 					break;
 
 				case ST_MEN_SELECT_SPIN:
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(0, 0, "ELEGIR GIRO?");
+						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						displayUpdateRow(1, 0, str_buffer);
+					}
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
@@ -321,19 +342,26 @@ void task_menu_update(void *parameters)
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 0;
+						p_task_menu_dta->id_motor = 1;
 					}
 
 					break;
 
 				case ST_MEN_POWER_ON:
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(0, 0, "MOTOR ENCENDIDO");
+						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						displayUpdateRow(1, 0, str_buffer);
+					}
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 						// actualizar los datos del motor
-						p_motor_dta_t->power = p_task_menu_dta->power;
+						p_task_motor_dta->power = p_task_menu_dta->power;
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
@@ -349,14 +377,22 @@ void task_menu_update(void *parameters)
 
 					break;
 
+
 				case ST_MEN_POWER_OFF:
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(0, 0, "MOTOR APAGADO");
+						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						displayUpdateRow(1, 0, str_buffer);
+					}
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 						// actualizar los datos del motor
-						p_motor_dta_t->power = p_task_menu_dta->power;
+						p_task_motor_dta->power = p_task_menu_dta->power;
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
@@ -372,20 +408,30 @@ void task_menu_update(void *parameters)
 
 					break;
 
+
 				case ST_MEN_CHANGE_SPEED:
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						snprintf(str_buffer, sizeof(str_buffer), "VELOCIDAD: %-8lu", (p_task_menu_dta->speed));
+						displayUpdateRow(1, 0, str_buffer);
+						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						displayUpdateRow(2, 0, str_buffer);
+					}
 
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 						// actualizar los datos del motor
-						p_motor_dta_t->speed = p_task_menu_dta->speed;
+						p_task_motor_dta->speed = p_task_menu_dta->speed;
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
 						//p_task_menu_dta->state = ST_MEN_CHANGE_SPEED;
 						p_task_menu_dta->speed = (p_task_menu_dta->speed + 1) % 10;
+						p_task_menu_dta->refresh_screen = true;
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
@@ -396,13 +442,19 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_SPIN_RIGTH:
-
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(1, 0, "GIRO HORARIO");
+						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						displayUpdateRow(2, 0, str_buffer);
+					}
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 						// actualizar los datos del motor
-						p_motor_dta_t->spin = p_task_menu_dta->spin;
+						p_task_motor_dta->spin = p_task_menu_dta->spin;
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
@@ -419,13 +471,19 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_SPIN_LEFT:
-
+					if (true == p_task_menu_dta->refresh_screen)
+					{
+						p_task_menu_dta->refresh_screen = false;
+						displayUpdateRow(1, 0, "GIRO ANTIHORARIO");
+						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						displayUpdateRow(2, 0, str_buffer);
+					}
 					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 						// actualizar los datos del motor
-						p_motor_dta_t->spin = p_task_menu_dta->spin;
+						p_task_motor_dta->spin = p_task_menu_dta->spin;
 					}
 					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
