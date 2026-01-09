@@ -5,9 +5,12 @@ static I2C_HandleTypeDef *phi2c;
 //Polinomio CRC: x^8 + x^5 + x^4 + 1 = 0x31
 #define CRC_POLYNOMIAL  0x31
 
+//=====[Declarations (prototypes) of private functions]========================
+static uint8_t CalculateCRC(uint8_t *data, uint8_t len);
 
 
 
+//=====[Implementations of public functions]===================================
 void SHT85_Init(I2C_HandleTypeDef *hi2c)
 {
     phi2c = hi2c;
