@@ -1,9 +1,0 @@
-../app/src/display.c:115:6:displayInit	3
-../app/src/display.c:190:6:displayCharPositionWrite	5
-../app/src/display.c:227:6:displayStringWrite	2
-../app/src/display.c:234:6:displayUpdateRow	3
-../app/src/display.c:253:6:displayClearRow	1
-../app/src/display.c:260:13:displayCodeWrite	2
-../app/src/display.c:270:13:displayPinWrite	9
-../app/src/display.c:308:13:displayDataBusWrite	4
-../app/src/display.c:352:6:display_delay_us	2
