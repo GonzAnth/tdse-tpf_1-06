@@ -72,16 +72,18 @@ typedef enum task_menu_ev {EV_MEN_ENT_IDLE,
 
 /* State of Task Menu */
 typedef enum task_menu_st {ST_MEN_MAIN,
-						   ST_MEN_SELECT_MOTOR_1,
-						   ST_MEN_SELECT_MOTOR_2,
-						   ST_MEN_SELECT_POWER,
-						   ST_MEN_SELECT_SPEED,
-						   ST_MEN_SELECT_SPIN,
-						   ST_MEN_POWER_ON,
-						   ST_MEN_POWER_OFF,
-						   ST_MEN_CHANGE_SPEED,
-						   ST_MEN_SPIN_LEFT,
-						   ST_MEN_SPIN_RIGTH} task_menu_st_t;
+						   ST_MEN_MODE_MANUAL,
+						   ST_MEN_MODE_CONFIG,
+						   ST_MEN_MODE_SENSOR,
+						   ST_MEN_MODE_TIME,
+						   ST_MEN_RIEGO_ON,
+						   ST_MEN_RIEGO_OFF,
+						   ST_MEN_CONFIG_TIME,
+						   ST_MEN_CONFIG_TEMP,
+						   ST_MEN_CONFIG_HUME,
+						   ST_MEN_CHANGE_TIME,
+						   ST_MEN_CHANGE_TEMP,
+						   ST_MEN_CHANGE_HUME} task_menu_st_t;
 
 typedef struct
 {
@@ -90,20 +92,24 @@ typedef struct
 	task_menu_st_t  last_state;
 	task_menu_ev_t	event;
 	bool			flag;
-	uint32_t		id_motor;
-	bool			power;
-	uint32_t 		speed;
-	bool 			spin;
 	bool 			refresh_screen;
+	bool			riego;
+	uint32_t 		time;
+	uint32_t		temperature;
+	uint32_t		humidity;
+	bool			mode_sensor;
+	bool			mode_time;
 } task_menu_dta_t;
 
 typedef struct
 {
-	uint32_t 		id_motor;
-	bool			power;
-	uint32_t 		speed;
-	bool 			spin;
-} task_motor_dta_t;
+	bool			riego;
+	uint32_t 		time;
+	uint32_t		temperature;
+	uint32_t		humidity;
+	bool			mode_sensor;
+	bool			mode_time;
+} task_aspersor_dta_t;
 
 /********************** external data declaration ****************************/
 extern task_menu_dta_t task_menu_dta;
