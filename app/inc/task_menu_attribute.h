@@ -63,39 +63,46 @@ extern "C" {
  */
 
 /* Events to excite Task Menu */
-typedef enum task_menu_ev {EV_MEN_ENT_IDLE,
-						   EV_MEN_ENT_ACTIVE,
-						   EV_MEN_NEX_IDLE,
-						   EV_MEN_NEX_ACTIVE,
-						   EV_MEN_ESC_IDLE,
-						   EV_MEN_ESC_ACTIVE} task_menu_ev_t;
+typedef enum task_menu_ev {EV_SEN_MEASURE_ON,
+						   EV_SEN_MEASURE_OFF,
+						   EV_SEN_MEASURE_OK,
+						   EV_SEN_MEASURE_OK_OFF,
+						   EV_SEN_MEASURE_NOT_OK,
+						   EV_SEN_MEASURE_NOT_OK_OFF,
+						   EV_SEN_MEASURE_READ,
+						   EV_SEN_MEASURE_READ_OFF,
+						   EV_SEN_FALLA_OK,
+						   EV_SEN_FALLA_OK_OFF} task_menu_ev_t;
 
 /* State of Task Menu */
-typedef enum task_menu_st {ST_MEN_MAIN,
-						   ST_MEN_SELECT_MOTOR_1,
-						   ST_MEN_SELECT_MOTOR_2,
-						   ST_MEN_SELECT_POWER,
-						   ST_MEN_SELECT_SPEED,
-						   ST_MEN_SELECT_SPIN,
-						   ST_MEN_POWER_ON,
-						   ST_MEN_POWER_OFF,
-						   ST_MEN_CHANGE_SPEED,
-						   ST_MEN_SPIN_LEFT,
-						   ST_MEN_SPIN_RIGTH} task_menu_st_t;
+typedef enum task_menu_st {ST_SEN_IDLE,
+						   ST_SEN_MEASURE,
+						   ST_SEN_WAITING,
+						   ST_SEN_READY,
+						   ST_SEN_CHECK,
+						   ST_SEN_FALLA} task_menu_st_t;
 
 typedef struct
 {
 	uint32_t		tick;
-	task_menu_st_t	state;
-	task_menu_st_t  last_state;
-	task_menu_ev_t	event;
 	bool			flag;
-	uint32_t		id_motor;
-	bool			power;
-	uint32_t 		speed;
-	bool 			spin;
-	bool 			refresh_screen;
-} task_menu_dta_t;
+	uint32_t		tick_means_max;
+	bool 			measure_check;
+	task_menu_ev_t  signal_up; //eventos que genera el sensor para el systema
+	task_menu_ev_t	signal_down; //eventos que genera el sensor para el systema
+} task_sen_cfg_t;
+
+
+typedef struct
+{
+	uint32_t			tick_means;
+	task_menu_st_t		state;
+	task_menu_ev_t		event;
+	uint32_t			time;
+	uint32_t			temperature;
+	uint32_t			humidity;
+
+} task_sen_dta_t;
 
 typedef struct
 {
@@ -103,10 +110,10 @@ typedef struct
 	bool			power;
 	uint32_t 		speed;
 	bool 			spin;
-} task_motor_dta_t;
+} task_sht85_dta_t;
 
 /********************** external data declaration ****************************/
-extern task_menu_dta_t task_menu_dta;
+extern task_sen_dta_t task_sen_dta;
 
 /********************** external functions declaration ***********************/
 
