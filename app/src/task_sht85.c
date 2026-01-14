@@ -38,8 +38,6 @@
 
 /********************** inclusions *******************************************/
 /* Project includes. */
-#include <task_sht85_attribute.h>
-#include <task_sht85_interface.h>
 #include "main.h"
 
 /* Demo includes. */
@@ -49,7 +47,8 @@
 /* Application & Tasks includes. */
 #include "board.h"
 #include "app.h"
-#include "display.h"
+#include "task_sht85_attribute.h"
+#include "task_sht85_interface.h"
 
 /********************** macros and definitions *******************************/
 #define G_TASK_MEN_CNT_INI			0ul
