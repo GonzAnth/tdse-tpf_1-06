@@ -38,6 +38,8 @@
 
 /********************** inclusions *******************************************/
 /* Project includes. */
+#include <task_sht85_attribute.h>
+#include <task_sht85_interface.h>
 #include "main.h"
 
 /* Demo includes. */
@@ -47,8 +49,6 @@
 /* Application & Tasks includes. */
 #include "board.h"
 #include "app.h"
-#include "task_menu_attribute.h"
-#include "task_menu_interface.h"
 #include "display.h"
 
 /********************** macros and definitions *******************************/
@@ -59,21 +59,16 @@
 #define DEL_MEN_XX_MED				50ul
 #define DEL_MEN_XX_MAX				500ul
 
-#define DEL_SEN_MEAS_XX_MAX			50ul
+#define DEL_SEN_MEAS_XX_MAX			10ul
 #define DEL_SEN_MEAS_XX_MIN			0ul
 
 /********************** internal data declaration ****************************/
-task_sen_cfg_t task_sen_cfg =
-	{DEL_MEN_XX_MIN, false, DEL_SEN_MEAS_XX_MAX, false, 0, 0};
+task_sht85_cfg_t task_sht85_cfg =
+	{DEL_MEN_XX_MIN, false, DEL_SEN_MEAS_XX_MAX, 0, 0};
 
-task_sen_dta_t task_sen_dta = {
-	DEL_SEN_MEAS_XX_MIN	, ST_SEN_IDLE, EV_SEN_MEASURE_OFF, 0, 0, 0
+task_sht85_dta_t task_sht85_dta = {
+	DEL_SEN_MEAS_XX_MIN	, ST_SEN_IDLE, EV_SEN_MEASURE_OFF, false, 0, 0, 0
 };
-
-/*task_motor_dta_t task_motor_dta [] = {
-	{1, true, 0, true},
-	{2, true, 0, true}
-};*/
 
 #define MENU_DTA_QTY	(sizeof(task_menu_dta)/sizeof(task_menu_dta_t))
 
@@ -88,12 +83,12 @@ uint32_t g_task_menu_cnt;
 volatile uint32_t g_task_menu_tick_cnt;
 
 /********************** external functions definition ************************/
-void task_menu_init(void *parameters)
+void task_sht85_init(void *parameters)
 {
-	task_sen_cfg_t *p_task_sen_cfg;
-	task_sen_dta_t *p_task_sen_dta;
-	task_menu_st_t	state;
-	task_menu_ev_t	event;
+	task_sht85_cfg_t *p_task_sht85_cfg;
+	task_sht85_dta_t *p_task_sht85_dta;
+	task_sht85_st_t	state;
+	task_sht85_ev_t	event;
 	bool b_event;
 
 	/* Print out: Task Initialized */
@@ -105,37 +100,32 @@ void task_menu_init(void *parameters)
 	/* Print out: Task execution counter */
 	LOGGER_LOG("   %s = %lu\r\n", GET_NAME(g_task_menu_cnt), g_task_menu_cnt);
 
-	init_queue_event_task_menu();
+	init_queue_event_task_sht85();
 
 	/* Update Task Actuator Configuration & Data Pointer */
-	p_task_sen_dta = &task_sen_dta;
-	p_task_sen_cfg = &task_sen_cfg;
+	p_task_sht85_dta = &task_sht85_dta;
+	p_task_sht85_cfg = &task_sht85_cfg;
 
 	/* Print out: Task execution FSM */
-	state = p_task_sen_dta->state;
+	state = p_task_sht85_dta->state;
 	LOGGER_LOG("   %s = %lu", GET_NAME(state), (uint32_t)state);
 
-	event = p_task_sen_dta->event;
+	event = p_task_sht85_dta->event;
 	LOGGER_LOG("   %s = %lu", GET_NAME(event), (uint32_t)event);
 
-	b_event = p_task_sen_cfg->flag;
+	b_event = p_task_sht85_cfg->flag;
 	LOGGER_LOG("   %s = %s\r\n", GET_NAME(b_event), (b_event ? "true" : "false"));
 
 	cycle_counter_init();
 	cycle_counter_reset();
 
-	displayInit( DISPLAY_CONNECTION_GPIO_4BITS );
-
-	displayCharPositionWrite(1, 3);
-	displayStringWrite("ENTER / NEXT / ESC");
-
 	g_task_menu_tick_cnt = G_TASK_MEN_TICK_CNT_INI;
 }
 
-void task_menu_update(void *parameters)
+void task_sht85_update(void *parameters)
 {
-	task_sen_cfg_t *p_task_sen_cfg;
-	task_sen_dta_t *p_task_sen_dta;
+	task_sht85_cfg_t *p_task_sht85_cfg;
+	task_sht85_dta_t *p_task_sht85_dta;
 	//task_motor_dta_t *p_task_motor_dta;
 
 	bool b_time_update_required = false;
@@ -168,347 +158,127 @@ void task_menu_update(void *parameters)
 		__asm("CPSIE i");	/* enable interrupts*/
 
     	/* Update Task Menu Data Pointer */
-		p_task_sen_cfg = &task_sen_cfg;
-		p_task_sen_dta = &task_sen_dta;
-		//p_task_motor_dta = &task_motor_dta[p_task_menu_dta->id_motor];
+		p_task_sht85_cfg = &task_sht85_cfg;
+		p_task_sht85_dta = &task_sht85_dta;
 
-    	if (DEL_MEN_XX_MIN < p_task_sen_cfg->tick)
+    	if (DEL_MEN_XX_MIN < p_task_sht85_cfg->tick)
 		{
-			p_task_sen_cfg->tick--;
+			p_task_sht85_cfg->tick--;
 		}
 		else
 		{
-			p_task_sen_cfg->tick = DEL_MEN_XX_MAX;
+			p_task_sht85_cfg->tick = DEL_MEN_XX_MAX;
 
-			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado */
-			/*if (p_task_menu_dta->state != p_task_menu_dta->last_state)
+			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado
+
+			if (p_task_menu_dta->state != p_task_menu_dta->last_state)
 			{
 			    p_task_menu_dta->refresh_screen = true;
 			    p_task_menu_dta->last_state = p_task_menu_dta->state;
-			} /*
-
-			/* Implementacion maquina de estados */
-			if (true == any_event_task_menu())
-			{
-				p_task_sen_cfg->flag = true;
-				p_task_sen_dta->event = get_event_task_menu();
 			}
 
-			switch (p_task_sen_dta->state)
+			 Implementacion maquina de estados */
+			if (true == any_event_task_sht85())
+			{
+				p_task_sht85_cfg->flag = true;
+				p_task_sht85_dta->event = get_event_task_sht85();
+			}
+
+			switch (p_task_sht85_dta->state)
 			{
 				case ST_SEN_IDLE:
-					/*if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 5, "MENU MAIN");
-						displayUpdateRow(1, 0, "ENTER PARA CONTINUAR");
-						displayClearRow(2);
-					}*/
 
-					if ((true == p_task_sen_cfg->flag) && (EV_SEN_MEASURE_ON == p_task_sen_dta->event))
+					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_ON == p_task_sht85_dta->event))
 					{
-						p_task_sen_cfg->flag = false;
-						p_task_sen_dta->state = ST_SEN_MEASURE;
+						p_task_sht85_cfg->flag = false;
+						p_task_sht85_dta->state = ST_SEN_MEASURE;
 					}
 
 					break;
 
 
 				case ST_SEN_MEASURE:
-					/*if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "SELECCIONAR MOTOR:");
-						displayUpdateRow(1, 0, "MOTOR 1");
-					}*/
 
-					if ((true == p_task_sen_cfg->flag) && (EV_SEN_MEASURE_OK == p_task_sen_dta->event))
+					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_OK == p_task_sht85_dta->event))
 					{
-						p_task_sen_dta->tick_means = p_task_sen_cfg->tick_means_max;
-						p_task_sen_cfg->flag = false;
-						p_task_sen_dta->state = ST_SEN_WAITING;
+						p_task_sht85_dta->tick_means = p_task_sht85_cfg->tick_means_max;
+						p_task_sht85_cfg->flag = false;
+						p_task_sht85_dta->state = ST_SEN_WAITING;
 					}
-					else if ((true == p_task_sen_cfg->flag) && (EV_SEN_MEASURE_NOT_OK  == p_task_sen_dta->event))
+					else if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_NOT_OK  == p_task_sht85_dta->event))
 					{
-						p_task_sen_cfg->flag = false;
-						p_task_sen_dta->state = ST_SEN_FALLA;
+						p_task_sht85_cfg->flag = false;
+						p_task_sht85_dta->state = ST_SEN_FALLA;
 					}
 
 					break;
 
 				case ST_SEN_WAITING:
-					/*if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(1, 0, "MOTOR 2");
-					}*/
-					p_task_sen_dta->tick_means--;
-					if (DEL_SEN_MEAS_XX_MIN == p_task_sen_dta->tick_means)
-					{
-						p_task_sen_dta->state = ST_SEN_READY;
 
-						/*if (false == p_task_sen_cfg->flag)
+					p_task_sht85_dta->tick_means--;
+					if (DEL_SEN_MEAS_XX_MIN == p_task_sht85_dta->tick_means)
+					{
+						p_task_sht85_dta->state = ST_SEN_READY;
+						//put_even_task_system(EV_SYS_READY_ON)
+					}
+
+					break;
+
+				case ST_SEN_READY:
+
+					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_READ == p_task_sht85_dta->event))
+					{
+						// comando de lectura al sht85sor ara obtenra la medicion
+						p_task_sht85_dta->measure_check = true; // funcoin de verificacion
+						if (p_task_sht85_dta->measure_check == true)
 						{
-							//put_event_task_menu(p_task_sensor_cfg->signal_up);
-							p_task_sen_dta->state = ST_SEN_READY;
+							p_task_sht85_dta->temperature = 24;
+							p_task_sht85_dta->humidity = 10;
+							//put_even_task_system(EV_SYS_CHECK_OK)
+							p_task_sht85_dta->state = ST_SEN_IDLE;
 						}
 						else
 						{
-							p_task_sen_dta->state = ST_SEN_WAITING; // FUERZO A QUE EUQEDO EN WAITING SI SUCEDE UN EVENO
-						}*/
+							//put_even_task_system(EV_SYS_CHECK_NOT_OK)
+							p_task_sht85_dta->state = ST_SEN_FALLA;
+						}
+
+						p_task_sht85_cfg->flag = false;
+					}
+
+					break;
+
+				// esto es otra opcion por si hace falta definir un estado de check
+				/*case ST_SEN_CHECK:
+
+					p_task_sht85_dta->measure_check = false; // funcion para verificar la medicion
+					if (p_task_sht85_dta->measure_check == true)
+					{
+						p_task_sht85_dta->state = ST_SEN_IDLE;
 					}
 					else
 					{
-						p_task_sen_dta->state = ST_SEN_WAITING; // FUERZO A QUE EUQEDO EN WAITING SI SUCEDE UN EVENO
-					}
-					break;
-
-				/*case ST_MEN_SELECT_POWER:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "ENCENDER MOTOR?");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(1, 0, str_buffer);
-					}
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_POWER_ON;
-						p_task_menu_dta->power = true;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_SPEED;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 1;
-					}
-
-					break;
-
-				case ST_MEN_SELECT_SPEED:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "ELEGIR VELOCIDAD?");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(1, 0, str_buffer);
-					}
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_CHANGE_SPEED;
-						p_task_menu_dta->speed = 0;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_SPIN;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 1;
-					}
-
-					break;
-
-				case ST_MEN_SELECT_SPIN:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "ELEGIR GIRO?");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(1, 0, str_buffer);
-					}
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SPIN_RIGTH;
-						p_task_menu_dta->spin = true;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 1;
-					}
-
-					break;
-
-				case ST_MEN_POWER_ON:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "MOTOR ENCENDIDO");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(1, 0, str_buffer);
-					}
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->power = p_task_menu_dta->power;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_POWER_OFF;
-						p_task_menu_dta->power = false;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-
-					break;
-
-
-				case ST_MEN_POWER_OFF:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "MOTOR APAGADO");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(1, 0, str_buffer);
-					}
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->power = p_task_menu_dta->power;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_POWER_ON;
-						p_task_menu_dta->power = true;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-
-					break;
-
-
-				case ST_MEN_CHANGE_SPEED:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						snprintf(str_buffer, sizeof(str_buffer), "VELOCIDAD: %-8lu", (p_task_menu_dta->speed));
-						displayUpdateRow(1, 0, str_buffer);
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(2, 0, str_buffer);
-					}
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->speed = p_task_menu_dta->speed;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						//p_task_menu_dta->state = ST_MEN_CHANGE_SPEED;
-						p_task_menu_dta->speed = (p_task_menu_dta->speed + 1) % 10;
-						p_task_menu_dta->refresh_screen = true;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-
-					break;
-
-				case ST_MEN_SPIN_RIGTH:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(1, 0, "GIRO HORARIO");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(2, 0, str_buffer);
-					}
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->spin = p_task_menu_dta->spin;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SPIN_LEFT;
-						p_task_menu_dta->spin = false;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-
-					break;
-
-				case ST_MEN_SPIN_LEFT:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(1, 0, "GIRO ANTIHORARIO");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(2, 0, str_buffer);
-					}
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->spin = p_task_menu_dta->spin;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SPIN_RIGTH;
-						p_task_menu_dta->spin = true;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+						p_task_sht85_dta->state = ST_SEN_FALLA;
 					}
 
 					break;*/
 
+				case ST_SEN_FALLA:
+
+					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_FALLA_OK == p_task_sht85_dta->event))
+					{
+						p_task_sht85_cfg->flag = false;
+						p_task_sht85_dta->state = ST_SEN_IDLE;
+					}
+
+					break;
 
 				default:
 
-					p_task_sen_cfg->tick  = DEL_MEN_XX_MIN;
-					p_task_sen_dta->state = ST_SEN_IDLE;
-					p_task_sen_dta->event = EV_SEN_MEASURE_OFF;
-					p_task_sen_cfg->flag  = false;
+					p_task_sht85_cfg->tick  = DEL_MEN_XX_MIN;
+					p_task_sht85_dta->state = ST_SEN_IDLE;
+					p_task_sht85_dta->event = EV_SEN_MEASURE_OFF;
+					p_task_sht85_cfg->flag  = false;
 
 					break;
 			}

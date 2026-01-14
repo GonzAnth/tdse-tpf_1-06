@@ -54,8 +54,8 @@ extern uint32_t g_task_menu_cnt;
 extern volatile uint32_t g_task_menu_tick_cnt;
 
 /********************** external functions declaration ***********************/
-extern void task_menu_init(void *parameters);
-extern void task_menu_update(void *parameters);
+extern void task_sht85_init(void *parameters);
+extern void task_sht85_update(void *parameters);
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus

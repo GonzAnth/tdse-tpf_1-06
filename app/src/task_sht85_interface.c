@@ -29,39 +29,84 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @file   : task_menu_interface.h
+ *
+ * @file   : task_menu_interface.c
  * @date   : Set 26, 2023
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  * @version	v1.0.0
  */
 
-#ifndef TASK_INC_TASK_MENU_INTERFACE_H_
-#define TASK_INC_TASK_MENU_INTERFACE_H_
-
-/********************** CPP guard ********************************************/
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /********************** inclusions *******************************************/
+/* Project includes. */
+#include "main.h"
 
-/********************** macros ***********************************************/
+/* Demo includes. */
+#include "logger.h"
+#include "dwt.h"
 
-/********************** typedef **********************************************/
+/* Application & Tasks includes. */
+#include "board.h"
+#include "app.h"
+#include "task_sht85_attribute.h"
+
+/********************** macros and definitions *******************************/
+#define EVENT_UNDEFINED	(255)
+#define MAX_EVENTS		(16)
+
+/********************** internal data declaration ****************************/
+
+/********************** internal functions declaration ***********************/
+
+/********************** internal data definition *****************************/
+struct
+{
+	uint32_t	head;
+	uint32_t	tail;
+	uint32_t	count;
+	task_sht85_ev_t	queue[MAX_EVENTS];
+} queue_task_a;
 
 /********************** external data declaration ****************************/
 
-/********************** external functions declaration ***********************/
-extern void init_queue_event_task_menu(void);
-extern void put_event_task_menu(task_menu_ev_t event);
-extern task_menu_ev_t get_event_task_menu(void);
-extern bool any_event_task_menu(void);
+/********************** external functions definition ************************/
+void init_queue_event_task_sht85(void)
+{
+	uint32_t i;
 
-/********************** End of CPP guard *************************************/
-#ifdef __cplusplus
+	queue_task_a.head = 0;
+	queue_task_a.tail = 0;
+	queue_task_a.count = 0;
+
+	for (i = 0; i < MAX_EVENTS; i++)
+		queue_task_a.queue[i] = EVENT_UNDEFINED;
 }
-#endif
 
-#endif /* TASK_INC_TASK_MENU_INTERFACE_H_ */
+void put_event_task_sht85(task_sht85_ev_t event)
+{
+	queue_task_a.count++;
+	queue_task_a.queue[queue_task_a.head++] = event;
+
+	if (MAX_EVENTS == queue_task_a.head)
+		queue_task_a.head = 0;
+}
+
+task_sht85_ev_t get_event_task_sht85(void)
+{
+	task_sht85_ev_t event;
+
+	queue_task_a.count--;
+	event = queue_task_a.queue[queue_task_a.tail];
+	queue_task_a.queue[queue_task_a.tail++] = EVENT_UNDEFINED;
+
+	if (MAX_EVENTS == queue_task_a.tail)
+		queue_task_a.tail = 0;
+
+	return event;
+}
+
+bool any_event_task_sht85(void)
+{
+  return (queue_task_a.head != queue_task_a.tail);
+}
 
 /********************** end of file ******************************************/
