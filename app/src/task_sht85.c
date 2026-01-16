@@ -38,8 +38,6 @@
 
 /********************** inclusions *******************************************/
 /* Project includes. */
-#include <task_sht85_attribute.h>
-#include <task_sht85_interface.h>
 #include "main.h"
 
 /* Demo includes. */
@@ -50,6 +48,8 @@
 #include "board.h"
 #include "app.h"
 #include "display.h"
+#include "task_sht85_attribute.h"
+#include "task_sht85_interface.h"
 
 /********************** macros and definitions *******************************/
 #define G_TASK_MEN_CNT_INI			0ul
@@ -79,8 +79,8 @@ const char *p_task_menu 		= "Task Menu (Interactive Menu)";
 const char *p_task_menu_ 		= "Non-Blocking & Update By Time Code";
 
 /********************** external data declaration ****************************/
-uint32_t g_task_menu_cnt;
-volatile uint32_t g_task_menu_tick_cnt;
+uint32_t g_task_sht85_cnt;
+volatile uint32_t g_task_sht85_tick_cnt;
 
 /********************** external functions definition ************************/
 void task_sht85_init(void *parameters)
@@ -95,10 +95,10 @@ void task_sht85_init(void *parameters)
 	LOGGER_LOG("  %s is running - %s\r\n", GET_NAME(task_menu_init), p_task_menu);
 	LOGGER_LOG("  %s is a %s\r\n", GET_NAME(task_menu), p_task_menu_);
 
-	g_task_menu_cnt = G_TASK_MEN_CNT_INI;
+	g_task_sht85_cnt = G_TASK_MEN_CNT_INI;
 
 	/* Print out: Task execution counter */
-	LOGGER_LOG("   %s = %lu\r\n", GET_NAME(g_task_menu_cnt), g_task_menu_cnt);
+	LOGGER_LOG("   %s = %lu\r\n", GET_NAME(g_task_sht85_cnt), g_task_sht85_cnt);
 
 	init_queue_event_task_sht85();
 
@@ -119,7 +119,7 @@ void task_sht85_init(void *parameters)
 	cycle_counter_init();
 	cycle_counter_reset();
 
-	g_task_menu_tick_cnt = G_TASK_MEN_TICK_CNT_INI;
+	g_task_sht85_tick_cnt = G_TASK_MEN_TICK_CNT_INI;
 }
 
 void task_sht85_update(void *parameters)
@@ -131,13 +131,13 @@ void task_sht85_update(void *parameters)
 	bool b_time_update_required = false;
 
 	/* Update Task Menu Counter */
-	g_task_menu_cnt++;
+	g_task_sht85_cnt++;
 
 	/* Protect shared resource (g_task_menu_tick) */
 	__asm("CPSID i");	/* disable interrupts*/
-    if (G_TASK_MEN_TICK_CNT_INI < g_task_menu_tick_cnt)
+    if (G_TASK_MEN_TICK_CNT_INI < g_task_sht85_tick_cnt)
     {
-    	g_task_menu_tick_cnt--;
+    	g_task_sht85_tick_cnt--;
     	b_time_update_required = true;
     }
     __asm("CPSIE i");	/* enable interrupts*/
@@ -146,9 +146,9 @@ void task_sht85_update(void *parameters)
     {
 		/* Protect shared resource (g_task_menu_tick) */
 		__asm("CPSID i");	/* disable interrupts*/
-		if (G_TASK_MEN_TICK_CNT_INI < g_task_menu_tick_cnt)
+		if (G_TASK_MEN_TICK_CNT_INI < g_task_sht85_tick_cnt)
 		{
-			g_task_menu_tick_cnt--;
+			g_task_sht85_tick_cnt--;
 			b_time_update_required = true;
 		}
 		else
