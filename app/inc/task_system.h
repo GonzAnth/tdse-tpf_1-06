@@ -35,8 +35,8 @@
  * @version	v1.0.0
  */
 
-#ifndef TASK_INC_TASK_MENU_H_
-#define TASK_INC_TASK_MENU_H_
+#ifndef TASK_INC_TASK_system_H_
+#define TASK_INC_TASK_SYSTEM_H_
 
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
@@ -50,12 +50,12 @@ extern "C" {
 /********************** typedef **********************************************/
 
 /********************** external data declaration ****************************/
-extern uint32_t g_task_sht85_cnt;
-extern volatile uint32_t g_task_sht85_tick_cnt;
+extern uint32_t g_task_system_cnt;
+extern volatile uint32_t g_task_system_tick_cnt;
 
 /********************** external functions declaration ***********************/
-extern void task_sht85_init(void *parameters);
-extern void task_sht85_update(void *parameters);
+extern void task_system_init(void *parameters);
+extern void task_system_update(void *parameters);
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus
