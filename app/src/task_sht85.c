@@ -47,36 +47,42 @@
 /* Application & Tasks includes. */
 #include "board.h"
 #include "app.h"
-#include "display.h"
+#include "sht85.h"
 #include "task_sht85_attribute.h"
 #include "task_sht85_interface.h"
+#include "task_system_attribute.h"
+#include "task_system_interface.h"
 
 /********************** macros and definitions *******************************/
-#define G_TASK_MEN_CNT_INI			0ul
-#define G_TASK_MEN_TICK_CNT_INI		0ul
+#define G_TASK_SEN_CNT_INI			0ul
+#define G_TASK_SEN_TICK_CNT_INI		0ul
 
-#define DEL_MEN_XX_MIN				0ul
-#define DEL_MEN_XX_MED				50ul
-#define DEL_MEN_XX_MAX				500ul
+#define DEL_SEN_XX_MIN				0ul
+#define DEL_SEN_XX_MED				50ul
+#define DEL_SEN_XX_MAX				500ul
 
-#define DEL_SEN_MEAS_XX_MAX			10ul
+#define DEL_SEN_MEAS_XX_MAX			20ul
 #define DEL_SEN_MEAS_XX_MIN			0ul
 
-/********************** internal data declaration ****************************/
-task_sht85_cfg_t task_sht85_cfg =
-	{DEL_MEN_XX_MIN, false, DEL_SEN_MEAS_XX_MAX, 0, 0};
+extern I2C_HandleTypeDef hi2c1;
 
-task_sht85_dta_t task_sht85_dta = {
-	DEL_SEN_MEAS_XX_MIN	, ST_SEN_IDLE, EV_SEN_MEASURE_OFF, false, 0, 0, 0
+/********************** internal data declaration ****************************/
+task_sht85_cfg_t task_sht85_cfg = {
+	DEL_SEN_XX_MIN, false, DEL_SEN_MEAS_XX_MAX,
+	EV_SYS_FALLA_ON, EV_SYS_READY_ON, EV_SYS_CHECK_OK, EV_SYS_CHECK_NOT_OK
 };
 
-#define MENU_DTA_QTY	(sizeof(task_menu_dta)/sizeof(task_menu_dta_t))
+task_sht85_dta_t task_sht85_dta = {
+	DEL_SEN_MEAS_XX_MIN	, ST_SEN_IDLE, EV_SEN_MEASURE_OFF, true, false, 0, 0, 0
+};
+
+#define MENU_DTA_QTY	(sizeof(task_sen_dta)/sizeof(task_sen_dta_t))
 
 /********************** internal functions declaration ***********************/
 
 /********************** internal data definition *****************************/
-const char *p_task_menu 		= "Task Menu (Interactive Menu)";
-const char *p_task_menu_ 		= "Non-Blocking & Update By Time Code";
+const char *p_task_sen 		= "Task Menu (Interactive Menu)";
+const char *p_task_sen_ 		= "Non-Blocking & Update By Time Code";
 
 /********************** external data declaration ****************************/
 uint32_t g_task_sht85_cnt;
@@ -91,11 +97,13 @@ void task_sht85_init(void *parameters)
 	task_sht85_ev_t	event;
 	bool b_event;
 
+	/* Inicializamos el driver de hardware con el handle del I2C */
+	SHT85_Init(&hi2c1);
 	/* Print out: Task Initialized */
-	LOGGER_LOG("  %s is running - %s\r\n", GET_NAME(task_menu_init), p_task_menu);
-	LOGGER_LOG("  %s is a %s\r\n", GET_NAME(task_menu), p_task_menu_);
+	LOGGER_LOG("  %s is running - %s\r\n", GET_NAME(task_sen_init), p_task_sen);
+	LOGGER_LOG("  %s is a %s\r\n", GET_NAME(task_sen), p_task_sen_);
 
-	g_task_sht85_cnt = G_TASK_MEN_CNT_INI;
+	g_task_sht85_cnt = G_TASK_SEN_CNT_INI;
 
 	/* Print out: Task execution counter */
 	LOGGER_LOG("   %s = %lu\r\n", GET_NAME(g_task_sht85_cnt), g_task_sht85_cnt);
@@ -119,7 +127,7 @@ void task_sht85_init(void *parameters)
 	cycle_counter_init();
 	cycle_counter_reset();
 
-	g_task_sht85_tick_cnt = G_TASK_MEN_TICK_CNT_INI;
+	g_task_sht85_tick_cnt = G_TASK_SEN_TICK_CNT_INI;
 }
 
 void task_sht85_update(void *parameters)
@@ -133,9 +141,9 @@ void task_sht85_update(void *parameters)
 	/* Update Task Menu Counter */
 	g_task_sht85_cnt++;
 
-	/* Protect shared resource (g_task_menu_tick) */
+	/* Protect shared resource (g_task_sen_tick) */
 	__asm("CPSID i");	/* disable interrupts*/
-    if (G_TASK_MEN_TICK_CNT_INI < g_task_sht85_tick_cnt)
+    if (G_TASK_SEN_TICK_CNT_INI < g_task_sht85_tick_cnt)
     {
     	g_task_sht85_tick_cnt--;
     	b_time_update_required = true;
@@ -144,9 +152,9 @@ void task_sht85_update(void *parameters)
 
     while (b_time_update_required)
     {
-		/* Protect shared resource (g_task_menu_tick) */
+		/* Protect shared resource (g_task_sen_tick) */
 		__asm("CPSID i");	/* disable interrupts*/
-		if (G_TASK_MEN_TICK_CNT_INI < g_task_sht85_tick_cnt)
+		if (G_TASK_SEN_TICK_CNT_INI < g_task_sht85_tick_cnt)
 		{
 			g_task_sht85_tick_cnt--;
 			b_time_update_required = true;
@@ -161,20 +169,20 @@ void task_sht85_update(void *parameters)
 		p_task_sht85_cfg = &task_sht85_cfg;
 		p_task_sht85_dta = &task_sht85_dta;
 
-    	if (DEL_MEN_XX_MIN < p_task_sht85_cfg->tick)
+    	if (DEL_SEN_XX_MIN < p_task_sht85_cfg->tick)
 		{
 			p_task_sht85_cfg->tick--;
 		}
 		else
 		{
-			p_task_sht85_cfg->tick = DEL_MEN_XX_MAX;
+			p_task_sht85_cfg->tick = DEL_SEN_XX_MAX;
 
 			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado
 
-			if (p_task_menu_dta->state != p_task_menu_dta->last_state)
+			if (p_task_sen_dta->state != p_task_sen_dta->last_state)
 			{
-			    p_task_menu_dta->refresh_screen = true;
-			    p_task_menu_dta->last_state = p_task_menu_dta->state;
+			    p_task_sen_dta->refresh_screen = true;
+			    p_task_sen_dta->last_state = p_task_sen_dta->state;
 			}
 
 			 Implementacion maquina de estados */
@@ -199,6 +207,21 @@ void task_sht85_update(void *parameters)
 
 				case ST_SEN_MEASURE:
 
+					p_task_sht85_dta->ready= SHT85_send_single_shot();
+
+					if (true == p_task_sht85_dta->ready)
+					{
+						p_task_sht85_dta->tick_means = p_task_sht85_cfg->tick_means_max;
+						p_task_sht85_cfg->flag = false;
+						p_task_sht85_dta->state = ST_SEN_WAITING;
+					}
+					else
+					{
+						put_event_task_system(p_task_sht85_cfg->ev_sys_falla);
+						p_task_sht85_cfg->flag = false;
+						p_task_sht85_dta->state = ST_SEN_FALLA;
+					}
+					/* VERIFICACION CON EVENTOS
 					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_OK == p_task_sht85_dta->event))
 					{
 						p_task_sht85_dta->tick_means = p_task_sht85_cfg->tick_means_max;
@@ -207,9 +230,10 @@ void task_sht85_update(void *parameters)
 					}
 					else if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_NOT_OK  == p_task_sht85_dta->event))
 					{
+						put_event_task_system(p_task_sht85_cfg->ev_sys_falla);
 						p_task_sht85_cfg->flag = false;
 						p_task_sht85_dta->state = ST_SEN_FALLA;
-					}
+					}*/
 
 					break;
 
@@ -218,8 +242,8 @@ void task_sht85_update(void *parameters)
 					p_task_sht85_dta->tick_means--;
 					if (DEL_SEN_MEAS_XX_MIN == p_task_sht85_dta->tick_means)
 					{
+						put_event_task_system(p_task_sht85_cfg->ev_sys_ready_on);
 						p_task_sht85_dta->state = ST_SEN_READY;
-						//put_even_task_system(EV_SYS_READY_ON)
 					}
 
 					break;
@@ -228,18 +252,16 @@ void task_sht85_update(void *parameters)
 
 					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_READ == p_task_sht85_dta->event))
 					{
-						// comando de lectura al sht85sor ara obtenra la medicion
-						p_task_sht85_dta->measure_check = true; // funcoin de verificacion
+						p_task_sht85_dta->measure_check = SHT85_read(&p_task_sht85_dta->temperature, &p_task_sht85_dta->humidity);
+
 						if (p_task_sht85_dta->measure_check == true)
 						{
-							p_task_sht85_dta->temperature = 24;
-							p_task_sht85_dta->humidity = 10;
-							//put_even_task_system(EV_SYS_CHECK_OK)
+							put_event_task_system(p_task_sht85_cfg->ev_sys_check_ok);
 							p_task_sht85_dta->state = ST_SEN_IDLE;
 						}
 						else
 						{
-							//put_even_task_system(EV_SYS_CHECK_NOT_OK)
+							put_event_task_system(p_task_sht85_cfg->ev_sys_check_not_ok);
 							p_task_sht85_dta->state = ST_SEN_FALLA;
 						}
 
@@ -275,7 +297,7 @@ void task_sht85_update(void *parameters)
 
 				default:
 
-					p_task_sht85_cfg->tick  = DEL_MEN_XX_MIN;
+					p_task_sht85_cfg->tick  = DEL_SEN_XX_MIN;
 					p_task_sht85_dta->state = ST_SEN_IDLE;
 					p_task_sht85_dta->event = EV_SEN_MEASURE_OFF;
 					p_task_sht85_cfg->flag  = false;

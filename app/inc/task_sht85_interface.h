@@ -35,8 +35,8 @@
  * @version	v1.0.0
  */
 
-#ifndef TASK_INC_TASK_MENU_INTERFACE_H_
-#define TASK_INC_TASK_MENU_INTERFACE_H_
+#ifndef TASK_INC_TASK_SHT85_INTERFACE_H_
+#define TASK_INC_TASK_SHT85_INTERFACE_H_
 
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
@@ -56,6 +56,8 @@ extern void init_queue_event_task_sht85(void);
 extern void put_event_task_sht85(task_sht85_ev_t event);
 extern task_sht85_ev_t get_event_task_sht85(void);
 extern bool any_event_task_sht85(void);
+
+extern void get_values_task_sht85(float *temp, float *hum);
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus

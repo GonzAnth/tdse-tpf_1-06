@@ -79,22 +79,22 @@
 
 // BOTONES PARA SIMULAR SYSTEM
 const task_sensor_cfg_t task_sensor_cfg_list[] = {
-	{ID_BTN_ENT,  BTN_ENT_PORT,  BTN_ENT_PIN,  BTN_ENT_PRESSED, DEL_BTN_XX_MAX,
+	{ID_BTN_ENT,  BTN_ENT_PORT,  BTN_ENT_PIN,  BTN_ENT_PRESSED, DEL_BTN_XX_MAX, // para utilizar estos eventos cambiar a put event sytem
 	EV_SYS_RIEGO_ACT_OFF, EV_SYS_RIEGO_ACT_ON},
 	{ID_BTN_NEX,  BTN_NEX_PORT,  BTN_NEX_PIN,  BTN_NEX_PRESSED, DEL_BTN_XX_MAX,
 	EV_SYS_RIEGO_NACT_OFF, EV_SYS_RIEGO_NACT_ON},
-	/*{ID_BTN_ESC,  BTN_ESC_PORT,  BTN_ESC_PIN,  BTN_ESC_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_READY_OFF,  EV_SYS_READY_ON},
-	{ID_BTN_A,  BTN_A_PORT,  BTN_A_PIN,  BTN_A_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_CHECK_OK_OFF,  EV_SYS_CHECK_OK},
-	{ID_BTN_A2,  BTN_A2_PORT,  BTN_A2_PIN,  BTN_A2_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_CHECK_NOT_OK_OFF,  EV_SYS_CHECK_NOT_OK},*/
 	{ID_BTN_ESC,  BTN_ESC_PORT,  BTN_ESC_PIN,  BTN_ESC_PRESSED, DEL_BTN_XX_MAX,
+	EV_SEN_MEASURE_OK_OFF,  EV_SEN_MEASURE_OK},
+	{ID_BTN_A,  BTN_A_PORT,  BTN_A_PIN,  BTN_A_PRESSED, DEL_BTN_XX_MAX,
+	EV_SEN_MEASURE_NOT_OK_OFF,  EV_SEN_MEASURE_NOT_OK},
+	{ID_BTN_A2,  BTN_A2_PORT,  BTN_A2_PIN,  BTN_A2_PRESSED, DEL_BTN_XX_MAX,
+	EV_SYS_CHECK_OK_OFF,  EV_SYS_CHECK_OK},
+	/*{ID_BTN_ESC,  BTN_ESC_PORT,  BTN_ESC_PIN,  BTN_ESC_PRESSED, DEL_BTN_XX_MAX,
 	EV_SYS_CONFIG_OFF,  EV_SYS_CONFIG_ON},
 	{ID_BTN_A,  BTN_A_PORT,  BTN_A_PIN,  BTN_A_PRESSED, DEL_BTN_XX_MAX,
 	EV_SYS_NCONFIG_OFF,  EV_SYS_NCONFIG_ON},
 	{ID_BTN_A2,  BTN_A2_PORT,  BTN_A2_PIN,  BTN_A2_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_FALLA_OFF,  EV_SYS_FALLA_ON},
+	EV_SYS_FALLA_OFF,  EV_SYS_FALLA_ON},*/
 };
 
 
@@ -223,8 +223,8 @@ void task_sensor_update(void *parameters)
 					{
 						if (EV_BTN_XX_DOWN == p_task_sensor_dta->event)
 						{
-							put_event_task_system(p_task_sensor_cfg->signal_down);
-							//put_event_task_sfht85(p_task_sensor_cfg->signal_down);
+							//put_event_task_system(p_task_sensor_cfg->signal_down);
+							put_event_task_sht85(p_task_sensor_cfg->signal_down);
 							p_task_sensor_dta->state = ST_BTN_XX_DOWN;
 						}
 						else
@@ -252,8 +252,8 @@ void task_sensor_update(void *parameters)
 					{
 						if (EV_BTN_XX_UP == p_task_sensor_dta->event)
 						{
-							put_event_task_system(p_task_sensor_cfg->signal_up);
-							//put_event_task_sht85(p_task_sensor_cfg->signal_up);
+							//put_event_task_system(p_task_sensor_cfg->signal_up);
+							put_event_task_sht85(p_task_sensor_cfg->signal_up);
 							p_task_sensor_dta->state = ST_BTN_XX_UP;
 						}
 						else

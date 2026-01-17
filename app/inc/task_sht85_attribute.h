@@ -35,8 +35,8 @@
  * @version	v1.0.0
  */
 
-#ifndef TASK_INC_TASK_MENU_ATTRIBUTE_H_
-#define TASK_INC_TASK_MENU_ATTRIBUTE_H_
+#ifndef TASK_INC_TASK_SHT85_ATTRIBUTE_H_
+#define TASK_INC_TASK_SHT85_ATTRIBUTE_H_
 
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
@@ -86,11 +86,13 @@ typedef enum task_menu_st {ST_SEN_IDLE,
 
 typedef struct
 {
-	uint32_t		tick;
-	bool			flag;
-	uint32_t		tick_means_max;
-	task_sht85_ev_t  signal_up; //eventos que genera el sensor para el systema
-	task_sht85_ev_t	signal_down; //eventos que genera el sensor para el systema
+	uint32_t			tick;
+	bool				flag;
+	uint32_t			tick_means_max;
+	task_sht85_ev_t  	ev_sys_falla; //eventos que genera el sensor para el systema
+	task_sht85_ev_t		ev_sys_ready_on; //eventos que genera el sensor para el systema
+	task_sht85_ev_t		ev_sys_check_ok; //eventos que genera el sensor para el systema
+	task_sht85_ev_t		ev_sys_check_not_ok; //eventos que genera el sensor para el systema
 } task_sht85_cfg_t;
 
 
@@ -99,10 +101,11 @@ typedef struct
 	uint32_t			tick_means;
 	task_sht85_st_t		state;
 	task_sht85_ev_t		event;
+	bool 				ready;
 	bool 				measure_check;
 	uint32_t			time;
-	uint32_t			temperature;
-	uint32_t			humidity;
+	float				temperature;
+	float				humidity;
 } task_sht85_dta_t;
 
 /********************** external data declaration ****************************/

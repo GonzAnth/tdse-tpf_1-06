@@ -48,35 +48,41 @@
 #include "board.h"
 #include "app.h"
 #include "display.h"
+#include "task_sht85_attribute.h"
+#include "task_sht85_interface.h"
 #include "task_system_attribute.h"
 #include "task_system_interface.h"
 
 /********************** macros and definitions *******************************/
-#define G_TASK_MEN_CNT_INI			0ul
-#define G_TASK_MEN_TICK_CNT_INI		0ul
+#define G_TASK_SYS_CNT_INI			0ul
+#define G_TASK_SYS_TICK_CNT_INI		0ul
 
-#define DEL_MEN_XX_MIN				0ul
-#define DEL_MEN_XX_MED				50ul
-#define DEL_MEN_XX_MAX				500ul
+#define DEL_SYS_XX_MIN				0ul
+#define DEL_SYS_XX_MED				50ul
+#define DEL_SYS_XX_MAX				500ul
 
 #define DEL_SYS_IDLE_MAX			30ul
 #define DEL_SYS_IDLE_MIN			0ul
-
 #define DEL_SYS_RIEGO_MAX			10ul
 #define DEL_SYS_RIEGO_MIN			0ul
-
 #define DEL_SYS_FALLA_MAX			5ul
 #define DEL_SYS_FALLA_MIN			0ul
 
-/********************** internal data declaration ****************************/
-task_system_cfg_t task_system_cfg =
-	{DEL_MEN_XX_MIN, false, DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX, 0, 0};
+#define THRESHOLD_SYS_TEMP			24ul
+#define THRESHOLD_SYS_HUM			30ul
 
-task_system_dta_t task_system_dta = {
-	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN,DEL_SYS_FALLA_MIN, ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON, false, true, false, 0 , 0
+/********************** internal data declaration ****************************/
+task_system_cfg_t task_system_cfg = {
+	DEL_SYS_XX_MIN, false, DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX, THRESHOLD_SYS_TEMP, THRESHOLD_SYS_HUM,
+	0, 0, EV_SEN_MEASURE_ON, EV_SEN_MEASURE_READ, EV_SEN_FALLA_OK
 };
 
-#define MENU_DTA_QTY	(sizeof(task_menu_dta)/sizeof(task_menu_dta_t))
+task_system_dta_t task_system_dta = {
+	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN,DEL_SYS_FALLA_MIN, ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON,
+	false, true, false, 0 , 0
+};
+
+#define SYSTEM_DTA_QTY	(sizeof(task_system_dta)/sizeof(task_system_dta_t))
 
 /********************** internal functions declaration ***********************/
 
@@ -98,10 +104,10 @@ void task_system_init(void *parameters)
 	bool b_event;
 
 	/* Print out: Task Initialized */
-	LOGGER_LOG("  %s is running - %s\r\n", GET_NAME(task_menu_init), p_task_system);
-	LOGGER_LOG("  %s is a %s\r\n", GET_NAME(task_menu), p_task_system_);
+	LOGGER_LOG("  %s is running - %s\r\n", GET_NAME(task_system_init), p_task_system);
+	LOGGER_LOG("  %s is a %s\r\n", GET_NAME(task_system), p_task_system_);
 
-	g_task_system_cnt = G_TASK_MEN_CNT_INI;
+	g_task_system_cnt = G_TASK_SYS_CNT_INI;
 
 	/* Print out: Task execution counter */
 	LOGGER_LOG("   %s = %lu\r\n", GET_NAME(g_task_system_cnt), g_task_system_cnt);
@@ -125,7 +131,7 @@ void task_system_init(void *parameters)
 	cycle_counter_init();
 	cycle_counter_reset();
 
-	g_task_system_tick_cnt = G_TASK_MEN_TICK_CNT_INI;
+	g_task_system_tick_cnt = G_TASK_SYS_TICK_CNT_INI;
 }
 
 void task_system_update(void *parameters)
@@ -139,9 +145,9 @@ void task_system_update(void *parameters)
 	/* Update Task Menu Counter */
 	g_task_system_cnt++;
 
-	/* Protect shared resource (g_task_menu_tick) */
+	/* Protect shared resource (g_task_system_tick) */
 	__asm("CPSID i");	/* disable interrupts*/
-    if (G_TASK_MEN_TICK_CNT_INI < g_task_system_tick_cnt)
+    if (G_TASK_SYS_TICK_CNT_INI < g_task_system_tick_cnt)
     {
     	g_task_system_tick_cnt--;
     	b_time_update_required = true;
@@ -150,9 +156,9 @@ void task_system_update(void *parameters)
 
     while (b_time_update_required)
     {
-		/* Protect shared resource (g_task_menu_tick) */
+		/* Protect shared resource (g_task_system_tick) */
 		__asm("CPSID i");	/* disable interrupts*/
-		if (G_TASK_MEN_TICK_CNT_INI < g_task_system_tick_cnt)
+		if (G_TASK_SYS_TICK_CNT_INI < g_task_system_tick_cnt)
 		{
 			g_task_system_tick_cnt--;
 			b_time_update_required = true;
@@ -167,20 +173,20 @@ void task_system_update(void *parameters)
 		p_task_system_cfg = &task_system_cfg;
 		p_task_system_dta = &task_system_dta;
 
-    	if (DEL_MEN_XX_MIN < p_task_system_cfg->tick)
+    	if (DEL_SYS_XX_MIN < p_task_system_cfg->tick)
 		{
 			p_task_system_cfg->tick--;
 		}
 		else
 		{
-			p_task_system_cfg->tick = DEL_MEN_XX_MAX;
+			p_task_system_cfg->tick = DEL_SYS_XX_MAX;
 
 			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado
 
-			if (p_task_menu_dta->state != p_task_menu_dta->last_state)
+			if (p_task_system_dta->state != p_task_system_dta->last_state)
 			{
-			    p_task_menu_dta->refresh_screen = true;
-			    p_task_menu_dta->last_state = p_task_menu_dta->state;
+			    p_task_system_dta->refresh_screen = true;
+			    p_task_system_dta->last_state = p_task_system_dta->state;
 			}
 
 			 Implementacion maquina de estados */
@@ -205,14 +211,10 @@ void task_system_update(void *parameters)
 						}
 						else if (true == p_task_system_dta->mod_sensor)
 						{
-							//put_even_task_sensor(EV_SEN_MEASURE_ON)
+							put_event_task_sht85(p_task_system_cfg->ev_sen_measure_on);
 							p_task_system_dta->state = ST_SYS_MEASURE;
 						}
 					}
-					/* else if (true == p_task_system_dta->mod_config) // ESTO QUE SEA UN EVENTO
-					{
-						p_task_system_dta->state = ST_SYS_CONFIG;
-					}*/
 					else if ((true == p_task_system_cfg->flag) && (EV_SYS_CONFIG_ON == p_task_system_dta->event))
 					{
 						p_task_system_cfg->flag = false;
@@ -231,7 +233,7 @@ void task_system_update(void *parameters)
 
 					if ((true == p_task_system_cfg->flag) && (EV_SYS_READY_ON == p_task_system_dta->event))
 					{
-						//put_even_task_sensor(EV_SEN_MEASURE_READ)
+						put_event_task_sht85(p_task_system_cfg->ev_sen_measure_read);
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_WAITING;
 					}
@@ -246,12 +248,6 @@ void task_system_update(void *parameters)
 
 				case ST_SYS_CONFIG:
 
-					/*if (true == p_task_system_dta->mod_config)
-					{
-						// actualizar todos los parametris de tiempo y umbrales de temperatura
-						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max; // este seria el nuevo tiempo maximo
-						p_task_system_dta->state = ST_SYS_IDLE;
-					}*/
 					if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event))
 					{
 						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
@@ -278,19 +274,18 @@ void task_system_update(void *parameters)
 
 					if ((true == p_task_system_cfg->flag) && (EV_SYS_CHECK_OK == p_task_system_dta->event))
 					{
-						// funciones para extraer la tempre y humedad de la ME del sensor
-						p_task_system_dta->temperature = 14;
-						p_task_system_dta->humidity = 4;
 
-						if ((p_task_system_dta->temperature > 20) && (p_task_system_dta->temperature > 5))
+						get_values_task_sht85(&p_task_system_dta->temperature, &p_task_system_dta->humidity);
+
+						if ((p_task_system_dta->temperature > p_task_system_cfg->threshold_temperature) && (p_task_system_dta->humidity < p_task_system_cfg->threshold_humidity))
 						{
-						//put_even_task_actuator(EV_ACT_RELAY_ON)
+							//put_even_task_actuator(EV_ACT_RELAY_ON)
 							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
 						else
 						{
-							//put_even_task_actuator(EV_ACT_RELAY_ON)
+							//put_even_task_actuator(EV_ACT_RELAY_OFF)
 							p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
 							p_task_system_dta->state = ST_SYS_IDLE;
 						}
@@ -298,7 +293,6 @@ void task_system_update(void *parameters)
 					}
 					else if ((true == p_task_system_cfg->flag) && (EV_SYS_CHECK_NOT_OK == p_task_system_dta->event))
 					{
-						//put_even_task_actuator(EV_ACT_RELAY_OFF)
 						p_task_system_dta->tick_falla = p_task_system_cfg->tick_falla_max;
 						p_task_system_dta->state = ST_SYS_FALLA;
 						p_task_system_cfg->flag = false;
@@ -312,7 +306,7 @@ void task_system_update(void *parameters)
 					p_task_system_dta->tick_falla--;
 					if (DEL_SYS_FALLA_MIN == p_task_system_dta->tick_falla)
 					{
-						//put_even_task_sensor(EV_SEN_FALLA_OK)
+						put_event_task_sht85(p_task_system_cfg->ev_sen_falla_ok);
 						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}
@@ -321,7 +315,7 @@ void task_system_update(void *parameters)
 
 				default:
 
-					p_task_system_cfg->tick  = DEL_MEN_XX_MIN;
+					p_task_system_cfg->tick  = DEL_SYS_XX_MIN;
 					p_task_system_cfg->flag  = false;
 					p_task_system_dta->state = ST_SYS_IDLE;
 					p_task_system_dta->event = EV_SYS_RIEGO_NACT_ON;

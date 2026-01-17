@@ -35,8 +35,8 @@
  * @version	v1.0.0
  */
 
-#ifndef TASK_INC_TASK_MENU_H_
-#define TASK_INC_TASK_MENU_H_
+#ifndef TASK_INC_TASK_SHT85_H_
+#define TASK_INC_TASK_SHT85_H_
 
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
@@ -62,6 +62,6 @@ extern void task_sht85_update(void *parameters);
 }
 #endif
 
-#endif /* TASK_INC_TASK_MENU_H_ */
+#endif /* TASK_INC_TASK_SHT85_H_ */
 
 /********************** end of file ******************************************/

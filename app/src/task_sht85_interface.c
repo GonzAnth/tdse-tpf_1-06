@@ -109,4 +109,11 @@ bool any_event_task_sht85(void)
   return (queue_task_a.head != queue_task_a.tail);
 }
 
+/* Funcion para extraer datos del sensor */
+
+void get_values_task_sht85(float *temp, float *hum)
+{
+    *temp = task_sht85_dta.temperature;
+    *hum  = task_sht85_dta.humidity;
+}
 /********************** end of file ******************************************/
