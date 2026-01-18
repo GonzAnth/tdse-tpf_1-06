@@ -109,4 +109,17 @@ bool any_event_task_system(void)
   return (queue_task_system.head != queue_task_system.tail);
 }
 
+void put_mode_task_system(bool *mode)
+{
+	task_system_dta.mod_sensor = *mode;
+	task_system_dta.mod_time = !(*mode);
+}
+
+void update_dta_task_system(uint32_t *tick_idle, uint32_t  *temperature, uint32_t  *humidity)
+{
+	task_system_dta.tick_idle = *tick_idle;
+	task_system_dta.temperature = *temperature;
+	task_system_dta.humidity = *humidity;
+}
+
 /********************** end of file ******************************************/

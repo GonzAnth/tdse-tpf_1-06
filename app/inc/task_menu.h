@@ -29,14 +29,14 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @file   : task_menu_interface.h
+ * @file   : task_menu.h
  * @date   : Set 26, 2023
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  * @version	v1.0.0
  */
 
-#ifndef TASK_INC_TASK_SYSTEM_INTERFACE_H_
-#define TASK_INC_TASK_SYSTEM_INTERFACE_H_
+#ifndef TASK_INC_TASK_MENU_H_
+#define TASK_INC_TASK_MENU_H_
 
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
@@ -44,29 +44,24 @@ extern "C" {
 #endif
 
 /********************** inclusions *******************************************/
-#include <stdint.h>
-#include <stdbool.h>
 
 /********************** macros ***********************************************/
 
 /********************** typedef **********************************************/
 
 /********************** external data declaration ****************************/
+extern uint32_t g_task_menu_cnt;
+extern volatile uint32_t g_task_menu_tick_cnt;
 
 /********************** external functions declaration ***********************/
-extern void init_queue_event_task_system(void);
-extern void put_event_task_system(task_system_ev_t event);
-extern task_system_ev_t get_event_task_system(void);
-extern bool any_event_task_system(void);
-
-extern void put_mode_task_system(bool *mode);
-extern void update_dta_task_system(uint32_t *tick_idle, uint32_t *temperature, uint32_t *humidity);
+extern void task_menu_init(void *parameters);
+extern void task_menu_update(void *parameters);
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* TASK_INC_TASK_MENU_INTERFACE_H_ */
+#endif /* TASK_INC_TASK_MENU_H_ */
 
 /********************** end of file ******************************************/
