@@ -77,7 +77,7 @@ typedef enum task_sht85_ev {EV_SEN_MEASURE_ON,
 						   EV_SEN_FALLA_OK_OFF} task_sht85_ev_t;
 
 /* State of Task Menu */
-typedef enum task_menu_st {ST_SEN_IDLE,
+typedef enum task_sht85_st {ST_SEN_IDLE,
 						   ST_SEN_MEASURE,
 						   ST_SEN_WAITING,
 						   ST_SEN_READY,

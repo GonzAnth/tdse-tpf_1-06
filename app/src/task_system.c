@@ -61,7 +61,7 @@
 #define DEL_SYS_XX_MED				50ul
 #define DEL_SYS_XX_MAX				500ul
 
-#define DEL_SYS_IDLE_MAX			30ul
+#define DEL_SYS_IDLE_MAX			50ul
 #define DEL_SYS_IDLE_MIN			0ul
 #define DEL_SYS_RIEGO_MAX			10ul
 #define DEL_SYS_RIEGO_MIN			0ul

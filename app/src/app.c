@@ -71,9 +71,9 @@ typedef struct {
 
 /********************** internal data declaration ****************************/
 const task_cfg_t task_cfg_list[]	= {
-		//{task_sensor_init,	task_sensor_update, 	NULL},
+		{task_sensor_init,	task_sensor_update, 	NULL},
 		//{task_sht85_init,	task_sht85_update, 		NULL},
-		{task_system_init,	task_system_update, 	NULL},
+		{task_system_init, 	task_system_update, 	NULL},
 		{task_menu_init,	task_menu_update, 		NULL}
 };
 
@@ -170,7 +170,6 @@ void app_update(void)
 void HAL_SYSTICK_Callback(void)
 {
 	g_app_tick_cnt++;
-
 	g_task_sensor_tick_cnt++;
 	g_task_menu_tick_cnt++;
 	g_task_sht85_tick_cnt++;

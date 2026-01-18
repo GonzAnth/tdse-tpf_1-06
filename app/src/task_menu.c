@@ -144,7 +144,6 @@ void task_menu_update(void *parameters)
 {
 	task_menu_cfg_t *p_task_menu_cfg;
 	task_menu_dta_t *p_task_menu_dta;
-	//task_aspersor_dta_t *p_task_aspersor_dta;
 
 	bool b_time_update_required = false;
 	char str_buffer[ANCHO_LCD + 1]; //se suma caracter \0

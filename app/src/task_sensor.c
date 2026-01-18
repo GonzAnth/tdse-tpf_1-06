@@ -52,6 +52,8 @@
 #include "task_sht85_interface.h"
 #include "task_system_attribute.h"
 #include "task_system_interface.h"
+#include "task_menu_attribute.h"
+#include "task_menu_interface.h"
 
 
 /********************** macros and definitions *******************************/
@@ -78,7 +80,7 @@
 };*/
 
 // BOTONES PARA SIMULAR SYSTEM
-const task_sensor_cfg_t task_sensor_cfg_list[] = {
+/* const task_sensor_cfg_t task_sensor_cfg_list[] = {
 	{ID_BTN_ENT,  BTN_ENT_PORT,  BTN_ENT_PIN,  BTN_ENT_PRESSED, DEL_BTN_XX_MAX, // para utilizar estos eventos cambiar a put event sytem
 	EV_SYS_RIEGO_ACT_OFF, EV_SYS_RIEGO_ACT_ON},
 	{ID_BTN_NEX,  BTN_NEX_PORT,  BTN_NEX_PIN,  BTN_NEX_PRESSED, DEL_BTN_XX_MAX,
@@ -89,12 +91,22 @@ const task_sensor_cfg_t task_sensor_cfg_list[] = {
 	EV_SEN_MEASURE_NOT_OK_OFF,  EV_SEN_MEASURE_NOT_OK},
 	{ID_BTN_A2,  BTN_A2_PORT,  BTN_A2_PIN,  BTN_A2_PRESSED, DEL_BTN_XX_MAX,
 	EV_SYS_CHECK_OK_OFF,  EV_SYS_CHECK_OK},
-	/*{ID_BTN_ESC,  BTN_ESC_PORT,  BTN_ESC_PIN,  BTN_ESC_PRESSED, DEL_BTN_XX_MAX,
+	{ID_BTN_ESC,  BTN_ESC_PORT,  BTN_ESC_PIN,  BTN_ESC_PRESSED, DEL_BTN_XX_MAX,
 	EV_SYS_CONFIG_OFF,  EV_SYS_CONFIG_ON},
 	{ID_BTN_A,  BTN_A_PORT,  BTN_A_PIN,  BTN_A_PRESSED, DEL_BTN_XX_MAX,
 	EV_SYS_NCONFIG_OFF,  EV_SYS_NCONFIG_ON},
 	{ID_BTN_A2,  BTN_A2_PORT,  BTN_A2_PIN,  BTN_A2_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_FALLA_OFF,  EV_SYS_FALLA_ON},*/
+	EV_SYS_FALLA_OFF,  EV_SYS_FALLA_ON},
+}; */
+
+// BOTONES PARA SIMULAR MENU
+const task_sensor_cfg_t task_sensor_cfg_list[] = {
+	{ID_BTN_ENT,  BTN_ENT_PORT,  BTN_ENT_PIN,  BTN_ENT_PRESSED, DEL_BTN_XX_MAX, // para utilizar estos eventos cambiar a put event sytem
+	EV_MEN_ENT_IDLE, EV_MEN_ENT_ACTIVE},
+	{ID_BTN_NEX,  BTN_NEX_PORT,  BTN_NEX_PIN,  BTN_NEX_PRESSED, DEL_BTN_XX_MAX,
+	EV_MEN_NEX_IDLE, EV_MEN_NEX_ACTIVE},
+	{ID_BTN_ESC,  BTN_ESC_PORT,  BTN_ESC_PIN,  BTN_ESC_PRESSED, DEL_BTN_XX_MAX,
+	EV_MEN_ESC_IDLE,  EV_MEN_ESC_ACTIVE},
 };
 
 
@@ -105,8 +117,8 @@ task_sensor_dta_t task_sensor_dta_list[] = {
 	{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP},
 	{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP},
 	{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP},
-	{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP},
-	{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP}
+	//{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP},
+	//{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP}
 };
 
 #define SENSOR_DTA_QTY	(sizeof(task_sensor_dta_list)/sizeof(task_sensor_dta_t))
@@ -224,7 +236,8 @@ void task_sensor_update(void *parameters)
 						if (EV_BTN_XX_DOWN == p_task_sensor_dta->event)
 						{
 							//put_event_task_system(p_task_sensor_cfg->signal_down);
-							put_event_task_sht85(p_task_sensor_cfg->signal_down);
+							//put_event_task_sht85(p_task_sensor_cfg->signal_down);
+							put_event_task_menu(p_task_sensor_cfg->signal_down);
 							p_task_sensor_dta->state = ST_BTN_XX_DOWN;
 						}
 						else
@@ -253,7 +266,8 @@ void task_sensor_update(void *parameters)
 						if (EV_BTN_XX_UP == p_task_sensor_dta->event)
 						{
 							//put_event_task_system(p_task_sensor_cfg->signal_up);
-							put_event_task_sht85(p_task_sensor_cfg->signal_up);
+							//put_event_task_sht85(p_task_sensor_cfg->signal_up);
+							put_event_task_menu(p_task_sensor_cfg->signal_up);
 							p_task_sensor_dta->state = ST_BTN_XX_UP;
 						}
 						else
