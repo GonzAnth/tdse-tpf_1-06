@@ -97,6 +97,7 @@ typedef struct
 	uint32_t			tick_idle_max;
 	uint32_t			tick_riego_max;
 	uint32_t			tick_falla_max;
+	bool 				mode_time;
 	uint32_t			threshold_temperature;
 	uint32_t			threshold_humidity;
 	task_system_ev_t 	ev_act_realy_on; //eventos que genera el systema
@@ -114,15 +115,13 @@ typedef struct
 	uint32_t			tick_falla;
 	task_system_st_t	state;
 	task_system_ev_t	event;
-	bool 				mod_time;
-	bool				mod_sensor;
-	bool				mod_config;
 	float				temperature;
 	float				humidity;
 } task_system_dta_t;
 
 /********************** external data declaration ****************************/
 extern task_system_dta_t task_system_dta;
+extern task_system_cfg_t task_system_cfg;
 
 /********************** external functions declaration ***********************/
 

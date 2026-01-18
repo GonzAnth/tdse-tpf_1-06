@@ -63,23 +63,24 @@
 
 #define DEL_SYS_IDLE_MAX			50ul
 #define DEL_SYS_IDLE_MIN			0ul
-#define DEL_SYS_RIEGO_MAX			10ul
+
+#define DEL_SYS_RIEGO_MAX			20ul
 #define DEL_SYS_RIEGO_MIN			0ul
+
 #define DEL_SYS_FALLA_MAX			5ul
 #define DEL_SYS_FALLA_MIN			0ul
 
-#define THRESHOLD_SYS_TEMP			24ul
-#define THRESHOLD_SYS_HUM			30ul
+#define THRESHOLD_SYS_TEMP_DEF		24ul
+#define THRESHOLD_SYS_HUM_DEF		30ul
 
 /********************** internal data declaration ****************************/
 task_system_cfg_t task_system_cfg = {
-	DEL_SYS_XX_MIN, false, DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX, THRESHOLD_SYS_TEMP, THRESHOLD_SYS_HUM,
+	DEL_SYS_XX_MIN, false, DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX, true, THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF,
 	0, 0, EV_SEN_MEASURE_ON, EV_SEN_MEASURE_READ, EV_SEN_FALLA_OK
 };
 
 task_system_dta_t task_system_dta = {
-	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN,DEL_SYS_FALLA_MIN, ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON,
-	false, true, false, 0 , 0
+	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN,DEL_SYS_FALLA_MIN, ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON, 0 , 0
 };
 
 #define SYSTEM_DTA_QTY	(sizeof(task_system_dta)/sizeof(task_system_dta_t))
@@ -203,13 +204,13 @@ void task_system_update(void *parameters)
 					p_task_system_dta->tick_idle--;
 					if (DEL_SYS_IDLE_MIN == p_task_system_dta->tick_idle)
 					{
-						if (true == p_task_system_dta->mod_time)
+						if (p_task_system_cfg->mode_time)
 						{
 							//put_even_task_actuator(EV_ACT_RELAY_ON)
 							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
-						else if (true == p_task_system_dta->mod_sensor)
+						else if (!(p_task_system_cfg->mode_time))
 						{
 							put_event_task_sht85(p_task_system_cfg->ev_sen_measure_on);
 							p_task_system_dta->state = ST_SYS_MEASURE;

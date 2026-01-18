@@ -92,7 +92,7 @@ typedef struct
 	bool 				refresh_screen;
 	uint32_t			tick_idle_max;
 	task_menu_ev_t  	ev_sys_config_on; //eventos que genera el menua para el systema
-	task_menu_ev_t  	ev_sys_config_off; //eventos que genera el menua para el systema
+	task_menu_ev_t  	ev_sys_config_off;
 	task_menu_ev_t  	ev_sys_riego_on;
 	task_menu_ev_t  	ev_sys_riego_off;
 } task_menu_cfg_t;
@@ -103,36 +103,10 @@ typedef struct
 	task_menu_st_t	state;
 	task_menu_st_t  last_state;
 	task_menu_ev_t	event;
-	bool			mode_sensor;
 	bool			mode_time;
-	uint32_t		temperature;
-	uint32_t		humidity;
+	uint32_t		threshold_temperature;
+	uint32_t		threshold_humidity;
 } task_menu_dta_t;
-
-/*typedef struct
-{
-	task_menu_st_t	state;
-	task_menu_st_t  last_state;
-	task_menu_ev_t	event;
-	bool			riego;
-	uint32_t 		time;
-	uint32_t		temperature;
-	uint32_t		humidity;
-	bool			mode_sensor;
-	bool			mode_time;
-} task_menu_dta_t;*/
-
-
-
-typedef struct
-{
-	bool			riego;
-	uint32_t 		time;
-	uint32_t		temperature;
-	uint32_t		humidity;
-	bool			mode_sensor;
-	bool			mode_time;
-} task_aspersor_dta_t;
 
 /********************** external data declaration ****************************/
 extern task_menu_dta_t task_menu_dta;

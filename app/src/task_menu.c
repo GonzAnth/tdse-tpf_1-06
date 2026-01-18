@@ -64,9 +64,8 @@
 #define DEL_MEN_IDLE_MIN			0ul
 #define DEL_MEN_IDLE_MAX			40ul
 
-#define TEMP_MEN_RIEGO_MIN			0
-#define HUME_MEN_RIEGO_MIN			0
-
+#define THRESHOLD_MEN_TEMP_DEF		24ul
+#define THRESHOLD_MEN_HUM_DEF		30ul
 
 /********************** internal data declaration ****************************/
 task_menu_cfg_t task_menu_cfg = {
@@ -76,7 +75,7 @@ task_menu_cfg_t task_menu_cfg = {
 
 task_menu_dta_t task_menu_dta = {
 	DEL_MEN_IDLE_MIN, ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
-	false, false, TEMP_MEN_RIEGO_MIN, HUME_MEN_RIEGO_MIN
+	true, THRESHOLD_MEN_TEMP_DEF, THRESHOLD_MEN_TEMP_DEF
 };
 
 /*task_aspersor_dta_t task_aspersor_dta = {
@@ -266,7 +265,7 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->mode_sensor = true;
+						p_task_menu_dta->mode_time = false;
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MODE_SENSOR;
 					}
@@ -288,13 +287,13 @@ void task_menu_update(void *parameters)
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						// funcion que modifique la varible de system mod _sensr a true
-						put_mode_task_system(&p_task_menu_dta->mode_sensor);
+						put_mode_task_system(&p_task_menu_dta->mode_time);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->mode_sensor = false;
+						p_task_menu_dta->mode_time = true;
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MODE_TIME;
 					}
@@ -315,7 +314,7 @@ void task_menu_update(void *parameters)
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						put_mode_task_system(&p_task_menu_dta->mode_sensor);
+						put_mode_task_system(&p_task_menu_dta->mode_time);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
@@ -407,6 +406,7 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MODE_CONFIG;
 					}
@@ -422,7 +422,7 @@ void task_menu_update(void *parameters)
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->temperature = 0; // tengoq eu ahce que se quede con el valor la variable configurada
+						p_task_menu_dta->threshold_temperature = 0; // tengoq eu ahce que se quede con el valor la variable configurada
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_CHANGE_TEMP;
 					}
@@ -433,6 +433,7 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MODE_CONFIG;
 					}
@@ -448,7 +449,7 @@ void task_menu_update(void *parameters)
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->humidity = 0; // tengoq eu ahce que se quede con el valor la variable configurada
+						p_task_menu_dta->threshold_humidity = 0; // tengoq eu ahce que se quede con el valor la variable configurada
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_CHANGE_HUME;
 					}
@@ -459,6 +460,7 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MODE_CONFIG;
 					}
@@ -475,13 +477,14 @@ void task_menu_update(void *parameters)
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->temperature, &p_task_menu_dta->humidity);
+						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->threshold_temperature, &p_task_menu_dta->threshold_humidity);
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->tick_idle = (p_task_menu_dta->tick_idle + 1) % 10;
+						p_task_menu_dta->tick_idle = 50 + (p_task_menu_dta->tick_idle + 1) % 10;
 						p_task_menu_cfg->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
@@ -497,20 +500,20 @@ void task_menu_update(void *parameters)
 					if (true == p_task_menu_cfg->refresh_screen)
 					{
 						p_task_menu_cfg->refresh_screen = false;
-						snprintf(str_buffer, sizeof(str_buffer), "TEMPE: %-8lu", (p_task_menu_dta->temperature));
+						snprintf(str_buffer, sizeof(str_buffer), "TEMPE: %-8lu", (p_task_menu_dta->threshold_temperature));
 						displayUpdateRow(1, 0, str_buffer);
 					}
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->temperature, &p_task_menu_dta->humidity);
+						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->threshold_temperature, &p_task_menu_dta->threshold_humidity);
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
-						// PUT EVENT, EV_SYS_MODE_CONFIG_OFF
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->temperature= 20 + ((p_task_menu_dta->temperature + 1) % 10);
+						p_task_menu_dta->threshold_temperature= 10 + ((p_task_menu_dta->threshold_temperature + 1) % 10);
 						p_task_menu_cfg->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
@@ -526,21 +529,22 @@ void task_menu_update(void *parameters)
 					if (true == p_task_menu_cfg->refresh_screen)
 					{
 						p_task_menu_cfg->refresh_screen = false;
-						snprintf(str_buffer, sizeof(str_buffer), "HUMEDAD: %-8lu", (p_task_menu_dta->humidity));
+						snprintf(str_buffer, sizeof(str_buffer), "HUMEDAD: %-8lu", (p_task_menu_dta->threshold_humidity));
 						displayUpdateRow(1, 0, str_buffer);
 					}
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->temperature, &p_task_menu_dta->humidity);
+						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->threshold_temperature, &p_task_menu_dta->threshold_humidity);
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
+						p_task_menu_dta->threshold_humidity = 30 + ((p_task_menu_dta->threshold_humidity + 1) % 10);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_cfg->refresh_screen = true;
-						p_task_menu_dta->humidity = 10 + ((p_task_menu_dta->humidity + 1) % 10);
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{

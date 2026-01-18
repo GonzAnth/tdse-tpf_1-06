@@ -111,15 +111,15 @@ bool any_event_task_system(void)
 
 void put_mode_task_system(bool *mode)
 {
-	task_system_dta.mod_sensor = *mode;
-	task_system_dta.mod_time = !(*mode);
+	task_system_cfg.mode_time = *mode;
+	//task_system_cfg.mod_time = !(*mode);
 }
 
 void update_dta_task_system(uint32_t *tick_idle, uint32_t  *temperature, uint32_t  *humidity)
 {
-	task_system_dta.tick_idle = *tick_idle;
-	task_system_dta.temperature = *temperature;
-	task_system_dta.humidity = *humidity;
+	task_system_cfg.tick_idle_max = *tick_idle;
+	task_system_cfg.threshold_temperature = *temperature;
+	task_system_cfg.threshold_humidity = *humidity;
 }
 
 /********************** end of file ******************************************/
