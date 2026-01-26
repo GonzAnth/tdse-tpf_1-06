@@ -51,6 +51,21 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 	task_adc_dta.flag_ready = true;
 }
 
+static void ADC_select_channel(uint32_t channel){
+
+	ADC_ChannelConfTypeDef sConfig = {0};
+	sConfig.Channel = channel;
+	sConfig.Rank = ADC_REGULAR_RANK_1;
+	if (channel == ADC_CHANNEL_TEMPSENSOR || channel == ADC_CHANNEL_VREFINT)
+	{
+		sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
+	} else {
+		sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
+	}
+
+	HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+}
+
 /********************** internal data definition *****************************/
 const char *p_task_adc 		= "Task Menu (Interactive Menu)";
 const char *p_task_adc_ 		= "Non-Blocking & Update By Time Code";
@@ -182,7 +197,7 @@ void task_adc_update(void *parameters)
 
 				case ST_ADC_WAITING:
 
-					if (p_task_adc_dta->flag_ready  == true)
+					if (p_task_adc_dta->flag_ready == true)
 					{
 						// ¡SÍ! La interrupción ocurrió y ya tenemos el dato.
 
