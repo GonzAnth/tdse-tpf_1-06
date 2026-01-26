@@ -40,19 +40,18 @@ task_adc_cfg_t task_adc_cfg = {
 };
 
 task_adc_dta_t task_adc_dta = {
-	0, ST_ADC_IDLE, 0, false, 0, 0
+	0, ST_ADC_IDLE, 0, false, 0, 0.0, 0, 0.0
 };
 
 /********************** internal functions declaration ***********************/
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-
-	task_adc_dta.adc_temp_micro = HAL_ADC_GetValue(&hadc1);
+	task_adc_dta.last_raw_lecture = HAL_ADC_GetValue(&hadc1);
 	task_adc_dta.flag_ready = true;
 }
 
-static void ADC_select_channel(uint32_t channel){
 
+static void ADC_select_channel(uint32_t channel){
 	ADC_ChannelConfTypeDef sConfig = {0};
 	sConfig.Channel = channel;
 	sConfig.Rank = ADC_REGULAR_RANK_1;
@@ -63,16 +62,18 @@ static void ADC_select_channel(uint32_t channel){
 		sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
 	}
 
-	HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+	HAL_ADC_ConfigChannel(&hadc1, &sConfig); //No consideramos caso de falla
 }
 
+
 /********************** internal data definition *****************************/
-const char *p_task_adc 		= "Task Menu (Interactive Menu)";
-const char *p_task_adc_ 		= "Non-Blocking & Update By Time Code";
+const char *p_task_adc 		= "Task ADC (Internal Sensors)";
+const char *p_task_adc_ 	= "Non-Blocking";
 
 /********************** external data declaration ****************************/
 uint32_t g_task_adc_cnt;
 volatile uint32_t g_task_adc_tick_cnt;
+
 
 /********************** external functions definition ************************/
 void task_adc_init(void *parameters)
@@ -160,15 +161,7 @@ void task_adc_update(void *parameters)
 		{
 			p_task_adc_cfg->tick = DEL_ADC_XX_MAX;
 
-			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado
-
-			if (p_task_sen_dta->state != p_task_sen_dta->last_state)
-			{
-			    p_task_sen_dta->refresh_screen = true;
-			    p_task_sen_dta->last_state = p_task_sen_dta->state;
-			}
-
-			 Implementacion maquina de estados */
+			 /*Implementacion maquina de estados */
 			if (true == any_event_task_adc())
 			{
 				p_task_adc_cfg->flag = true;
@@ -182,34 +175,53 @@ void task_adc_update(void *parameters)
 					if (p_task_adc_dta->tick_adc >= 30)
 					{
 						p_task_adc_dta->tick_adc = 0;
-						p_task_adc_dta->state = ST_ADC_START;
+						p_task_adc_dta->state = ST_ADC_TEMP_START;
 					}
 					break;
 
-				case ST_ADC_START:
 
+				case ST_ADC_TEMP_START:
 					p_task_adc_dta->flag_ready = false;
+					ADC_select_channel(ADC_CHANNEL_TEMPSENSOR);
 					HAL_ADC_Start_IT(&hadc1);
-					p_task_adc_dta->state = ST_ADC_WAITING;
 
+					p_task_adc_dta->state = ST_ADC_TEMP_WAITING;
 					break;
 
 
-				case ST_ADC_WAITING:
-
+				case ST_ADC_TEMP_WAITING:
 					if (p_task_adc_dta->flag_ready == true)
 					{
-						// ¡SÍ! La interrupción ocurrió y ya tenemos el dato.
-
-					 p_task_adc_dta->state = ST_ADC_IDLE;
-					 // realizo los calculos
+						p_task_adc_dta->temp_raw = p_task_adc_dta->last_raw_lecture;
+						p_task_adc_dta->state = ST_ADC_BAT_START;
 					}
-					// Si es false, no hacemos nada. Salimos de la función
-					// y dejamos que task_menu o task_system usen la CPU.
+
 					break;
 
-				default:
 
+				case ST_ADC_BAT_START:
+					p_task_adc_dta->flag_ready = false;
+					ADC_select_channel(ADC_CHANNEL_VREFINT);
+					HAL_ADC_Start_IT(&hadc1);
+
+					p_task_adc_dta->state = ST_ADC_BAT_WAITING;
+					break;
+
+
+				case ST_ADC_BAT_WAITING:
+					if (p_task_adc_dta->flag_ready == true)
+					{
+						p_task_adc_dta->bat_raw = p_task_adc_dta->last_raw_lecture;
+
+						//CALCULOS DE TEMP Y BATERIA (RAW Y VOLTS)
+						p_task_adc_dta->state = ST_ADC_IDLE;
+					}
+
+					break;
+
+
+
+				default:
 					p_task_adc_cfg->tick  = DEL_ADC_XX_MIN;
 					p_task_adc_dta->state = ST_ADC_IDLE;
 					p_task_adc_dta->event = 0;

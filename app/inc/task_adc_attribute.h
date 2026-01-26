@@ -30,9 +30,10 @@ typedef enum task_adc_ev {EV_MEN_ENT_IDLE,
 
 /* State of Task adc */
 typedef enum task_adc_st {ST_ADC_IDLE,
-							ST_ADC_WAITING,
-							ST_ADC_START,
-							ST_ADC_CALCULATE} task_adc_st_t;
+							ST_ADC_TEMP_START,
+							ST_ADC_TEMP_WAITING,
+							ST_ADC_BAT_START,
+							ST_ADC_BAT_WAITING} task_adc_st_t;
 
 typedef struct
 {
@@ -47,12 +48,17 @@ typedef struct
 
 typedef struct
 {
-	uint32_t 		tick_adc;
-	task_adc_st_t	state;
-	task_adc_ev_t	event;
-	bool 			flag_ready;
-	uint16_t		adc_temp_micro;
-	uint16_t		adc_bat;
+	uint32_t 			tick_adc;
+	task_adc_st_t		state;
+	task_adc_ev_t		event;
+
+	bool 				flag_ready;
+	volatile uint16_t 	last_raw_lecture;
+
+	uint16_t			temp_raw;
+	float				temp_cent;
+	uint16_t			bat_raw;
+	float				bat_volts;
 } task_adc_dta_t;
 
 /********************** external data declaration ****************************/
