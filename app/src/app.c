@@ -49,6 +49,7 @@
 #include "task_sht85.h"
 #include "task_system.h"
 #include "task_menu.h"
+#include "task_adc.h"
 
 /********************** macros and definitions *******************************/
 #define G_APP_CNT_INI		0ul
@@ -74,7 +75,8 @@ const task_cfg_t task_cfg_list[]	= {
 		{task_sensor_init,	task_sensor_update, 	NULL},
 		{task_sht85_init,	task_sht85_update, 		NULL},
 		{task_system_init, 	task_system_update, 	NULL},
-		{task_menu_init,	task_menu_update, 		NULL}
+		{task_menu_init,	task_menu_update, 		NULL},
+		{task_adc_init,		task_adc_update, 		NULL}
 };
 
 #define TASK_QTY	(sizeof(task_cfg_list)/sizeof(task_cfg_t))
@@ -174,6 +176,7 @@ void HAL_SYSTICK_Callback(void)
 	g_task_menu_tick_cnt++;
 	g_task_sht85_tick_cnt++;
 	g_task_system_tick_cnt++;
+	g_task_adc_tick_cnt++;
 }
 
 /********************** end of file ******************************************/
