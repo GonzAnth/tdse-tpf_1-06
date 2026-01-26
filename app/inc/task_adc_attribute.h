@@ -18,6 +18,12 @@ extern "C" {
 #include <stdbool.h>
 /********************** macros ***********************************************/
 
+#define VREFINT_CAL_VOLTS   		1.20f
+#define ADC_MAX_COUNT       		4095.0f
+#define TEMP_V25            		1.43f
+#define TEMP_AVG_SLOPE      		0.0043f
+
+
 /********************** typedef **********************************************/
 
 /* Events to excite Task adc */
@@ -33,7 +39,8 @@ typedef enum task_adc_st {ST_ADC_IDLE,
 							ST_ADC_TEMP_START,
 							ST_ADC_TEMP_WAITING,
 							ST_ADC_BAT_START,
-							ST_ADC_BAT_WAITING} task_adc_st_t;
+							ST_ADC_BAT_WAITING,
+							ST_ADC_FALLA} task_adc_st_t;
 
 typedef struct
 {

@@ -29,8 +29,8 @@
 #define DEL_ADC_XX_MED				50ul
 #define DEL_ADC_XX_MAX				500ul
 
-
 extern ADC_HandleTypeDef hadc1;
+
 
 
 /********************** internal data declaration ****************************/
@@ -193,6 +193,10 @@ void task_adc_update(void *parameters)
 					if (p_task_adc_dta->flag_ready == true)
 					{
 						p_task_adc_dta->temp_raw = p_task_adc_dta->last_raw_lecture;
+						if (p_task_adc_dta->temp_raw == 0)
+						{
+							p_task_adc_dta->state = ST_ADC_FALLA;
+						}
 						p_task_adc_dta->state = ST_ADC_BAT_START;
 					}
 
@@ -213,13 +217,26 @@ void task_adc_update(void *parameters)
 					{
 						p_task_adc_dta->bat_raw = p_task_adc_dta->last_raw_lecture;
 
-						//CALCULOS DE TEMP Y BATERIA (RAW Y VOLTS)
+
+						if (p_task_adc_dta->bat_raw > 0)
+						{
+							p_task_adc_dta->bat_volts = VREFINT_CAL_VOLTS * ADC_MAX_COUNT / (float)p_task_adc_dta->bat_raw;
+						} else {
+							p_task_adc_dta->state = ST_ADC_FALLA;
+						}
+
+						float temp_v_read = ( (float)p_task_adc_dta->temp_raw * p_task_adc_dta->bat_volts ) / ADC_MAX_COUNT;
+						p_task_adc_dta->temp_cent = (TEMP_V25 - temp_v_read)/TEMP_AVG_SLOPE + 25.0f;
+
 						p_task_adc_dta->state = ST_ADC_IDLE;
 					}
 
 					break;
 
-
+				case ST_ADC_FALLA:
+					//TODO: Manejo de error y put event en system
+					p_task_adc_dta->state = ST_ADC_IDLE;
+					break;
 
 				default:
 					p_task_adc_cfg->tick  = DEL_ADC_XX_MIN;
