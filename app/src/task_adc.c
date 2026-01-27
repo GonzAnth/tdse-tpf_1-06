@@ -227,13 +227,14 @@ void task_adc_update(void *parameters)
 						float temp_v_read = ( (float)p_task_adc_dta->temp_raw * p_task_adc_dta->bat_volts ) / ADC_MAX_COUNT;
 						p_task_adc_dta->temp_cent = (TEMP_V25 - temp_v_read)/TEMP_AVG_SLOPE + 25.0f;
 
+						put_event_task_system(p_task_adc_cfg->ev_sys_adc_ok);
 						p_task_adc_dta->state = ST_ADC_IDLE;
 					}
 
 					break;
 
 				case ST_ADC_FALLA:
-					//TODO: Manejo de error y put event en system
+
 					if ((true == p_task_adc_cfg->flag) && (EV_ADC_FALLA_OK == p_task_adc_dta->event))
 					{
 						p_task_adc_cfg->flag = false;

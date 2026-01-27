@@ -298,7 +298,7 @@ void task_system_update(void *parameters)
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_FALLA;
 					}
-					else if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_OK== p_task_system_dta->event))
+					else if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_OK == p_task_system_dta->event))
 					{
 						put_event_task_menu( p_task_system_cfg->ev_men_adc_req_ok);
 						p_task_system_cfg->flag = false;
