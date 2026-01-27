@@ -70,7 +70,7 @@
 /********************** internal data declaration ****************************/
 task_menu_cfg_t task_menu_cfg = {
 	DEL_MEN_XX_MIN, false, false, DEL_MEN_IDLE_MAX,
-	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON
+	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ,
 };
 
 task_menu_dta_t task_menu_dta = {
@@ -215,6 +215,51 @@ void task_menu_update(void *parameters)
 					{
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_adc_req);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_SALUD_WAIT;
+					}
+
+					break;
+
+				case ST_MEN_SALUD_WAIT:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(0, 5, "ESTADO");
+						displayUpdateRow(1, 0, "ESC PARA VOLVER");
+						displayClearRow(2);
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ADC_REQ_OK == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_SALUD_SHOW;
+					}
+
+					break;
+
+				case ST_MEN_SALUD_SHOW:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(0, 5, "El estado del sitema es ");
+						displayUpdateRow(1, 0, "ESC PARA VOLVER");
+						displayClearRow(2);
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
 
 					break;

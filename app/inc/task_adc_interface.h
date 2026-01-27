@@ -26,6 +26,7 @@ extern void init_queue_event_task_adc(void);
 extern void put_event_task_adc(task_adc_ev_t event);
 extern task_adc_ev_t get_event_task_adc(void);
 extern bool any_event_task_adc(void);
+void get_values_task_adc(float *temp, float *bat);
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus

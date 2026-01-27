@@ -80,7 +80,10 @@ typedef enum task_system_ev {EV_SYS_RIEGO_ACT_ON,
 						   EV_SYS_CONFIG_ON,
 						   EV_SYS_CONFIG_OFF,
 						   EV_SYS_NCONFIG_ON,
-						   EV_SYS_NCONFIG_OFF} task_system_ev_t;
+						   EV_SYS_NCONFIG_OFF,
+						   EV_SYS_ADC_REQ,
+						   EV_SYS_ADC_OK,
+						   EV_SYS_ADC_NOT_OK} task_system_ev_t;
 
 /* State of Task Menu */
 typedef enum task_system_st {ST_SYS_IDLE,
@@ -88,7 +91,8 @@ typedef enum task_system_st {ST_SYS_IDLE,
 						   ST_SYS_MEASURE,
 						   ST_SYS_CONFIG,
 						   ST_SYS_WAITING,
-						   ST_SYS_FALLA} task_system_st_t;
+						   ST_SYS_FALLA,
+						   ST_SYS_ADC_MEASURE} task_system_st_t;
 
 typedef struct
 {
@@ -100,11 +104,15 @@ typedef struct
 	bool 				mode_time;
 	uint32_t			threshold_temperature;
 	uint32_t			threshold_humidity;
+	uint32_t			threshold_adc_temperature;
+	uint32_t			threshold_adc_batery;
 	task_system_ev_t 	ev_act_realy_on; //eventos que genera el systema
 	task_system_ev_t 	ev_act_realy_off;
 	task_system_ev_t 	ev_sen_measure_on;
 	task_system_ev_t	ev_sen_measure_read;
 	task_system_ev_t	ev_sen_falla_ok;
+	task_system_ev_t	ev_adc_start;
+	task_system_ev_t	ev_men_adc_req_ok;
 } task_system_cfg_t;
 
 
@@ -117,6 +125,8 @@ typedef struct
 	task_system_ev_t	event;
 	float				temperature;
 	float				humidity;
+	float				adc_temperature;
+	float				adc_batery;
 } task_system_dta_t;
 
 /********************** external data declaration ****************************/

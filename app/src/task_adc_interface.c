@@ -73,4 +73,10 @@ bool any_event_task_adc(void)
   return (queue_task_adc.head != queue_task_adc.tail);
 }
 
+void get_values_task_adc(float *temp, float *bat)
+{
+    *temp = task_adc_dta.temp_cent;
+    *bat  = task_adc_dta.bat_volts;
+}
+
 /********************** end of file ******************************************/

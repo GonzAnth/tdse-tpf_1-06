@@ -20,6 +20,7 @@ extern "C" {
 
 #define VREFINT_CAL_VOLTS   		1.20f
 #define ADC_MAX_COUNT       		4095.0f
+#define ADC_MIN_COUNT       		0.0f
 #define TEMP_V25            		1.43f
 #define TEMP_AVG_SLOPE      		0.0043f
 
@@ -27,12 +28,9 @@ extern "C" {
 /********************** typedef **********************************************/
 
 /* Events to excite Task adc */
-typedef enum task_adc_ev {EV_MEN_ENT_IDLE,
-						   EV_MEN_ENT_ACTIVE,
-						   EV_MEN_NEX_IDLE,
-						   EV_MEN_NEX_ACTIVE,
-						   EV_MEN_ESC_IDLE,
-						   EV_MEN_ESC_ACTIVE} task_adc_ev_t;
+typedef enum task_adc_ev {EV_ADC_IDLE,
+						  EV_ADC_START,
+						  EV_ADC_FALLA_OK} task_adc_ev_t;
 
 /* State of Task adc */
 typedef enum task_adc_st {ST_ADC_IDLE,
@@ -46,16 +44,12 @@ typedef struct
 {
 	uint32_t			tick;
 	bool				flag;
-	uint32_t			tick_idle_max;
-	task_adc_ev_t  		ev_sys_config_on; //eventos que genera el adca para el systema
-	task_adc_ev_t  		ev_sys_config_off;
-	task_adc_ev_t  		ev_sys_riego_on;
-	task_adc_ev_t  		ev_sys_riego_off;
+	task_adc_ev_t  		ev_sys_adc_ok; //eventos que genera el ADC para el systema
+	task_adc_ev_t  		ev_sys_adc_not_ok; //eventos que genera el ADC para el systema
 } task_adc_cfg_t;
 
 typedef struct
 {
-	uint32_t 			tick_adc;
 	task_adc_st_t		state;
 	task_adc_ev_t		event;
 

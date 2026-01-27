@@ -52,6 +52,11 @@
 #include "task_sht85_interface.h"
 #include "task_system_attribute.h"
 #include "task_system_interface.h"
+#include "task_menu_attribute.h"
+#include "task_menu_interface.h"
+#include "task_adc_attribute.h"
+#include "task_adc_interface.h"
+
 
 /********************** macros and definitions *******************************/
 #define G_TASK_SYS_CNT_INI			0ul
@@ -73,14 +78,21 @@
 #define THRESHOLD_SYS_TEMP_DEF		24ul
 #define THRESHOLD_SYS_HUM_DEF		30ul
 
+#define THRESHOLD_SYS_ADC_TEMP_DEF		80ul
+#define THRESHOLD_SYS_ADC_BAT_DEF		1ul
+
 /********************** internal data declaration ****************************/
 task_system_cfg_t task_system_cfg = {
 	DEL_SYS_XX_MIN, false, DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX, true, THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF,
-	0, 0, EV_SEN_MEASURE_ON, EV_SEN_MEASURE_READ, EV_SEN_FALLA_OK
+	THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
+	0, 0,
+	EV_SEN_MEASURE_ON, EV_SEN_MEASURE_READ, EV_SEN_FALLA_OK,
+	EV_ADC_START,
+	EV_MEN_ADC_REQ_OK
 };
 
 task_system_dta_t task_system_dta = {
-	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN,DEL_SYS_FALLA_MIN, ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON, 0 , 0
+	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN,DEL_SYS_FALLA_MIN, ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON, 0.0, 0.0, 0.0, 0.0
 };
 
 #define SYSTEM_DTA_QTY	(sizeof(task_system_dta)/sizeof(task_system_dta_t))
@@ -227,8 +239,13 @@ void task_system_update(void *parameters)
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_RIEGO;
 					}
+					else if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_REQ == p_task_system_dta->event))
+					{
+						put_event_task_adc(p_task_system_cfg->ev_adc_start);
+						p_task_system_cfg->flag = false;
+						p_task_system_dta->state = ST_SYS_ADC_MEASURE;
+					}
 					break;
-
 
 				case ST_SYS_MEASURE:
 
@@ -265,6 +282,25 @@ void task_system_update(void *parameters)
 					{
 						//put_even_task_actuator(EV_ACT_RELAY_OFF)
 						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
+						p_task_system_cfg->flag = false;
+						p_task_system_dta->state = ST_SYS_IDLE;
+					}
+
+					break;
+
+				case ST_SYS_ADC_MEASURE:
+
+					get_values_task_adc(&p_task_system_dta->adc_temperature, &p_task_system_dta->adc_batery);
+
+					if (((true == p_task_system_cfg->flag) && (EV_SYS_ADC_NOT_OK == p_task_system_dta->event)) || (p_task_system_dta->adc_temperature > p_task_system_cfg->threshold_adc_temperature) || (p_task_system_dta->adc_batery < p_task_system_cfg->threshold_adc_batery))
+					{
+						p_task_system_dta->tick_falla = p_task_system_cfg->tick_falla_max;
+						p_task_system_cfg->flag = false;
+						p_task_system_dta->state = ST_SYS_FALLA;
+					}
+					else if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_OK== p_task_system_dta->event))
+					{
+						put_event_task_menu( p_task_system_cfg->ev_men_adc_req_ok);
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}

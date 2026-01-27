@@ -19,7 +19,8 @@
 #include "app.h"
 #include "task_adc_interface.h"
 #include "task_adc_attribute.h"
-
+#include "task_system_attribute.h"
+#include "task_system_interface.h"
 
 /********************** macros and definitions *******************************/
 #define G_TASK_ADC_CNT_INI			0ul
@@ -31,16 +32,13 @@
 
 extern ADC_HandleTypeDef hadc1;
 
-
-
 /********************** internal data declaration ****************************/
 task_adc_cfg_t task_adc_cfg = {
-	DEL_ADC_XX_MIN, false, 0,
-	0, 0, 0, 0
+	DEL_ADC_XX_MIN, false, EV_SYS_ADC_OK, EV_SYS_ADC_NOT_OK
 };
 
 task_adc_dta_t task_adc_dta = {
-	0, ST_ADC_IDLE, 0, false, 0, 0.0, 0, 0.0
+	ST_ADC_IDLE, EV_ADC_IDLE, false, 0, 0.0, 0, 0.0
 };
 
 /********************** internal functions declaration ***********************/
@@ -171,30 +169,31 @@ void task_adc_update(void *parameters)
 			switch (p_task_adc_dta->state)
 			{
 				case ST_ADC_IDLE:
-					p_task_adc_dta->tick_adc++;
-					if (p_task_adc_dta->tick_adc >= 30)
+					if ((true == p_task_adc_cfg->flag) && (EV_ADC_START == p_task_adc_dta->event))
 					{
-						p_task_adc_dta->tick_adc = 0;
+						p_task_adc_cfg->flag = false;
 						p_task_adc_dta->state = ST_ADC_TEMP_START;
 					}
+
 					break;
 
-
 				case ST_ADC_TEMP_START:
+
 					p_task_adc_dta->flag_ready = false;
 					ADC_select_channel(ADC_CHANNEL_TEMPSENSOR);
 					HAL_ADC_Start_IT(&hadc1);
-
 					p_task_adc_dta->state = ST_ADC_TEMP_WAITING;
+
 					break;
 
-
 				case ST_ADC_TEMP_WAITING:
+
 					if (p_task_adc_dta->flag_ready == true)
 					{
 						p_task_adc_dta->temp_raw = p_task_adc_dta->last_raw_lecture;
-						if (p_task_adc_dta->temp_raw == 0)
+						if ((p_task_adc_dta->temp_raw == ADC_MIN_COUNT) || (p_task_adc_dta->temp_raw == ADC_MAX_COUNT))
 						{
+							put_event_task_system(p_task_adc_cfg->ev_sys_adc_not_ok);
 							p_task_adc_dta->state = ST_ADC_FALLA;
 						}
 						p_task_adc_dta->state = ST_ADC_BAT_START;
@@ -202,13 +201,14 @@ void task_adc_update(void *parameters)
 
 					break;
 
-
 				case ST_ADC_BAT_START:
+
 					p_task_adc_dta->flag_ready = false;
 					ADC_select_channel(ADC_CHANNEL_VREFINT);
 					HAL_ADC_Start_IT(&hadc1);
 
 					p_task_adc_dta->state = ST_ADC_BAT_WAITING;
+
 					break;
 
 
@@ -216,7 +216,6 @@ void task_adc_update(void *parameters)
 					if (p_task_adc_dta->flag_ready == true)
 					{
 						p_task_adc_dta->bat_raw = p_task_adc_dta->last_raw_lecture;
-
 
 						if (p_task_adc_dta->bat_raw > 0)
 						{
@@ -235,13 +234,18 @@ void task_adc_update(void *parameters)
 
 				case ST_ADC_FALLA:
 					//TODO: Manejo de error y put event en system
-					p_task_adc_dta->state = ST_ADC_IDLE;
+					if ((true == p_task_adc_cfg->flag) && (EV_ADC_FALLA_OK == p_task_adc_dta->event))
+					{
+						p_task_adc_cfg->flag = false;
+						p_task_adc_dta->state = ST_ADC_IDLE;
+					}
+
 					break;
 
 				default:
 					p_task_adc_cfg->tick  = DEL_ADC_XX_MIN;
 					p_task_adc_dta->state = ST_ADC_IDLE;
-					p_task_adc_dta->event = 0;
+					p_task_adc_dta->event = EV_ADC_IDLE;
 					p_task_adc_cfg->flag  = false;
 
 					break;
