@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  *
- * @file   : task_menu_interface.c
+ * @file   : task_system_interface.c
  * @date   : Set 26, 2023
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  * @version	v1.0.0
@@ -107,12 +107,6 @@ task_system_ev_t get_event_task_system(void)
 bool any_event_task_system(void)
 {
   return (queue_task_system.head != queue_task_system.tail);
-}
-
-void put_mode_task_system(bool *mode)
-{
-	task_system_cfg.mode_time = *mode;
-	//task_system_cfg.mod_time = !(*mode);
 }
 
 void update_dta_task_system(uint32_t *tick_idle, uint32_t  *temperature, uint32_t  *humidity)

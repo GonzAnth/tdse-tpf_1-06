@@ -1,39 +1,8 @@
-/*
- * Copyright (c) 2023 Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- *
- * @file   : task_menu.c
- * @date   : Set 26, 2023
- * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
- * @version	v1.0.0
+/**
+ * @file    task_system.c
+ * @author  Gonzalo Antahuara & Dante Mele Ientile
+ * @brief   Tarea asociada a la máquina de estados del Systema.
+ * @date    Jan 10, 2026
  */
 
 /********************** inclusions *******************************************/
@@ -83,8 +52,9 @@
 
 /********************** internal data declaration ****************************/
 task_system_cfg_t task_system_cfg = {
-	DEL_SYS_XX_MIN, false, DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX, true, THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF,
-	THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
+	DEL_SYS_XX_MIN, false,
+	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX,
+	THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF, THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
 	0, 0,
 	EV_SEN_MEASURE_ON, EV_SEN_MEASURE_READ, EV_SEN_FALLA_OK,
 	EV_ADC_START,
@@ -92,7 +62,9 @@ task_system_cfg_t task_system_cfg = {
 };
 
 task_system_dta_t task_system_dta = {
-	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN,DEL_SYS_FALLA_MIN, ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON, 0.0, 0.0, 0.0, 0.0
+	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN, DEL_SYS_FALLA_MIN,
+	ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON, SYS_MOD_TIME,
+	0.0, 0.0, false, 0.0, 0.0
 };
 
 #define SYSTEM_DTA_QTY	(sizeof(task_system_dta)/sizeof(task_system_dta_t))
@@ -200,13 +172,23 @@ void task_system_update(void *parameters)
 			{
 				p_task_system_cfg->flag = true;
 				p_task_system_dta->event = get_event_task_system();
-			}
 
-			/* Revisamos eventos de baja prioridad */
-			if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_REQ == p_task_system_dta->event))
-			{
-				p_task_system_dta->adc_req_pending = true;
-				p_task_system_cfg->flag = false;
+				/* Revisamos eventos de baja prioridad */
+				if (EV_SYS_ADC_REQ == p_task_system_dta->event)
+				{
+					p_task_system_dta->adc_req_pending = true;
+					p_task_system_cfg->flag = false;
+				}
+				else if(EV_SYS_MOD_TIME == p_task_system_dta->event)
+				{
+					p_task_system_dta->system_mode = SYS_MOD_TIME;
+					p_task_system_cfg->flag = false;
+				}
+				else if(EV_SYS_MOD_SENSOR == p_task_system_dta->event)
+				{
+					p_task_system_dta->system_mode = SYS_MOD_SENSOR;
+					p_task_system_cfg->flag = false;
+				}
 			}
 
 			switch (p_task_system_dta->state)
@@ -216,13 +198,13 @@ void task_system_update(void *parameters)
 					p_task_system_dta->tick_idle--;
 					if (DEL_SYS_IDLE_MIN == p_task_system_dta->tick_idle)
 					{
-						if (p_task_system_cfg->mode_time)
+						if (SYS_MOD_TIME == p_task_system_dta->system_mode)
 						{
 							//put_even_task_actuator(EV_ACT_RELAY_ON)
 							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
-						else if (!(p_task_system_cfg->mode_time))
+						else if (SYS_MOD_SENSOR == p_task_system_dta->system_mode)
 						{
 							put_event_task_sht85(p_task_system_cfg->ev_sen_measure_on);
 							p_task_system_dta->state = ST_SYS_MEASURE;
