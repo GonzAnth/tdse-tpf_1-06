@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  *
- * @file   : task_menu_interface.c
+ * @file   : task_sht85_interface.c
  * @date   : Set 26, 2023
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  * @version	v1.0.0
@@ -64,7 +64,7 @@ struct
 	uint32_t	tail;
 	uint32_t	count;
 	task_sht85_ev_t	queue[MAX_EVENTS];
-} queue_task_a;
+} queue_task_sht85;
 
 /********************** external data declaration ****************************/
 
@@ -73,40 +73,40 @@ void init_queue_event_task_sht85(void)
 {
 	uint32_t i;
 
-	queue_task_a.head = 0;
-	queue_task_a.tail = 0;
-	queue_task_a.count = 0;
+	queue_task_sht85.head = 0;
+	queue_task_sht85.tail = 0;
+	queue_task_sht85.count = 0;
 
 	for (i = 0; i < MAX_EVENTS; i++)
-		queue_task_a.queue[i] = EVENT_UNDEFINED;
+		queue_task_sht85.queue[i] = EVENT_UNDEFINED;
 }
 
 void put_event_task_sht85(task_sht85_ev_t event)
 {
-	queue_task_a.count++;
-	queue_task_a.queue[queue_task_a.head++] = event;
+	queue_task_sht85.count++;
+	queue_task_sht85.queue[queue_task_sht85.head++] = event;
 
-	if (MAX_EVENTS == queue_task_a.head)
-		queue_task_a.head = 0;
+	if (MAX_EVENTS == queue_task_sht85.head)
+		queue_task_sht85.head = 0;
 }
 
 task_sht85_ev_t get_event_task_sht85(void)
 {
 	task_sht85_ev_t event;
 
-	queue_task_a.count--;
-	event = queue_task_a.queue[queue_task_a.tail];
-	queue_task_a.queue[queue_task_a.tail++] = EVENT_UNDEFINED;
+	queue_task_sht85.count--;
+	event = queue_task_sht85.queue[queue_task_sht85.tail];
+	queue_task_sht85.queue[queue_task_sht85.tail++] = EVENT_UNDEFINED;
 
-	if (MAX_EVENTS == queue_task_a.tail)
-		queue_task_a.tail = 0;
+	if (MAX_EVENTS == queue_task_sht85.tail)
+		queue_task_sht85.tail = 0;
 
 	return event;
 }
 
 bool any_event_task_sht85(void)
 {
-  return (queue_task_a.head != queue_task_a.tail);
+  return (queue_task_sht85.head != queue_task_sht85.tail);
 }
 
 /* Funcion para extraer datos del sensor */
