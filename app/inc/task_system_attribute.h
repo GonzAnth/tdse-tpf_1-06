@@ -125,6 +125,8 @@ typedef struct
 	task_system_ev_t	event;
 	float				temperature;
 	float				humidity;
+
+	bool 				adc_req_pending;
 	float				adc_temperature;
 	float				adc_batery;
 } task_system_dta_t;

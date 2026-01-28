@@ -194,19 +194,19 @@ void task_system_update(void *parameters)
 		{
 			p_task_system_cfg->tick = DEL_SYS_XX_MAX;
 
-			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado
 
-			if (p_task_system_dta->state != p_task_system_dta->last_state)
-			{
-			    p_task_system_dta->refresh_screen = true;
-			    p_task_system_dta->last_state = p_task_system_dta->state;
-			}
-
-			 Implementacion maquina de estados */
+			/* Implementacion maquina de estados */
 			if (true == any_event_task_system())
 			{
 				p_task_system_cfg->flag = true;
 				p_task_system_dta->event = get_event_task_system();
+			}
+
+			/* Revisamos eventos de baja prioridad */
+			if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_REQ == p_task_system_dta->event))
+			{
+				p_task_system_dta->adc_req_pending = true;
+				p_task_system_cfg->flag = false;
 			}
 
 			switch (p_task_system_dta->state)
@@ -239,10 +239,10 @@ void task_system_update(void *parameters)
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_RIEGO;
 					}
-					else if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_REQ == p_task_system_dta->event))
+					else if (true == p_task_system_dta->adc_req_pending)
 					{
 						put_event_task_adc(p_task_system_cfg->ev_adc_start);
-						p_task_system_cfg->flag = false;
+						p_task_system_dta->adc_req_pending = false;
 						p_task_system_dta->state = ST_SYS_ADC_MEASURE;
 					}
 					break;
@@ -290,19 +290,23 @@ void task_system_update(void *parameters)
 
 				case ST_SYS_ADC_MEASURE:
 
-					get_values_task_adc(&p_task_system_dta->adc_temperature, &p_task_system_dta->adc_batery);
+					if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_OK == p_task_system_dta->event))
+					{
+						get_values_task_adc(&p_task_system_dta->adc_temperature, &p_task_system_dta->adc_batery);
 
-					if (((true == p_task_system_cfg->flag) && (EV_SYS_ADC_NOT_OK == p_task_system_dta->event)) || (p_task_system_dta->adc_temperature > p_task_system_cfg->threshold_adc_temperature) || (p_task_system_dta->adc_batery < p_task_system_cfg->threshold_adc_batery))
+						if ((p_task_system_dta->adc_temperature > p_task_system_cfg->threshold_adc_temperature) || (p_task_system_dta->adc_batery < p_task_system_cfg->threshold_adc_batery))
+						{
+							p_task_system_dta->state = ST_SYS_FALLA;
+						}
+						put_event_task_menu( p_task_system_cfg->ev_men_adc_req_ok);
+						p_task_system_cfg->flag = false;
+						p_task_system_dta->state = ST_SYS_IDLE;
+					}
+					else if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_NOT_OK == p_task_system_dta->event))
 					{
 						p_task_system_dta->tick_falla = p_task_system_cfg->tick_falla_max;
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_FALLA;
-					}
-					else if ((true == p_task_system_cfg->flag) && (EV_SYS_ADC_OK == p_task_system_dta->event))
-					{
-						put_event_task_menu( p_task_system_cfg->ev_men_adc_req_ok);
-						p_task_system_cfg->flag = false;
-						p_task_system_dta->state = ST_SYS_IDLE;
 					}
 
 					break;
@@ -364,3 +368,4 @@ void task_system_update(void *parameters)
 }
 
 /********************** end of file ******************************************/
+
