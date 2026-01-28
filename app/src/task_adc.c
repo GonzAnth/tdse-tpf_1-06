@@ -1,8 +1,8 @@
-/*
- * task_adc.c
- *
- *  Created on: Jan 24, 2026
- *      Author: Gonzalo
+/**
+ * @file    task_adc.c
+ * @author  Gonzalo Antahuara & Dante Mele Ientile
+ * @brief   Tarea asociada a la máquina de estados del ADC.
+ * @date    Jan 24, 2026
  */
 
 

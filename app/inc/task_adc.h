@@ -1,8 +1,8 @@
-/*
- * task_adc.h
- *
- *  Created on: Jan 24, 2026
- *      Author: Gonzalo
+/**
+ * @file    task_adc.h
+ * @author  Gonzalo Antahuara & Dante Mele Ientile
+ * @brief   Declaraciones públicas (prototipos) de la tarea ADC.
+ * @date    Jan 24, 2026
  */
 
 #ifndef INC_TASK_ADC_H_

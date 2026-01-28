@@ -1,8 +1,8 @@
-/*
- * task_adc.h
- *
- *  Created on: Jan 24, 2026
- *      Author: Gonzalo
+/**
+ * @file    task_adc_attribute.h
+ * @author  Gonzalo Antahuara & Dante Mele Ientile
+ * @brief   Definiciones de estructuras de datos, estados y configuración del ADC.
+ * @date    Jan 24, 2026
  */
 
 #ifndef INC_TASK_ADC_ATTRIBUTE_H_
