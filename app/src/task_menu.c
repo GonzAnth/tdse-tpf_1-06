@@ -70,11 +70,11 @@
 /********************** internal data declaration ****************************/
 task_menu_cfg_t task_menu_cfg = {
 	DEL_MEN_XX_MIN, false, false, DEL_MEN_IDLE_MAX,
-	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ,
+	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ, EV_SYS_MOD_TIME, EV_SYS_MOD_SENSOR
 };
 
 task_menu_dta_t task_menu_dta = {
-	DEL_MEN_IDLE_MIN, ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
+	DEL_MEN_XX_MAX, ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
 	true, THRESHOLD_MEN_TEMP_DEF, THRESHOLD_MEN_TEMP_DEF
 };
 
@@ -331,8 +331,7 @@ void task_menu_update(void *parameters)
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						// funcion que modifique la varible de system mod _sensr a true
-						put_mode_task_system(&p_task_menu_dta->mode_time);
+						put_event_task_system(p_task_menu_cfg->ev_sys_mod_sensor);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
@@ -359,7 +358,7 @@ void task_menu_update(void *parameters)
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						put_mode_task_system(&p_task_menu_dta->mode_time);
+						put_event_task_system(p_task_menu_cfg->ev_sys_mod_time);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}

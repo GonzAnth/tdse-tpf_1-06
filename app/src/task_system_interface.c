@@ -109,12 +109,6 @@ bool any_event_task_system(void)
   return (queue_task_system.head != queue_task_system.tail);
 }
 
-void put_mode_task_system(bool *mode)
-{
-	task_system_cfg.mode_time = *mode;
-	//task_system_cfg.mod_time = !(*mode);
-}
-
 void update_dta_task_system(uint32_t *tick_idle, uint32_t  *temperature, uint32_t  *humidity)
 {
 	task_system_cfg.tick_idle_max = *tick_idle;
