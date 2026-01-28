@@ -61,7 +61,7 @@
 #define DEL_SEN_XX_MED				50ul
 #define DEL_SEN_XX_MAX				500ul
 
-#define DEL_SEN_MEAS_XX_MAX			20ul
+#define DEL_SEN_MEAS_XX_MAX			5ul
 #define DEL_SEN_MEAS_XX_MIN			0ul
 
 extern I2C_HandleTypeDef hi2c1;
@@ -207,7 +207,7 @@ void task_sht85_update(void *parameters)
 
 				case ST_SEN_MEASURE:
 
-					p_task_sht85_dta->ready= SHT85_send_single_shot();
+					p_task_sht85_dta->ready = SHT85_send_single_shot();
 
 					if (true == p_task_sht85_dta->ready)
 					{

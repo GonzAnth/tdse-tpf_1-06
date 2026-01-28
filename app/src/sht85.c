@@ -23,7 +23,7 @@ void SHT85_Init(I2C_HandleTypeDef *hi2c)
 bool SHT85_send_single_shot(void)
 {
     uint8_t cmd_buffer[2];
-    uint16_t command = SHT85_CMD_MEASURE_HIGH;
+    uint16_t command = SHT85_CMD_MEASURE_LOW;
 
     cmd_buffer[0] = (command >> 8) & 0xFF;
     cmd_buffer[1] = command & 0xFF;
