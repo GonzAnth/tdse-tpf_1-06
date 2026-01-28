@@ -49,6 +49,8 @@
 #include "app.h"
 #include "task_menu_attribute.h"
 #include "task_menu_interface.h"
+#include "task_system_attribute.h"
+#include "task_system_interface.h"
 #include "display.h"
 
 /********************** macros and definitions *******************************/
@@ -56,17 +58,29 @@
 #define G_TASK_MEN_TICK_CNT_INI		0ul
 
 #define DEL_MEN_XX_MIN				0ul
-#define DEL_MEN_XX_MED				50ul
-#define DEL_MEN_XX_MAX				500ul
+#define DEL_MEN_XX_MED				5ul
+#define DEL_MEN_XX_MAX				50ul
+
+#define DEL_MEN_IDLE_MIN			0ul
+#define DEL_MEN_IDLE_MAX			40ul
+
+#define THRESHOLD_MEN_TEMP_DEF		24ul
+#define THRESHOLD_MEN_HUM_DEF		30ul
 
 /********************** internal data declaration ****************************/
-task_menu_dta_t task_menu_dta =
-	{DEL_MEN_XX_MIN, ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE, false, 1, true, 0, true, true};
-
-task_motor_dta_t task_motor_dta [] = {
-	{1, true, 0, true},
-	{2, true, 0, true}
+task_menu_cfg_t task_menu_cfg = {
+	DEL_MEN_XX_MIN, false, false, DEL_MEN_IDLE_MAX,
+	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ,
 };
+
+task_menu_dta_t task_menu_dta = {
+	DEL_MEN_IDLE_MIN, ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
+	true, THRESHOLD_MEN_TEMP_DEF, THRESHOLD_MEN_TEMP_DEF
+};
+
+/*task_aspersor_dta_t task_aspersor_dta = {
+	false,TIME_MEN_RIEGO_MIN, TEMP_MEN_RIEGO_MIN, HUME_MEN_RIEGO_MIN, false, false
+};*/
 
 #define MENU_DTA_QTY	(sizeof(task_menu_dta)/sizeof(task_menu_dta_t))
 
@@ -83,6 +97,7 @@ volatile uint32_t g_task_menu_tick_cnt;
 /********************** external functions definition ************************/
 void task_menu_init(void *parameters)
 {
+	task_menu_cfg_t *p_task_menu_cfg;
 	task_menu_dta_t *p_task_menu_dta;
 	task_menu_st_t	state;
 	task_menu_ev_t	event;
@@ -100,6 +115,7 @@ void task_menu_init(void *parameters)
 	init_queue_event_task_menu();
 
 	/* Update Task Actuator Configuration & Data Pointer */
+	p_task_menu_cfg = &task_menu_cfg;
 	p_task_menu_dta = &task_menu_dta;
 
 	/* Print out: Task execution FSM */
@@ -109,7 +125,7 @@ void task_menu_init(void *parameters)
 	event = p_task_menu_dta->event;
 	LOGGER_LOG("   %s = %lu", GET_NAME(event), (uint32_t)event);
 
-	b_event = p_task_menu_dta->flag;
+	b_event = p_task_menu_cfg->flag;
 	LOGGER_LOG("   %s = %s\r\n", GET_NAME(b_event), (b_event ? "true" : "false"));
 
 	cycle_counter_init();
@@ -125,8 +141,8 @@ void task_menu_init(void *parameters)
 
 void task_menu_update(void *parameters)
 {
+	task_menu_cfg_t *p_task_menu_cfg;
 	task_menu_dta_t *p_task_menu_dta;
-	task_motor_dta_t *p_task_motor_dta;
 
 	bool b_time_update_required = false;
 	char str_buffer[ANCHO_LCD + 1]; //se suma caracter \0
@@ -159,353 +175,436 @@ void task_menu_update(void *parameters)
 		__asm("CPSIE i");	/* enable interrupts*/
 
     	/* Update Task Menu Data Pointer */
+		p_task_menu_cfg = &task_menu_cfg;
 		p_task_menu_dta = &task_menu_dta;
-		p_task_motor_dta = &task_motor_dta[p_task_menu_dta->id_motor];
 
-    	if (DEL_MEN_XX_MIN < p_task_menu_dta->tick)
+    	if (DEL_MEN_XX_MIN < p_task_menu_cfg->tick)
 		{
-			p_task_menu_dta->tick--;
+			p_task_menu_cfg->tick--;
 		}
 		else
 		{
-			p_task_menu_dta->tick = DEL_MEN_XX_MAX;
+			p_task_menu_cfg->tick = DEL_MEN_XX_MAX;
 
 			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado */
 			if (p_task_menu_dta->state != p_task_menu_dta->last_state)
 			{
-			    p_task_menu_dta->refresh_screen = true;
+			    p_task_menu_cfg->refresh_screen = true;
 			    p_task_menu_dta->last_state = p_task_menu_dta->state;
 			}
 
 			/* Implementacion maquina de estados */
 			if (true == any_event_task_menu())
 			{
-				p_task_menu_dta->flag = true;
+				p_task_menu_cfg->flag = true;
 				p_task_menu_dta->event = get_event_task_menu();
 			}
 
 			switch (p_task_menu_dta->state)
 			{
 				case ST_MEN_MAIN:
-					if (true == p_task_menu_dta->refresh_screen)
+					if (true == p_task_menu_cfg->refresh_screen)
 					{
-						p_task_menu_dta->refresh_screen = false;
+						p_task_menu_cfg->refresh_screen = false;
 						displayUpdateRow(0, 5, "MENU MAIN");
 						displayUpdateRow(1, 0, "ENTER PARA CONTINUAR");
 						displayClearRow(2);
 					}
 
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 1;
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_adc_req);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_SALUD_WAIT;
 					}
 
 					break;
 
-
-				case ST_MEN_SELECT_MOTOR_1:
-					if (true == p_task_menu_dta->refresh_screen)
+				case ST_MEN_SALUD_WAIT:
+					if (true == p_task_menu_cfg->refresh_screen)
 					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "SELECCIONAR MOTOR:");
-						displayUpdateRow(1, 0, "MOTOR 1");
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(0, 5, "ESTADO");
+						displayUpdateRow(1, 0, "ESC PARA VOLVER");
+						displayClearRow(2);
 					}
 
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-						p_task_motor_dta = &task_motor_dta[p_task_menu_dta->id_motor];
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ADC_REQ_OK == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_2;
-						p_task_menu_dta->id_motor = 2;
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_SALUD_SHOW;
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+
+					break;
+
+				case ST_MEN_SALUD_SHOW:
+					if (true == p_task_menu_cfg->refresh_screen)
 					{
-						p_task_menu_dta->flag = false;
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(0, 5, "El estado del sitema es ");
+						displayUpdateRow(1, 0, "ESC PARA VOLVER");
+						displayClearRow(2);
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
 
 					break;
 
-				case ST_MEN_SELECT_MOTOR_2:
-					if (true == p_task_menu_dta->refresh_screen)
+
+				case ST_MEN_MODE_MANUAL:
+					if (true == p_task_menu_cfg->refresh_screen)
 					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(1, 0, "MOTOR 2");
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(0, 0, "SELECCIONAR MODO:");
+						displayUpdateRow(1, 0, "MODO MANUAL");
 					}
 
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-						p_task_motor_dta = &task_motor_dta[p_task_menu_dta->id_motor];
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_RIEGO_OFF;
+
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 1;
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_CONFIG;
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
+						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
 
 					break;
 
-				case ST_MEN_SELECT_POWER:
-					if (true == p_task_menu_dta->refresh_screen)
+				case ST_MEN_MODE_CONFIG:
+					if (true == p_task_menu_cfg->refresh_screen)
 					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "ENCENDER MOTOR?");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(0, 0, "SELECCIONAR MODO:");
+						displayUpdateRow(1, 0, "MODO CONFIG");
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						// PUT SYSTEM TASK, EV_SYS_MODE CONFIG_ON
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_on);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CONFIG_TIME;
+
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->mode_time = false;
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_SENSOR;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+
+					break;
+
+				case ST_MEN_MODE_SENSOR:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(1, 0, "MODO SENSOR");
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						// funcion que modifique la varible de system mod _sensr a true
+						put_mode_task_system(&p_task_menu_dta->mode_time);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->mode_time = true;
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_TIME;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+
+					break;
+
+				case ST_MEN_MODE_TIME:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(1, 0, "MODO TIEMPO");
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						put_mode_task_system(&p_task_menu_dta->mode_time);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+
+					break;
+
+				case ST_MEN_RIEGO_OFF:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(1, 0, "DESACTIVAR");
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_riego_off);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_RIEGO_ON;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
+					}
+
+					break;
+
+				case ST_MEN_RIEGO_ON:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(0, 0, "RIEGO");
+						displayUpdateRow(1, 0, "ACTIVAR");
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_riego_on);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_RIEGO_OFF;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
+					}
+
+					break;
+
+				case ST_MEN_CONFIG_TIME:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(0, 0, "VARIABLE A CONFIGURAR");
+						displayUpdateRow(1, 0, "TIEMPO");
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->tick_idle = 0; // tengoq eu ahce que se quede con el valor la variable configurada
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CHANGE_TIME;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CONFIG_TEMP;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_CONFIG;
+					}
+
+					break;
+
+				case ST_MEN_CONFIG_TEMP:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(1, 0, "TEMPERATURA");
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->threshold_temperature = 0; // tengoq eu ahce que se quede con el valor la variable configurada
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CHANGE_TEMP;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CONFIG_HUME;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_CONFIG;
+					}
+
+					break;
+
+				case ST_MEN_CONFIG_HUME:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						displayUpdateRow(1, 0, "HUMEDAD");
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->threshold_humidity = 0; // tengoq eu ahce que se quede con el valor la variable configurada
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CHANGE_HUME;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CONFIG_TIME;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_CONFIG;
+					}
+
+					break;
+
+				case ST_MEN_CHANGE_TIME:
+					if (true == p_task_menu_cfg->refresh_screen)
+					{
+						p_task_menu_cfg->refresh_screen = false;
+						snprintf(str_buffer, sizeof(str_buffer), "TIEMPO: %-8lu", (p_task_menu_dta->tick_idle));
 						displayUpdateRow(1, 0, str_buffer);
 					}
 
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_POWER_ON;
-						p_task_menu_dta->power = true;
+						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->threshold_temperature, &p_task_menu_dta->threshold_humidity);
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_SPEED;
+						p_task_menu_dta->tick_idle = 50 + (p_task_menu_dta->tick_idle + 1) % 10;
+						p_task_menu_cfg->refresh_screen = true;
+						p_task_menu_cfg->flag = false;
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 1;
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CONFIG_TIME;
 					}
 
 					break;
 
-				case ST_MEN_SELECT_SPEED:
-					if (true == p_task_menu_dta->refresh_screen)
+				case ST_MEN_CHANGE_TEMP:
+					if (true == p_task_menu_cfg->refresh_screen)
 					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "ELEGIR VELOCIDAD?");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						p_task_menu_cfg->refresh_screen = false;
+						snprintf(str_buffer, sizeof(str_buffer), "TEMPE: %-8lu", (p_task_menu_dta->threshold_temperature));
 						displayUpdateRow(1, 0, str_buffer);
 					}
 
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_CHANGE_SPEED;
-						p_task_menu_dta->speed = 0;
+						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->threshold_temperature, &p_task_menu_dta->threshold_humidity);
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_SPIN;
+						p_task_menu_dta->threshold_temperature= 10 + ((p_task_menu_dta->threshold_temperature + 1) % 10);
+						p_task_menu_cfg->refresh_screen = true;
+						p_task_menu_cfg->flag = false;
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 1;
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CONFIG_TEMP;
 					}
 
 					break;
 
-				case ST_MEN_SELECT_SPIN:
-					if (true == p_task_menu_dta->refresh_screen)
+				case ST_MEN_CHANGE_HUME:
+					if (true == p_task_menu_cfg->refresh_screen)
 					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "ELEGIR GIRO?");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
+						p_task_menu_cfg->refresh_screen = false;
+						snprintf(str_buffer, sizeof(str_buffer), "HUMEDAD: %-8lu", (p_task_menu_dta->threshold_humidity));
 						displayUpdateRow(1, 0, str_buffer);
 					}
 
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SPIN_RIGTH;
-						p_task_menu_dta->spin = true;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_MOTOR_1;
-						p_task_menu_dta->id_motor = 1;
-					}
-
-					break;
-
-				case ST_MEN_POWER_ON:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "MOTOR ENCENDIDO");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(1, 0, str_buffer);
-					}
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
+						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->threshold_temperature, &p_task_menu_dta->threshold_humidity);
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->power = p_task_menu_dta->power;
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_POWER_OFF;
-						p_task_menu_dta->power = false;
+						p_task_menu_dta->threshold_humidity = 30 + ((p_task_menu_dta->threshold_humidity + 1) % 10);
+						p_task_menu_cfg->flag = false;
+						p_task_menu_cfg->refresh_screen = true;
 					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_CONFIG_HUME;
 					}
 
 					break;
-
-
-				case ST_MEN_POWER_OFF:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "MOTOR APAGADO");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(1, 0, str_buffer);
-					}
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->power = p_task_menu_dta->power;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_POWER_ON;
-						p_task_menu_dta->power = true;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-
-					break;
-
-
-				case ST_MEN_CHANGE_SPEED:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						snprintf(str_buffer, sizeof(str_buffer), "VELOCIDAD: %-8lu", (p_task_menu_dta->speed));
-						displayUpdateRow(1, 0, str_buffer);
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(2, 0, str_buffer);
-					}
-
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->speed = p_task_menu_dta->speed;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						//p_task_menu_dta->state = ST_MEN_CHANGE_SPEED;
-						p_task_menu_dta->speed = (p_task_menu_dta->speed + 1) % 10;
-						p_task_menu_dta->refresh_screen = true;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-
-					break;
-
-				case ST_MEN_SPIN_RIGTH:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(1, 0, "GIRO HORARIO");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(2, 0, str_buffer);
-					}
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->spin = p_task_menu_dta->spin;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SPIN_LEFT;
-						p_task_menu_dta->spin = false;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-
-					break;
-
-				case ST_MEN_SPIN_LEFT:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(1, 0, "GIRO ANTIHORARIO");
-						snprintf(str_buffer, sizeof(str_buffer), "MOTOR: %-3lu", (p_task_menu_dta->id_motor));
-						displayUpdateRow(2, 0, str_buffer);
-					}
-					if ((true == p_task_menu_dta->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-						// actualizar los datos del motor
-						p_task_motor_dta->spin = p_task_menu_dta->spin;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SPIN_RIGTH;
-						p_task_menu_dta->spin = true;
-					}
-					else if ((true == p_task_menu_dta->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_dta->flag = false;
-						p_task_menu_dta->state = ST_MEN_SELECT_POWER;
-					}
-
-					break;
-
 
 				default:
 
-					p_task_menu_dta->tick  = DEL_MEN_XX_MIN;
+					p_task_menu_cfg->tick  = DEL_MEN_XX_MIN;
 					p_task_menu_dta->state = ST_MEN_MAIN;
 					p_task_menu_dta->event = EV_MEN_ENT_IDLE;
-					p_task_menu_dta->flag  = false;
+					p_task_menu_cfg->flag  = false;
 
 					break;
 			}

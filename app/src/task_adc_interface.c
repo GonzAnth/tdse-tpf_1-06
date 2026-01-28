@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  *
- * @file   : task_menu_interface.c
+ * @file   : task_adc_interface.c
  * @date   : Set 26, 2023
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  * @version	v1.0.0
@@ -47,7 +47,8 @@
 /* Application & Tasks includes. */
 #include "board.h"
 #include "app.h"
-#include "task_menu_attribute.h"
+#include "task_adc_attribute.h"
+
 
 /********************** macros and definitions *******************************/
 #define EVENT_UNDEFINED	(255)
@@ -63,50 +64,56 @@ struct
 	uint32_t	head;
 	uint32_t	tail;
 	uint32_t	count;
-	task_menu_ev_t	queue[MAX_EVENTS];
-} queue_task_menu;
+	task_adc_ev_t	queue[MAX_EVENTS];
+} queue_task_adc;
 
 /********************** external data declaration ****************************/
 
 /********************** external functions definition ************************/
-void init_queue_event_task_menu(void)
+void init_queue_event_task_adc(void)
 {
 	uint32_t i;
 
-	queue_task_menu.head = 0;
-	queue_task_menu.tail = 0;
-	queue_task_menu.count = 0;
+	queue_task_adc.head = 0;
+	queue_task_adc.tail = 0;
+	queue_task_adc.count = 0;
 
 	for (i = 0; i < MAX_EVENTS; i++)
-		queue_task_menu.queue[i] = EVENT_UNDEFINED;
+		queue_task_adc.queue[i] = EVENT_UNDEFINED;
 }
 
-void put_event_task_menu(task_menu_ev_t event)
+void put_event_task_adc(task_adc_ev_t event)
 {
-	queue_task_menu.count++;
-	queue_task_menu.queue[queue_task_menu.head++] = event;
+	queue_task_adc.count++;
+	queue_task_adc.queue[queue_task_adc.head++] = event;
 
-	if (MAX_EVENTS == queue_task_menu.head)
-		queue_task_menu.head = 0;
+	if (MAX_EVENTS == queue_task_adc.head)
+		queue_task_adc.head = 0;
 }
 
-task_menu_ev_t get_event_task_menu(void)
+task_adc_ev_t get_event_task_adc(void)
 {
-	task_menu_ev_t event;
+	task_adc_ev_t event;
 
-	queue_task_menu.count--;
-	event = queue_task_menu.queue[queue_task_menu.tail];
-	queue_task_menu.queue[queue_task_menu.tail++] = EVENT_UNDEFINED;
+	queue_task_adc.count--;
+	event = queue_task_adc.queue[queue_task_adc.tail];
+	queue_task_adc.queue[queue_task_adc.tail++] = EVENT_UNDEFINED;
 
-	if (MAX_EVENTS == queue_task_menu.tail)
-		queue_task_menu.tail = 0;
+	if (MAX_EVENTS == queue_task_adc.tail)
+		queue_task_adc.tail = 0;
 
 	return event;
 }
 
-bool any_event_task_menu(void)
+bool any_event_task_adc(void)
 {
-  return (queue_task_menu.head != queue_task_menu.tail);
+  return (queue_task_adc.head != queue_task_adc.tail);
+}
+
+void get_values_task_adc(float *temp, float *bat)
+{
+    *temp = task_adc_dta.temp_cent;
+    *bat  = task_adc_dta.bat_volts;
 }
 
 /********************** end of file ******************************************/

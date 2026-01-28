@@ -84,6 +84,12 @@ extern "C" {
 /* Events to excite Task Sensor */
 typedef enum task_sensor_ev {EV_BTN_XX_UP,
 							 EV_BTN_XX_DOWN} task_sensor_ev_t;
+/* typedef struct {
+    // ... otros campos
+    task_system_ev_t signal_up;   // <--- Debería ser tipo SYSTEM, no SENSOR
+    task_system_ev_t signal_down;
+} task_sensor_cfg_t; podria ser asi para dejar en cladro que son ev para el sistema pero
+el este archivo del sensor pasaría a depender obligatoriamente del archivo del sistema y el profe lo hzo apra que sea indeoendiente*/
 
 /* States of Task Sensor */
 typedef enum task_sensor_st {ST_BTN_XX_UP,
@@ -94,7 +100,9 @@ typedef enum task_sensor_st {ST_BTN_XX_UP,
 /* Identifier of Task Sensor */
 typedef enum task_sensor_id {ID_BTN_ENT,
 							 ID_BTN_NEX,
-							 ID_BTN_ESC} task_sensor_id_t;
+							 ID_BTN_ESC,
+							 ID_BTN_A,
+							 ID_BTN_A2} task_sensor_id_t;
 
 typedef struct
 {
@@ -103,7 +111,7 @@ typedef struct
 	uint16_t			pin;
 	GPIO_PinState		pressed;
 	uint32_t			tick_max;
-	task_sensor_ev_t	signal_up;
+	task_sensor_ev_t	signal_up; // eventos que genera los botones
 	task_sensor_ev_t	signal_down;
 } task_sensor_cfg_t;
 

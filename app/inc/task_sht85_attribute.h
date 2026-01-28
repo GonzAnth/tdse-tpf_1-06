@@ -35,8 +35,8 @@
  * @version	v1.0.0
  */
 
-#ifndef TASK_INC_TASK_MENU_ATTRIBUTE_H_
-#define TASK_INC_TASK_MENU_ATTRIBUTE_H_
+#ifndef TASK_INC_TASK_SHT85_ATTRIBUTE_H_
+#define TASK_INC_TASK_SHT85_ATTRIBUTE_H_
 
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
@@ -44,6 +44,8 @@ extern "C" {
 #endif
 
 /********************** inclusions *******************************************/
+#include <stdint.h>
+#include <stdbool.h>
 
 /********************** macros ***********************************************/
 
@@ -63,57 +65,51 @@ extern "C" {
  */
 
 /* Events to excite Task Menu */
-typedef enum task_menu_ev {EV_MEN_ENT_IDLE,
-						   EV_MEN_ENT_ACTIVE,
-						   EV_MEN_NEX_IDLE,
-						   EV_MEN_NEX_ACTIVE,
-						   EV_MEN_ESC_IDLE,
-						   EV_MEN_ESC_ACTIVE,
-						   EV_MEN_ADC_REQ_OK} task_menu_ev_t;
+typedef enum task_sht85_ev {EV_SEN_MEASURE_ON,
+						   EV_SEN_MEASURE_OFF,
+						   EV_SEN_MEASURE_OK,
+						   EV_SEN_MEASURE_OK_OFF,
+						   EV_SEN_MEASURE_NOT_OK,
+						   EV_SEN_MEASURE_NOT_OK_OFF,
+						   EV_SEN_MEASURE_READ,
+						   EV_SEN_MEASURE_READ_OFF,
+						   EV_SEN_FALLA_OK,
+						   EV_SEN_FALLA_OK_OFF} task_sht85_ev_t;
 
 /* State of Task Menu */
-typedef enum task_menu_st {ST_MEN_MAIN,
-						   ST_MEN_MODE_MANUAL,
-						   ST_MEN_MODE_CONFIG,
-						   ST_MEN_MODE_SENSOR,
-						   ST_MEN_MODE_TIME,
-						   ST_MEN_RIEGO_ON,
-						   ST_MEN_RIEGO_OFF,
-						   ST_MEN_CONFIG_TIME,
-						   ST_MEN_CONFIG_TEMP,
-						   ST_MEN_CONFIG_HUME,
-						   ST_MEN_CHANGE_TIME,
-						   ST_MEN_CHANGE_TEMP,
-						   ST_MEN_CHANGE_HUME,
-						   ST_MEN_SALUD_WAIT,
-						   ST_MEN_SALUD_SHOW} task_menu_st_t;
+typedef enum task_sht85_st {ST_SEN_IDLE,
+						   ST_SEN_MEASURE,
+						   ST_SEN_WAITING,
+						   ST_SEN_READY,
+						   ST_SEN_CHECK,
+						   ST_SEN_FALLA} task_sht85_st_t;
 
 typedef struct
 {
 	uint32_t			tick;
 	bool				flag;
-	bool 				refresh_screen;
-	uint32_t			tick_idle_max;
-	task_menu_ev_t  	ev_sys_config_on; //eventos que genera el menua para el systema
-	task_menu_ev_t  	ev_sys_config_off;
-	task_menu_ev_t  	ev_sys_riego_on;
-	task_menu_ev_t  	ev_sys_riego_off;
-	task_menu_ev_t  	ev_sys_adc_req;
-} task_menu_cfg_t;
+	uint32_t			tick_means_max;
+	task_sht85_ev_t  	ev_sys_falla; //eventos que genera el sensor para el systema
+	task_sht85_ev_t		ev_sys_ready_on; //eventos que genera el sensor para el systema
+	task_sht85_ev_t		ev_sys_check_ok; //eventos que genera el sensor para el systema
+	task_sht85_ev_t		ev_sys_check_not_ok; //eventos que genera el sensor para el systema
+} task_sht85_cfg_t;
+
 
 typedef struct
 {
-	uint32_t 		tick_idle;
-	task_menu_st_t	state;
-	task_menu_st_t  last_state;
-	task_menu_ev_t	event;
-	bool			mode_time;
-	uint32_t		threshold_temperature;
-	uint32_t		threshold_humidity;
-} task_menu_dta_t;
+	uint32_t			tick_means;
+	task_sht85_st_t		state;
+	task_sht85_ev_t		event;
+	bool 				ready;
+	bool 				measure_check;
+	uint32_t			time;
+	float				temperature;
+	float				humidity;
+} task_sht85_dta_t;
 
 /********************** external data declaration ****************************/
-extern task_menu_dta_t task_menu_dta;
+extern task_sht85_dta_t task_sht85_dta;
 
 /********************** external functions declaration ***********************/
 

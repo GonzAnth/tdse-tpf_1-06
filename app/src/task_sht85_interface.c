@@ -47,7 +47,7 @@
 /* Application & Tasks includes. */
 #include "board.h"
 #include "app.h"
-#include "task_menu_attribute.h"
+#include "task_sht85_attribute.h"
 
 /********************** macros and definitions *******************************/
 #define EVENT_UNDEFINED	(255)
@@ -63,50 +63,57 @@ struct
 	uint32_t	head;
 	uint32_t	tail;
 	uint32_t	count;
-	task_menu_ev_t	queue[MAX_EVENTS];
-} queue_task_menu;
+	task_sht85_ev_t	queue[MAX_EVENTS];
+} queue_task_a;
 
 /********************** external data declaration ****************************/
 
 /********************** external functions definition ************************/
-void init_queue_event_task_menu(void)
+void init_queue_event_task_sht85(void)
 {
 	uint32_t i;
 
-	queue_task_menu.head = 0;
-	queue_task_menu.tail = 0;
-	queue_task_menu.count = 0;
+	queue_task_a.head = 0;
+	queue_task_a.tail = 0;
+	queue_task_a.count = 0;
 
 	for (i = 0; i < MAX_EVENTS; i++)
-		queue_task_menu.queue[i] = EVENT_UNDEFINED;
+		queue_task_a.queue[i] = EVENT_UNDEFINED;
 }
 
-void put_event_task_menu(task_menu_ev_t event)
+void put_event_task_sht85(task_sht85_ev_t event)
 {
-	queue_task_menu.count++;
-	queue_task_menu.queue[queue_task_menu.head++] = event;
+	queue_task_a.count++;
+	queue_task_a.queue[queue_task_a.head++] = event;
 
-	if (MAX_EVENTS == queue_task_menu.head)
-		queue_task_menu.head = 0;
+	if (MAX_EVENTS == queue_task_a.head)
+		queue_task_a.head = 0;
 }
 
-task_menu_ev_t get_event_task_menu(void)
+task_sht85_ev_t get_event_task_sht85(void)
 {
-	task_menu_ev_t event;
+	task_sht85_ev_t event;
 
-	queue_task_menu.count--;
-	event = queue_task_menu.queue[queue_task_menu.tail];
-	queue_task_menu.queue[queue_task_menu.tail++] = EVENT_UNDEFINED;
+	queue_task_a.count--;
+	event = queue_task_a.queue[queue_task_a.tail];
+	queue_task_a.queue[queue_task_a.tail++] = EVENT_UNDEFINED;
 
-	if (MAX_EVENTS == queue_task_menu.tail)
-		queue_task_menu.tail = 0;
+	if (MAX_EVENTS == queue_task_a.tail)
+		queue_task_a.tail = 0;
 
 	return event;
 }
 
-bool any_event_task_menu(void)
+bool any_event_task_sht85(void)
 {
-  return (queue_task_menu.head != queue_task_menu.tail);
+  return (queue_task_a.head != queue_task_a.tail);
 }
 
+/* Funcion para extraer datos del sensor */
+
+void get_values_task_sht85(float *temp, float *hum)
+{
+    *temp = task_sht85_dta.temperature;
+    *hum  = task_sht85_dta.humidity;
+}
 /********************** end of file ******************************************/
