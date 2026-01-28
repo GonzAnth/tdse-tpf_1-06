@@ -69,18 +69,16 @@
 
 /********************** internal data declaration ****************************/
 task_menu_cfg_t task_menu_cfg = {
-	DEL_MEN_XX_MIN, false, false, DEL_MEN_IDLE_MAX,
+	DEL_MEN_XX_MIN, false, DEL_MEN_IDLE_MAX,
 	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ, EV_SYS_MOD_TIME, EV_SYS_MOD_SENSOR
 };
 
 task_menu_dta_t task_menu_dta = {
 	DEL_MEN_XX_MAX, ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
-	true, THRESHOLD_MEN_TEMP_DEF, THRESHOLD_MEN_TEMP_DEF
+	THRESHOLD_MEN_TEMP_DEF, THRESHOLD_MEN_TEMP_DEF,
+	true, 0, false
 };
 
-/*task_aspersor_dta_t task_aspersor_dta = {
-	false,TIME_MEN_RIEGO_MIN, TEMP_MEN_RIEGO_MIN, HUME_MEN_RIEGO_MIN, false, false
-};*/
 
 #define MENU_DTA_QTY	(sizeof(task_menu_dta)/sizeof(task_menu_dta_t))
 
@@ -133,8 +131,8 @@ void task_menu_init(void *parameters)
 
 	displayInit( DISPLAY_CONNECTION_GPIO_4BITS );
 
-	displayCharPositionWrite(1, 3);
-	displayStringWrite("ENTER / NEXT / ESC");
+	//displayCharPositionWrite(1, 3);
+	//displayStringWrite("ENTER / NEXT / ESC");
 
 	g_task_menu_tick_cnt = G_TASK_MEN_TICK_CNT_INI;
 }
@@ -189,7 +187,8 @@ void task_menu_update(void *parameters)
 			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado */
 			if (p_task_menu_dta->state != p_task_menu_dta->last_state)
 			{
-			    p_task_menu_cfg->refresh_screen = true;
+			    p_task_menu_dta->refresh_screen = true;
+			    p_task_menu_dta->etapa_print = 0;
 			    p_task_menu_dta->last_state = p_task_menu_dta->state;
 			}
 
@@ -203,13 +202,35 @@ void task_menu_update(void *parameters)
 			switch (p_task_menu_dta->state)
 			{
 				case ST_MEN_MAIN:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
-						displayUpdateRow(0, 5, "MENU MAIN");
-						displayUpdateRow(1, 0, "ENTER PARA CONTINUAR");
-						displayClearRow(2);
+						p_task_menu_dta->refresh_screen = false;
+					    p_task_menu_dta->printing = true;
+					    p_task_menu_dta->etapa_print = 0;
 					}
+					if (true == p_task_menu_dta->printing)
+					{
+						switch (p_task_menu_dta->etapa_print)
+						{
+							case 0:
+								displayUpdateRow(0, 1, "Trabajo Final TDSE");
+								break;
+							case 1:
+								displayUpdateRow(1, 6, "Grupo: 6");
+								break;
+							case 2:
+								displayUpdateRow(2, 0, "NEXT: Estado sistema");
+								break;
+							case 3:
+								displayUpdateRow(3, 1, "ENTER: Select mode");
+								break;
+							default:
+							    p_task_menu_dta->printing= false;
+								break;
+						}
+						p_task_menu_dta->etapa_print++;
+					}
+
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
@@ -226,12 +247,33 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_SALUD_WAIT:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
-						displayUpdateRow(0, 5, "ESTADO");
-						displayUpdateRow(1, 0, "ESC PARA VOLVER");
-						displayClearRow(2);
+						p_task_menu_dta->refresh_screen = false;
+					    p_task_menu_dta->printing = true;
+					    p_task_menu_dta->etapa_print = 0;
+					}
+					if (true == p_task_menu_dta->printing)
+					{
+						switch (p_task_menu_dta->etapa_print)
+						{
+							case 0:
+								displayUpdateRow(0, 1, "ESTADO DEL EQUIPO");
+								break;
+							case 1:
+								displayClearRow(1);
+								break;
+							case 2:
+								displayUpdateRow(2, 0, "Cargando ...");
+								break;
+							case 3:
+								displayClearRow(3);
+								break;
+							default:
+								p_task_menu_dta->printing= false;
+								break;
+						}
+						p_task_menu_dta->etapa_print++;
 					}
 
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
@@ -248,9 +290,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_SALUD_SHOW:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(0, 5, "El estado del sitema es ");
 						displayUpdateRow(1, 0, "ESC PARA VOLVER");
 						displayClearRow(2);
@@ -266,9 +308,9 @@ void task_menu_update(void *parameters)
 
 
 				case ST_MEN_MODE_MANUAL:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(0, 0, "SELECCIONAR MODO:");
 						displayUpdateRow(1, 0, "MODO MANUAL");
 					}
@@ -293,9 +335,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_MODE_CONFIG:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(0, 0, "SELECCIONAR MODO:");
 						displayUpdateRow(1, 0, "MODO CONFIG");
 					}
@@ -310,7 +352,6 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->mode_time = false;
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MODE_SENSOR;
 					}
@@ -323,9 +364,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_MODE_SENSOR:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(1, 0, "MODO SENSOR");
 					}
 
@@ -337,7 +378,6 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->mode_time = true;
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MODE_TIME;
 					}
@@ -350,9 +390,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_MODE_TIME:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(1, 0, "MODO TIEMPO");
 					}
 
@@ -376,9 +416,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_RIEGO_OFF:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(1, 0, "DESACTIVAR");
 					}
 
@@ -402,9 +442,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_RIEGO_ON:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(0, 0, "RIEGO");
 						displayUpdateRow(1, 0, "ACTIVAR");
 					}
@@ -430,9 +470,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_CONFIG_TIME:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(0, 0, "VARIABLE A CONFIGURAR");
 						displayUpdateRow(1, 0, "TIEMPO");
 					}
@@ -458,9 +498,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_CONFIG_TEMP:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(1, 0, "TEMPERATURA");
 					}
 
@@ -485,9 +525,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_CONFIG_HUME:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						displayUpdateRow(1, 0, "HUMEDAD");
 					}
 
@@ -512,9 +552,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_CHANGE_TIME:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						snprintf(str_buffer, sizeof(str_buffer), "TIEMPO: %-8lu", (p_task_menu_dta->tick_idle));
 						displayUpdateRow(1, 0, str_buffer);
 					}
@@ -529,7 +569,7 @@ void task_menu_update(void *parameters)
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->tick_idle = 50 + (p_task_menu_dta->tick_idle + 1) % 10;
-						p_task_menu_cfg->refresh_screen = true;
+						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
@@ -541,9 +581,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_CHANGE_TEMP:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						snprintf(str_buffer, sizeof(str_buffer), "TEMPE: %-8lu", (p_task_menu_dta->threshold_temperature));
 						displayUpdateRow(1, 0, str_buffer);
 					}
@@ -558,7 +598,7 @@ void task_menu_update(void *parameters)
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->threshold_temperature= 10 + ((p_task_menu_dta->threshold_temperature + 1) % 10);
-						p_task_menu_cfg->refresh_screen = true;
+						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
@@ -570,9 +610,9 @@ void task_menu_update(void *parameters)
 					break;
 
 				case ST_MEN_CHANGE_HUME:
-					if (true == p_task_menu_cfg->refresh_screen)
+					if (true == p_task_menu_dta->refresh_screen)
 					{
-						p_task_menu_cfg->refresh_screen = false;
+						p_task_menu_dta->refresh_screen = false;
 						snprintf(str_buffer, sizeof(str_buffer), "HUMEDAD: %-8lu", (p_task_menu_dta->threshold_humidity));
 						displayUpdateRow(1, 0, str_buffer);
 					}
@@ -588,7 +628,7 @@ void task_menu_update(void *parameters)
 					{
 						p_task_menu_dta->threshold_humidity = 30 + ((p_task_menu_dta->threshold_humidity + 1) % 10);
 						p_task_menu_cfg->flag = false;
-						p_task_menu_cfg->refresh_screen = true;
+						p_task_menu_dta->refresh_screen = true;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{

@@ -92,7 +92,6 @@ typedef struct
 {
 	uint32_t			tick;
 	bool				flag;
-	bool 				refresh_screen;
 	uint32_t			tick_idle_max;
 	task_menu_ev_t  	ev_sys_config_on; //eventos que genera el menua para el systema
 	task_menu_ev_t  	ev_sys_config_off;
@@ -109,9 +108,14 @@ typedef struct
 	task_menu_st_t	state;
 	task_menu_st_t  last_state;
 	task_menu_ev_t	event;
-	bool			mode_time;
+
 	uint32_t		threshold_temperature;
 	uint32_t		threshold_humidity;
+
+	//Impresion display
+	bool 			refresh_screen;
+	uint16_t 		etapa_print;
+	bool			printing;
 } task_menu_dta_t;
 
 /********************** external data declaration ****************************/
