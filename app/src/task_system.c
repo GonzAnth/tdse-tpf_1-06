@@ -25,6 +25,8 @@
 #include "task_menu_interface.h"
 #include "task_adc_attribute.h"
 #include "task_adc_interface.h"
+#include "task_actuator_attribute.h"
+#include "task_actuator_interface.h"
 
 
 /********************** macros and definitions *******************************/
@@ -45,7 +47,7 @@
 #define DEL_SYS_FALLA_MIN			0ul
 
 #define THRESHOLD_SYS_TEMP_DEF		24ul
-#define THRESHOLD_SYS_HUM_DEF		30ul
+#define THRESHOLD_SYS_HUM_DEF		80ul
 
 #define THRESHOLD_SYS_ADC_TEMP_DEF		80ul
 #define THRESHOLD_SYS_ADC_BAT_DEF		1ul
@@ -55,10 +57,10 @@ task_system_cfg_t task_system_cfg = {
 	DEL_SYS_XX_MIN, false,
 	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX,
 	THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF, THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
-	0, 0,
 	EV_SEN_MEASURE_ON, EV_SEN_MEASURE_READ, EV_SEN_FALLA_OK,
 	EV_ADC_START,
-	EV_MEN_ADC_REQ_OK
+	EV_MEN_ADC_REQ_OK,
+	EV_ACT_ON, EV_ACT_OFF
 };
 
 task_system_dta_t task_system_dta = {
@@ -200,7 +202,7 @@ void task_system_update(void *parameters)
 					{
 						if (SYS_MOD_TIME == p_task_system_dta->system_mode)
 						{
-							//put_even_task_actuator(EV_ACT_RELAY_ON)
+							put_event_task_actuator(p_task_system_cfg->ev_act_on, ID_ACT_RELAY);
 							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
@@ -217,6 +219,7 @@ void task_system_update(void *parameters)
 					}
 					else if ((true == p_task_system_cfg->flag) && (EV_SYS_RIEGO_ACT_ON == p_task_system_dta->event))
 					{
+						put_event_task_actuator(p_task_system_cfg->ev_act_on, ID_ACT_RELAY);
 						p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_RIEGO;
@@ -262,7 +265,7 @@ void task_system_update(void *parameters)
 					p_task_system_dta->tick_riego--;
 					if ((DEL_SYS_RIEGO_MIN == p_task_system_dta->tick_riego) || ((true == p_task_system_cfg->flag) && (EV_SYS_RIEGO_NACT_ON == p_task_system_dta->event)))
 					{
-						//put_even_task_actuator(EV_ACT_RELAY_OFF)
+						put_event_task_actuator(p_task_system_cfg->ev_act_off, ID_ACT_RELAY);
 						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
@@ -280,7 +283,7 @@ void task_system_update(void *parameters)
 						{
 							p_task_system_dta->state = ST_SYS_FALLA;
 						}
-						put_event_task_menu( p_task_system_cfg->ev_men_adc_req_ok);
+						put_event_task_menu(p_task_system_cfg->ev_men_adc_req_ok);
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}
@@ -302,7 +305,7 @@ void task_system_update(void *parameters)
 
 						if ((p_task_system_dta->temperature > p_task_system_cfg->threshold_temperature) && (p_task_system_dta->humidity < p_task_system_cfg->threshold_humidity))
 						{
-							//put_even_task_actuator(EV_ACT_RELAY_ON)
+							put_event_task_actuator(p_task_system_cfg->ev_act_on, ID_ACT_RELAY);
 							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
