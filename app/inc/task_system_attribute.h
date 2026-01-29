@@ -68,13 +68,13 @@ typedef struct
 	uint32_t			threshold_humidity;
 	uint32_t			threshold_adc_temperature;
 	uint32_t			threshold_adc_batery;
-	task_system_ev_t 	ev_act_realy_on; //eventos que genera el systema
-	task_system_ev_t 	ev_act_realy_off;
-	task_system_ev_t 	ev_sen_measure_on;
+	task_system_ev_t 	ev_sen_measure_on;  //eventos que genera el systema para otras ME
 	task_system_ev_t	ev_sen_measure_read;
 	task_system_ev_t	ev_sen_falla_ok;
 	task_system_ev_t	ev_adc_start;
 	task_system_ev_t	ev_men_adc_req_ok;
+	task_system_ev_t	ev_act_on;
+	task_system_ev_t	ev_act_off;
 } task_system_cfg_t;
 
 
