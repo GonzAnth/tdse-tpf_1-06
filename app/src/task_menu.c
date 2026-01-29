@@ -67,22 +67,29 @@
 #define THRESHOLD_MEN_TEMP_DEF		24ul
 #define THRESHOLD_MEN_HUM_DEF		30ul
 
+#define DEL_MEN_RIEGO_MAX			50ul
+#define DEL_MEN_RIEGO_MIN			0ul
+
 /********************** internal data declaration ****************************/
 task_menu_cfg_t task_menu_cfg = {
-	DEL_MEN_XX_MIN, false, DEL_MEN_IDLE_MAX,
+	DEL_MEN_XX_MIN, false,
+	DEL_MEN_IDLE_MAX, DEL_MEN_RIEGO_MAX,
 	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ, EV_SYS_MOD_TIME, EV_SYS_MOD_SENSOR
 };
 
 task_menu_dta_t task_menu_dta = {
-	DEL_MEN_XX_MAX, ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
+	DEL_MEN_XX_MAX, DEL_MEN_RIEGO_MAX,
+	ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
 	THRESHOLD_MEN_TEMP_DEF, THRESHOLD_MEN_TEMP_DEF,
-	true, 0, false
+	true, false, 0, false, 0
 };
 
 
 #define MENU_DTA_QTY	(sizeof(task_menu_dta)/sizeof(task_menu_dta_t))
 
 /********************** internal functions declaration ***********************/
+
+static void menu_display_print(task_menu_dta_t *dta);
 
 /********************** internal data definition *****************************/
 const char *p_task_menu 		= "Task Menu (Interactive Menu)";
@@ -184,11 +191,13 @@ void task_menu_update(void *parameters)
 		{
 			p_task_menu_cfg->tick = DEL_MEN_XX_MAX;
 
-			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado */
+			menu_display_print(p_task_menu_dta);
+
+			/* Aquí colocamos código a ejecutar cuando cambiamos de estado */
 			if (p_task_menu_dta->state != p_task_menu_dta->last_state)
 			{
 			    p_task_menu_dta->refresh_screen = true;
-			    p_task_menu_dta->etapa_print = 0;
+			    p_task_menu_dta->cursor_pos = 0;
 			    p_task_menu_dta->last_state = p_task_menu_dta->state;
 			}
 
@@ -202,40 +211,10 @@ void task_menu_update(void *parameters)
 			switch (p_task_menu_dta->state)
 			{
 				case ST_MEN_MAIN:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-					    p_task_menu_dta->printing = true;
-					    p_task_menu_dta->etapa_print = 0;
-					}
-					if (true == p_task_menu_dta->printing)
-					{
-						switch (p_task_menu_dta->etapa_print)
-						{
-							case 0:
-								displayUpdateRow(0, 1, "Trabajo Final TDSE");
-								break;
-							case 1:
-								displayUpdateRow(1, 6, "Grupo: 6");
-								break;
-							case 2:
-								displayUpdateRow(2, 0, "NEXT: Estado sistema");
-								break;
-							case 3:
-								displayUpdateRow(3, 1, "ENTER: Select mode");
-								break;
-							default:
-							    p_task_menu_dta->printing= false;
-								break;
-						}
-						p_task_menu_dta->etapa_print++;
-					}
-
-
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
+						p_task_menu_dta->state = ST_MEN_SELECT_MODE;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
@@ -246,36 +225,8 @@ void task_menu_update(void *parameters)
 
 					break;
 
-				case ST_MEN_SALUD_WAIT:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-					    p_task_menu_dta->printing = true;
-					    p_task_menu_dta->etapa_print = 0;
-					}
-					if (true == p_task_menu_dta->printing)
-					{
-						switch (p_task_menu_dta->etapa_print)
-						{
-							case 0:
-								displayUpdateRow(0, 1, "ESTADO DEL EQUIPO");
-								break;
-							case 1:
-								displayClearRow(1);
-								break;
-							case 2:
-								displayUpdateRow(2, 0, "Cargando ...");
-								break;
-							case 3:
-								displayClearRow(3);
-								break;
-							default:
-								p_task_menu_dta->printing= false;
-								break;
-						}
-						p_task_menu_dta->etapa_print++;
-					}
 
+				case ST_MEN_SALUD_WAIT:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_cfg->flag = false;
@@ -289,15 +240,8 @@ void task_menu_update(void *parameters)
 
 					break;
 
-				case ST_MEN_SALUD_SHOW:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 5, "El estado del sitema es ");
-						displayUpdateRow(1, 0, "ESC PARA VOLVER");
-						displayClearRow(2);
-					}
 
+				case ST_MEN_SALUD_SHOW:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_cfg->flag = false;
@@ -306,25 +250,21 @@ void task_menu_update(void *parameters)
 
 					break;
 
-
-				case ST_MEN_MODE_MANUAL:
-					if (true == p_task_menu_dta->refresh_screen)
+				case ST_MEN_SELECT_MODE:
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "SELECCIONAR MODO:");
-						displayUpdateRow(1, 0, "MODO MANUAL");
+						p_task_menu_dta->cursor_pos = (p_task_menu_dta->cursor_pos + 1) % 4;
+						p_task_menu_dta->refresh_cursor = true;
 					}
-
-					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_RIEGO_OFF;
-
-					}
-					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_MODE_CONFIG;
+						switch (p_task_menu_dta->cursor_pos) {
+							case 0: p_task_menu_dta->state = ST_MEN_MODE_MANUAL; break;
+							case 1: p_task_menu_dta->state = ST_MEN_MODE_CONFIG; break;
+							case 2: p_task_menu_dta->state = ST_MEN_MODE_SENSOR; break;
+							case 3: p_task_menu_dta->state = ST_MEN_MODE_TIME;   break;
+						}
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
@@ -332,7 +272,40 @@ void task_menu_update(void *parameters)
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
 
+		            break;
+
+
+				case ST_MEN_MODE_MANUAL:
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->cursor_pos = (p_task_menu_dta->cursor_pos + 1) % 2;
+						p_task_menu_dta->refresh_cursor = true;
+					}
+
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->tick_riego = p_task_menu_cfg->tick_riego_max;
+						switch (p_task_menu_dta->cursor_pos) {
+							case 0:
+								put_event_task_system(p_task_menu_cfg->ev_sys_riego_off);
+								p_task_menu_dta->state = ST_MEN_RIEGO_OFF;
+								break;
+							case 1:
+								put_event_task_system(p_task_menu_cfg->ev_sys_riego_on);
+								p_task_menu_dta->state = ST_MEN_RIEGO_ON;
+								break;
+						}
+
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_SELECT_MODE;
+					}
+
 					break;
+
 
 				case ST_MEN_MODE_CONFIG:
 					if (true == p_task_menu_dta->refresh_screen)
@@ -415,59 +388,18 @@ void task_menu_update(void *parameters)
 
 					break;
 
+
 				case ST_MEN_RIEGO_OFF:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(1, 0, "DESACTIVAR");
-					}
-
-					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						put_event_task_system(p_task_menu_cfg->ev_sys_riego_off);
-						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-					}
-					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_RIEGO_ON;
-					}
-					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
-					}
-
-					break;
-
 				case ST_MEN_RIEGO_ON:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(0, 0, "RIEGO");
-						displayUpdateRow(1, 0, "ACTIVAR");
-					}
-
-					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						put_event_task_system(p_task_menu_cfg->ev_sys_riego_on);
-						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-
-					}
-					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_RIEGO_OFF;
-					}
-					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					p_task_menu_dta->tick_riego--;
+					if (((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event)) || (DEL_MEN_RIEGO_MIN == p_task_menu_dta->tick_riego))
 					{
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
 					}
 
 					break;
+
 
 				case ST_MEN_CONFIG_TIME:
 					if (true == p_task_menu_dta->refresh_screen)
@@ -648,6 +580,169 @@ void task_menu_update(void *parameters)
 					break;
 			}
 		}
+	}
+}
+
+
+static void menu_display_print(task_menu_dta_t *dta){
+
+	if (true == dta->refresh_screen)
+	{
+		dta->refresh_screen = false;
+		dta->printing = true;
+		dta->etapa_print = 0;
+		dta->refresh_cursor = true;
+	}
+
+	switch (dta->state){
+		case ST_MEN_MAIN:
+			if (true == dta->printing)
+			{
+				switch (dta->etapa_print)
+				{
+					case 0: displayUpdateRow(0, 1, "Trabajo Final TDSE"); break;
+					case 1: displayUpdateRow(1, 6, "Grupo: 6");	break;
+					case 2: displayUpdateRow(2, 0, "NEXT: Estado sistema"); break;
+					case 3: displayUpdateRow(3, 0, "ENT: Select mode"); break;
+					default:
+						dta->printing = false;
+						break;
+				}
+				dta->etapa_print++;
+			}
+			break;
+
+
+		case ST_MEN_SALUD_WAIT:
+			if (true == dta->printing)
+			{
+				switch (dta->etapa_print)
+				{
+					case 0: displayUpdateRow(0, 1, "ESTADO DEL EQUIPO"); break;
+					case 1: displayClearRow(1);	break;
+					case 2: displayUpdateRow(2, 0, "Cargando ..."); break;
+					case 3: displayClearRow(3); break;
+					default:
+						dta->printing = false;
+						break;
+				}
+				dta->etapa_print++;
+			}
+			break;
+
+
+		case ST_MEN_SALUD_SHOW:
+			if (true == dta->printing)
+			{
+				switch (dta->etapa_print)
+				{
+					case 0: displayUpdateRow(1, 0, "Batería: XX V");;	break;
+					case 1: displayUpdateRow(2, 0, "Temp. interna: XX °C"); break;
+					//case 3: displayUpdateRow(3, 0, "ESC para volver"); break;
+					default:
+						dta->printing = false;
+						break;
+				}
+				dta->etapa_print++;
+			}
+			break;
+
+
+		case ST_MEN_SELECT_MODE:
+			if (true == dta->printing)
+			{
+				switch (dta->etapa_print)
+				{
+					case 0: displayUpdateRow(0, 1, "MODO MANUAL"); break;
+					case 1: displayUpdateRow(1, 1, "MODO CONFIG"); break;
+					case 2: displayUpdateRow(2, 1, "MODO SENSOR & TIMER");	break;
+					case 3: displayUpdateRow(3, 1, "MODO TIMER"); break;
+					default:
+						dta->printing = false;
+						break;
+				}
+				dta->etapa_print++;
+			}
+			if ((false == dta->printing) && (true == dta->refresh_cursor))
+			{
+				dta->refresh_cursor = false;
+				for (int i=0; i<4; i++) {
+					displayCharPositionWrite(0, i);
+					displayStringWrite(" ");
+				}
+				/*
+				 otra forma: borra solo la posición anterior
+				 	 displayCharPositionWrite(0, dta->cursor_pos-1);
+					displayStringWrite(" ");
+				 */
+				displayCharPositionWrite(0, dta->cursor_pos);
+				displayStringWrite(">");
+			}
+			break;
+
+
+		case ST_MEN_MODE_MANUAL:
+			if (true == dta->printing)
+			{
+				switch (dta->etapa_print)
+				{
+					case 0: displayUpdateRow(0, 4, "MODO MANUAL"); break;
+					case 1: displayClearRow(1); break;
+					case 2: displayUpdateRow(2, 1, "DESACTIVAR RIEGO"); break;
+					case 3: displayUpdateRow(3, 1, "ACTIVAR RIEGO");	break;
+					default:
+						dta->printing = false;
+						break;
+				}
+				dta->etapa_print++;
+			}
+			if ((false == dta->printing) && (true == dta->refresh_cursor))
+			{
+				dta->refresh_cursor = false;
+				displayCharPositionWrite(0, 2); displayStringWrite(" ");
+				displayCharPositionWrite(0, 3); displayStringWrite(" ");
+				displayCharPositionWrite(0, dta->cursor_pos + 2);
+				displayStringWrite(">");
+			}
+			break;
+
+
+		case ST_MEN_RIEGO_OFF:
+			if (true == dta->printing)
+			{
+				switch (dta->etapa_print)
+				{
+					case 0: displayUpdateRow(2, 4, "Bomba apagada"); break;
+					case 1: displayClearRow(3); break;
+					default:
+						dta->printing = false;
+						break;
+				}
+				dta->etapa_print++;
+			}
+			break;
+
+
+		case ST_MEN_RIEGO_ON:
+			if (true == dta->printing)
+			{
+				switch (dta->etapa_print)
+				{
+					case 0: displayUpdateRow(2, 3, "Bomba encendida"); break;
+					case 1: displayClearRow(3); break;
+					default:
+						dta->printing = false;
+						break;
+				}
+				dta->etapa_print++;
+			}
+			break;
+
+
+		default:
+			dta->printing = false;
+			break;
+
 	}
 }
 

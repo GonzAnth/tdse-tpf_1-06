@@ -73,6 +73,7 @@ typedef enum task_menu_ev {EV_MEN_ENT_IDLE,
 
 /* State of Task Menu */
 typedef enum task_menu_st {ST_MEN_MAIN,
+						   ST_MEN_SELECT_MODE,
 						   ST_MEN_MODE_MANUAL,
 						   ST_MEN_MODE_CONFIG,
 						   ST_MEN_MODE_SENSOR,
@@ -93,6 +94,8 @@ typedef struct
 	uint32_t			tick;
 	bool				flag;
 	uint32_t			tick_idle_max;
+	uint32_t			tick_riego_max;
+
 	task_menu_ev_t  	ev_sys_config_on; //eventos que genera el menua para el systema
 	task_menu_ev_t  	ev_sys_config_off;
 	task_menu_ev_t  	ev_sys_riego_on;
@@ -105,6 +108,8 @@ typedef struct
 typedef struct
 {
 	uint32_t		tick_idle;
+	uint32_t		tick_riego;
+
 	task_menu_st_t	state;
 	task_menu_st_t  last_state;
 	task_menu_ev_t	event;
@@ -113,9 +118,11 @@ typedef struct
 	uint32_t		threshold_humidity;
 
 	//Impresion display
-	bool 			refresh_screen;
-	uint16_t 		etapa_print;
-	bool			printing;
+	bool 			refresh_screen; //Se debe actualizar la pantalla
+	bool			printing;		//Impresion por etapas
+	uint16_t 		etapa_print;	//Etapa de impresion
+	bool 			refresh_cursor;  //Se debe actualizar el cursor
+	uint16_t		cursor_pos;		//posición del cursor
 } task_menu_dta_t;
 
 /********************** external data declaration ****************************/
