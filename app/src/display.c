@@ -78,7 +78,7 @@
 #define DISPLAY_PIN_D7 14
 
 #define DISPLAY_DEL_37US	37ul
-#define DISPLAY_DEL_20US	20ul
+#define DISPLAY_DEL_25US	25ul
 #define DISPLAY_DEL_01US	01ul
 
 //=====[Declaration of private data types]=====================================
@@ -231,6 +231,58 @@ void displayStringWrite( const char * str )
     }
 }
 
+void displayWritePart(uint8_t row, uint8_t col, const char *str, uint8_t max_len)
+{
+    displayCharPositionWrite(col, row);
+
+    uint8_t count = 0;
+    while (*str && count < max_len) {
+        displayCodeWrite(DISPLAY_RS_DATA, *str++);
+        count++;
+    }
+}
+
+void displayClearPart(uint8_t row, uint8_t col, uint8_t len)
+{
+    displayCharPositionWrite(col, row);
+
+    for (uint8_t i = 0; i < len; i++) {
+        displayCodeWrite(DISPLAY_RS_DATA, ' ');
+    }
+}
+
+
+
+void displayRowSplit(uint8_t row, uint8_t col_offset, const char *str, uint8_t part)
+{
+    char line_buffer[21]; //+\0
+    memset(line_buffer, ' ', 20);
+    line_buffer[20] = '\0';
+
+    if (col_offset < 20)
+    {
+        size_t len = strlen(str);
+        size_t available = 20 - col_offset;
+        size_t to_copy = (len > available) ? available : len;
+        memcpy(&line_buffer[col_offset], str, to_copy);
+    }
+
+    if (part == PART_LEFT)
+    {
+        displayCharPositionWrite(0, row);
+        for (int i = 0; i < ANCHO_LCD/2; i++) {
+            displayCodeWrite(DISPLAY_RS_DATA, line_buffer[i]);
+        }
+    }
+    else
+    {
+        displayCharPositionWrite(10, row);
+        for (int i = ANCHO_LCD/2; i < ANCHO_LCD; i++) {
+            displayCodeWrite(DISPLAY_RS_DATA, line_buffer[i]);
+        }
+    }
+}
+
 void displayUpdateRow(uint8_t row, uint8_t col, const char *str)
 {
     char buffer_linea[ANCHO_LCD + 1];
@@ -344,7 +396,7 @@ static void displayDataBusWrite( uint8_t dataBus )
 
     displayPinWrite( DISPLAY_PIN_EN, OFF );
     //HAL_Delay(1);
-    display_delay_us(DISPLAY_DEL_20US);
+    display_delay_us(DISPLAY_DEL_25US);
 }
 
 
