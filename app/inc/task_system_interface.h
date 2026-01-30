@@ -59,8 +59,12 @@ extern void put_event_task_system(task_system_ev_t event);
 extern task_system_ev_t get_event_task_system(void);
 extern bool any_event_task_system(void);
 
-extern void put_mode_task_system(bool *mode);
-extern void update_dta_task_system(uint32_t *tick_idle, uint32_t *temperature, uint32_t *humidity);
+void set_system_config(uint32_t tick_idle, uint32_t temperature, uint32_t humidity);
+
+void get_system_config(task_system_mode_t mode, uint32_t *tick_idle, uint32_t *th_temp, uint32_t *th_hum);
+
+void get_system_salud_dta(float *bat_volts, float *temp_int_c);
+
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus
