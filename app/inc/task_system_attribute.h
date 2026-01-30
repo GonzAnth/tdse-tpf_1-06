@@ -77,7 +77,9 @@ typedef struct
 	task_system_ev_t	ev_sen_measure_read;
 	task_system_ev_t	ev_sen_falla_ok;
 	task_system_ev_t	ev_adc_start;
+	task_system_ev_t	ev_adc_falla_ok;
 	task_system_ev_t	ev_men_adc_req_ok;
+	task_system_ev_t	ev_men_system_falla;
 	task_system_ev_t	ev_act_on;
 	task_system_ev_t	ev_act_off;
 } task_system_cfg_t;
@@ -89,6 +91,7 @@ typedef struct
 	uint32_t			tick_riego;
 	uint32_t			tick_falla;
 	task_system_st_t	state;
+	task_system_st_t	last_state;
 	task_system_ev_t	event;
 
 	float				temperature;

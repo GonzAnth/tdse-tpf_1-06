@@ -55,15 +55,18 @@
 #include "display.h"
 
 /********************** macros and definitions *******************************/
-#define G_TASK_MEN_CNT_INI			0ul
-#define G_TASK_MEN_TICK_CNT_INI		0ul
+#define G_TASK_MEN_CNT_INI					0ul
+#define G_TASK_MEN_TICK_CNT_INI				0ul
 
-#define DEL_MEN_XX_MIN				0ul
-#define DEL_MEN_XX_MED				5ul
-#define DEL_MEN_XX_MAX				10ul
+#define DEL_MEN_XX_MIN						0ul
+#define DEL_MEN_XX_MED						5ul
+#define DEL_MEN_XX_MAX						10ul
 
-#define DEL_MEN_USER_FEEDBACK_MAX	200ul
-#define DEL_MEN_USER_FEEDBACK_MIN	0ul
+#define DEL_MEN_USER_FEEDBACK_MAX			200ul
+#define DEL_MEN_USER_FEEDBACK_MIN			0ul
+
+#define DEL_MEN_USER_FEEDBACK_FALLA_MAX		DEL_MEN_USER_FEEDBACK_MAX * 8
+#define DEL_MEN_USER_FEEDBACK_FALLA_MIN		0ul
 
 /********************** internal data declaration ****************************/
 task_menu_cfg_t task_menu_cfg = {
@@ -224,6 +227,14 @@ void task_menu_update(void *parameters)
 			{
 				p_task_menu_cfg->flag = true;
 				p_task_menu_dta->event = get_event_task_menu();
+
+				/* EVENTO DE MÁXIMA PRIORIDAD */
+				if (EV_MEN_SYS_FALLA == p_task_menu_dta->event)
+				{
+					p_task_menu_dta->tick_st_feedback_user = DEL_MEN_USER_FEEDBACK_FALLA_MAX;
+					p_task_menu_dta->state = ST_MEN_FALLA_SHOW;
+					p_task_menu_cfg->flag = false;
+				}
 			}
 
 			switch (p_task_menu_dta->state)
@@ -474,6 +485,19 @@ void task_menu_update(void *parameters)
 					break;
 
 
+				case ST_MEN_FALLA_SHOW:
+					p_task_menu_dta->tick_st_feedback_user--;
+					if ((p_task_menu_dta->tick_st_feedback_user == DEL_MEN_USER_FEEDBACK_FALLA_MIN) ||
+					   ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event)) ||
+					   ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event)))
+					{
+						p_task_menu_dta->state = ST_MEN_MAIN;
+						p_task_menu_cfg->flag = false;
+					}
+					break;
+
+
+
 				default:
 					p_task_menu_cfg->tick  = DEL_MEN_XX_MIN;
 					p_task_menu_dta->state = ST_MEN_MAIN;
@@ -506,7 +530,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 				const char *text_mode;
 				switch (dta->sys_mode) {
 				    case SYS_MOD_MANUAL: text_mode = "MODO ACTUAL: MANUAL";	 break;
-				    case SYS_MOD_SENSOR: text_mode = "MODO: TIMER & SENSOR"; break;
+				    case SYS_MOD_SENSOR: text_mode = "MODO: SENSOR & TIMER"; break;
 				    case SYS_MOD_TIME: 	 text_mode = "MODO ACTUAL: TIMER"; 	 break;
 				    default:			 text_mode = "ERROR"; 		 		 break;
 				}
@@ -814,6 +838,23 @@ static void menu_display_print(task_menu_dta_t *dta){
 			}
 			break;
 
+
+		case ST_MEN_FALLA_SHOW:
+			if (true == dta->printing) {
+				switch (dta->etapa_print) {
+					case 0: displayRowSplit(0, 4, "FATAL ERROR!", PART_LEFT); break;
+					case 1: displayRowSplit(0, 4, "FATAL ERROR!", PART_RIGHT); break;
+					case 2: displayRowSplit(1, 2, "REINTENTANDO ...", PART_LEFT); break;
+					case 3: displayRowSplit(1, 2, "REINTENTANDO ...", PART_RIGHT); break;
+					case 4: displayClearPart(2, 0, 10); break;
+					case 5: displayClearPart(2, 10, 10); break;
+					case 6: displayRowSplit(3, 2, "ESC/ENT: ACEPTAR", PART_LEFT); break;
+					case 7: displayRowSplit(3, 2, "ESC/ENT: ACEPTAR", PART_RIGHT); break;
+					default: dta->printing = false; break;
+				}
+				dta->etapa_print++;
+			}
+			break;
 
 		default:
 			dta->printing = false;

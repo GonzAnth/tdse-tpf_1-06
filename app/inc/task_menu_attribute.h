@@ -70,7 +70,8 @@ typedef enum task_menu_ev {EV_MEN_ENT_IDLE,
 						   EV_MEN_NEX_ACTIVE,
 						   EV_MEN_ESC_IDLE,
 						   EV_MEN_ESC_ACTIVE,
-						   EV_MEN_ADC_REQ_OK} task_menu_ev_t;
+						   EV_MEN_ADC_REQ_OK,
+						   EV_MEN_SYS_FALLA} task_menu_ev_t;
 
 /* State of Task Menu */
 typedef enum task_menu_st {ST_MEN_MAIN,
@@ -88,7 +89,8 @@ typedef enum task_menu_st {ST_MEN_MAIN,
 						   ST_MEN_CHANGE_TEMP,
 						   ST_MEN_CHANGE_HUME,
 						   ST_MEN_SALUD_WAIT,
-						   ST_MEN_SALUD_SHOW} task_menu_st_t;
+						   ST_MEN_SALUD_SHOW,
+						   ST_MEN_FALLA_SHOW} task_menu_st_t;
 
 typedef struct
 {
