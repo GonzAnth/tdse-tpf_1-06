@@ -263,15 +263,15 @@ void task_menu_update(void *parameters)
 						p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						switch (p_task_menu_dta->cursor_pos) {
 							case 0: p_task_menu_dta->state = ST_MEN_MODE_MANUAL; break;
-							case 1: p_task_menu_dta->state = ST_MEN_MODE_CONFIG; break;
-							case 2:
+							case 1:
 								put_event_task_system(p_task_menu_cfg->ev_sys_mod_sensor);
 								p_task_menu_dta->state = ST_MEN_MODE_SENSOR;
 								break;
-							case 3:
+							case 2:
 								put_event_task_system(p_task_menu_cfg->ev_sys_mod_time);
 								p_task_menu_dta->state = ST_MEN_MODE_TIME;
 								break;
+							case 3: p_task_menu_dta->state = ST_MEN_MODE_CONFIG; break;
 						}
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
@@ -336,7 +336,7 @@ void task_menu_update(void *parameters)
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
+						p_task_menu_dta->state = ST_MEN_SELECT_MODE;
 					}
 
 					break;
@@ -485,8 +485,8 @@ static void menu_display_print(task_menu_dta_t *dta){
 					case 1: displayRowSplit(0, 1, "Trabajo Final TDSE", PART_RIGHT); break;
 					case 2: displayClearPart(1, 0, 10); break;
 					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 6, "Grupo: 6", PART_LEFT); break;
-					case 5: displayRowSplit(2, 6, "Grupo: 6", PART_RIGHT); break;
+					case 4: displayRowSplit(2, 1, "MODO ACTUAL:", PART_LEFT); break;
+					case 5: displayRowSplit(2, 1, "MODO ACTUAL:", PART_RIGHT); break;
 					case 6: displayClearPart(3, 0, 10); break;
 					case 7: displayClearPart(3, 10, 10); break;
 					default:
@@ -503,8 +503,8 @@ static void menu_display_print(task_menu_dta_t *dta){
 			{
 				switch (dta->etapa_print)
 				{
-					case 0: displayRowSplit(0, 1, "ESTADO DEL EQUIPO", PART_LEFT); break;
-					case 1: displayRowSplit(0, 1, "ESTADO DEL EQUIPO", PART_RIGHT); break;
+					case 0: displayRowSplit(0, 1, "ESTADO DEL EQUIPO:", PART_LEFT); break;
+					case 1: displayRowSplit(0, 1, "ESTADO DEL EQUIPO:", PART_RIGHT); break;
 					case 2: displayClearPart(1, 0, 10); break;
 					case 3: displayClearPart(1, 10, 10); break;
 					case 4: displayRowSplit(2, 0, "Midiendo ...", PART_LEFT); break;
@@ -545,12 +545,12 @@ static void menu_display_print(task_menu_dta_t *dta){
 				{
 					case 0: displayRowSplit(0, 1, "MODO MANUAL", PART_LEFT); break;
 					case 1: displayRowSplit(0, 1, "MODO MANUAL", PART_RIGHT); break;
-					case 2: displayRowSplit(1, 1, "MODO CONFIGURACION", PART_LEFT); break;
-					case 3: displayRowSplit(1, 1, "MODO CONFIGURACION", PART_RIGHT); break;
-					case 4: displayRowSplit(2, 1, "MODO SENSOR & TIMER", PART_LEFT); break;
-					case 5: displayRowSplit(2, 1, "MODO SENSOR & TIMER", PART_RIGHT); break;
-					case 6: displayRowSplit(3, 1, "MODO TIMER", PART_LEFT); break;
-					case 7: displayRowSplit(3, 1, "MODO TIMER", PART_RIGHT); break;
+					case 2: displayRowSplit(1, 1, "MODO SENSOR & TIMER", PART_LEFT); break;
+					case 3: displayRowSplit(1, 1, "MODO SENSOR & TIMER", PART_RIGHT); break;
+					case 4: displayRowSplit(2, 1, "MODO TIMER", PART_LEFT); break;
+					case 5: displayRowSplit(2, 1, "MODO TIMER", PART_RIGHT); break;
+					case 6: displayRowSplit(3, 1, "CONFIGURAR EQUIPO", PART_LEFT); break;
+					case 7: displayRowSplit(3, 1, "CONFIGURAR EQUIPO", PART_RIGHT); break;
 					default:
 						dta->printing = false;
 						break;
@@ -684,14 +684,14 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 		case ST_MEN_CHANGE_TEMP:
 			if (true == dta->printing) {
-				snprintf(str_buffer, sizeof(str_buffer), "NUEVA TEMP: %-3lu °C", dta->threshold_temperature);
+				snprintf(str_buffer, sizeof(str_buffer), "NUEVA TEMP %-3lu C", dta->threshold_temperature);
 				switch (dta->etapa_print) {
 					case 0: displayRowSplit(0, 1, "CONFIG UMBRAL TEMP", PART_LEFT); break;
 					case 1: displayRowSplit(0, 1, "CONFIG UMBRAL TEMP", PART_RIGHT); break;
 					case 2: displayClearPart(1, 0, 10); break;
 					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 1, str_buffer, PART_LEFT);  break;
-					case 5: displayRowSplit(2, 1, str_buffer, PART_RIGHT); break;
+					case 4: displayRowSplit(2, 2, str_buffer, PART_LEFT);  break;
+					case 5: displayRowSplit(2, 2, str_buffer, PART_RIGHT); break;
 					case 6: displayClearPart(3, 0, 10); break;
 					case 7: displayClearPart(3, 10, 10); break;
 					default: dta->printing = false; break;
