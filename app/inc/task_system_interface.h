@@ -61,7 +61,7 @@ extern bool any_event_task_system(void);
 
 void set_system_config(uint32_t tick_idle, uint32_t temperature, uint32_t humidity);
 
-void get_system_config(task_system_mode_t mode, uint32_t *tick_idle, uint32_t *th_temp, uint32_t *th_hum);
+void get_system_config(task_system_mode_t *mode, uint32_t *tick_idle, uint32_t *th_temp, uint32_t *th_hum);
 
 void get_system_salud_dta(float *bat_volts, float *temp_int_c);
 

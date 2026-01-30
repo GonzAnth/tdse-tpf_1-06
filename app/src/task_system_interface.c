@@ -120,17 +120,17 @@ void set_system_config(uint32_t tick_idle, uint32_t temperature, uint32_t humidi
 
 void get_system_config(task_system_mode_t *mode, uint32_t *tick_idle, uint32_t *th_temp, uint32_t *th_hum)
 {
-	if (mode != NULL)	*mode 		= task_system_cfg.system_mode;
-	if (mode != NULL)	*tick_idle	= task_system_cfg.tick_idle_max;
-	if (mode != NULL)	*th_temp   	= task_system_cfg.threshold_temperature;
-	if (mode != NULL) 	*th_hum    	= task_system_cfg.threshold_humidity;
+	if (mode != NULL)		*mode 		= task_system_cfg.system_mode;
+	if (tick_idle != NULL)	*tick_idle	= task_system_cfg.tick_idle_max;
+	if (th_temp != NULL)	*th_temp   	= task_system_cfg.threshold_temperature;
+	if (th_hum != NULL) 	*th_hum    	= task_system_cfg.threshold_humidity;
 }
 
 
 void get_system_salud_dta(float *bat_volts, float *temp_int_c)
 {
-	if (mode != NULL)	*bat_volts	= task_system_dta.adc_batery;
-	if (mode != NULL)	*temp_int_c	= task_system_dta.adc_temperature;
+	if (bat_volts != NULL)	*bat_volts	= task_system_dta.adc_batery;
+	if (temp_int_c != NULL)	*temp_int_c	= task_system_dta.adc_temperature;
 }
 
 
