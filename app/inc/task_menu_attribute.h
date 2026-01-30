@@ -101,6 +101,7 @@ typedef struct
 	task_menu_ev_t  	ev_sys_riego_on;
 	task_menu_ev_t  	ev_sys_riego_off;
 	task_menu_ev_t  	ev_sys_adc_req;
+	task_menu_ev_t  	ev_sys_mod_manual;
 	task_menu_ev_t  	ev_sys_mod_time;
 	task_menu_ev_t  	ev_sys_mod_sensor;
 } task_menu_cfg_t;

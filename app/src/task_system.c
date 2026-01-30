@@ -56,7 +56,7 @@
 task_system_cfg_t task_system_cfg = {
 	DEL_SYS_XX_MIN, false,
 	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX,
-	THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF, THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
+	SYS_MOD_TIME, THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF, THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
 	EV_SEN_MEASURE_ON, EV_SEN_MEASURE_READ, EV_SEN_FALLA_OK,
 	EV_ADC_START,
 	EV_MEN_ADC_REQ_OK,
@@ -65,7 +65,7 @@ task_system_cfg_t task_system_cfg = {
 
 task_system_dta_t task_system_dta = {
 	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN, DEL_SYS_FALLA_MIN,
-	ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON, SYS_MOD_TIME,
+	ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON,
 	0.0, 0.0, false, 0.0, 0.0
 };
 
@@ -181,14 +181,19 @@ void task_system_update(void *parameters)
 					p_task_system_dta->adc_req_pending = true;
 					p_task_system_cfg->flag = false;
 				}
+				else if(EV_SYS_MOD_MANUAL == p_task_system_dta->event)
+				{
+					p_task_system_cfg->system_mode = SYS_MOD_MANUAL;
+					p_task_system_cfg->flag = false;
+				}
 				else if(EV_SYS_MOD_TIME == p_task_system_dta->event)
 				{
-					p_task_system_dta->system_mode = SYS_MOD_TIME;
+					p_task_system_cfg->system_mode = SYS_MOD_TIME;
 					p_task_system_cfg->flag = false;
 				}
 				else if(EV_SYS_MOD_SENSOR == p_task_system_dta->event)
 				{
-					p_task_system_dta->system_mode = SYS_MOD_SENSOR;
+					p_task_system_cfg->system_mode = SYS_MOD_SENSOR;
 					p_task_system_cfg->flag = false;
 				}
 			}
@@ -200,16 +205,20 @@ void task_system_update(void *parameters)
 					p_task_system_dta->tick_idle--;
 					if (DEL_SYS_IDLE_MIN == p_task_system_dta->tick_idle)
 					{
-						if (SYS_MOD_TIME == p_task_system_dta->system_mode)
+						if (SYS_MOD_TIME == p_task_system_cfg->system_mode)
 						{
 							put_event_task_actuator(p_task_system_cfg->ev_act_on, ID_ACT_RELAY);
 							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
-						else if (SYS_MOD_SENSOR == p_task_system_dta->system_mode)
+						else if (SYS_MOD_SENSOR == p_task_system_cfg->system_mode)
 						{
 							put_event_task_sht85(p_task_system_cfg->ev_sen_measure_on);
 							p_task_system_dta->state = ST_SYS_MEASURE;
+						}
+						else if (SYS_MOD_MANUAL == p_task_system_cfg->system_mode)
+						{
+							p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
 						}
 					}
 					else if ((true == p_task_system_cfg->flag) && (EV_SYS_CONFIG_ON == p_task_system_dta->event))
