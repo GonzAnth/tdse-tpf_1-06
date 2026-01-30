@@ -59,7 +59,7 @@
 
 #define DEL_MEN_XX_MIN				0ul
 #define DEL_MEN_XX_MED				5ul
-#define DEL_MEN_XX_MAX				50ul
+#define DEL_MEN_XX_MAX				15ul
 
 #define DEL_MEN_IDLE_MIN			0ul
 #define DEL_MEN_IDLE_MAX			40ul
@@ -67,18 +67,21 @@
 #define THRESHOLD_MEN_TEMP_DEF		24ul
 #define THRESHOLD_MEN_HUM_DEF		30ul
 
-#define DEL_MEN_RIEGO_MAX			50ul
+#define DEL_MEN_RIEGO_MAX			200ul
 #define DEL_MEN_RIEGO_MIN			0ul
+
+#define DEL_MEN_ST_MODO_SENSOR_MAX	200ul
+#define DEL_MEN_ST_MODO_SENSOR_MIN	0ul
 
 /********************** internal data declaration ****************************/
 task_menu_cfg_t task_menu_cfg = {
 	DEL_MEN_XX_MIN, false,
-	DEL_MEN_IDLE_MAX, DEL_MEN_RIEGO_MAX,
+	DEL_MEN_IDLE_MAX, DEL_MEN_RIEGO_MAX, DEL_MEN_ST_MODO_SENSOR_MAX,
 	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ, EV_SYS_MOD_TIME, EV_SYS_MOD_SENSOR
 };
 
 task_menu_dta_t task_menu_dta = {
-	DEL_MEN_XX_MAX, DEL_MEN_RIEGO_MAX,
+	DEL_MEN_XX_MAX, DEL_MEN_RIEGO_MAX,DEL_MEN_ST_MODO_SENSOR_MAX,
 	ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
 	THRESHOLD_MEN_TEMP_DEF, THRESHOLD_MEN_TEMP_DEF,
 	true, false, 0, false, 0
@@ -262,7 +265,10 @@ void task_menu_update(void *parameters)
 						switch (p_task_menu_dta->cursor_pos) {
 							case 0: p_task_menu_dta->state = ST_MEN_MODE_MANUAL; break;
 							case 1: p_task_menu_dta->state = ST_MEN_MODE_CONFIG; break;
-							case 2: p_task_menu_dta->state = ST_MEN_MODE_SENSOR; break;
+							case 2:
+								put_event_task_system(p_task_menu_cfg->ev_sys_mod_sensor);
+								p_task_menu_dta->state = ST_MEN_MODE_SENSOR;
+								break;
 							case 3: p_task_menu_dta->state = ST_MEN_MODE_TIME;   break;
 						}
 					}
@@ -336,31 +342,17 @@ void task_menu_update(void *parameters)
 
 					break;
 
-				case ST_MEN_MODE_SENSOR:
-					if (true == p_task_menu_dta->refresh_screen)
-					{
-						p_task_menu_dta->refresh_screen = false;
-						displayUpdateRow(1, 0, "MODO SENSOR");
-					}
 
-					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
-					{
-						put_event_task_system(p_task_menu_cfg->ev_sys_mod_sensor);
-						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_MAIN;
-					}
-					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
-					{
-						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_MODE_TIME;
-					}
-					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+				case ST_MEN_MODE_SENSOR:
+					p_task_menu_dta->tick_st_modo_sensor--;
+					if (((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event)) || (DEL_MEN_RIEGO_MIN == p_task_menu_dta->tick_st_modo_sensor))
 					{
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
 
 					break;
+
 
 				case ST_MEN_MODE_TIME:
 					if (true == p_task_menu_dta->refresh_screen)
@@ -600,10 +592,14 @@ static void menu_display_print(task_menu_dta_t *dta){
 			{
 				switch (dta->etapa_print)
 				{
-					case 0: displayUpdateRow(0, 1, "Trabajo Final TDSE"); break;
-					case 1: displayUpdateRow(1, 6, "Grupo: 6");	break;
-					case 2: displayUpdateRow(2, 0, "NEXT: Estado sistema"); break;
-					case 3: displayUpdateRow(3, 0, "ENT: Select mode"); break;
+					case 0: displayRowSplit(0, 1, "Trabajo Final TDSE", PART_LEFT); break;
+					case 1: displayRowSplit(0, 1, "Trabajo Final TDSE", PART_RIGHT); break;
+					case 2: displayClearPart(1, 0, 10); break;
+					case 3: displayClearPart(1, 10, 10); break;
+					case 4: displayRowSplit(2, 6, "Grupo: 6", PART_LEFT); break;
+					case 5: displayRowSplit(2, 6, "Grupo: 6", PART_RIGHT); break;
+					case 6: displayClearPart(3, 0, 10); break;
+					case 7: displayClearPart(3, 10, 10); break;
 					default:
 						dta->printing = false;
 						break;
@@ -618,10 +614,14 @@ static void menu_display_print(task_menu_dta_t *dta){
 			{
 				switch (dta->etapa_print)
 				{
-					case 0: displayUpdateRow(0, 1, "ESTADO DEL EQUIPO"); break;
-					case 1: displayClearRow(1);	break;
-					case 2: displayUpdateRow(2, 0, "Cargando ..."); break;
-					case 3: displayClearRow(3); break;
+					case 0: displayRowSplit(0, 1, "ESTADO DEL EQUIPO", PART_LEFT); break;
+					case 1: displayRowSplit(0, 1, "ESTADO DEL EQUIPO", PART_RIGHT); break;
+					case 2: displayClearPart(1, 0, 10); break;
+					case 3: displayClearPart(1, 10, 10); break;
+					case 4: displayRowSplit(2, 0, "Midiendo ...", PART_LEFT); break;
+					case 5: displayRowSplit(2, 0, "Midiendo ...", PART_RIGHT); break;
+					case 6: displayClearPart(3, 0, 10); break;
+					case 7: displayClearPart(3, 10, 10); break;
 					default:
 						dta->printing = false;
 						break;
@@ -636,9 +636,10 @@ static void menu_display_print(task_menu_dta_t *dta){
 			{
 				switch (dta->etapa_print)
 				{
-					case 0: displayUpdateRow(1, 0, "Batería: XX V");;	break;
-					case 1: displayUpdateRow(2, 0, "Temp. interna: XX °C"); break;
-					//case 3: displayUpdateRow(3, 0, "ESC para volver"); break;
+					case 0: displayRowSplit(2, 0, "Temp interna: ", PART_LEFT); break;
+					case 1: displayRowSplit(2, 0, "Temp interna: ", PART_RIGHT); break;
+					case 2: displayRowSplit(3, 0, "Bateria: ", PART_LEFT); break;
+					case 3: displayRowSplit(3, 0, "Bateria: ", PART_RIGHT); break;
 					default:
 						dta->printing = false;
 						break;
@@ -653,10 +654,14 @@ static void menu_display_print(task_menu_dta_t *dta){
 			{
 				switch (dta->etapa_print)
 				{
-					case 0: displayUpdateRow(0, 1, "MODO MANUAL"); break;
-					case 1: displayUpdateRow(1, 1, "MODO CONFIG"); break;
-					case 2: displayUpdateRow(2, 1, "MODO SENSOR & TIMER");	break;
-					case 3: displayUpdateRow(3, 1, "MODO TIMER"); break;
+					case 0: displayRowSplit(0, 1, "MODO MANUAL", PART_LEFT); break;
+					case 1: displayRowSplit(0, 1, "MODO MANUAL", PART_RIGHT); break;
+					case 2: displayRowSplit(1, 1, "MODO CONFIGURACION", PART_LEFT); break;
+					case 3: displayRowSplit(1, 1, "MODO CONFIGURACION", PART_RIGHT); break;
+					case 4: displayRowSplit(2, 1, "MODO SENSOR & TIMER", PART_LEFT); break;
+					case 5: displayRowSplit(2, 1, "MODO SENSOR & TIMER", PART_RIGHT); break;
+					case 6: displayRowSplit(3, 1, "MODO TIMER", PART_LEFT); break;
+					case 7: displayRowSplit(3, 1, "MODO TIMER", PART_RIGHT); break;
 					default:
 						dta->printing = false;
 						break;
@@ -670,11 +675,6 @@ static void menu_display_print(task_menu_dta_t *dta){
 					displayCharPositionWrite(0, i);
 					displayStringWrite(" ");
 				}
-				/*
-				 otra forma: borra solo la posición anterior
-				 	 displayCharPositionWrite(0, dta->cursor_pos-1);
-					displayStringWrite(" ");
-				 */
 				displayCharPositionWrite(0, dta->cursor_pos);
 				displayStringWrite(">");
 			}
@@ -686,10 +686,14 @@ static void menu_display_print(task_menu_dta_t *dta){
 			{
 				switch (dta->etapa_print)
 				{
-					case 0: displayUpdateRow(0, 4, "MODO MANUAL"); break;
-					case 1: displayClearRow(1); break;
-					case 2: displayUpdateRow(2, 1, "DESACTIVAR RIEGO"); break;
-					case 3: displayUpdateRow(3, 1, "ACTIVAR RIEGO");	break;
+					case 0: displayRowSplit(0, 4, "MODO: MANUAL", PART_LEFT); break;
+					case 1: displayRowSplit(0, 4, "MODO: MANUAL", PART_RIGHT); break;
+					case 2: displayClearPart(1, 0, 10); break;
+					case 3: displayClearPart(1, 10, 10); break;
+					case 4: displayRowSplit(2, 1, "DESACTIVAR RIEGO", PART_LEFT); break;
+					case 5: displayRowSplit(2, 1, "DESACTIVAR RIEGO", PART_RIGHT); break;
+					case 6: displayRowSplit(3, 1, "ACTIVAR RIEGO", PART_LEFT); break;
+					case 7: displayRowSplit(3, 1, "ACTIVAR RIEGO", PART_RIGHT); break;
 					default:
 						dta->printing = false;
 						break;
@@ -712,8 +716,10 @@ static void menu_display_print(task_menu_dta_t *dta){
 			{
 				switch (dta->etapa_print)
 				{
-					case 0: displayUpdateRow(2, 4, "Bomba apagada"); break;
-					case 1: displayClearRow(3); break;
+					case 0: displayRowSplit(2, 3, "BOMBA APAGADA!", PART_LEFT); break;
+					case 1: displayRowSplit(2, 3, "BOMBA APAGADA!", PART_RIGHT); break;
+					case 2: displayClearPart(3, 0, 10); break;
+					case 3: displayClearPart(3, 10, 10); break;
 					default:
 						dta->printing = false;
 						break;
@@ -728,8 +734,34 @@ static void menu_display_print(task_menu_dta_t *dta){
 			{
 				switch (dta->etapa_print)
 				{
-					case 0: displayUpdateRow(2, 3, "Bomba encendida"); break;
-					case 1: displayClearRow(3); break;
+					case 0: displayRowSplit(2, 2, "BOMBA ENCENDIDA!", PART_LEFT); break;
+					case 1: displayRowSplit(2, 2, "BOMBA ENCENDIDA!", PART_RIGHT); break;
+					case 2: displayClearPart(3, 0, 10); break;
+					case 3: displayClearPart(3, 10, 10); break;
+					default:
+						dta->printing = false;
+						break;
+				}
+				dta->etapa_print++;
+			}
+			break;
+
+
+
+
+		case ST_MEN_MODE_SENSOR:
+			if (true == dta->printing)
+			{
+				switch (dta->etapa_print)
+				{
+					case 0: displayClearPart(0, 0, 10); break;
+					case 1: displayClearPart(0, 10, 10); break;
+					case 2: displayRowSplit(1, 1, "MODO SENSOR & TIMER", PART_LEFT); break;
+					case 3: displayRowSplit(1, 1, "MODO SENSOR & TIMER", PART_RIGHT); break;
+					case 4: displayRowSplit(2, 6, "ACTIVADO", PART_LEFT); break;
+					case 5: displayRowSplit(2, 6, "ACTIVADO", PART_RIGHT); break;
+					case 6: displayClearPart(3, 0, 10); break;
+					case 7: displayClearPart(3, 10, 10); break;
 					default:
 						dta->printing = false;
 						break;

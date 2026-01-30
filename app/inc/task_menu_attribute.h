@@ -95,6 +95,7 @@ typedef struct
 	bool				flag;
 	uint32_t			tick_idle_max;
 	uint32_t			tick_riego_max;
+	uint32_t			tick_st_modo_sensor_max;
 
 	task_menu_ev_t  	ev_sys_config_on; //eventos que genera el menua para el systema
 	task_menu_ev_t  	ev_sys_config_off;
@@ -109,6 +110,7 @@ typedef struct
 {
 	uint32_t		tick_idle;
 	uint32_t		tick_riego;
+	uint32_t		tick_st_modo_sensor;
 
 	task_menu_st_t	state;
 	task_menu_st_t  last_state;
