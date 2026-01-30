@@ -78,7 +78,7 @@
 #define DISPLAY_PIN_D7 14
 
 #define DISPLAY_DEL_37US	37ul
-#define DISPLAY_DEL_20US	20ul
+#define DISPLAY_DEL_25US	25ul
 #define DISPLAY_DEL_01US	01ul
 
 //=====[Declaration of private data types]=====================================
@@ -396,7 +396,7 @@ static void displayDataBusWrite( uint8_t dataBus )
 
     displayPinWrite( DISPLAY_PIN_EN, OFF );
     //HAL_Delay(1);
-    display_delay_us(DISPLAY_DEL_20US);
+    display_delay_us(DISPLAY_DEL_25US);
 }
 
 
