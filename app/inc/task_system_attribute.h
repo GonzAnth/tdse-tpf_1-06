@@ -41,6 +41,7 @@ typedef enum task_system_ev {EV_SYS_RIEGO_ACT_ON,
 						   EV_SYS_ADC_REQ,
 						   EV_SYS_ADC_OK,
 						   EV_SYS_ADC_NOT_OK,
+						   EV_SYS_MOD_MANUAL,
 						   EV_SYS_MOD_TIME,
 						   EV_SYS_MOD_SENSOR} task_system_ev_t;
 
@@ -54,8 +55,9 @@ typedef enum task_system_st {ST_SYS_IDLE,
 						   ST_SYS_ADC_MEASURE} task_system_st_t;
 
 /* Mode  of Task Menu */
-typedef enum task_system_mode{SYS_MOD_TIME,
-						      SYS_MOD_SENSOR} task_system_mode_t;
+typedef enum task_system_mode{SYS_MOD_MANUAL,
+							SYS_MOD_TIME,
+						    SYS_MOD_SENSOR} task_system_mode_t;
 
 typedef struct
 {
@@ -64,15 +66,20 @@ typedef struct
 	uint32_t			tick_idle_max;
 	uint32_t			tick_riego_max;
 	uint32_t			tick_falla_max;
+
+	task_system_mode_t  system_mode;
 	uint32_t			threshold_temperature;
 	uint32_t			threshold_humidity;
 	uint32_t			threshold_adc_temperature;
 	uint32_t			threshold_adc_batery;
+
 	task_system_ev_t 	ev_sen_measure_on;  //eventos que genera el systema para otras ME
 	task_system_ev_t	ev_sen_measure_read;
 	task_system_ev_t	ev_sen_falla_ok;
 	task_system_ev_t	ev_adc_start;
+	task_system_ev_t	ev_adc_falla_ok;
 	task_system_ev_t	ev_men_adc_req_ok;
+	task_system_ev_t	ev_men_system_falla;
 	task_system_ev_t	ev_act_on;
 	task_system_ev_t	ev_act_off;
 } task_system_cfg_t;
@@ -84,8 +91,9 @@ typedef struct
 	uint32_t			tick_riego;
 	uint32_t			tick_falla;
 	task_system_st_t	state;
+	task_system_st_t	last_state;
 	task_system_ev_t	event;
-	task_system_mode_t  system_mode;
+
 	float				temperature;
 	float				humidity;
 
