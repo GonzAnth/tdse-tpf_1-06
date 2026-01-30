@@ -134,4 +134,9 @@ void get_system_salud_dta(float *bat_volts, float *temp_int_c)
 }
 
 
+bool get_system_riego_state(void){
+	return (ST_SYS_RIEGO == task_system_dta.state);
+}
+
+
 /********************** end of file ******************************************/

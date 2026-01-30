@@ -65,6 +65,9 @@ void get_system_config(task_system_mode_t *mode, uint32_t *tick_idle, uint32_t *
 
 void get_system_salud_dta(float *bat_volts, float *temp_int_c);
 
+bool get_system_riego_state(void);
+
+
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus

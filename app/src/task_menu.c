@@ -79,7 +79,7 @@ task_menu_cfg_t task_menu_cfg = {
 task_menu_dta_t task_menu_dta = {
 	DEL_MEN_USER_FEEDBACK_MAX,
 	ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
-	SYS_MOD_MANUAL,	0, 0, 0, 0.0, 0.0,
+	SYS_MOD_MANUAL,	0, 0, 0, 0.0, 0.0, false,
 	true, false, 0, false, 0
 };
 
@@ -206,6 +206,7 @@ void task_menu_update(void *parameters)
 
 			    if (p_task_menu_dta->state == ST_MEN_MAIN) {
 					get_system_config(&p_task_menu_dta->sys_mode, NULL, NULL, NULL);
+					p_task_menu_dta->sys_riego_state = get_system_riego_state();
 				}
 			    else if (p_task_menu_dta->state == ST_MEN_MODE_CONFIG)
 				{
@@ -526,25 +527,27 @@ static void menu_display_print(task_menu_dta_t *dta){
 		case ST_MEN_MAIN:
 			if (true == dta->printing)
 			{
-				/* Ingreso el texto que corresponde a cada modo*/
-				const char *text_mode;
+				const char *text_mode = "ERROR";
 				switch (dta->sys_mode) {
 				    case SYS_MOD_MANUAL: text_mode = "MODO ACTUAL: MANUAL";	 break;
 				    case SYS_MOD_SENSOR: text_mode = "MODO: SENSOR & TIMER"; break;
 				    case SYS_MOD_TIME: 	 text_mode = "MODO ACTUAL: TIMER"; 	 break;
-				    default:			 text_mode = "ERROR"; 		 		 break;
+				    default: break;
 				}
+				const char *text_riego = (dta->sys_riego_state) ? "BOMBA ENCENDIDA" : "BOMBA APAGADA";
 
 				switch (dta->etapa_print)
 				{
 					case 0: displayRowSplit(0, 1, "Trabajo Final TDSE", PART_LEFT); break;
 					case 1: displayRowSplit(0, 1, "Trabajo Final TDSE", PART_RIGHT); break;
-					case 2: displayRowSplit(1, 6, "Grupo: 6", PART_LEFT); break;
-					case 3: displayRowSplit(1, 6, "Grupo: 6", PART_RIGHT); break;
-					case 4: displayClearPart(2, 0, 10); break;
-					case 5: displayClearPart(2, 10, 10); break;
-					case 6: displayRowSplit(3, 0, text_mode, PART_LEFT); break;
-					case 7: displayRowSplit(3, 0, text_mode, PART_RIGHT); break;
+					//case 2: displayRowSplit(1, 6, "Grupo: 6", PART_LEFT); break;
+					//case 3: displayRowSplit(1, 6, "Grupo: 6", PART_RIGHT); break;
+					case 2: displayClearPart(1, 0, 10); break;
+					case 3: displayClearPart(1, 10, 10); break;
+					case 4: displayRowSplit(2, 0, text_mode, PART_LEFT); break;
+					case 5: displayRowSplit(2, 0, text_mode, PART_RIGHT); break;
+					case 6: displayRowSplit(3, 0, text_riego, PART_LEFT); break;
+					case 7: displayRowSplit(3, 0, text_riego, PART_RIGHT); break;
 					default:
 						dta->printing = false;
 						break;

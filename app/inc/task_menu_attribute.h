@@ -123,6 +123,7 @@ typedef struct
 	uint32_t			sys_th_humidity;
 	float				sys_salud_bat_v;
 	float				sys_salud_temp_int_c;
+	bool				sys_riego_state;
 
 	//Impresion display
 	bool 				refresh_screen; //Se debe actualizar la pantalla
