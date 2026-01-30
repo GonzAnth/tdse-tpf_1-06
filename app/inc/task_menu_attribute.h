@@ -82,10 +82,8 @@ typedef enum task_menu_st {ST_MEN_MAIN,
 						   ST_MEN_MODE_TIME,
 						   ST_MEN_RIEGO_ON,
 						   ST_MEN_RIEGO_OFF,
-						   ST_MEN_CONFIG_TIME,
-						   ST_MEN_CONFIG_TEMP,
-						   ST_MEN_CONFIG_HUME,
-						   ST_MEN_CHANGE_TIME,
+						   ST_MEN_CHANGE_IDLE_TIME,
+						   ST_MEN_CHANGE_RIEGO_TIME,
 						   ST_MEN_CHANGE_TEMP,
 						   ST_MEN_CHANGE_HUME,
 						   ST_MEN_SALUD_WAIT,
@@ -119,6 +117,7 @@ typedef struct
 
 	task_system_mode_t	sys_mode;
 	uint32_t			sys_tick_idle;
+	uint32_t			sys_tick_riego;
 	uint32_t			sys_th_temperature;
 	uint32_t			sys_th_humidity;
 	float				sys_salud_bat_v;

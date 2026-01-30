@@ -110,18 +110,20 @@ bool any_event_task_system(void)
 }
 
 
-void set_system_config(uint32_t tick_idle, uint32_t temperature, uint32_t humidity)
+void set_system_config(uint32_t tick_idle, uint32_t tick_riego, uint32_t temperature, uint32_t humidity)
 {
 	task_system_cfg.tick_idle_max 			= tick_idle;
+	task_system_cfg.tick_riego_max 			= tick_riego;
 	task_system_cfg.threshold_temperature 	= temperature;
 	task_system_cfg.threshold_humidity 		= humidity;
 }
 
 
-void get_system_config(task_system_mode_t *mode, uint32_t *tick_idle, uint32_t *th_temp, uint32_t *th_hum)
+void get_system_config(task_system_mode_t *mode, uint32_t *tick_idle, uint32_t *tick_riego, uint32_t *th_temp, uint32_t *th_hum)
 {
 	if (mode != NULL)		*mode 		= task_system_cfg.system_mode;
 	if (tick_idle != NULL)	*tick_idle	= task_system_cfg.tick_idle_max;
+	if (tick_riego != NULL)	*tick_riego	= task_system_cfg.tick_riego_max;
 	if (th_temp != NULL)	*th_temp   	= task_system_cfg.threshold_temperature;
 	if (th_hum != NULL) 	*th_hum    	= task_system_cfg.threshold_humidity;
 }

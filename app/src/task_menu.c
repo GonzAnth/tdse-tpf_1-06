@@ -79,7 +79,7 @@ task_menu_cfg_t task_menu_cfg = {
 task_menu_dta_t task_menu_dta = {
 	DEL_MEN_USER_FEEDBACK_MAX,
 	ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
-	SYS_MOD_MANUAL,	0, 0, 0, 0.0, 0.0, false,
+	SYS_MOD_MANUAL,	0, 0, 0, 0, 0.0, 0.0, false,
 	true, false, 0, false, 0
 };
 
@@ -141,6 +141,7 @@ void task_menu_init(void *parameters)
 	/* Obtenemos situación actual del systema */
 	get_system_config(&p_task_menu_dta->sys_mode,
 					&p_task_menu_dta->sys_tick_idle,
+					&p_task_menu_dta->sys_tick_riego,
 					&p_task_menu_dta->sys_th_temperature,
 					&p_task_menu_dta->sys_th_humidity);
 
@@ -205,13 +206,14 @@ void task_menu_update(void *parameters)
 			    p_task_menu_dta->last_state = p_task_menu_dta->state;
 
 			    if (p_task_menu_dta->state == ST_MEN_MAIN) {
-					get_system_config(&p_task_menu_dta->sys_mode, NULL, NULL, NULL);
+					get_system_config(&p_task_menu_dta->sys_mode, NULL, NULL, NULL, NULL);
 					p_task_menu_dta->sys_riego_state = get_system_riego_state();
 				}
 			    else if (p_task_menu_dta->state == ST_MEN_MODE_CONFIG)
 				{
 			    	get_system_config(&p_task_menu_dta->sys_mode,
 			    					&p_task_menu_dta->sys_tick_idle,
+			    					&p_task_menu_dta->sys_tick_riego,
 			    					&p_task_menu_dta->sys_th_temperature,
 			    					&p_task_menu_dta->sys_th_humidity);
 			    }
@@ -362,7 +364,7 @@ void task_menu_update(void *parameters)
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->cursor_pos = (p_task_menu_dta->cursor_pos + 1) % 3;
+						p_task_menu_dta->cursor_pos = (p_task_menu_dta->cursor_pos + 1) % 4;
 						p_task_menu_dta->refresh_cursor = true;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
@@ -370,9 +372,10 @@ void task_menu_update(void *parameters)
 						p_task_menu_cfg->flag = false;
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_on);
 						switch (p_task_menu_dta->cursor_pos) {
-							case 0: p_task_menu_dta->state = ST_MEN_CHANGE_TIME; break;
-							case 1: p_task_menu_dta->state = ST_MEN_CHANGE_TEMP; break;
-							case 2: p_task_menu_dta->state = ST_MEN_CHANGE_HUME; break;
+							case 0: p_task_menu_dta->state = ST_MEN_CHANGE_IDLE_TIME; break;
+							case 1: p_task_menu_dta->state = ST_MEN_CHANGE_RIEGO_TIME; break;
+							case 2: p_task_menu_dta->state = ST_MEN_CHANGE_TEMP; break;
+							case 3: p_task_menu_dta->state = ST_MEN_CHANGE_HUME; break;
 						}
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
@@ -419,7 +422,7 @@ void task_menu_update(void *parameters)
 					break;
 
 
-				case ST_MEN_CHANGE_TIME:
+				case ST_MEN_CHANGE_IDLE_TIME:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_dta->sys_tick_idle = (p_task_menu_dta->sys_tick_idle + 10) % 60;
@@ -428,7 +431,38 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						set_system_config(p_task_menu_dta->sys_tick_idle, p_task_menu_dta->sys_th_temperature, p_task_menu_dta->sys_th_humidity);
+						set_system_config(p_task_menu_dta->sys_tick_idle,
+										p_task_menu_dta->sys_tick_riego,
+										p_task_menu_dta->sys_th_temperature,
+										p_task_menu_dta->sys_th_humidity);
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
+						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MAIN;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_cfg->flag = false;
+						p_task_menu_dta->state = ST_MEN_MODE_CONFIG;
+					}
+
+					break;
+
+
+				case ST_MEN_CHANGE_RIEGO_TIME:
+					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
+					{
+						p_task_menu_dta->sys_tick_idle = (p_task_menu_dta->sys_tick_idle + 5) % 60;
+						p_task_menu_dta->refresh_screen = true;
+						p_task_menu_cfg->flag = false;
+					}
+					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
+					{
+						set_system_config(p_task_menu_dta->sys_tick_idle,
+										p_task_menu_dta->sys_tick_riego,
+										p_task_menu_dta->sys_th_temperature,
+										p_task_menu_dta->sys_th_humidity);
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
@@ -453,7 +487,10 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						set_system_config(p_task_menu_dta->sys_tick_idle, p_task_menu_dta->sys_th_temperature, p_task_menu_dta->sys_th_humidity);
+						set_system_config(p_task_menu_dta->sys_tick_idle,
+										p_task_menu_dta->sys_tick_riego,
+										p_task_menu_dta->sys_th_temperature,
+										p_task_menu_dta->sys_th_humidity);
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
@@ -478,7 +515,10 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						set_system_config(p_task_menu_dta->sys_tick_idle, p_task_menu_dta->sys_th_temperature, p_task_menu_dta->sys_th_humidity);
+						set_system_config(p_task_menu_dta->sys_tick_idle,
+										p_task_menu_dta->sys_tick_riego,
+										p_task_menu_dta->sys_th_temperature,
+										p_task_menu_dta->sys_th_humidity);
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
@@ -723,10 +763,10 @@ static void menu_display_print(task_menu_dta_t *dta){
 		case ST_MEN_MODE_CONFIG:
 			if (true == dta->printing) {
 				switch (dta->etapa_print) {
-					case 0: displayRowSplit(0, 1, "MODO CONFIGURACION", PART_LEFT); break;
-					case 1: displayRowSplit(0, 1, "MODO CONFIGURACION", PART_RIGHT); break;
-					case 2: displayRowSplit(1, 1, "CONFIG TIEMPO SLEEP", PART_LEFT);  break;
-					case 3: displayRowSplit(1, 1, "CONFIG TIEMPO SLEEP", PART_RIGHT); break;
+					case 0: displayRowSplit(0, 1, "CONFIG TIEMPO SLEEP", PART_LEFT);  break;
+					case 1: displayRowSplit(0, 1, "CONFIG TIEMPO SLEEP", PART_RIGHT); break;
+					case 2: displayRowSplit(1, 1, "CONFIG TIEMPO RIEGO", PART_LEFT);  break;
+					case 3: displayRowSplit(1, 1, "CONFIG TIEMPO RIEGO", PART_RIGHT); break;
 					case 4: displayRowSplit(2, 1, "CONFIG UMBRAL TEMP", PART_LEFT);  break;
 					case 5: displayRowSplit(2, 1, "CONFIG UMBRAL TEMP", PART_RIGHT); break;
 					case 6: displayRowSplit(3, 1, "CONFIG UMBRAL HUM", PART_LEFT);  break;
@@ -738,21 +778,41 @@ static void menu_display_print(task_menu_dta_t *dta){
 			if ((false == dta->printing) && (true == dta->refresh_cursor))
 			{
 				dta->refresh_cursor = false;
-				displayCharPositionWrite(0, 1); displayStringWrite(" ");
-				displayCharPositionWrite(0, 2); displayStringWrite(" ");
-				displayCharPositionWrite(0, 3); displayStringWrite(" ");
-				displayCharPositionWrite(0, dta->cursor_pos + 1);
+				for (int i=0; i<4; i++) {
+					displayCharPositionWrite(0, i);
+					displayStringWrite(" ");
+				}
+				displayCharPositionWrite(0, dta->cursor_pos);
 				displayStringWrite(">");
 			}
 			break;
 
 
-		case ST_MEN_CHANGE_TIME:
+		case ST_MEN_CHANGE_IDLE_TIME:
 			if (true == dta->printing) {
 				snprintf(str_buffer, sizeof(str_buffer), "NUEVO TIEMPO %-3lu min", dta->sys_tick_idle);
 				switch (dta->etapa_print) {
 					case 0: displayRowSplit(0, 0, "CONFIG. TIEMPO SLEEP", PART_LEFT); break;
 					case 1: displayRowSplit(0, 0, "CONFIG. TIEMPO SLEEP", PART_RIGHT); break;
+					case 2: displayClearPart(1, 0, 10); break;
+					case 3: displayClearPart(1, 10, 10); break;
+					case 4: displayRowSplit(2, 0, str_buffer, PART_LEFT);  break;
+					case 5: displayRowSplit(2, 0, str_buffer, PART_RIGHT); break;
+					case 6: displayRowSplit(3, 0, "ENTER PARA CONFIRMAR", PART_LEFT); break;
+					case 7: displayRowSplit(3, 0, "ENTER PARA CONFIRMAR", PART_RIGHT); break;
+					default: dta->printing = false; break;
+				}
+				dta->etapa_print++;
+			}
+			break;
+
+
+		case ST_MEN_CHANGE_RIEGO_TIME:
+			if (true == dta->printing) {
+				snprintf(str_buffer, sizeof(str_buffer), "NUEVO TIEMPO %-3lu min", dta->sys_tick_idle);
+				switch (dta->etapa_print) {
+					case 0: displayRowSplit(0, 0, "CONFIG. TIEMPO RIEGO", PART_LEFT); break;
+					case 1: displayRowSplit(0, 0, "CONFIG. TIEMPO RIEGO", PART_RIGHT); break;
 					case 2: displayClearPart(1, 0, 10); break;
 					case 3: displayClearPart(1, 10, 10); break;
 					case 4: displayRowSplit(2, 0, str_buffer, PART_LEFT);  break;
