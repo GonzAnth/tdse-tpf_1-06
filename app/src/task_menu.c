@@ -253,6 +253,14 @@ void task_menu_update(void *parameters)
 						p_task_menu_dta->state = ST_MEN_SALUD_WAIT;
 					}
 
+					/* impresión estado bomba */
+					bool actual_sys_riego_state = get_system_riego_state();
+					if (actual_sys_riego_state != p_task_menu_dta->sys_riego_state)
+					{
+						p_task_menu_dta->sys_riego_state = actual_sys_riego_state;
+						p_task_menu_dta->refresh_screen = true;
+					}
+
 					break;
 
 
@@ -405,7 +413,7 @@ void task_menu_update(void *parameters)
 					if (((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event)) || (DEL_MEN_USER_FEEDBACK_MIN == p_task_menu_dta->tick_st_feedback_user))
 					{
 						p_task_menu_cfg->flag = false;
-						p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
+						p_task_menu_dta->state = ST_MEN_MAIN;
 					}
 
 					break;
@@ -534,14 +542,12 @@ static void menu_display_print(task_menu_dta_t *dta){
 				    case SYS_MOD_TIME: 	 text_mode = "MODO ACTUAL: TIMER"; 	 break;
 				    default: break;
 				}
-				const char *text_riego = (dta->sys_riego_state) ? "BOMBA ENCENDIDA" : "BOMBA APAGADA";
+				const char *text_riego = (dta->sys_riego_state) ? ">> BOMBA: ON" : ">> BOMBA: OFF";
 
 				switch (dta->etapa_print)
 				{
 					case 0: displayRowSplit(0, 1, "Trabajo Final TDSE", PART_LEFT); break;
 					case 1: displayRowSplit(0, 1, "Trabajo Final TDSE", PART_RIGHT); break;
-					//case 2: displayRowSplit(1, 6, "Grupo: 6", PART_LEFT); break;
-					//case 3: displayRowSplit(1, 6, "Grupo: 6", PART_RIGHT); break;
 					case 2: displayClearPart(1, 0, 10); break;
 					case 3: displayClearPart(1, 10, 10); break;
 					case 4: displayRowSplit(2, 0, text_mode, PART_LEFT); break;
@@ -751,8 +757,8 @@ static void menu_display_print(task_menu_dta_t *dta){
 					case 3: displayClearPart(1, 10, 10); break;
 					case 4: displayRowSplit(2, 0, str_buffer, PART_LEFT);  break;
 					case 5: displayRowSplit(2, 0, str_buffer, PART_RIGHT); break;
-					case 6: displayClearPart(3, 0, 10); break;
-					case 7: displayClearPart(3, 10, 10); break;
+					case 6: displayRowSplit(3, 0, "ENTER PARA CONFIRMAR", PART_LEFT); break;
+					case 7: displayRowSplit(3, 0, "ENTER PARA CONFIRMAR", PART_RIGHT); break;
 					default: dta->printing = false; break;
 				}
 				dta->etapa_print++;
@@ -770,8 +776,8 @@ static void menu_display_print(task_menu_dta_t *dta){
 					case 3: displayClearPart(1, 10, 10); break;
 					case 4: displayRowSplit(2, 2, str_buffer, PART_LEFT);  break;
 					case 5: displayRowSplit(2, 2, str_buffer, PART_RIGHT); break;
-					case 6: displayClearPart(3, 0, 10); break;
-					case 7: displayClearPart(3, 10, 10); break;
+					case 6: displayRowSplit(3, 0, "ENTER PARA CONFIRMAR", PART_LEFT); break;
+					case 7: displayRowSplit(3, 0, "ENTER PARA CONFIRMAR", PART_RIGHT); break;
 					default: dta->printing = false; break;
 				}
 				dta->etapa_print++;
@@ -789,8 +795,8 @@ static void menu_display_print(task_menu_dta_t *dta){
 					case 3: displayClearPart(1, 10, 10); break;
 					case 4: displayRowSplit(2, 2, str_buffer, PART_LEFT);  break;
 					case 5: displayRowSplit(2, 2, str_buffer, PART_RIGHT); break;
-					case 6: displayClearPart(3, 0, 10); break;
-					case 7: displayClearPart(3, 10, 10); break;
+					case 6: displayRowSplit(3, 0, "ENTER PARA CONFIRMAR", PART_LEFT); break;
+					case 7: displayRowSplit(3, 0, "ENTER PARA CONFIRMAR", PART_RIGHT); break;
 					default: dta->printing = false; break;
 				}
 				dta->etapa_print++;
