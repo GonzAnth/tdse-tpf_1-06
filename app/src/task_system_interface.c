@@ -118,9 +118,10 @@ void set_system_config(uint32_t tick_idle, uint32_t temperature, uint32_t humidi
 }
 
 
-void get_system_config(uint32_t *tick_idle, uint32_t *th_temp, uint32_t *th_hum)
+void get_system_config(task_system_mode_t *mode, uint32_t *tick_idle, uint32_t *th_temp, uint32_t *th_hum)
 {
-    *tick_idle = task_system_cfg.tick_idle_max;
+	*mode      = task_system_cfg.system_mode;
+	*tick_idle = task_system_cfg.tick_idle_max;
     *th_temp   = task_system_cfg.threshold_temperature;
     *th_hum    = task_system_cfg.threshold_humidity;
 }
