@@ -27,7 +27,7 @@
 #include "task_adc_interface.h"
 #include "task_actuator_attribute.h"
 #include "task_actuator_interface.h"
-
+#include "flash.h"
 
 /********************** macros and definitions *******************************/
 #define G_TASK_SYS_CNT_INI			0ul
@@ -119,6 +119,21 @@ void task_system_init(void *parameters)
 	cycle_counter_reset();
 
 	g_task_system_tick_cnt = G_TASK_SYS_TICK_CNT_INI;
+
+	// FLASH
+	flash_setup_t stored_config;
+	Flash_Read_Setup(&stored_config);
+
+	if (stored_config.magic_number == FLASH_MAGIC_NUMBER) {
+		// La Flash tiene datos válidos, los cargamos
+		task_system_cfg.threshold_temperature = stored_config.threshold_temperature;
+		task_system_cfg.threshold_humidity    = stored_config.threshold_humidity;
+		task_system_cfg.tick_idle_max         = stored_config.tick_idle_max;
+		task_system_dta.system_mode           = stored_config.system_mode;
+	} else {
+		// Flash vacía (0xFFFFFFFF), usamos valores por defecto
+		// Y opcionalmente guardamos los defaults ahora mismo
+	}
 }
 
 void task_system_update(void *parameters)
@@ -251,13 +266,29 @@ void task_system_update(void *parameters)
 
 				case ST_SYS_CONFIG:
 
-					if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event))
+					/*if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event))
 					{
 						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}
 
+					break;*/
+
+					if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event)) {
+						// Preparamos la estructura para grabar
+						flash_setup_t to_save = {
+							.magic_number = FLASH_MAGIC_NUMBER,
+							.threshold_temperature = p_task_system_cfg->threshold_temperature,
+							.threshold_humidity = p_task_system_cfg->threshold_humidity,
+							.tick_idle_max = p_task_system_cfg->tick_idle_max,
+							.system_mode = p_task_system_dta->system_mode
+						};
+						Flash_Write_Setup(&to_save);
+
+						p_task_system_cfg->flag = false;
+						p_task_system_dta->state = ST_SYS_IDLE;
+					}
 					break;
 
 				case ST_SYS_RIEGO :
