@@ -74,7 +74,8 @@
 task_menu_cfg_t task_menu_cfg = {
 	DEL_MEN_XX_MIN, false,
 	DEL_MEN_IDLE_MAX, DEL_MEN_USER_FEEDBACK_MAX,
-	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ, EV_SYS_MOD_TIME, EV_SYS_MOD_SENSOR
+	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ,
+	EV_SYS_MOD_MANUAL, EV_SYS_MOD_TIME, EV_SYS_MOD_SENSOR
 };
 
 task_menu_dta_t task_menu_dta = {
@@ -262,7 +263,10 @@ void task_menu_update(void *parameters)
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						switch (p_task_menu_dta->cursor_pos) {
-							case 0: p_task_menu_dta->state = ST_MEN_MODE_MANUAL; break;
+							case 0:
+								put_event_task_system(p_task_menu_cfg->ev_sys_mod_manual);
+								p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
+								break;
 							case 1:
 								put_event_task_system(p_task_menu_cfg->ev_sys_mod_sensor);
 								p_task_menu_dta->state = ST_MEN_MODE_SENSOR;
@@ -385,7 +389,7 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->threshold_temperature, &p_task_menu_dta->threshold_humidity);
+						set_system_config(p_task_menu_dta->tick_idle, p_task_menu_dta->threshold_temperature, p_task_menu_dta->threshold_humidity);
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
@@ -410,7 +414,7 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->threshold_temperature, &p_task_menu_dta->threshold_humidity);
+						set_system_config(p_task_menu_dta->tick_idle, p_task_menu_dta->threshold_temperature, p_task_menu_dta->threshold_humidity);
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
@@ -435,7 +439,7 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						update_dta_task_system(&p_task_menu_dta->tick_idle, &p_task_menu_dta->threshold_temperature, &p_task_menu_dta->threshold_humidity);
+						set_system_config(p_task_menu_dta->tick_idle, p_task_menu_dta->threshold_temperature, p_task_menu_dta->threshold_humidity);
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
