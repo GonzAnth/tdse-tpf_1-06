@@ -109,11 +109,28 @@ bool any_event_task_system(void)
   return (queue_task_system.head != queue_task_system.tail);
 }
 
-void update_dta_task_system(uint32_t *tick_idle, uint32_t  *temperature, uint32_t  *humidity)
+
+void set_system_config(uint32_t tick_idle, uint32_t temperature, uint32_t humidity)
 {
-	task_system_cfg.tick_idle_max = *tick_idle;
-	task_system_cfg.threshold_temperature = *temperature;
-	task_system_cfg.threshold_humidity = *humidity;
+	task_system_cfg.tick_idle_max 			= tick_idle;
+	task_system_cfg.threshold_temperature 	= temperature;
+	task_system_cfg.threshold_humidity 		= humidity;
 }
+
+
+void get_system_config(uint32_t *tick_idle, uint32_t *th_temp, uint32_t *th_hum)
+{
+    *tick_idle = task_system_cfg.tick_idle_max;
+    *th_temp   = task_system_cfg.threshold_temperature;
+    *th_hum    = task_system_cfg.threshold_humidity;
+}
+
+
+void get_system_salud_dta(float *bat_volts, float *temp_int_c)
+{
+	*bat_volts 	= task_system_dta.adc_batery;
+	*temp_int_c = task_system_dta.adc_temperature;
+}
+
 
 /********************** end of file ******************************************/
