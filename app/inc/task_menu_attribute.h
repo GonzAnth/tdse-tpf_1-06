@@ -94,7 +94,6 @@ typedef struct
 {
 	uint32_t			tick;
 	bool				flag;
-	uint32_t			tick_idle_max;
 	uint32_t			tick_st_feedback_user_max;
 
 	task_menu_ev_t  	ev_sys_config_on; //eventos que genera el menua para el systema
@@ -120,6 +119,8 @@ typedef struct
 	uint32_t			sys_tick_idle;
 	uint32_t			sys_th_temperature;
 	uint32_t			sys_th_humidity;
+	float				sys_salud_bat_v;
+	float				sys_salud_temp_int_c;
 
 	//Impresion display
 	bool 				refresh_screen; //Se debe actualizar la pantalla
