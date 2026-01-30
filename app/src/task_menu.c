@@ -64,9 +64,6 @@
 #define DEL_MEN_IDLE_MIN			0ul
 #define DEL_MEN_IDLE_MAX			40ul
 
-#define THRESHOLD_MEN_TEMP_DEF		24ul
-#define THRESHOLD_MEN_HUM_DEF		30ul
-
 #define DEL_MEN_USER_FEEDBACK_MAX	200ul
 #define DEL_MEN_USER_FEEDBACK_MIN	0ul
 
@@ -81,7 +78,7 @@ task_menu_cfg_t task_menu_cfg = {
 task_menu_dta_t task_menu_dta = {
 	DEL_MEN_XX_MAX, DEL_MEN_USER_FEEDBACK_MAX,
 	ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
-	THRESHOLD_MEN_TEMP_DEF, THRESHOLD_MEN_TEMP_DEF,
+	SYS_MOD_MANUAL,	0, 0,
 	true, false, 0, false, 0
 };
 
@@ -137,10 +134,15 @@ void task_menu_init(void *parameters)
 	cycle_counter_init();
 	cycle_counter_reset();
 
+
 	displayInit( DISPLAY_CONNECTION_GPIO_4BITS );
 
-	//displayCharPositionWrite(1, 3);
-	//displayStringWrite("ENTER / NEXT / ESC");
+	/* Obtenemos situación actual del systema */
+	get_system_config(&p_task_menu_dta->sys_mode,
+					&p_task_menu_dta->sys_tick_idle,
+					&p_task_menu_dta->sys_th_temperature,
+					&p_task_menu_dta->sys_th_humidity);
+
 
 	g_task_menu_tick_cnt = G_TASK_MEN_TICK_CNT_INI;
 }
@@ -199,6 +201,17 @@ void task_menu_update(void *parameters)
 			    p_task_menu_dta->refresh_screen = true;
 			    p_task_menu_dta->cursor_pos = 0;
 			    p_task_menu_dta->last_state = p_task_menu_dta->state;
+
+			    if (p_task_menu_dta->state == ST_MEN_MAIN) {
+					get_system_config(&p_task_menu_dta->sys_mode, NULL, NULL, NULL);
+				}
+			    else if (p_task_menu_dta->state == ST_MEN_MODE_CONFIG)
+				{
+			    	get_system_config(&p_task_menu_dta->sys_mode,
+			    					&p_task_menu_dta->sys_tick_idle,
+			    					&p_task_menu_dta->sys_th_temperature,
+			    					&p_task_menu_dta->sys_th_humidity);
+			    }
 			}
 
 			/* Implementacion maquina de estados */
@@ -383,13 +396,13 @@ void task_menu_update(void *parameters)
 				case ST_MEN_CHANGE_TIME:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->tick_idle = (p_task_menu_dta->tick_idle + 10) % 60;
+						p_task_menu_dta->sys_tick_idle = (p_task_menu_dta->sys_tick_idle + 10) % 60;
 						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						set_system_config(p_task_menu_dta->tick_idle, p_task_menu_dta->threshold_temperature, p_task_menu_dta->threshold_humidity);
+						set_system_config(p_task_menu_dta->sys_tick_idle, p_task_menu_dta->sys_th_temperature, p_task_menu_dta->sys_th_humidity);
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
@@ -408,13 +421,13 @@ void task_menu_update(void *parameters)
 				case ST_MEN_CHANGE_TEMP:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->threshold_temperature = (p_task_menu_dta->threshold_temperature + 1) % 50;
+						p_task_menu_dta->sys_th_temperature = (p_task_menu_dta->sys_th_temperature + 1) % 50;
 						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						set_system_config(p_task_menu_dta->tick_idle, p_task_menu_dta->threshold_temperature, p_task_menu_dta->threshold_humidity);
+						set_system_config(p_task_menu_dta->sys_tick_idle, p_task_menu_dta->sys_th_temperature, p_task_menu_dta->sys_th_humidity);
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
@@ -433,13 +446,13 @@ void task_menu_update(void *parameters)
 				case ST_MEN_CHANGE_HUME:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->threshold_humidity = (p_task_menu_dta->threshold_humidity + 5) % 100;
+						p_task_menu_dta->sys_th_humidity = (p_task_menu_dta->sys_th_humidity + 5) % 100;
 						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
-						set_system_config(p_task_menu_dta->tick_idle, p_task_menu_dta->threshold_temperature, p_task_menu_dta->threshold_humidity);
+						set_system_config(p_task_menu_dta->sys_tick_idle, p_task_menu_dta->sys_th_temperature, p_task_menu_dta->sys_th_humidity);
 						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						//p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						//LO MANDO A STATE DE SAVE OK O EL SYSTEMA ME CONFIRMA EL CAMBIO
@@ -669,7 +682,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 		case ST_MEN_CHANGE_TIME:
 			if (true == dta->printing) {
-				snprintf(str_buffer, sizeof(str_buffer), "NUEVO TIEMPO %-3lu min", dta->tick_idle);
+				snprintf(str_buffer, sizeof(str_buffer), "NUEVO TIEMPO %-3lu min", dta->sys_tick_idle);
 				switch (dta->etapa_print) {
 					case 0: displayRowSplit(0, 0, "CONFIG. TIEMPO SLEEP", PART_LEFT); break;
 					case 1: displayRowSplit(0, 0, "CONFIG. TIEMPO SLEEP", PART_RIGHT); break;
@@ -688,7 +701,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 		case ST_MEN_CHANGE_TEMP:
 			if (true == dta->printing) {
-				snprintf(str_buffer, sizeof(str_buffer), "NUEVA TEMP %-3lu C", dta->threshold_temperature);
+				snprintf(str_buffer, sizeof(str_buffer), "NUEVA TEMP %-3lu C", dta->sys_th_temperature);
 				switch (dta->etapa_print) {
 					case 0: displayRowSplit(0, 1, "CONFIG UMBRAL TEMP", PART_LEFT); break;
 					case 1: displayRowSplit(0, 1, "CONFIG UMBRAL TEMP", PART_RIGHT); break;
@@ -707,7 +720,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 		case ST_MEN_CHANGE_HUME:
 			if (true == dta->printing) {
-				snprintf(str_buffer, sizeof(str_buffer), "NUEVA HUM: %-3lu %%", dta->threshold_humidity);
+				snprintf(str_buffer, sizeof(str_buffer), "NUEVA HUM: %-3lu %%", dta->sys_th_humidity);
 				switch (dta->etapa_print) {
 					case 0: displayRowSplit(0, 1, "CONFIG. UMBRAL HUM", PART_LEFT); break;
 					case 1: displayRowSplit(0, 1, "CONFIG. UMBRAL HUM", PART_RIGHT); break;

@@ -44,6 +44,7 @@ extern "C" {
 #endif
 
 /********************** inclusions *******************************************/
+#include "task_system_attribute.h"
 
 /********************** macros ***********************************************/
 
@@ -108,22 +109,24 @@ typedef struct
 
 typedef struct
 {
-	uint32_t		tick_idle;
-	uint32_t		tick_st_feedback_user;
+	uint32_t			tick_st_feedback_user;
 
-	task_menu_st_t	state;
-	task_menu_st_t  last_state;
-	task_menu_ev_t	event;
+	task_menu_st_t		state;
+	task_menu_st_t  	last_state;
+	task_menu_ev_t		event;
 
-	uint32_t		threshold_temperature;
-	uint32_t		threshold_humidity;
+
+	task_system_mode_t	sys_mode;
+	uint32_t			sys_tick_idle;
+	uint32_t			sys_th_temperature;
+	uint32_t			sys_th_humidity;
 
 	//Impresion display
-	bool 			refresh_screen; //Se debe actualizar la pantalla
-	bool			printing;		//Impresion por etapas
-	uint16_t 		etapa_print;	//Etapa de impresion
-	bool 			refresh_cursor;  //Se debe actualizar el cursor
-	uint16_t		cursor_pos;		//posición del cursor
+	bool 				refresh_screen; //Se debe actualizar la pantalla
+	bool				printing;		//Impresion por etapas
+	uint16_t 			etapa_print;	//Etapa de impresion
+	bool 				refresh_cursor;  //Se debe actualizar el cursor
+	uint16_t			cursor_pos;		//posición del cursor
 } task_menu_dta_t;
 
 /********************** external data declaration ****************************/
