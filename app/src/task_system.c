@@ -43,7 +43,7 @@
 #define DEL_SYS_RIEGO_MAX			20ul
 #define DEL_SYS_RIEGO_MIN			0ul
 
-#define DEL_SYS_FALLA_MAX			5ul
+#define DEL_SYS_FALLA_MAX			10ul
 #define DEL_SYS_FALLA_MIN			0ul
 
 #define THRESHOLD_SYS_TEMP_DEF		24ul
@@ -170,16 +170,16 @@ void task_system_update(void *parameters)
 
 
 			/* Aquí colocamos código a ejecutar cuando cambiamos de estado */
-			if (p_task_menu_dta->state != p_task_menu_dta->last_state)
+			if (p_task_system_dta->state != p_task_system_dta->last_state)
 			{
 
 				/* AVISOS EN CASO DE FALLA*/
 				if (p_task_system_dta->state == ST_SYS_FALLA)
 				{
-					put_event_task_menu(EV_SYS_ERROR_ALARM);
+					put_event_task_menu(p_task_system_cfg->ev_men_system_falla);
 				}
 
-				p_task_menu_dta->last_state = p_task_menu_dta->state;
+				p_task_system_dta->last_state = p_task_system_dta->state;
 			}
 
 
