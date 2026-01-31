@@ -453,7 +453,7 @@ void task_menu_update(void *parameters)
 				case ST_MEN_CHANGE_RIEGO_TIME:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->sys_tick_idle = (p_task_menu_dta->sys_tick_idle + 5) % 60;
+						p_task_menu_dta->sys_tick_riego = (p_task_menu_dta->sys_tick_riego + 5) % 60;
 						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
@@ -809,7 +809,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 		case ST_MEN_CHANGE_RIEGO_TIME:
 			if (true == dta->printing) {
-				snprintf(str_buffer, sizeof(str_buffer), "NUEVO TIEMPO %-3lu min", dta->sys_tick_idle);
+				snprintf(str_buffer, sizeof(str_buffer), "NUEVO TIEMPO %-3lu min", dta->sys_tick_riego);
 				switch (dta->etapa_print) {
 					case 0: displayRowSplit(0, 0, "CONFIG. TIEMPO RIEGO", PART_LEFT); break;
 					case 1: displayRowSplit(0, 0, "CONFIG. TIEMPO RIEGO", PART_RIGHT); break;

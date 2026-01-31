@@ -34,8 +34,8 @@
 #define G_TASK_SYS_TICK_CNT_INI		0ul
 
 #define DEL_SYS_XX_MIN				0ul
-#define DEL_SYS_XX_MED				50ul
-#define DEL_SYS_XX_MAX				500ul
+#define DEL_SYS_XX_MED				5ul
+#define DEL_SYS_XX_MAX				10ul
 
 #define DEL_SYS_IDLE_MAX			50ul
 #define DEL_SYS_IDLE_MIN			0ul
@@ -120,20 +120,31 @@ void task_system_init(void *parameters)
 
 	g_task_system_tick_cnt = G_TASK_SYS_TICK_CNT_INI;
 
+
 	// FLASH
 	flash_setup_t stored_config;
 	Flash_Read_Setup(&stored_config);
-
 	if (stored_config.magic_number == FLASH_MAGIC_NUMBER) {
-		// La Flash tiene datos válidos, los cargamos
+		task_system_cfg.system_mode           = stored_config.system_mode;
+		task_system_cfg.tick_idle_max         = stored_config.tick_idle_max;
+		task_system_cfg.tick_riego_max        = stored_config.tick_riego_max;
 		task_system_cfg.threshold_temperature = stored_config.threshold_temperature;
 		task_system_cfg.threshold_humidity    = stored_config.threshold_humidity;
-		task_system_cfg.tick_idle_max         = stored_config.tick_idle_max;
-		task_system_dta.system_mode           = stored_config.system_mode;
+		LOGGER_LOG("Flash Loaded OK\r\n");
 	} else {
-		// Flash vacía (0xFFFFFFFF), usamos valores por defecto
-		// Y opcionalmente guardamos los defaults ahora mismo
+		flash_setup_t default_config = {
+			.magic_number = FLASH_MAGIC_NUMBER,
+			.system_mode  = SYS_MOD_TIME,
+			.tick_idle_max = DEL_SYS_IDLE_MAX,
+			.tick_riego_max = DEL_SYS_RIEGO_MAX,
+			.threshold_temperature = THRESHOLD_SYS_TEMP_DEF,
+			.threshold_humidity = THRESHOLD_SYS_HUM_DEF
+		};
+		Flash_Write_Setup(&default_config);
+		LOGGER_LOG("Flash Init with Defaults\r\n");
 	}
+
+
 }
 
 void task_system_update(void *parameters)
@@ -300,13 +311,14 @@ void task_system_update(void *parameters)
 					break;*/
 
 					if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event)) {
-						// Preparamos la estructura para grabar
+
 						flash_setup_t to_save = {
 							.magic_number = FLASH_MAGIC_NUMBER,
+							.system_mode = p_task_system_cfg->system_mode,
+							.tick_idle_max = p_task_system_cfg->tick_idle_max,
+							.tick_riego_max = p_task_system_cfg->tick_riego_max,
 							.threshold_temperature = p_task_system_cfg->threshold_temperature,
 							.threshold_humidity = p_task_system_cfg->threshold_humidity,
-							.tick_idle_max = p_task_system_cfg->tick_idle_max,
-							.system_mode = p_task_system_dta->system_mode
 						};
 						Flash_Write_Setup(&to_save);
 
