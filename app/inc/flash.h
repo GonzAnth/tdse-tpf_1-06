@@ -9,22 +9,19 @@
 #define INC_FLASH_H_
 
 #include "main.h"
-#include "task_system_attribute.h"
 
 
-
-#define FLASH_USER_START_ADDR   0x0800FC20//0x0801FC00
+#define FLASH_USER_START_ADDR   0x0800FC00
 
 #define FLASH_MAGIC_NUMBER      0xABCD1234
 
 
 typedef struct __attribute__((aligned(4))) {
-    uint32_t 				magic_number;           // Identificador de datos válidos
-    uint32_t			 	system_mode;            // Modo: Tiempo o Sensor
-    uint32_t 				tick_idle_max;          // Tiempo de espera entre riegos
+    uint32_t 				magic_number;
+    uint32_t 				tick_idle_max;
     uint32_t 				tick_riego_max;
-    uint32_t 				threshold_temperature;  // Umbral de temperatura
-    uint32_t 				threshold_humidity;     // Umbral de humedad
+    uint32_t 				threshold_temperature;
+    uint32_t 				threshold_humidity;
 } flash_setup_t;
 
 
