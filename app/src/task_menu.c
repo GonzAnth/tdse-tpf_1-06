@@ -395,6 +395,7 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
+						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
 						p_task_menu_cfg->flag = false;
 						if (true == p_task_menu_dta->edit_changes){
 							p_task_menu_dta->state = ST_MEN_CONFIRM_CONFIG;
