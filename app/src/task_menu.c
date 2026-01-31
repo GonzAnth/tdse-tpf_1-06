@@ -946,10 +946,10 @@ static void menu_display_print(task_menu_dta_t *dta){
 				{
 					case 0: displayClearPart(0, 0, 10); break;
 					case 1: displayClearPart(0, 10, 10); break;
-					case 2: displayClearPart(1, 0, 10); break;
-					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 2, "CAMBIOS GUARDADOS!", PART_LEFT); break;
-					case 5: displayRowSplit(2, 2, "CAMBIOS GUARDADOS!", PART_RIGHT); break;
+					case 2: displayRowSplit(1, 3, "MODIFICACIONES", PART_LEFT); break;
+					case 3: displayRowSplit(1, 3, "MODIFICACIONES", PART_RIGHT); break;
+					case 4: displayRowSplit(2, 5, "APLICADAS!", PART_LEFT); break;
+					case 5: displayRowSplit(2, 5, "APLICADAS!", PART_RIGHT); break;
 					case 6: displayClearPart(3, 0, 10); break;
 					case 7: displayClearPart(3, 10, 10); break;
 					default: dta->printing = false;	break;
