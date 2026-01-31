@@ -27,15 +27,15 @@
 #include "task_adc_interface.h"
 #include "task_actuator_attribute.h"
 #include "task_actuator_interface.h"
-
+#include "flash.h"
 
 /********************** macros and definitions *******************************/
 #define G_TASK_SYS_CNT_INI			0ul
 #define G_TASK_SYS_TICK_CNT_INI		0ul
 
 #define DEL_SYS_XX_MIN				0ul
-#define DEL_SYS_XX_MED				50ul
-#define DEL_SYS_XX_MAX				500ul
+#define DEL_SYS_XX_MED				5ul
+#define DEL_SYS_XX_MAX				10ul
 
 #define DEL_SYS_IDLE_MAX			50ul
 #define DEL_SYS_IDLE_MIN			0ul
@@ -56,7 +56,7 @@
 task_system_cfg_t task_system_cfg = {
 	DEL_SYS_XX_MIN, false,
 	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX,
-	SYS_MOD_TIME, THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF, THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
+	SYS_MOD_MANUAL, THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF, THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
 	EV_SEN_MEASURE_ON, EV_SEN_MEASURE_READ, EV_SEN_FALLA_OK,
 	EV_ADC_START, EV_ADC_FALLA_OK,
 	EV_MEN_ADC_REQ_OK, EV_MEN_SYS_FALLA,
@@ -119,6 +119,30 @@ void task_system_init(void *parameters)
 	cycle_counter_reset();
 
 	g_task_system_tick_cnt = G_TASK_SYS_TICK_CNT_INI;
+
+
+	/* Lectura de FLASH */
+	flash_setup_t stored_config;
+	Flash_Read_Setup(&stored_config);
+	if (stored_config.magic_number == FLASH_MAGIC_NUMBER) {
+		task_system_cfg.tick_idle_max         = stored_config.tick_idle_max;
+		task_system_cfg.tick_riego_max        = stored_config.tick_riego_max;
+		task_system_cfg.threshold_temperature = stored_config.threshold_temperature;
+		task_system_cfg.threshold_humidity    = stored_config.threshold_humidity;
+		LOGGER_LOG("   Flash loaded OK\r\n");
+	} else {
+		flash_setup_t default_config = {
+			.magic_number = FLASH_MAGIC_NUMBER,
+			.tick_idle_max = DEL_SYS_IDLE_MAX,
+			.tick_riego_max = DEL_SYS_RIEGO_MAX,
+			.threshold_temperature = THRESHOLD_SYS_TEMP_DEF,
+			.threshold_humidity = THRESHOLD_SYS_HUM_DEF
+		};
+		Flash_Write_Setup(&default_config);
+		LOGGER_LOG("   Flash Init with default config\r\n");
+	}
+
+
 }
 
 void task_system_update(void *parameters)
@@ -275,13 +299,29 @@ void task_system_update(void *parameters)
 
 				case ST_SYS_CONFIG:
 
-					if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event))
+					/*if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event))
 					{
 						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}
 
+					break;*/
+
+					if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event)) {
+
+						flash_setup_t to_save = {
+							.magic_number = FLASH_MAGIC_NUMBER,
+							.tick_idle_max = p_task_system_cfg->tick_idle_max,
+							.tick_riego_max = p_task_system_cfg->tick_riego_max,
+							.threshold_temperature = p_task_system_cfg->threshold_temperature,
+							.threshold_humidity = p_task_system_cfg->threshold_humidity,
+						};
+						Flash_Write_Setup(&to_save);
+
+						p_task_system_cfg->flag = false;
+						p_task_system_dta->state = ST_SYS_IDLE;
+					}
 					break;
 
 				case ST_SYS_RIEGO :
