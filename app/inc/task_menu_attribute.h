@@ -140,7 +140,9 @@ typedef struct
 	uint16_t			cursor_pos;		//posición del cursor
 	uint16_t			cursor_offset;		//posición del cursor
 	const char 			*lines[4];
+
 	char 				aux_str_buf[ANCHO_LCD+1]; //Buffer auxiliar para snprintf
+	char 				aux_str_buf_2[ANCHO_LCD+1]; //Buffer auxiliar para snprintf
 } task_menu_dta_t;
 
 /********************** external data declaration ****************************/

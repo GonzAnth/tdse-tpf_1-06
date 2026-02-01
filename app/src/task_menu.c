@@ -60,13 +60,22 @@
 
 #define DEL_MEN_XX_MIN						0ul
 #define DEL_MEN_XX_MED						2ul
-#define DEL_MEN_XX_MAX						3ul
+#define DEL_MEN_XX_MAX						4ul
 
 #define DEL_MEN_USER_FEEDBACK_MAX			200ul
 #define DEL_MEN_USER_FEEDBACK_MIN			0ul
 
 #define DEL_MEN_USER_FEEDBACK_FALLA_MAX		DEL_MEN_USER_FEEDBACK_MAX * 8
 #define DEL_MEN_USER_FEEDBACK_FALLA_MIN		0ul
+
+#define IDLE_TIME_INCREMENT					15
+#define IDLE_TIME_TOP						360
+#define RIEGO_TIME_INCREMENT				5
+#define RIEGO_TIME_TOP						60
+#define TH_TEMP_INCREMENT					5
+#define TH_TEMP_TOP							100
+#define TH_HUM_INCREMENT					5
+#define TH_HUM_TOP							100
 
 #define NO_CURSOR							255
 
@@ -97,8 +106,6 @@ task_menu_dta_t task_menu_dta = {
 /********************** internal functions declaration ***********************/
 
 static void menu_display_print(task_menu_dta_t *dta);
-//static inline void fast_copy(char *dst, const char *src);
-//static void menu_print_centered(task_menu_dta_t *dta, uint8_t row, const char *text);
 
 /********************** internal data definition *****************************/
 const char *p_task_menu 		= "Task Menu (Interactive Menu)";
@@ -455,7 +462,11 @@ void task_menu_update(void *parameters)
 				case ST_MEN_CHANGE_IDLE_TIME:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->edit_sys_tick_idle = (p_task_menu_dta->edit_sys_tick_idle + 10) % 60;
+						p_task_menu_dta->edit_sys_tick_idle += IDLE_TIME_INCREMENT;
+						if (p_task_menu_dta->edit_sys_tick_idle > IDLE_TIME_TOP)
+						{
+							p_task_menu_dta->edit_sys_tick_idle = IDLE_TIME_INCREMENT;
+						}
 						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
@@ -479,7 +490,11 @@ void task_menu_update(void *parameters)
 				case ST_MEN_CHANGE_RIEGO_TIME:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->edit_sys_tick_riego = (p_task_menu_dta->edit_sys_tick_riego + 5) % 60;
+						p_task_menu_dta->edit_sys_tick_riego += RIEGO_TIME_INCREMENT;
+						if (p_task_menu_dta->edit_sys_tick_riego > RIEGO_TIME_TOP)
+						{
+							p_task_menu_dta->edit_sys_tick_riego = RIEGO_TIME_INCREMENT;
+						}
 						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
@@ -503,7 +518,11 @@ void task_menu_update(void *parameters)
 				case ST_MEN_CHANGE_TEMP:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->edit_sys_th_temperature = (p_task_menu_dta->edit_sys_th_temperature + 1) % 50;
+						p_task_menu_dta->edit_sys_th_temperature += TH_TEMP_INCREMENT;
+						if (p_task_menu_dta->edit_sys_th_temperature > TH_TEMP_TOP)
+						{
+							p_task_menu_dta->edit_sys_th_temperature = TH_TEMP_INCREMENT;
+						}
 						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
@@ -527,7 +546,11 @@ void task_menu_update(void *parameters)
 				case ST_MEN_CHANGE_HUME:
 					if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						p_task_menu_dta->edit_sys_th_humidity = (p_task_menu_dta->edit_sys_th_humidity + 5) % 100;
+						p_task_menu_dta->edit_sys_th_humidity += TH_HUM_INCREMENT;
+						if (p_task_menu_dta->edit_sys_th_humidity > TH_HUM_TOP)
+						{
+							p_task_menu_dta->edit_sys_th_humidity = TH_HUM_INCREMENT;
+						}
 						p_task_menu_dta->refresh_screen = true;
 						p_task_menu_cfg->flag = false;
 					}
@@ -651,8 +674,14 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 
 			case ST_MEN_SALUD_WAIT:
-				dta->lines[0] = " ESTADO DEL EQUIPO: ";
-				dta->lines[2] = "Midiendo ...        ";
+				dta->lines[0]		= " ESTADO DEL EQUIPO: ";
+				if (true == dta->sys_riego_state)
+				{
+					dta->lines[2]	= "  SYSTEMA OCUPADO!  ";
+					dta->lines[3]	= "REINTENTAR MAS TARDE";
+				} else {
+					dta->lines[2]	= "Midiendo ...        ";
+				}
 
 				dta->cursor_offset = NO_CURSOR;
 				break;
@@ -666,12 +695,11 @@ static void menu_display_print(task_menu_dta_t *dta){
 				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "Bateria: %d.%02d V", bat_e, bat_d);
 				dta->lines[2] = dta->aux_str_buf;
 
-				/*
+
 				int temp_e = (int)dta->sys_salud_temp_int_c;
 				int temp_d = (int)(fabs(dta->sys_salud_temp_int_c - temp_e) * 100);
 				snprintf(dta->aux_str_buf_2, 21, "T. interna: %d.%02d C", temp_e, temp_d);
 				dta->lines[3] = dta->aux_str_buf_2;
-				*/
 
 				dta->cursor_offset = NO_CURSOR;
 				break;
