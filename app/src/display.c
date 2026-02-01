@@ -252,7 +252,6 @@ void displayClearPart(uint8_t row, uint8_t col, uint8_t len)
 }
 
 
-
 void displayRowSplit(uint8_t row, uint8_t col_offset, const char *str, uint8_t part)
 {
     char line_buffer[21]; //+\0
@@ -283,6 +282,30 @@ void displayRowSplit(uint8_t row, uint8_t col_offset, const char *str, uint8_t p
     }
 }
 
+
+void displayPrintPart(uint8_t row, uint8_t chunk_index, const char *str)
+{
+    char line_buffer[21];
+    memset(line_buffer, ' ', 20);
+    line_buffer[20] = '\0';
+
+    uint8_t len = 0;
+    while ((str[len] != '\0') && (len < 20))
+    {
+        line_buffer[len] = str[len];
+        len++;
+    }
+
+    uint8_t col = chunk_index * 5;
+    if (col >= 20) return;
+
+    displayCharPositionWrite(col, row);
+    for (uint8_t i = 0; i < 5; i++) {
+        displayCodeWrite(DISPLAY_RS_DATA, line_buffer[col + i]);
+    }
+}
+
+
 void displayUpdateRow(uint8_t row, uint8_t col, const char *str)
 {
     char buffer_linea[ANCHO_LCD + 1];
@@ -301,6 +324,7 @@ void displayUpdateRow(uint8_t row, uint8_t col, const char *str)
     displayCharPositionWrite(0, row);
     displayStringWrite(buffer_linea);
 }
+
 
 void displayClearRow(uint8_t row)
 {

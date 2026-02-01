@@ -35,6 +35,8 @@ void displayClearPart(uint8_t row, uint8_t col, uint8_t len);
 
 void displayRowSplit(uint8_t row, uint8_t col_offset, const char *str, uint8_t part);
 
+void displayPrintPart(uint8_t row, uint8_t chunk_index, const char *str);
+
 void displayUpdateRow(uint8_t row, uint8_t col, const char *str);
 
 void displayClearRow(uint8_t row);
