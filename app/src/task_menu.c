@@ -753,7 +753,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 			case ST_MEN_CHANGE_IDLE_TIME:
 				dta->lines[0] = "CONFIG. TIEMPO SLEEP";
-				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "NUEVO TIEMPO: %lu min", dta->edit_sys_tick_idle);
+				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "NUEVO TIEMPO:%lu min", dta->edit_sys_tick_idle);
 				dta->lines[2] = dta->aux_str_buf;
 				dta->lines[3] = "ENT: OK  ESC: CANCEL";
 
@@ -763,7 +763,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 			case ST_MEN_CHANGE_RIEGO_TIME:
 				dta->lines[0] = "CONFIG. TIEMPO RIEGO";
-				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "NUEVO TIEMPO: %lu min", dta->edit_sys_tick_riego);
+				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "NUEVO TIEMPO:%lu min", dta->edit_sys_tick_riego);
 				dta->lines[2] = dta->aux_str_buf;
 				dta->lines[3] = "ENT: OK  ESC: CANCEL";
 
