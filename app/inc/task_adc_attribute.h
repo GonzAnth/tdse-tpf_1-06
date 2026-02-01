@@ -54,7 +54,7 @@ typedef struct
 	task_adc_ev_t		event;
 
 	bool 				flag_ready;
-	volatile uint16_t 	last_raw_lecture;
+	uint32_t			adc_buffer[2];
 
 	uint16_t			temp_raw;
 	float				temp_cent;
