@@ -35,7 +35,7 @@
 
 #define DEL_SYS_XX_MIN				0ul
 #define DEL_SYS_XX_MED				5ul
-#define DEL_SYS_XX_MAX				10ul
+#define DEL_SYS_XX_MAX				500ul
 
 #define DEL_SYS_IDLE_MAX			50ul
 #define DEL_SYS_IDLE_MIN			0ul
