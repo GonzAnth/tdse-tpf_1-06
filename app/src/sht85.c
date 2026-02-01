@@ -18,7 +18,7 @@ void SHT85_Init(I2C_HandleTypeDef *hi2c)
 }
 
 
-
+/*
 
 bool SHT85_send_single_shot(void)
 {
@@ -35,9 +35,10 @@ bool SHT85_send_single_shot(void)
 
     return true;
 }
+*/
 
 
-
+/*
 
 bool SHT85_read(float* temp, float* hum)
 {
@@ -68,8 +69,48 @@ bool SHT85_read(float* temp, float* hum)
 
     return true;
 }
+*/
 
 
+bool SHT85_start_measure_IT(void)
+{
+    static uint8_t cmd_buffer[2];
+    uint16_t command = SHT85_CMD_MEASURE_HIGH;
+
+    cmd_buffer[0] = (command >> 8) & 0xFF;
+    cmd_buffer[1] = command & 0xFF;
+
+    if (HAL_I2C_Master_Transmit_IT(phi2c, SHT85_I2C_ADDR, cmd_buffer, 2) != HAL_OK)
+    {
+        return false;
+    }
+    return true;
+}
+
+
+bool SHT85_start_read_IT(uint8_t *buffer_destino)
+{
+    if (HAL_I2C_Master_Receive_IT(phi2c, SHT85_I2C_ADDR, buffer_destino, 6) != HAL_OK)
+    {
+        return false;
+    }
+    return true;
+}
+
+
+bool SHT85_compute_values(uint8_t *rx_buffer, float* temp, float* hum)
+{
+    if (CalculateCRC(&rx_buffer[0], 2) != rx_buffer[2]) return false;
+    if (CalculateCRC(&rx_buffer[3], 2) != rx_buffer[5]) return false;
+
+    uint16_t rawTemp = (rx_buffer[0] << 8) | rx_buffer[1];
+    uint16_t rawHum = (rx_buffer[3] << 8) | rx_buffer[4];
+
+    *temp = -45.0f + 175.0f * ((float)rawTemp / 65535.0f);
+    *hum = 100.0f * ((float)rawHum / 65535.0f);
+
+    return true;
+}
 
 
 static uint8_t CalculateCRC(uint8_t *data, uint8_t len)
