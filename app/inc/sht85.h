@@ -20,17 +20,7 @@ bool SHT85_start_measure_IT(void);
 
 bool SHT85_start_read_IT(uint8_t *buffer_destino);
 
-
 bool SHT85_compute_values(uint8_t *rx_buffer, float* temp, float* hum);
-
-
-
-
-//bool SHT85_send_single_shot(void);
-
-//bool SHT85_read(float* temp, float* hum);
-
-
 
 
 //=====[#include guards - end]=================================================

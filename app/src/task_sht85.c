@@ -290,7 +290,7 @@ void task_sht85_update(void *parameters)
 
 					p_task_sht85_cfg->tick  = DEL_SEN_XX_MIN;
 					p_task_sht85_dta->state = ST_SEN_IDLE;
-					p_task_sht85_dta->event = EV_SEN_MEASURE_OFF;
+					p_task_sht85_dta->event = EV_SEN_IDLE;
 					p_task_sht85_cfg->flag  = false;
 
 					break;
