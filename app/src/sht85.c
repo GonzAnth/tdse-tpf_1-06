@@ -103,11 +103,16 @@ bool SHT85_compute_values(uint8_t *rx_buffer, float* temp, float* hum)
     if (CalculateCRC(&rx_buffer[0], 2) != rx_buffer[2]) return false;
     if (CalculateCRC(&rx_buffer[3], 2) != rx_buffer[5]) return false;
 
-    uint16_t rawTemp = (rx_buffer[0] << 8) | rx_buffer[1];
-    uint16_t rawHum = (rx_buffer[3] << 8) | rx_buffer[4];
+    uint16_t raw_temp = (rx_buffer[0] << 8) | rx_buffer[1];
+    uint16_t raw_hum = (rx_buffer[3] << 8) | rx_buffer[4];
 
-    *temp = -45.0f + 175.0f * ((float)rawTemp / 65535.0f);
-    *hum = 100.0f * ((float)rawHum / 65535.0f);
+    float t = -45.0f + 175.0f * ((float)raw_temp / 65535.0f);
+    float h = 100.0f * ((float)raw_hum / 65535.0f);
+
+    if ((raw_temp == 0) || (raw_hum == 0)) return false;
+
+    &temp = t;
+    &hum = h;
 
     return true;
 }

@@ -65,16 +65,10 @@ extern "C" {
  */
 
 /* Events to excite Task Menu */
-typedef enum task_sht85_ev {EV_SEN_MEASURE_ON,
-						   EV_SEN_MEASURE_OFF,
-						   EV_SEN_MEASURE_OK,
-						   EV_SEN_MEASURE_OK_OFF,
-						   EV_SEN_MEASURE_NOT_OK,
-						   EV_SEN_MEASURE_NOT_OK_OFF,
-						   EV_SEN_MEASURE_READ,
-						   EV_SEN_MEASURE_READ_OFF,
-						   EV_SEN_FALLA_OK,
-						   EV_SEN_FALLA_OK_OFF} task_sht85_ev_t;
+typedef enum task_sht85_ev {EV_SEN_IDLE,
+							EV_SEN_MEASURE_ON,
+						    EV_SEN_MEASURE_READ,
+						    EV_SEN_FALLA_OK,} task_sht85_ev_t;
 
 /* State of Task Menu */
 typedef enum task_sht85_st {ST_SEN_IDLE,

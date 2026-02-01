@@ -75,7 +75,7 @@ task_sht85_cfg_t task_sht85_cfg = {
 task_sht85_dta_t task_sht85_dta = {
 	.tick_measure 		= DEL_SEN_MEAS_XX_MIN,
 	.state				= ST_SEN_IDLE,
-	.event				= EV_SEN_MEASURE_OFF,
+	.event				= EV_SEN_IDLE,
 	.i2c_op_complete	= false
 };
 
@@ -243,10 +243,11 @@ void task_sht85_update(void *parameters)
 						p_task_sht85_dta->i2c_op_complete = false;
 						if (true == SHT85_start_read_IT(p_task_sht85_dta->i2c_rx_raw_values))
 						{
-							p_task_sht85_dta->state = ST_SEN_IDLE;
+							p_task_sht85_dta->state = ST_SEN_WAIT_RX;
 						}
 						else
 						{
+							put_event_task_system(p_task_sht85_cfg->ev_sys_check_not_ok);
 							p_task_sht85_dta->state = ST_SEN_FALLA;
 						}
 						p_task_sht85_cfg->flag = false;
@@ -259,7 +260,7 @@ void task_sht85_update(void *parameters)
 					if (true == p_task_sht85_dta->i2c_op_complete) {
 						bool calculo = SHT85_compute_values(p_task_sht85_dta->i2c_rx_raw_values,
 														&p_task_sht85_dta->temperature,
-														&p_task_sht85_dta->temperature);
+														&p_task_sht85_dta->humidity);
 
 						if (true == calculo)
 						{
