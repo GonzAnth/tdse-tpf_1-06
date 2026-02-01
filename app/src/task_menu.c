@@ -73,7 +73,7 @@
 #define RIEGO_TIME_INCREMENT				5
 #define RIEGO_TIME_TOP						60
 #define TH_TEMP_INCREMENT					5
-#define TH_TEMP_TOP							100
+#define TH_TEMP_TOP							50
 #define TH_HUM_INCREMENT					5
 #define TH_HUM_TOP							100
 
