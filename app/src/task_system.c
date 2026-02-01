@@ -57,15 +57,11 @@ task_system_cfg_t task_system_cfg = {
 	DEL_SYS_XX_MIN, false,
 	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX,
 	SYS_MOD_TIME, THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF, THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
-	EV_SEN_MEASURE_ON, EV_SEN_MEASURE_READ, EV_SEN_FALLA_OK,
-	EV_ADC_START, EV_ADC_FALLA_OK,
-	EV_MEN_ADC_REQ_OK, EV_MEN_SYS_FALLA,
-	EV_ACT_ON, EV_ACT_OFF
 };
 
 task_system_dta_t task_system_dta = {
 	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN, DEL_SYS_FALLA_MIN,
-	ST_SYS_IDLE, ST_SYS_IDLE, EV_SYS_RIEGO_NACT_ON,
+	ST_SYS_IDLE, ST_SYS_IDLE, EV_SYS_IDLE,
 	0.0, 0.0, false, 0.0, 0.0
 };
 
@@ -176,7 +172,7 @@ void task_system_update(void *parameters)
 				/* AVISOS EN CASO DE FALLA*/
 				if (p_task_system_dta->state == ST_SYS_FALLA)
 				{
-					put_event_task_menu(p_task_system_cfg->ev_men_system_falla);
+					put_event_task_menu(EV_MEN_SYS_FALLA);
 				}
 
 				p_task_system_dta->last_state = p_task_system_dta->state;
@@ -222,13 +218,14 @@ void task_system_update(void *parameters)
 					{
 						if (SYS_MOD_TIME == p_task_system_cfg->system_mode)
 						{
-							put_event_task_actuator(p_task_system_cfg->ev_act_on, ID_ACT_RELAY);
+
+							put_event_task_actuator(EV_ACT_ON, ID_ACT_RELAY);
 							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
 						else if (SYS_MOD_SENSOR == p_task_system_cfg->system_mode)
 						{
-							put_event_task_sht85(p_task_system_cfg->ev_sen_measure_on);
+							put_event_task_sht85(EV_SEN_MEASURE_ON);
 							p_task_system_dta->state = ST_SYS_MEASURE;
 						}
 						else if (SYS_MOD_MANUAL == p_task_system_cfg->system_mode)
@@ -241,16 +238,16 @@ void task_system_update(void *parameters)
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_CONFIG;
 					}
-					else if ((true == p_task_system_cfg->flag) && (EV_SYS_RIEGO_ACT_ON == p_task_system_dta->event))
+					else if ((true == p_task_system_cfg->flag) && (EV_SYS_RIEGO_ON == p_task_system_dta->event))
 					{
-						put_event_task_actuator(p_task_system_cfg->ev_act_on, ID_ACT_RELAY);
+						put_event_task_actuator(EV_ACT_ON, ID_ACT_RELAY);
 						p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_RIEGO;
 					}
 					else if (true == p_task_system_dta->adc_req_pending)
 					{
-						put_event_task_adc(p_task_system_cfg->ev_adc_start);
+						put_event_task_adc(EV_ADC_START);
 						p_task_system_dta->adc_req_pending = false;
 						p_task_system_dta->state = ST_SYS_ADC_MEASURE;
 					}
@@ -258,13 +255,13 @@ void task_system_update(void *parameters)
 
 				case ST_SYS_MEASURE:
 
-					if ((true == p_task_system_cfg->flag) && (EV_SYS_READY_ON == p_task_system_dta->event))
+					if ((true == p_task_system_cfg->flag) && (EV_SYS_READY == p_task_system_dta->event))
 					{
-						put_event_task_sht85(p_task_system_cfg->ev_sen_measure_read);
+						put_event_task_sht85(EV_SEN_MEASURE_READ);
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_WAITING;
 					}
-					else if ((true == p_task_system_cfg->flag) && (EV_SYS_FALLA_ON == p_task_system_dta->event))
+					else if ((true == p_task_system_cfg->flag) && (EV_SYS_FALLA == p_task_system_dta->event))
 					{
 						p_task_system_dta->tick_falla = p_task_system_cfg->tick_falla_max;
 						p_task_system_cfg->flag = false;
@@ -275,7 +272,7 @@ void task_system_update(void *parameters)
 
 				case ST_SYS_CONFIG:
 
-					if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event))
+					if ((true == p_task_system_cfg->flag) && (EV_SYS_CONFIG_OFF == p_task_system_dta->event))
 					{
 						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
 						p_task_system_cfg->flag = false;
@@ -287,9 +284,9 @@ void task_system_update(void *parameters)
 				case ST_SYS_RIEGO :
 
 					p_task_system_dta->tick_riego--;
-					if ((DEL_SYS_RIEGO_MIN == p_task_system_dta->tick_riego) || ((true == p_task_system_cfg->flag) && (EV_SYS_RIEGO_NACT_ON == p_task_system_dta->event)))
+					if ((DEL_SYS_RIEGO_MIN == p_task_system_dta->tick_riego) || ((true == p_task_system_cfg->flag) && (EV_SYS_RIEGO_OFF == p_task_system_dta->event)))
 					{
-						put_event_task_actuator(p_task_system_cfg->ev_act_off, ID_ACT_RELAY);
+						put_event_task_actuator(EV_ACT_OFF, ID_ACT_RELAY);
 						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
@@ -307,7 +304,7 @@ void task_system_update(void *parameters)
 						{
 							p_task_system_dta->state = ST_SYS_FALLA;
 						}
-						put_event_task_menu(p_task_system_cfg->ev_men_adc_req_ok);
+						put_event_task_menu(EV_MEN_ADC_REQ_OK);
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}
@@ -329,7 +326,7 @@ void task_system_update(void *parameters)
 
 						if ((p_task_system_dta->temperature > p_task_system_cfg->threshold_temperature) && (p_task_system_dta->humidity < p_task_system_cfg->threshold_humidity))
 						{
-							put_event_task_actuator(p_task_system_cfg->ev_act_on, ID_ACT_RELAY);
+							put_event_task_actuator(EV_ACT_ON, ID_ACT_RELAY);
 							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
@@ -356,8 +353,8 @@ void task_system_update(void *parameters)
 					p_task_system_dta->tick_falla--;
 					if (DEL_SYS_FALLA_MIN == p_task_system_dta->tick_falla)
 					{
-						put_event_task_sht85(p_task_system_cfg->ev_sen_falla_ok);
-						put_event_task_adc(p_task_system_cfg->ev_adc_falla_ok);
+						put_event_task_sht85(EV_SEN_FALLA_OK);
+						put_event_task_adc(EV_ADC_FALLA_OK);
 						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}
@@ -369,7 +366,7 @@ void task_system_update(void *parameters)
 					p_task_system_cfg->tick  = DEL_SYS_XX_MIN;
 					p_task_system_cfg->flag  = false;
 					p_task_system_dta->state = ST_SYS_IDLE;
-					p_task_system_dta->event = EV_SYS_RIEGO_NACT_ON;
+					p_task_system_dta->event = EV_SYS_RIEGO_OFF;
 
 					break;
 			}

@@ -69,11 +69,10 @@ extern I2C_HandleTypeDef hi2c1;
 /********************** internal data declaration ****************************/
 task_sht85_cfg_t task_sht85_cfg = {
 	DEL_SEN_XX_MIN, false, DEL_SEN_MEAS_XX_MAX,
-	EV_SYS_FALLA_ON, EV_SYS_READY_ON, EV_SYS_CHECK_OK, EV_SYS_CHECK_NOT_OK
 };
 
 task_sht85_dta_t task_sht85_dta = {
-	DEL_SEN_MEAS_XX_MIN	, ST_SEN_IDLE, EV_SEN_MEASURE_OFF, true, false, 0, 0, 0
+	DEL_SEN_MEAS_XX_MIN	, ST_SEN_IDLE, EV_SEN_IDLE, true, false, 0, 0, 0
 };
 
 #define MENU_DTA_QTY	(sizeof(task_sen_dta)/sizeof(task_sen_dta_t))
@@ -217,7 +216,7 @@ void task_sht85_update(void *parameters)
 					}
 					else
 					{
-						put_event_task_system(p_task_sht85_cfg->ev_sys_falla);
+						put_event_task_system(EV_SYS_FALLA);
 						p_task_sht85_cfg->flag = false;
 						p_task_sht85_dta->state = ST_SEN_FALLA;
 					}
@@ -242,7 +241,7 @@ void task_sht85_update(void *parameters)
 					p_task_sht85_dta->tick_means--;
 					if (DEL_SEN_MEAS_XX_MIN == p_task_sht85_dta->tick_means)
 					{
-						put_event_task_system(p_task_sht85_cfg->ev_sys_ready_on);
+						put_event_task_system(EV_SYS_READY);
 						p_task_sht85_dta->state = ST_SEN_READY;
 					}
 
@@ -256,12 +255,12 @@ void task_sht85_update(void *parameters)
 
 						if (p_task_sht85_dta->measure_check == true)
 						{
-							put_event_task_system(p_task_sht85_cfg->ev_sys_check_ok);
+							put_event_task_system(EV_SYS_CHECK_OK);
 							p_task_sht85_dta->state = ST_SEN_IDLE;
 						}
 						else
 						{
-							put_event_task_system(p_task_sht85_cfg->ev_sys_check_not_ok);
+							put_event_task_system(EV_SYS_CHECK_NOT_OK);
 							p_task_sht85_dta->state = ST_SEN_FALLA;
 						}
 
@@ -269,21 +268,6 @@ void task_sht85_update(void *parameters)
 					}
 
 					break;
-
-				// esto es otra opcion por si hace falta definir un estado de check
-				/*case ST_SEN_CHECK:
-
-					p_task_sht85_dta->measure_check = false; // funcion para verificar la medicion
-					if (p_task_sht85_dta->measure_check == true)
-					{
-						p_task_sht85_dta->state = ST_SEN_IDLE;
-					}
-					else
-					{
-						p_task_sht85_dta->state = ST_SEN_FALLA;
-					}
-
-					break;*/
 
 				case ST_SEN_FALLA:
 
@@ -299,7 +283,7 @@ void task_sht85_update(void *parameters)
 
 					p_task_sht85_cfg->tick  = DEL_SEN_XX_MIN;
 					p_task_sht85_dta->state = ST_SEN_IDLE;
-					p_task_sht85_dta->event = EV_SEN_MEASURE_OFF;
+					p_task_sht85_dta->event = EV_SEN_IDLE;
 					p_task_sht85_cfg->flag  = false;
 
 					break;

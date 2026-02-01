@@ -34,7 +34,7 @@ extern ADC_HandleTypeDef hadc1;
 
 /********************** internal data declaration ****************************/
 task_adc_cfg_t task_adc_cfg = {
-	DEL_ADC_XX_MIN, false, EV_SYS_ADC_OK, EV_SYS_ADC_NOT_OK
+	DEL_ADC_XX_MIN, false
 };
 
 task_adc_dta_t task_adc_dta = {
@@ -193,7 +193,7 @@ void task_adc_update(void *parameters)
 						p_task_adc_dta->temp_raw = p_task_adc_dta->last_raw_lecture;
 						if ((p_task_adc_dta->temp_raw == ADC_MIN_COUNT) || (p_task_adc_dta->temp_raw == ADC_MAX_COUNT))
 						{
-							put_event_task_system(p_task_adc_cfg->ev_sys_adc_not_ok);
+							put_event_task_system(EV_SYS_ADC_NOT_OK);
 							p_task_adc_dta->state = ST_ADC_FALLA;
 						}
 						p_task_adc_dta->state = ST_ADC_BAT_START;
@@ -227,7 +227,7 @@ void task_adc_update(void *parameters)
 						float temp_v_read = ( (float)p_task_adc_dta->temp_raw * p_task_adc_dta->bat_volts ) / ADC_MAX_COUNT;
 						p_task_adc_dta->temp_cent = (TEMP_V25 - temp_v_read)/TEMP_AVG_SLOPE + 25.0f;
 
-						put_event_task_system(p_task_adc_cfg->ev_sys_adc_ok);
+						put_event_task_system(EV_SYS_ADC_OK);
 						p_task_adc_dta->state = ST_ADC_IDLE;
 					}
 

@@ -65,16 +65,12 @@ extern "C" {
  */
 
 /* Events to excite Task Menu */
-typedef enum task_sht85_ev {EV_SEN_MEASURE_ON,
-						   EV_SEN_MEASURE_OFF,
-						   EV_SEN_MEASURE_OK,
-						   EV_SEN_MEASURE_OK_OFF,
-						   EV_SEN_MEASURE_NOT_OK,
-						   EV_SEN_MEASURE_NOT_OK_OFF,
-						   EV_SEN_MEASURE_READ,
-						   EV_SEN_MEASURE_READ_OFF,
-						   EV_SEN_FALLA_OK,
-						   EV_SEN_FALLA_OK_OFF} task_sht85_ev_t;
+typedef enum task_sht85_ev {EV_SEN_IDLE,
+						    EV_SEN_MEASURE_ON,
+						    EV_SEN_MEASURE_OK,
+						    EV_SEN_MEASURE_NOT_OK,
+						    EV_SEN_MEASURE_READ,
+						    EV_SEN_FALLA_OK} task_sht85_ev_t;
 
 /* State of Task Menu */
 typedef enum task_sht85_st {ST_SEN_IDLE,
@@ -89,10 +85,6 @@ typedef struct
 	uint32_t			tick;
 	bool				flag;
 	uint32_t			tick_means_max;
-	task_sht85_ev_t  	ev_sys_falla; //eventos que genera el sensor para el systema
-	task_sht85_ev_t		ev_sys_ready_on; //eventos que genera el sensor para el systema
-	task_sht85_ev_t		ev_sys_check_ok; //eventos que genera el sensor para el systema
-	task_sht85_ev_t		ev_sys_check_not_ok; //eventos que genera el sensor para el systema
 } task_sht85_cfg_t;
 
 

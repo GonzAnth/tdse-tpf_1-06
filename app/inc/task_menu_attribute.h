@@ -95,15 +95,6 @@ typedef struct
 	uint32_t			tick;
 	bool				flag;
 	uint32_t			tick_st_feedback_user_max;
-
-	task_menu_ev_t  	ev_sys_config_on; //eventos que genera el menua para el systema
-	task_menu_ev_t  	ev_sys_config_off;
-	task_menu_ev_t  	ev_sys_riego_on;
-	task_menu_ev_t  	ev_sys_riego_off;
-	task_menu_ev_t  	ev_sys_adc_req;
-	task_menu_ev_t  	ev_sys_mod_manual;
-	task_menu_ev_t  	ev_sys_mod_time;
-	task_menu_ev_t  	ev_sys_mod_sensor;
 } task_menu_cfg_t;
 
 typedef struct
