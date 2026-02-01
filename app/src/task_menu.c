@@ -59,14 +59,16 @@
 #define G_TASK_MEN_TICK_CNT_INI				0ul
 
 #define DEL_MEN_XX_MIN						0ul
-#define DEL_MEN_XX_MED						5ul
-#define DEL_MEN_XX_MAX						10ul
+#define DEL_MEN_XX_MED						2ul
+#define DEL_MEN_XX_MAX						3ul
 
 #define DEL_MEN_USER_FEEDBACK_MAX			200ul
 #define DEL_MEN_USER_FEEDBACK_MIN			0ul
 
 #define DEL_MEN_USER_FEEDBACK_FALLA_MAX		DEL_MEN_USER_FEEDBACK_MAX * 8
 #define DEL_MEN_USER_FEEDBACK_FALLA_MIN		0ul
+
+#define NO_CURSOR							255
 
 /********************** internal data declaration ****************************/
 task_menu_cfg_t task_menu_cfg = {
@@ -77,11 +79,16 @@ task_menu_cfg_t task_menu_cfg = {
 };
 
 task_menu_dta_t task_menu_dta = {
-	DEL_MEN_USER_FEEDBACK_MAX,
-	ST_MEN_MAIN, ST_MEN_MAIN, EV_MEN_ENT_IDLE,
-	SYS_MOD_MANUAL,	0, 0, 0, 0, 0, false,
-	0.0, 0.0, false,
-	true, false, 0, false, 0
+	.tick_st_feedback_user 	= DEL_MEN_USER_FEEDBACK_MAX,
+	.state 					= ST_MEN_MAIN,
+	.last_state 			= ST_MEN_MAIN,
+	.event 					= EV_MEN_ENT_IDLE,
+
+	.edit_changes			= false,
+
+	.refresh_screen 		= true,
+	.printing				= false,
+	.refresh_cursor			= false,
 };
 
 
@@ -90,6 +97,8 @@ task_menu_dta_t task_menu_dta = {
 /********************** internal functions declaration ***********************/
 
 static void menu_display_print(task_menu_dta_t *dta);
+//static inline void fast_copy(char *dst, const char *src);
+//static void menu_print_centered(task_menu_dta_t *dta, uint8_t row, const char *text);
 
 /********************** internal data definition *****************************/
 const char *p_task_menu 		= "Task Menu (Interactive Menu)";
@@ -613,417 +622,240 @@ void task_menu_update(void *parameters)
 
 
 static void menu_display_print(task_menu_dta_t *dta){
-	char str_buffer[ANCHO_LCD + 1]; //se suma caracter \0
-
 	if (true == dta->refresh_screen)
 	{
 		dta->refresh_screen = false;
 		dta->printing = true;
 		dta->etapa_print = 0;
 		dta->refresh_cursor = true;
+
+		//Lineas vacias
+		dta->lines[0] = "";
+		dta->lines[1] = "";
+		dta->lines[2] = "";
+		dta->lines[3] = "";
+
+		switch (dta->state){
+			case ST_MEN_MAIN:
+				dta->lines[0] = " Trabajo Final TDSE ";
+
+				if (dta->sys_mode == SYS_MOD_MANUAL) dta->lines[2] = "MODO: MANUAL";
+				else if (dta->sys_mode == SYS_MOD_SENSOR) dta->lines[2] = "MODO: SENSOR";
+				else dta->lines[2] = "MODO: TIMER";
+
+				if (dta->sys_riego_state) dta->lines[3] = ">>  BOMBA: ON";
+				else dta->lines[3] = ">>  BOMBA: OFF";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_SALUD_WAIT:
+				dta->lines[0] = " ESTADO DEL EQUIPO: ";
+				dta->lines[2] = "Midiendo ...        ";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_SALUD_SHOW:
+				dta->lines[0] = " ESTADO DEL EQUIPO: ";
+
+				int bat_e = (int)dta->sys_salud_bat_v;
+				int bat_d = (int)(fabs(dta->sys_salud_bat_v - bat_e) * 100);
+				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "Bateria: %d.%02d V", bat_e, bat_d);
+				dta->lines[2] = dta->aux_str_buf;
+
+				/*
+				int temp_e = (int)dta->sys_salud_temp_int_c;
+				int temp_d = (int)(fabs(dta->sys_salud_temp_int_c - temp_e) * 100);
+				snprintf(dta->aux_str_buf_2, 21, "T. interna: %d.%02d C", temp_e, temp_d);
+				dta->lines[3] = dta->aux_str_buf_2;
+				*/
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_SELECT_MODE:
+				dta->lines[0] = " MODO MANUAL";
+				dta->lines[1] = " MODO SENSOR & TIMER";
+				dta->lines[2] = " MODO TIMER";
+				dta->lines[3] = " CONFIGURAR EQUIPO";
+
+				dta->cursor_offset = 0;
+				break;
+
+
+			case ST_MEN_MODE_MANUAL:
+				dta->lines[0] = "MODO MANUAL ACTIVADO";
+				dta->lines[1] = "    SELECCIONAR:    ";
+				dta->lines[2] = " DESACTIVAR RIEGO";
+				dta->lines[3] = " ACTIVAR RIEGO";
+
+				dta->cursor_offset = 2;
+				break;
+
+
+			case ST_MEN_RIEGO_OFF:
+				dta->lines[0] = "    MODO: MANUAL    ";
+				dta->lines[2] = "   BOMBA APAGADA!   ";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_RIEGO_ON:
+				dta->lines[0] = "    MODO: MANUAL    ";
+				dta->lines[2] = "  BOMBA ENCENDIDA!  ";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_MODE_CONFIG:
+				dta->lines[0] = " CONFIG TIEMPO SLEEP";
+				dta->lines[1] = " CONFIG TIEMPO RIEGO";
+				dta->lines[2] = " CONFIG UMBRAL TEMP";
+				dta->lines[3] = " CONFIG UMBRAL HUM";
+
+				dta->cursor_offset = 0;
+				break;
+
+
+			case ST_MEN_CHANGE_IDLE_TIME:
+				dta->lines[0] = "CONFIG. TIEMPO SLEEP";
+				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "NUEVO TIEMPO: %lu min", dta->edit_sys_tick_idle);
+				dta->lines[2] = dta->aux_str_buf;
+				dta->lines[3] = "ENT: OK  ESC: CANCEL";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_CHANGE_RIEGO_TIME:
+				dta->lines[0] = "CONFIG. TIEMPO RIEGO";
+				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "NUEVO TIEMPO: %lu min", dta->edit_sys_tick_riego);
+				dta->lines[2] = dta->aux_str_buf;
+				dta->lines[3] = "ENT: OK  ESC: CANCEL";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_CHANGE_TEMP:
+				dta->lines[0] = " CONFIG UMBRAL TEMP ";
+				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "NUEVA TEMP: %lu C", dta->edit_sys_th_temperature);
+				dta->lines[2] = dta->aux_str_buf;
+				dta->lines[3] = "ENT: OK  ESC: CANCEL";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_CHANGE_HUME:
+				dta->lines[0] = " CONFIG UMBRAL HUM  ";
+				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "NUEVA HUM: %lu %%", dta->edit_sys_th_humidity);
+				dta->lines[2] = dta->aux_str_buf;
+				dta->lines[3] = "ENT: OK  ESC: CANCEL";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+
+			case ST_MEN_CONFIRM_CONFIG:
+				dta->lines[0] = " CONFIRMAR CAMBIOS? ";
+				dta->lines[1] = "  GUARDAR Y SALIR";
+				dta->lines[2] = "  SEGUIR EDITANDO";
+				dta->lines[3] = "  DESCARTAR";
+
+				dta->cursor_offset = 1;
+				break;
+
+
+			case ST_MEN_SAVE_CONFIG:
+				dta->lines[1] = "   MODIFICACIONES   ";
+				dta->lines[2] = "     APLICADAS!     ";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_MODE_SENSOR:
+				dta->lines[1] = "MODO SENSOR & TIMER ";
+				dta->lines[2] = "      ACTIVADO      ";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_MODE_TIME:
+				dta->lines[1] = "     MODO TIMER     ";
+				dta->lines[2] = "      ACTIVADO      ";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			case ST_MEN_FALLA_SHOW:
+				dta->lines[0] = "    FATAL ERROR!    ";
+				dta->lines[1] = "  REINTENTANDO ...  ";
+				dta->lines[3] = "  ENT/ESC: ACEPTAR  ";
+
+				dta->cursor_offset = NO_CURSOR;
+				break;
+
+
+			default:
+				dta->lines[0] = "ERR: PANTALLA VACIA ";
+				dta->cursor_offset = NO_CURSOR;
+				break;
+		}
+
+		return; //para ejecutar lo siguiente en otro tick
 	}
 
-	switch (dta->state){
-		case ST_MEN_MAIN:
-			if (true == dta->printing)
-			{
-				const char *text_mode = "ERROR";
-				switch (dta->sys_mode) {
-				    case SYS_MOD_MANUAL: text_mode = "MODO ACTUAL: MANUAL";	 break;
-				    case SYS_MOD_SENSOR: text_mode = "MODO: SENSOR & TIMER"; break;
-				    case SYS_MOD_TIME: 	 text_mode = "MODO ACTUAL: TIMER"; 	 break;
-				    default: break;
-				}
-				const char *text_riego = (dta->sys_riego_state) ? ">> BOMBA: ON" : ">> BOMBA: OFF";
-
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 1, "Trabajo Final TDSE", PART_LEFT); break;
-					case 1: displayRowSplit(0, 1, "Trabajo Final TDSE", PART_RIGHT); break;
-					case 2: displayClearPart(1, 0, 10); break;
-					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 0, text_mode, PART_LEFT); break;
-					case 5: displayRowSplit(2, 0, text_mode, PART_RIGHT); break;
-					case 6: displayRowSplit(3, 0, text_riego, PART_LEFT); break;
-					case 7: displayRowSplit(3, 0, text_riego, PART_RIGHT); break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			break;
 
 
-		case ST_MEN_SALUD_WAIT:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 1, "ESTADO DEL EQUIPO:", PART_LEFT); break;
-					case 1: displayRowSplit(0, 1, "ESTADO DEL EQUIPO:", PART_RIGHT); break;
-					case 2: displayClearPart(1, 0, 10); break;
-					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 0, "Midiendo ...", PART_LEFT); break;
-					case 5: displayRowSplit(2, 0, "Midiendo ...", PART_RIGHT); break;
-					case 6: displayClearPart(3, 0, 10); break;
-					case 7: displayClearPart(3, 10, 10); break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			break;
+	if (true == dta->printing)
+	{
+		if (dta->etapa_print < 16)
+		{
+			uint8_t fila  = dta->etapa_print / 4;
+			uint8_t chunk = dta->etapa_print % 4;
+			displayPrintPart(fila, chunk, dta->lines[fila]);
 
-
-		case ST_MEN_SALUD_SHOW:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0:
-					case 1:
-						int bat_e = (int)dta->sys_salud_bat_v;
-						int bat_d = (int)(fabs(dta->sys_salud_bat_v - bat_e) * 100);
-						snprintf(str_buffer, sizeof(str_buffer), "Bateria: %d.%02d V", bat_e, bat_d);
-						displayRowSplit(2, 0, str_buffer, (dta->etapa_print == 0) ? PART_LEFT : PART_RIGHT);
-						break;
-
-					case 2:
-					case 3:
-						int temp_e = (int)dta->sys_salud_temp_int_c;
-						int temp_d = (int)(fabs(dta->sys_salud_temp_int_c - temp_e) * 100);
-						snprintf(str_buffer, sizeof(str_buffer), "T. interna: %d.%02d C", temp_e, temp_d);
-						displayRowSplit(3, 0, str_buffer, (dta->etapa_print == 2) ? PART_LEFT : PART_RIGHT);
-						break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_SELECT_MODE:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 1, "MODO MANUAL", PART_LEFT); break;
-					case 1: displayRowSplit(0, 1, "MODO MANUAL", PART_RIGHT); break;
-					case 2: displayRowSplit(1, 1, "MODO SENSOR & TIMER", PART_LEFT); break;
-					case 3: displayRowSplit(1, 1, "MODO SENSOR & TIMER", PART_RIGHT); break;
-					case 4: displayRowSplit(2, 1, "MODO TIMER", PART_LEFT); break;
-					case 5: displayRowSplit(2, 1, "MODO TIMER", PART_RIGHT); break;
-					case 6: displayRowSplit(3, 1, "CONFIGURAR EQUIPO", PART_LEFT); break;
-					case 7: displayRowSplit(3, 1, "CONFIGURAR EQUIPO", PART_RIGHT); break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			if ((false == dta->printing) && (true == dta->refresh_cursor))
-			{
-				dta->refresh_cursor = false;
-				for (int i=0; i<4; i++) {
-					displayCharPositionWrite(0, i);
-					displayStringWrite(" ");
-				}
-				displayCharPositionWrite(0, dta->cursor_pos);
-				displayStringWrite(">");
-			}
-			break;
-
-
-		case ST_MEN_MODE_MANUAL:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 0, "MODO MANUAL ACTIVADO", PART_LEFT); break;
-					case 1: displayRowSplit(0, 0, "MODO MANUAL ACTIVADO", PART_RIGHT); break;
-					case 2: displayRowSplit(1, 4, "SELECCIONAR:", PART_LEFT); break;
-					case 3: displayRowSplit(1, 4, "SELECCIONAR:", PART_RIGHT); break;
-					case 4: displayRowSplit(2, 1, "DESACTIVAR RIEGO", PART_LEFT); break;
-					case 5: displayRowSplit(2, 1, "DESACTIVAR RIEGO", PART_RIGHT); break;
-					case 6: displayRowSplit(3, 1, "ACTIVAR RIEGO", PART_LEFT); break;
-					case 7: displayRowSplit(3, 1, "ACTIVAR RIEGO", PART_RIGHT); break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			if ((false == dta->printing) && (true == dta->refresh_cursor))
-			{
-				dta->refresh_cursor = false;
-				displayCharPositionWrite(0, 2); displayStringWrite(" ");
-				displayCharPositionWrite(0, 3); displayStringWrite(" ");
-				displayCharPositionWrite(0, dta->cursor_pos + 2);
-				displayStringWrite(">");
-			}
-			break;
-
-
-		case ST_MEN_RIEGO_OFF:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 4, "MODO: MANUAL", PART_LEFT); break;
-					case 1: displayRowSplit(0, 4, "MODO: MANUAL", PART_RIGHT); break;
-					case 2: displayClearPart(1, 0, 10); break;
-					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 3, "BOMBA APAGADA!", PART_LEFT); break;
-					case 5: displayRowSplit(2, 3, "BOMBA APAGADA!", PART_RIGHT); break;
-					case 6: displayClearPart(3, 0, 10); break;
-					case 7: displayClearPart(3, 10, 10); break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_RIEGO_ON:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 4, "MODO: MANUAL", PART_LEFT); break;
-					case 1: displayRowSplit(0, 4, "MODO: MANUAL", PART_RIGHT); break;
-					case 2: displayClearPart(1, 0, 10); break;
-					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 2, "BOMBA ENCENDIDA!", PART_LEFT); break;
-					case 5: displayRowSplit(2, 2, "BOMBA ENCENDIDA!", PART_RIGHT); break;
-					case 6: displayClearPart(3, 0, 10); break;
-					case 7: displayClearPart(3, 10, 10); break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_MODE_CONFIG:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 1, "CONFIG TIEMPO SLEEP", PART_LEFT);  break;
-					case 1: displayRowSplit(0, 1, "CONFIG TIEMPO SLEEP", PART_RIGHT); break;
-					case 2: displayRowSplit(1, 1, "CONFIG TIEMPO RIEGO", PART_LEFT);  break;
-					case 3: displayRowSplit(1, 1, "CONFIG TIEMPO RIEGO", PART_RIGHT); break;
-					case 4: displayRowSplit(2, 1, "CONFIG UMBRAL TEMP", PART_LEFT);  break;
-					case 5: displayRowSplit(2, 1, "CONFIG UMBRAL TEMP", PART_RIGHT); break;
-					case 6: displayRowSplit(3, 1, "CONFIG UMBRAL HUM", PART_LEFT);  break;
-					case 7: displayRowSplit(3, 1, "CONFIG UMBRAL HUM", PART_RIGHT); break;
-					default: dta->printing = false; break;
-				}
-				dta->etapa_print++;
-			}
-			if ((false == dta->printing) && (true == dta->refresh_cursor))
-			{
-				dta->refresh_cursor = false;
-				for (int i=0; i<4; i++) {
-					displayCharPositionWrite(0, i);
-					displayStringWrite(" ");
-				}
-				displayCharPositionWrite(0, dta->cursor_pos);
-				displayStringWrite(">");
-			}
-			break;
-
-
-		case ST_MEN_CHANGE_IDLE_TIME:
-			if (true == dta->printing)
-			{
-				snprintf(str_buffer, sizeof(str_buffer), "NUEVO TIEMPO %-3lu min", dta->edit_sys_tick_idle);
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 0, "CONFIG. TIEMPO SLEEP", PART_LEFT); break;
-					case 1: displayRowSplit(0, 0, "CONFIG. TIEMPO SLEEP", PART_RIGHT); break;
-					case 2: displayClearPart(1, 0, 10); break;
-					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 0, str_buffer, PART_LEFT);  break;
-					case 5: displayRowSplit(2, 0, str_buffer, PART_RIGHT); break;
-					case 6: displayRowSplit(3, 0, "ENT: OK  ESC: CANCEL", PART_LEFT); break;
-					case 7: displayRowSplit(3, 0, "ENT: OK  ESC: CANCEL", PART_RIGHT); break;
-					default: dta->printing = false; break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_CHANGE_RIEGO_TIME:
-			if (true == dta->printing)
-			{
-				snprintf(str_buffer, sizeof(str_buffer), "NUEVO TIEMPO %-3lu min", dta->edit_sys_tick_riego);
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 0, "CONFIG. TIEMPO RIEGO", PART_LEFT); break;
-					case 1: displayRowSplit(0, 0, "CONFIG. TIEMPO RIEGO", PART_RIGHT); break;
-					case 2: displayClearPart(1, 0, 10); break;
-					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 0, str_buffer, PART_LEFT);  break;
-					case 5: displayRowSplit(2, 0, str_buffer, PART_RIGHT); break;
-					case 6: displayRowSplit(3, 0, "ENT: OK  ESC: CANCEL", PART_LEFT); break;
-					case 7: displayRowSplit(3, 0, "ENT: OK  ESC: CANCEL", PART_RIGHT); break;
-					default: dta->printing = false; break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_CHANGE_TEMP:
-			if (true == dta->printing) {
-				snprintf(str_buffer, sizeof(str_buffer), "NUEVA TEMP %-3lu C", dta->edit_sys_th_temperature);
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 1, "CONFIG UMBRAL TEMP", PART_LEFT); break;
-					case 1: displayRowSplit(0, 1, "CONFIG UMBRAL TEMP", PART_RIGHT); break;
-					case 2: displayClearPart(1, 0, 10); break;
-					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 2, str_buffer, PART_LEFT);  break;
-					case 5: displayRowSplit(2, 2, str_buffer, PART_RIGHT); break;
-					case 6: displayRowSplit(3, 0, "ENT: OK  ESC: CANCEL", PART_LEFT); break;
-					case 7: displayRowSplit(3, 0, "ENT: OK  ESC: CANCEL", PART_RIGHT); break;
-					default: dta->printing = false; break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_CHANGE_HUME:
-			if (true == dta->printing)
-			{
-				snprintf(str_buffer, sizeof(str_buffer), "NUEVA HUM: %-3lu %%", dta->edit_sys_th_humidity);
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 1, "CONFIG. UMBRAL HUM", PART_LEFT); break;
-					case 1: displayRowSplit(0, 1, "CONFIG. UMBRAL HUM", PART_RIGHT); break;
-					case 2: displayClearPart(1, 0, 10); break;
-					case 3: displayClearPart(1, 10, 10); break;
-					case 4: displayRowSplit(2, 2, str_buffer, PART_LEFT);  break;
-					case 5: displayRowSplit(2, 2, str_buffer, PART_RIGHT); break;
-					case 6: displayRowSplit(3, 0, "ENT: OK  ESC: CANCEL", PART_LEFT); break;
-					case 7: displayRowSplit(3, 0, "ENT: OK  ESC: CANCEL", PART_RIGHT); break;
-					default: dta->printing = false; break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_CONFIRM_CONFIG:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 1, "CONFIRMAR CAMBIOS?", PART_LEFT); break;
-					case 1: displayRowSplit(0, 1, "CONFIRMAR CAMBIOS?", PART_RIGHT); break;
-					case 2: displayRowSplit(1, 1, "GUARDAR Y SALIR", PART_LEFT); break;
-					case 3: displayRowSplit(1, 1, "GUARDAR Y SALIR", PART_RIGHT); break;
-					case 4: displayRowSplit(2, 1, "SEGUIR EDITANDO", PART_LEFT); break;
-					case 5: displayRowSplit(2, 1, "SEGUIR EDITANDO", PART_RIGHT); break;
-					case 6: displayRowSplit(3, 1, "DESCARTAR", PART_LEFT); break;
-					case 7: displayRowSplit(3, 1, "DESCARTAR", PART_RIGHT); break;
-					default: dta->printing = false; break;
-				}
-				dta->etapa_print++;
-			}
-			if ((false == dta->printing) && (true == dta->refresh_cursor))
-			{
-				dta->refresh_cursor = false;
-				displayCharPositionWrite(0, 1); displayStringWrite(" ");
-				displayCharPositionWrite(0, 2); displayStringWrite(" ");
-				displayCharPositionWrite(0, 3); displayStringWrite(" ");
-				displayCharPositionWrite(0, dta->cursor_pos + 1);
-				displayStringWrite(">");
-			}
-			break;
-
-
-		case ST_MEN_SAVE_CONFIG:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayClearPart(0, 0, 10); break;
-					case 1: displayClearPart(0, 10, 10); break;
-					case 2: displayRowSplit(1, 3, "MODIFICACIONES", PART_LEFT); break;
-					case 3: displayRowSplit(1, 3, "MODIFICACIONES", PART_RIGHT); break;
-					case 4: displayRowSplit(2, 5, "APLICADAS!", PART_LEFT); break;
-					case 5: displayRowSplit(2, 5, "APLICADAS!", PART_RIGHT); break;
-					case 6: displayClearPart(3, 0, 10); break;
-					case 7: displayClearPart(3, 10, 10); break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_MODE_SENSOR:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayClearPart(0, 0, 10); break;
-					case 1: displayClearPart(0, 10, 10); break;
-					case 2: displayRowSplit(1, 0, "MODO SENSOR & TIMER", PART_LEFT); break;
-					case 3: displayRowSplit(1, 0, "MODO SENSOR & TIMER", PART_RIGHT); break;
-					case 4: displayRowSplit(2, 6, "ACTIVADO", PART_LEFT); break;
-					case 5: displayRowSplit(2, 6, "ACTIVADO", PART_RIGHT); break;
-					case 6: displayClearPart(3, 0, 10); break;
-					case 7: displayClearPart(3, 10, 10); break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_MODE_TIME:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayClearPart(0, 0, 10); break;
-					case 1: displayClearPart(0, 10, 10); break;
-					case 2: displayRowSplit(1, 5, "MODO TIMER", PART_LEFT); break;
-					case 3: displayRowSplit(1, 5, "MODO TIMER", PART_RIGHT); break;
-					case 4: displayRowSplit(2, 6, "ACTIVADO", PART_LEFT); break;
-					case 5: displayRowSplit(2, 6, "ACTIVADO", PART_RIGHT); break;
-					case 6: displayClearPart(3, 0, 10); break;
-					case 7: displayClearPart(3, 10, 10); break;
-					default: dta->printing = false;	break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-
-		case ST_MEN_FALLA_SHOW:
-			if (true == dta->printing)
-			{
-				switch (dta->etapa_print)
-				{
-					case 0: displayRowSplit(0, 4, "FATAL ERROR!", PART_LEFT); break;
-					case 1: displayRowSplit(0, 4, "FATAL ERROR!", PART_RIGHT); break;
-					case 2: displayRowSplit(1, 2, "REINTENTANDO ...", PART_LEFT); break;
-					case 3: displayRowSplit(1, 2, "REINTENTANDO ...", PART_RIGHT); break;
-					case 4: displayClearPart(2, 0, 10); break;
-					case 5: displayClearPart(2, 10, 10); break;
-					case 6: displayRowSplit(3, 2, "ENT/ESC: ACEPTAR", PART_LEFT); break;
-					case 7: displayRowSplit(3, 2, "ENT/ESC: ACEPTAR", PART_RIGHT); break;
-					default: dta->printing = false; break;
-				}
-				dta->etapa_print++;
-			}
-			break;
-
-		default:
+			dta->etapa_print++;
+		}
+		else
+		{
 			dta->printing = false;
-			break;
+		}
+		return;
+	}
 
+
+
+	if ((false == dta->printing) && (true == dta->refresh_cursor))
+	{
+		dta->refresh_cursor = false;
+		if (dta->cursor_offset != NO_CURSOR)
+		{
+			for(int i=dta->cursor_offset; i<4; i++) {
+				displayCharPositionWrite(0, i);
+				displayStringWrite(" ");
+			}
+
+			uint8_t fila_real = dta->cursor_pos + dta->cursor_offset;
+			if (fila_real > 3) fila_real = 3;
+
+			displayCharPositionWrite(0, fila_real);
+			displayStringWrite(">");
+		}
 	}
 }
+
+
 
 /********************** end of file ******************************************/

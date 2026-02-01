@@ -283,7 +283,7 @@ void displayRowSplit(uint8_t row, uint8_t col_offset, const char *str, uint8_t p
 }
 
 
-void displayPrintPart(uint8_t row, uint8_t chunk_index, const char *str)
+void displayPrintPart(uint8_t row, uint8_t part_index, const char *str)
 {
     char line_buffer[21];
     memset(line_buffer, ' ', 20);
@@ -296,7 +296,7 @@ void displayPrintPart(uint8_t row, uint8_t chunk_index, const char *str)
         len++;
     }
 
-    uint8_t col = chunk_index * 5;
+    uint8_t col = part_index * 5;
     if (col >= 20) return;
 
     displayCharPositionWrite(col, row);
