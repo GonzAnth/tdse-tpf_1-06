@@ -37,7 +37,7 @@
 #define DEL_SYS_XX_MED				5ul
 #define DEL_SYS_XX_MAX				500ul
 
-#define DEL_SYS_IDLE_MAX			50ul
+#define DEL_SYS_IDLE_MAX			60ul
 #define DEL_SYS_IDLE_MIN			0ul
 
 #define DEL_SYS_RIEGO_MAX			20ul
@@ -46,7 +46,7 @@
 #define DEL_SYS_FALLA_MAX			10ul
 #define DEL_SYS_FALLA_MIN			0ul
 
-#define THRESHOLD_SYS_TEMP_DEF		24ul
+#define THRESHOLD_SYS_TEMP_DEF		25ul
 #define THRESHOLD_SYS_HUM_DEF		80ul
 
 #define THRESHOLD_SYS_ADC_TEMP_DEF		80ul
