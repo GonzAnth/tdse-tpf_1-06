@@ -78,16 +78,11 @@ typedef enum task_sht85_st {ST_SEN_IDLE,
 						   ST_SEN_WAIT_RX,
 						   ST_SEN_FALLA} task_sht85_st_t;
 
-typedef struct
+typedef structx
 {
 	uint32_t			tick;
 	bool				flag;
-	uint32_t			tick_measure_max;
-
-	task_sht85_ev_t  	ev_sys_falla; //eventos que genera el sensor para el systema
-	task_sht85_ev_t		ev_sys_ready_on; //eventos que genera el sensor para el systema
-	task_sht85_ev_t		ev_sys_check_ok; //eventos que genera el sensor para el systema
-	task_sht85_ev_t		ev_sys_check_not_ok; //eventos que genera el sensor para el systema
+	uint32_t			tick_means_max;
 } task_sht85_cfg_t;
 
 

@@ -41,8 +41,6 @@ typedef struct
 {
 	uint32_t			tick;
 	bool				flag;
-	task_adc_ev_t  		ev_sys_adc_ok; //eventos que genera el ADC para el systema
-	task_adc_ev_t  		ev_sys_adc_not_ok; //eventos que genera el ADC para el systema
 } task_adc_cfg_t;
 
 typedef struct

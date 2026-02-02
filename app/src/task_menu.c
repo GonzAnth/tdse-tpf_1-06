@@ -83,8 +83,6 @@
 task_menu_cfg_t task_menu_cfg = {
 	DEL_MEN_XX_MIN, false,
 	DEL_MEN_USER_FEEDBACK_MAX,
-	EV_SYS_CONFIG_ON, EV_SYS_NCONFIG_ON, EV_SYS_RIEGO_ACT_ON, EV_SYS_RIEGO_NACT_ON, EV_SYS_ADC_REQ,
-	EV_SYS_MOD_MANUAL, EV_SYS_MOD_TIME, EV_SYS_MOD_SENSOR
 };
 
 task_menu_dta_t task_menu_dta = {
@@ -269,7 +267,7 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event))
 					{
-						put_event_task_system(p_task_menu_cfg->ev_sys_adc_req);
+						put_event_task_system(EV_SYS_ADC_REQ);
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_SALUD_WAIT;
 					}
@@ -323,15 +321,15 @@ void task_menu_update(void *parameters)
 						p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						switch (p_task_menu_dta->cursor_pos) {
 							case 0:
-								put_event_task_system(p_task_menu_cfg->ev_sys_mod_manual);
+								put_event_task_system(EV_SYS_MOD_MANUAL);
 								p_task_menu_dta->state = ST_MEN_MODE_MANUAL;
 								break;
 							case 1:
-								put_event_task_system(p_task_menu_cfg->ev_sys_mod_sensor);
+								put_event_task_system(EV_SYS_MOD_SENSOR);
 								p_task_menu_dta->state = ST_MEN_MODE_SENSOR;
 								break;
 							case 2:
-								put_event_task_system(p_task_menu_cfg->ev_sys_mod_time);
+								put_event_task_system(EV_SYS_MOD_TIME);
 								p_task_menu_dta->state = ST_MEN_MODE_TIME;
 								break;
 							case 3: p_task_menu_dta->state = ST_MEN_MODE_CONFIG; break;
@@ -360,11 +358,11 @@ void task_menu_update(void *parameters)
 						p_task_menu_dta->tick_st_feedback_user = p_task_menu_cfg->tick_st_feedback_user_max;
 						switch (p_task_menu_dta->cursor_pos) {
 							case 0:
-								put_event_task_system(p_task_menu_cfg->ev_sys_riego_off);
+								put_event_task_system(EV_SYS_RIEGO_OFF);
 								p_task_menu_dta->state = ST_MEN_RIEGO_OFF;
 								break;
 							case 1:
-								put_event_task_system(p_task_menu_cfg->ev_sys_riego_on);
+								put_event_task_system(EV_SYS_RIEGO_ON);
 								p_task_menu_dta->state = ST_MEN_RIEGO_ON;
 								break;
 						}
@@ -389,7 +387,7 @@ void task_menu_update(void *parameters)
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event))
 					{
 						p_task_menu_cfg->flag = false;
-						put_event_task_system(p_task_menu_cfg->ev_sys_config_on);
+						put_event_task_system(EV_SYS_CONFIG_ON);
 						switch (p_task_menu_dta->cursor_pos) {
 							case 0:
 								p_task_menu_dta->edit_val_backup = p_task_menu_dta->edit_sys_tick_idle;
@@ -411,12 +409,12 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
-						put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+						put_event_task_system(EV_SYS_CONFIG_OFF);
 						p_task_menu_cfg->flag = false;
 						if (true == p_task_menu_dta->edit_changes){
 							p_task_menu_dta->state = ST_MEN_CONFIRM_CONFIG;
 						} else {
-							put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+							put_event_task_system(EV_SYS_CONFIG_OFF);
 							p_task_menu_dta->state = ST_MEN_SELECT_MODE;
 						}
 
@@ -586,7 +584,7 @@ void task_menu_update(void *parameters)
 												  p_task_menu_dta->edit_sys_tick_riego,
 												  p_task_menu_dta->edit_sys_th_temperature,
 												  p_task_menu_dta->edit_sys_th_humidity);
-								put_event_task_system(p_task_menu_cfg->ev_sys_config_off);
+								put_event_task_system(EV_SYS_CONFIG_OFF);
 
 								p_task_menu_dta->edit_changes = false;
 								p_task_menu_dta->tick_st_feedback_user = DEL_MEN_USER_FEEDBACK_MAX;

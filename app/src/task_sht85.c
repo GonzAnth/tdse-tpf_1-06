@@ -69,7 +69,6 @@ extern I2C_HandleTypeDef hi2c1;
 /********************** internal data declaration ****************************/
 task_sht85_cfg_t task_sht85_cfg = {
 	DEL_SEN_XX_MIN, false, DEL_SEN_MEAS_XX_MAX,
-	EV_SYS_FALLA_ON, EV_SYS_READY_ON, EV_SYS_CHECK_OK, EV_SYS_CHECK_NOT_OK
 };
 
 task_sht85_dta_t task_sht85_dta = {
@@ -208,7 +207,7 @@ void task_sht85_update(void *parameters)
 							p_task_sht85_dta->state = ST_SEN_WAIT_TX;
 						} else
 						{
-							put_event_task_system(p_task_sht85_cfg->ev_sys_falla);
+							put_event_task_system(EV_SYS_FALLA);
 							p_task_sht85_dta->state = ST_SEN_FALLA;
 						}
 					}
@@ -218,7 +217,7 @@ void task_sht85_update(void *parameters)
 
 				case ST_SEN_WAIT_TX:
 					if (true == p_task_sht85_dta->i2c_op_complete) {
-						p_task_sht85_dta->tick_measure = p_task_sht85_cfg->tick_measure_max;
+						p_task_sht85_dta->tick_measure = p_task_sht85_cfg->tick_means_max;
 						p_task_sht85_dta->state = ST_SEN_WAITING;
 					}
 
@@ -230,7 +229,7 @@ void task_sht85_update(void *parameters)
 					p_task_sht85_dta->tick_measure--;
 					if (DEL_SEN_MEAS_XX_MIN == p_task_sht85_dta->tick_measure)
 					{
-						put_event_task_system(p_task_sht85_cfg->ev_sys_ready_on);
+						put_event_task_system(EV_SYS_READY);
 						p_task_sht85_dta->state = ST_SEN_READY;
 					}
 
@@ -247,7 +246,7 @@ void task_sht85_update(void *parameters)
 						}
 						else
 						{
-							put_event_task_system(p_task_sht85_cfg->ev_sys_check_not_ok);
+							put_event_task_system(EV_SYS_CHECK_NOT_OK);
 							p_task_sht85_dta->state = ST_SEN_FALLA;
 						}
 						p_task_sht85_cfg->flag = false;
@@ -264,10 +263,10 @@ void task_sht85_update(void *parameters)
 
 						if (true == calculo)
 						{
-							put_event_task_system(p_task_sht85_cfg->ev_sys_check_ok);
+							put_event_task_system(EV_SYS_CHECK_OK);
 							p_task_sht85_dta->state = ST_SEN_IDLE;
 						} else {
-							put_event_task_system(p_task_sht85_cfg->ev_sys_check_not_ok);
+							put_event_task_system(EV_SYS_CHECK_NOT_OK);
 							p_task_sht85_dta->state = ST_SEN_FALLA;
 						}
 					}

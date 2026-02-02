@@ -22,28 +22,21 @@ extern "C" {
 /********************** typedef **********************************************/
 
 /* Events to excite Task Menu */
-typedef enum task_system_ev {EV_SYS_RIEGO_ACT_ON,
-						   EV_SYS_RIEGO_ACT_OFF,
-						   EV_SYS_RIEGO_NACT_ON,
-						   EV_SYS_RIEGO_NACT_OFF,
-						   EV_SYS_READY_ON,
-						   EV_SYS_READY_OFF,
-						   EV_SYS_CHECK_OK,
-						   EV_SYS_CHECK_OK_OFF,
-						   EV_SYS_CHECK_NOT_OK,
-						   EV_SYS_CHECK_NOT_OK_OFF,
-						   EV_SYS_FALLA_ON,
-						   EV_SYS_FALLA_OFF,
-						   EV_SYS_CONFIG_ON,
-						   EV_SYS_CONFIG_OFF,
-						   EV_SYS_NCONFIG_ON,
-						   EV_SYS_NCONFIG_OFF,
-						   EV_SYS_ADC_REQ,
-						   EV_SYS_ADC_OK,
-						   EV_SYS_ADC_NOT_OK,
-						   EV_SYS_MOD_MANUAL,
-						   EV_SYS_MOD_TIME,
-						   EV_SYS_MOD_SENSOR} task_system_ev_t;
+typedef enum task_system_ev {EV_SYS_IDLE,
+						     EV_SYS_RIEGO_ON,
+						     EV_SYS_RIEGO_OFF,
+						     EV_SYS_READY,
+						     EV_SYS_CHECK_OK,
+						     EV_SYS_CHECK_NOT_OK,
+						     EV_SYS_FALLA,
+						     EV_SYS_CONFIG_ON,
+						     EV_SYS_CONFIG_OFF,
+						     EV_SYS_ADC_REQ,
+						     EV_SYS_ADC_OK,
+						     EV_SYS_ADC_NOT_OK,
+						     EV_SYS_MOD_MANUAL,
+						     EV_SYS_MOD_TIME,
+						     EV_SYS_MOD_SENSOR} task_system_ev_t;
 
 /* State of Task Menu */
 typedef enum task_system_st {ST_SYS_IDLE,
@@ -72,16 +65,6 @@ typedef struct
 	uint32_t			threshold_humidity;
 	uint32_t			threshold_adc_temperature;
 	uint32_t			threshold_adc_batery;
-
-	task_system_ev_t 	ev_sen_measure_on;  //eventos que genera el systema para otras ME
-	task_system_ev_t	ev_sen_measure_read;
-	task_system_ev_t	ev_sen_falla_ok;
-	task_system_ev_t	ev_adc_start;
-	task_system_ev_t	ev_adc_falla_ok;
-	task_system_ev_t	ev_men_adc_req_ok;
-	task_system_ev_t	ev_men_system_falla;
-	task_system_ev_t	ev_act_on;
-	task_system_ev_t	ev_act_off;
 } task_system_cfg_t;
 
 
