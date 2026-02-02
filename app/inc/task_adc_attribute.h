@@ -34,10 +34,7 @@ typedef enum task_adc_ev {EV_ADC_IDLE,
 
 /* State of Task adc */
 typedef enum task_adc_st {ST_ADC_IDLE,
-							ST_ADC_TEMP_START,
-							ST_ADC_TEMP_WAITING,
-							ST_ADC_BAT_START,
-							ST_ADC_BAT_WAITING,
+							ST_ADC_WAITING,
 							ST_ADC_FALLA} task_adc_st_t;
 
 typedef struct
@@ -54,7 +51,7 @@ typedef struct
 	task_adc_ev_t		event;
 
 	bool 				flag_ready;
-	volatile uint16_t 	last_raw_lecture;
+	uint32_t			adc_buffer[2];
 
 	uint16_t			temp_raw;
 	float				temp_cent;
