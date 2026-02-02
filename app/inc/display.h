@@ -7,6 +7,7 @@
 
 //=====[Declaration of public defines]=========================================
 #define ANCHO_LCD 20
+#define ALTO_LCD 20
 
 #define PART_LEFT   0
 #define PART_RIGHT  1
@@ -34,6 +35,12 @@ void displayWritePart(uint8_t row, uint8_t col, const char *str, uint8_t max_len
 void displayClearPart(uint8_t row, uint8_t col, uint8_t len);
 
 void displayRowSplit(uint8_t row, uint8_t col_offset, const char *str, uint8_t part);
+
+/**
+ * @brief Imprime porciones de 5 caracteres
+ * @param chunk_index Índice del bloque a imprimir.
+ */
+void displayPrintPart(uint8_t row, uint8_t part_index, const char *str);
 
 void displayUpdateRow(uint8_t row, uint8_t col, const char *str);
 
