@@ -296,7 +296,7 @@ void task_system_update(void *parameters)
 
 				case ST_SYS_CONFIG:
 
-					if ((true == p_task_system_cfg->flag) && (EV_SYS_NCONFIG_ON == p_task_system_dta->event)) {
+					if ((true == p_task_system_cfg->flag) && (EV_SYS_CONFIG_OFF == p_task_system_dta->event)) {
 
 						flash_setup_t to_save = {
 							.magic_number = FLASH_MAGIC_NUMBER,

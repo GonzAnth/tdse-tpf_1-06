@@ -207,7 +207,7 @@ void task_sht85_update(void *parameters)
 							p_task_sht85_dta->state = ST_SEN_WAIT_TX;
 						} else
 						{
-							put_event_task_system(p_task_sht85_cfg->ev_sys_falla);
+							put_event_task_system(EV_SYS_FALLA);
 							p_task_sht85_dta->state = ST_SEN_FALLA;
 						}
 					}
@@ -217,7 +217,7 @@ void task_sht85_update(void *parameters)
 
 				case ST_SEN_WAIT_TX:
 					if (true == p_task_sht85_dta->i2c_op_complete) {
-						p_task_sht85_dta->tick_measure = p_task_sht85_cfg->tick_measure_max;
+						p_task_sht85_dta->tick_measure = p_task_sht85_cfg->tick_means_max;
 						p_task_sht85_dta->state = ST_SEN_WAITING;
 					}
 
@@ -263,10 +263,10 @@ void task_sht85_update(void *parameters)
 
 						if (true == calculo)
 						{
-							put_event_task_system(p_task_sht85_cfg->ev_sys_check_ok);
+							put_event_task_system(EV_SYS_CHECK_OK);
 							p_task_sht85_dta->state = ST_SEN_IDLE;
 						} else {
-							put_event_task_system(p_task_sht85_cfg->ev_sys_check_not_ok);
+							put_event_task_system(EV_SYS_CHECK_NOT_OK);
 							p_task_sht85_dta->state = ST_SEN_FALLA;
 						}
 					}
