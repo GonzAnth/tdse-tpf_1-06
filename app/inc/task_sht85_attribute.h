@@ -66,18 +66,16 @@ extern "C" {
 
 /* Events to excite Task Menu */
 typedef enum task_sht85_ev {EV_SEN_IDLE,
-						    EV_SEN_MEASURE_ON,
-						    EV_SEN_MEASURE_OK,
-						    EV_SEN_MEASURE_NOT_OK,
+							EV_SEN_MEASURE_ON,
 						    EV_SEN_MEASURE_READ,
-						    EV_SEN_FALLA_OK} task_sht85_ev_t;
+						    EV_SEN_FALLA_OK,} task_sht85_ev_t;
 
 /* State of Task Menu */
 typedef enum task_sht85_st {ST_SEN_IDLE,
-						   ST_SEN_MEASURE,
+						   ST_SEN_WAIT_TX,
 						   ST_SEN_WAITING,
 						   ST_SEN_READY,
-						   ST_SEN_CHECK,
+						   ST_SEN_WAIT_RX,
 						   ST_SEN_FALLA} task_sht85_st_t;
 
 typedef struct
@@ -90,14 +88,15 @@ typedef struct
 
 typedef struct
 {
-	uint32_t			tick_means;
+	uint32_t			tick_measure;
 	task_sht85_st_t		state;
 	task_sht85_ev_t		event;
-	bool 				ready;
-	bool 				measure_check;
-	uint32_t			time;
+
+	bool				i2c_op_complete;
+	uint8_t				i2c_rx_raw_values[6];
 	float				temperature;
 	float				humidity;
+
 } task_sht85_dta_t;
 
 /********************** external data declaration ****************************/

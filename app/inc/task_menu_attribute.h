@@ -45,6 +45,8 @@ extern "C" {
 
 /********************** inclusions *******************************************/
 #include "task_system_attribute.h"
+#include "display.h"
+
 
 /********************** macros ***********************************************/
 
@@ -88,7 +90,9 @@ typedef enum task_menu_st {ST_MEN_MAIN,
 						   ST_MEN_CHANGE_HUME,
 						   ST_MEN_SALUD_WAIT,
 						   ST_MEN_SALUD_SHOW,
-						   ST_MEN_FALLA_SHOW} task_menu_st_t;
+						   ST_MEN_FALLA_SHOW,
+						   ST_MEN_CONFIRM_CONFIG,
+						   ST_MEN_SAVE_CONFIG} task_menu_st_t;
 
 typedef struct
 {
@@ -107,10 +111,14 @@ typedef struct
 
 
 	task_system_mode_t	sys_mode;
-	uint32_t			sys_tick_idle;
-	uint32_t			sys_tick_riego;
-	uint32_t			sys_th_temperature;
-	uint32_t			sys_th_humidity;
+
+	uint32_t			edit_sys_tick_idle;
+	uint32_t			edit_sys_tick_riego;
+	uint32_t			edit_sys_th_temperature;
+	uint32_t			edit_sys_th_humidity;
+	uint32_t			edit_val_backup;
+	bool 				edit_changes;
+
 	float				sys_salud_bat_v;
 	float				sys_salud_temp_int_c;
 	bool				sys_riego_state;
@@ -121,6 +129,11 @@ typedef struct
 	uint16_t 			etapa_print;	//Etapa de impresion
 	bool 				refresh_cursor;  //Se debe actualizar el cursor
 	uint16_t			cursor_pos;		//posición del cursor
+	uint16_t			cursor_offset;		//posición del cursor
+	const char 			*lines[4];
+
+	char 				aux_str_buf[ANCHO_LCD+1]; //Buffer auxiliar para snprintf
+	char 				aux_str_buf_2[ANCHO_LCD+1]; //Buffer auxiliar para snprintf
 } task_menu_dta_t;
 
 /********************** external data declaration ****************************/
