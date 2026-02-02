@@ -34,10 +34,7 @@ typedef enum task_adc_ev {EV_ADC_IDLE,
 
 /* State of Task adc */
 typedef enum task_adc_st {ST_ADC_IDLE,
-							ST_ADC_TEMP_START,
-							ST_ADC_TEMP_WAITING,
-							ST_ADC_BAT_START,
-							ST_ADC_BAT_WAITING,
+							ST_ADC_WAITING,
 							ST_ADC_FALLA} task_adc_st_t;
 
 typedef struct

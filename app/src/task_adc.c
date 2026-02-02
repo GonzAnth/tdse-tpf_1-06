@@ -160,13 +160,13 @@ void task_adc_update(void *parameters)
 						p_task_adc_dta->flag_ready= false;
 
 						HAL_ADC_Start_DMA(&hadc1, (uint32_t*)p_task_adc_dta->adc_buffer, 2);
-						p_task_adc_dta->state = ST_ADC_TEMP_WAITING;
+						p_task_adc_dta->state = ST_ADC_WAITING;
 
 					}
 
 					break;
 
-				case ST_ADC_TEMP_WAITING:
+				case ST_ADC_WAITING:
 					if (true == p_task_adc_dta->flag_ready)
 					{
 						p_task_adc_dta->temp_raw = (uint32_t)p_task_adc_dta->adc_buffer[0];
