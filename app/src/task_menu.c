@@ -62,6 +62,9 @@
 #define DEL_MEN_XX_MED						2ul
 #define DEL_MEN_XX_MAX						4ul
 
+#define MEN_DISPLAY_UPDATE_MAX				10000ul
+#define MEN_DISPLAY_UPDATE_MIN				0ul
+
 #define DEL_MEN_USER_FEEDBACK_MAX			200ul
 #define DEL_MEN_USER_FEEDBACK_MIN			0ul
 
@@ -86,6 +89,7 @@ task_menu_cfg_t task_menu_cfg = {
 };
 
 task_menu_dta_t task_menu_dta = {
+	.tick_display_update	= MEN_DISPLAY_UPDATE_MAX,
 	.tick_st_feedback_user 	= DEL_MEN_USER_FEEDBACK_MAX,
 	.state 					= ST_MEN_MAIN,
 	.last_state 			= ST_MEN_MAIN,
@@ -212,7 +216,6 @@ void task_menu_update(void *parameters)
 
 			menu_display_print(p_task_menu_dta);
 
-
 			/* Aquí colocamos código a ejecutar cuando cambiamos de estado */
 			if (p_task_menu_dta->state != p_task_menu_dta->last_state)
 			{
@@ -278,6 +281,16 @@ void task_menu_update(void *parameters)
 					{
 						p_task_menu_dta->sys_riego_state = actual_sys_riego_state;
 						p_task_menu_dta->refresh_screen = true;
+					}
+					/* impresión tiempo restante */
+					if (SYS_MOD_MANUAL != p_task_menu_dta->sys_mode)
+					{
+						p_task_menu_dta->tick_display_update--;
+						if (MEN_DISPLAY_UPDATE_MIN == p_task_menu_dta->tick_display_update)
+						{
+							p_task_menu_dta->refresh_screen = true;
+							p_task_menu_dta->tick_display_update = MEN_DISPLAY_UPDATE_MAX;
+						}
 					}
 
 					break;
@@ -664,8 +677,22 @@ static void menu_display_print(task_menu_dta_t *dta){
 				else if (dta->sys_mode == SYS_MOD_SENSOR) dta->lines[2] = "MODO: SENSOR & TIMER";
 				else dta->lines[2] = "MODO: TIMER";
 
-				if (dta->sys_riego_state) dta->lines[3] = ">>  BOMBA: ON";
-				else dta->lines[3] = ">>  BOMBA: OFF";
+				if (dta->sys_mode == SYS_MOD_MANUAL)
+				{
+					if (dta->sys_riego_state) dta->lines[3] = ">> BOMBA: ON";
+					else dta->lines[3] = ">> BOMBA: OFF";
+				} else
+				{
+					uint32_t tiempo = get_system_remaining_time();
+
+					if (dta->sys_riego_state) {
+						snprintf(dta->aux_str_buf_2, 21, "T. REGANDO: %lu m", tiempo);
+						dta->lines[3] = dta->aux_str_buf_2;
+					} else {
+						snprintf(dta->aux_str_buf_2, 21, "T. RESTANTE: %lu m", tiempo);
+						dta->lines[3] = dta->aux_str_buf_2;
+					}
+				}
 
 				dta->cursor_offset = NO_CURSOR;
 				break;

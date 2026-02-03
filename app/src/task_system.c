@@ -80,6 +80,8 @@ task_system_dta_t task_system_dta = {
 
 static uint32_t get_scaled_tick(uint32_t tick);
 
+uint32_t get_system_remaining_time(void);
+
 
 /********************** internal data definition *****************************/
 const char *p_task_system 		= "Task Menu (Interactive Menu)";
@@ -439,6 +441,19 @@ static uint32_t get_scaled_tick(uint32_t tick)
 	} else {
 		return tick * SYS_TICK_TO_MIN;
 	}
+}
+
+uint32_t get_system_remaining_time(void)
+{
+    uint32_t ticks = 0;
+    if (task_system_dta.state == ST_SYS_RIEGO)
+    {
+        ticks = task_system_dta.tick_riego;
+    } else if (task_system_dta.state == ST_SYS_IDLE)
+    {
+        ticks = task_system_dta.tick_idle;
+    }
+	return ticks / SYS_TICK_TO_MIN;
 }
 
 /********************** end of file ******************************************/
