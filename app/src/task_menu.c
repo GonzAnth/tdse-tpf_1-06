@@ -409,7 +409,6 @@ void task_menu_update(void *parameters)
 					}
 					else if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
 					{
-						put_event_task_system(EV_SYS_CONFIG_OFF);
 						p_task_menu_cfg->flag = false;
 						if (true == p_task_menu_dta->edit_changes){
 							p_task_menu_dta->state = ST_MEN_CONFIRM_CONFIG;
@@ -584,7 +583,7 @@ void task_menu_update(void *parameters)
 												  p_task_menu_dta->edit_sys_tick_riego,
 												  p_task_menu_dta->edit_sys_th_temperature,
 												  p_task_menu_dta->edit_sys_th_humidity);
-								put_event_task_system(EV_SYS_CONFIG_OFF);
+								put_event_task_system(EV_SYS_CONFIG_NEW);
 
 								p_task_menu_dta->edit_changes = false;
 								p_task_menu_dta->tick_st_feedback_user = DEL_MEN_USER_FEEDBACK_MAX;
@@ -594,6 +593,7 @@ void task_menu_update(void *parameters)
 							case 1: p_task_menu_dta->state = ST_MEN_MODE_CONFIG; break;
 							case 2:
 								p_task_menu_dta->edit_changes = false;
+								put_event_task_system(EV_SYS_CONFIG_OFF);
 								p_task_menu_dta->state = ST_MEN_SELECT_MODE;
 								break;
 						}
@@ -661,7 +661,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 				dta->lines[0] = " Trabajo Final TDSE ";
 
 				if (dta->sys_mode == SYS_MOD_MANUAL) dta->lines[2] = "MODO: MANUAL";
-				else if (dta->sys_mode == SYS_MOD_SENSOR) dta->lines[2] = "MODO: SENSOR";
+				else if (dta->sys_mode == SYS_MOD_SENSOR) dta->lines[2] = "MODO: SENSOR & TIMER";
 				else dta->lines[2] = "MODO: TIMER";
 
 				if (dta->sys_riego_state) dta->lines[3] = ">>  BOMBA: ON";

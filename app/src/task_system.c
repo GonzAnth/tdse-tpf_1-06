@@ -56,7 +56,7 @@
 task_system_cfg_t task_system_cfg = {
 	DEL_SYS_XX_MIN, false,
 	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MAX, DEL_SYS_FALLA_MAX,
-	SYS_MOD_TIME, THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF, THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
+	SYS_MOD_MANUAL, THRESHOLD_SYS_TEMP_DEF, THRESHOLD_SYS_HUM_DEF, THRESHOLD_SYS_ADC_TEMP_DEF, THRESHOLD_SYS_ADC_BAT_DEF,
 };
 
 task_system_dta_t task_system_dta = {
@@ -294,10 +294,11 @@ void task_system_update(void *parameters)
 
 					break;
 
+
 				case ST_SYS_CONFIG:
 
-					if ((true == p_task_system_cfg->flag) && (EV_SYS_CONFIG_OFF == p_task_system_dta->event)) {
-
+					if ((true == p_task_system_cfg->flag) && (EV_SYS_CONFIG_NEW == p_task_system_dta->event))
+					{
 						flash_setup_t to_save = {
 							.magic_number = FLASH_MAGIC_NUMBER,
 							.tick_idle_max = p_task_system_cfg->tick_idle_max,
@@ -309,8 +310,16 @@ void task_system_update(void *parameters)
 
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
+						//TODO: Recargar tick idle?
 					}
+					else if ((true == p_task_system_cfg->flag) && (EV_SYS_CONFIG_OFF == p_task_system_dta->event))
+					{
+						p_task_system_cfg->flag = false;
+						p_task_system_dta->state = ST_SYS_IDLE;
+					}
+
 					break;
+
 
 				case ST_SYS_RIEGO :
 
