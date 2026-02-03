@@ -37,6 +37,10 @@
 #define DEL_SYS_XX_MED				5ul
 #define DEL_SYS_XX_MAX				500ul
 
+#define SYS_TICK_TO_MIN				(60 * 1000 / DEL_SYS_XX_MAX)
+#define SYS_TICK_TO_SEC				(1000 / DEL_SYS_XX_MAX)
+#define SYS_DEBUG_MODE()			(HAL_GPIO_ReadPin(DEBUG_PIN_GPIO_Port, DEBUG_PIN_Pin) == GPIO_PIN_SET)
+
 #define DEL_SYS_IDLE_MAX			60ul
 #define DEL_SYS_IDLE_MIN			0ul
 
@@ -60,14 +64,22 @@ task_system_cfg_t task_system_cfg = {
 };
 
 task_system_dta_t task_system_dta = {
-	DEL_SYS_IDLE_MAX, DEL_SYS_RIEGO_MIN, DEL_SYS_FALLA_MIN,
-	ST_SYS_IDLE, ST_SYS_IDLE, EV_SYS_IDLE,
-	0.0, 0.0, false, 0.0, 0.0
+	.tick_idle 			= 	0,
+	.tick_riego 		= 	0,
+	.tick_falla			=	DEL_SYS_FALLA_MIN,
+	.state				=	ST_SYS_IDLE,
+	.last_state			=	ST_SYS_IDLE,
+	.event				=	EV_SYS_IDLE,
+
+	.adc_req_pending	=	false,
 };
 
 #define SYSTEM_DTA_QTY	(sizeof(task_system_dta)/sizeof(task_system_dta_t))
 
 /********************** internal functions declaration ***********************/
+
+static uint32_t get_scaled_tick(uint32_t tick);
+
 
 /********************** internal data definition *****************************/
 const char *p_task_system 		= "Task Menu (Interactive Menu)";
@@ -137,6 +149,9 @@ void task_system_init(void *parameters)
 		Flash_Write_Setup(&default_config);
 		LOGGER_LOG("   Flash Init with default config\r\n");
 	}
+
+	p_task_system_dta->tick_idle = get_scaled_tick(p_task_system_cfg->tick_idle_max);
+	p_task_system_dta->tick_riego = get_scaled_tick(p_task_system_cfg->tick_riego_max);
 
 
 }
@@ -244,7 +259,7 @@ void task_system_update(void *parameters)
 						{
 
 							put_event_task_actuator(EV_ACT_ON, ID_ACT_RELAY);
-							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
+							p_task_system_dta->tick_riego = get_scaled_tick(p_task_system_cfg->tick_riego_max);
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
 						else if (SYS_MOD_SENSOR == p_task_system_cfg->system_mode)
@@ -254,7 +269,7 @@ void task_system_update(void *parameters)
 						}
 						else if (SYS_MOD_MANUAL == p_task_system_cfg->system_mode)
 						{
-							p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
+							p_task_system_dta->tick_idle = get_scaled_tick(p_task_system_cfg->tick_idle_max);
 						}
 					}
 					else if ((true == p_task_system_cfg->flag) && (EV_SYS_CONFIG_ON == p_task_system_dta->event))
@@ -265,7 +280,7 @@ void task_system_update(void *parameters)
 					else if ((true == p_task_system_cfg->flag) && (EV_SYS_RIEGO_ON == p_task_system_dta->event))
 					{
 						put_event_task_actuator(EV_ACT_ON, ID_ACT_RELAY);
-						p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
+						p_task_system_dta->tick_riego = get_scaled_tick(p_task_system_cfg->tick_riego_max);
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_RIEGO;
 					}
@@ -308,9 +323,10 @@ void task_system_update(void *parameters)
 						};
 						Flash_Write_Setup(&to_save);
 
+						p_task_system_dta->tick_idle = get_scaled_tick(p_task_system_cfg->tick_idle_max);
+						p_task_system_dta->tick_riego = get_scaled_tick(p_task_system_cfg->tick_riego_max);
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
-						//TODO: Recargar tick idle?
 					}
 					else if ((true == p_task_system_cfg->flag) && (EV_SYS_CONFIG_OFF == p_task_system_dta->event))
 					{
@@ -327,7 +343,7 @@ void task_system_update(void *parameters)
 					if ((DEL_SYS_RIEGO_MIN == p_task_system_dta->tick_riego) || ((true == p_task_system_cfg->flag) && (EV_SYS_RIEGO_OFF == p_task_system_dta->event)))
 					{
 						put_event_task_actuator(EV_ACT_OFF, ID_ACT_RELAY);
-						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
+						p_task_system_dta->tick_idle = get_scaled_tick(p_task_system_cfg->tick_idle_max);
 						p_task_system_cfg->flag = false;
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}
@@ -367,13 +383,13 @@ void task_system_update(void *parameters)
 						if ((p_task_system_dta->temperature > p_task_system_cfg->threshold_temperature) && (p_task_system_dta->humidity < p_task_system_cfg->threshold_humidity))
 						{
 							put_event_task_actuator(EV_ACT_ON, ID_ACT_RELAY);
-							p_task_system_dta->tick_riego = p_task_system_cfg->tick_riego_max;
+							p_task_system_dta->tick_riego = get_scaled_tick(p_task_system_cfg->tick_riego_max);
 							p_task_system_dta->state = ST_SYS_RIEGO;
 						}
 						else
 						{
 							//put_even_task_actuator(EV_ACT_RELAY_OFF)
-							p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
+							p_task_system_dta->tick_idle = get_scaled_tick(p_task_system_cfg->tick_idle_max);
 							p_task_system_dta->state = ST_SYS_IDLE;
 						}
 						p_task_system_cfg->flag = false;
@@ -395,7 +411,7 @@ void task_system_update(void *parameters)
 					{
 						put_event_task_sht85(EV_SEN_FALLA_OK);
 						put_event_task_adc(EV_ADC_FALLA_OK);
-						p_task_system_dta->tick_idle = p_task_system_cfg->tick_idle_max;
+						p_task_system_dta->tick_idle = get_scaled_tick(p_task_system_cfg->tick_idle_max);
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}
 
@@ -411,6 +427,17 @@ void task_system_update(void *parameters)
 					break;
 			}
 		}
+	}
+}
+
+
+static uint32_t get_scaled_tick(uint32_t tick)
+{
+	if (SYS_DEBUG_MODE())
+	{
+		return tick * SYS_TICK_TO_SEC;
+	} else {
+		return tick * SYS_TICK_TO_MIN;
 	}
 }
 
