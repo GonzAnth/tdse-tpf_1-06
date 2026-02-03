@@ -684,13 +684,12 @@ static void menu_display_print(task_menu_dta_t *dta){
 				} else
 				{
 					uint32_t tiempo = get_system_remaining_time();
-
 					if (dta->sys_riego_state) {
-						snprintf(dta->aux_str_buf_2, 21, "T. REGANDO: %lu m", tiempo);
-						dta->lines[3] = dta->aux_str_buf_2;
+						snprintf(dta->aux_str_buf, ANCHO_LCD+1, "REGANDO POR: %lu min", tiempo);
+						dta->lines[3] = dta->aux_str_buf;
 					} else {
-						snprintf(dta->aux_str_buf_2, 21, "T. RESTANTE: %lu m", tiempo);
-						dta->lines[3] = dta->aux_str_buf_2;
+						snprintf(dta->aux_str_buf, ANCHO_LCD+1, "ESPERANDO: %lu min.", tiempo);
+						dta->lines[3] = dta->aux_str_buf;
 					}
 				}
 
