@@ -275,7 +275,7 @@ void task_menu_update(void *parameters)
 						p_task_menu_dta->state = ST_MEN_SALUD_WAIT;
 					}
 
-					/* impresión estado bomba */
+					/* impresión estado riego */
 					bool actual_sys_riego_state = get_system_riego_state();
 					if (actual_sys_riego_state != p_task_menu_dta->sys_riego_state)
 					{
@@ -677,10 +677,9 @@ static void menu_display_print(task_menu_dta_t *dta){
 				else if (dta->sys_mode == SYS_MOD_SENSOR) dta->lines[2] = "MODO: SENSOR & TIMER";
 				else dta->lines[2] = "MODO: TIMER";
 
-				if (dta->sys_mode == SYS_MOD_MANUAL)
+				if ((dta->sys_mode == SYS_MOD_MANUAL) && (false == dta->sys_riego_state))
 				{
-					if (dta->sys_riego_state) dta->lines[3] = ">> BOMBA: ON";
-					else dta->lines[3] = ">> BOMBA: OFF";
+					dta->lines[3] = ">> VALVULA: OFF";
 				} else
 				{
 					uint32_t tiempo = get_system_remaining_time();
@@ -688,7 +687,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 						snprintf(dta->aux_str_buf, ANCHO_LCD+1, "REGANDO POR: %lu min", tiempo);
 						dta->lines[3] = dta->aux_str_buf;
 					} else {
-						snprintf(dta->aux_str_buf, ANCHO_LCD+1, "ESPERANDO: %lu min.", tiempo);
+						snprintf(dta->aux_str_buf, ANCHO_LCD+1, "ESPERANDO: %lu min", tiempo);
 						dta->lines[3] = dta->aux_str_buf;
 					}
 				}
@@ -751,7 +750,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 			case ST_MEN_RIEGO_OFF:
 				dta->lines[0] = "    MODO: MANUAL    ";
-				dta->lines[2] = "   BOMBA APAGADA!   ";
+				dta->lines[2] = "  VALVULA APAGADA!  ";
 
 				dta->cursor_offset = NO_CURSOR;
 				break;
@@ -759,7 +758,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 			case ST_MEN_RIEGO_ON:
 				dta->lines[0] = "    MODO: MANUAL    ";
-				dta->lines[2] = "  BOMBA ENCENDIDA!  ";
+				dta->lines[2] = " VALVULA ENCENDIDA! ";
 
 				dta->cursor_offset = NO_CURSOR;
 				break;
