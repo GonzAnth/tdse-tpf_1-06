@@ -84,10 +84,10 @@ extern "C" {
 #define BTN_ESC_PRESSED	GPIO_PIN_RESET
 #define BTN_ESC_HOVER	GPIO_PIN_SET
 
-#define LED_A_PIN		LD2_Pin
-#define LED_A_PORT		LD2_GPIO_Port
-#define LED_A_ON		GPIO_PIN_SET
-#define LED_A_OFF		GPIO_PIN_RESET
+#define RELAY_PIN		RELAY_Pin
+#define RELAY_PORT		RELAY_GPIO_Port
+#define RELAY_ON		GPIO_PIN_RESET
+#define RELAY_OFF		GPIO_PIN_SET
 
 #define DEBUG_PIN		DEBUG_PIN_Pin
 #define DEBUG_PORT		DEBUG_PIN_GPIO_Port

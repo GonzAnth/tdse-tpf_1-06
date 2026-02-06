@@ -61,20 +61,20 @@
 #define G_TASK_ACT_CNT_INIT			0ul
 #define G_TASK_ACT_TICK_CNT_INI		0ul
 
-#define DEL_LED_XX_PUL				250ul
-#define DEL_LED_XX_BLI				500ul
-#define DEL_LED_XX_MIN				0ul
+#define DEL_ACT_XX_PUL				250ul
+#define DEL_ACT_XX_BLI				500ul
+#define DEL_ACT_XX_MIN				0ul
 
 /********************** internal data declaration ****************************/
 const task_actuator_cfg_t task_actuator_cfg_list[] = {
-	{ID_ACT_RELAY,  LED_A_PORT,  LED_A_PIN, LED_A_ON,  LED_A_OFF, DEL_LED_XX_PUL},
+	{ID_ACT_RELAY,  RELAY_PORT,  RELAY_PIN, RELAY_ON,  RELAY_OFF, DEL_ACT_XX_PUL},
 	//{ID_ACT_LED,  LED_A_PORT,  LED_A_PIN, LED_A_ON,  LED_A_OFF, DEL_LED_XX_PUL}
 };
 
 #define ACTUATOR_CFG_QTY	(sizeof(task_actuator_cfg_list)/sizeof(task_actuator_cfg_t))
 
 task_actuator_dta_t task_actuator_dta_list[] = {
-	{DEL_LED_XX_BLI, ST_ACT_OFF, EV_ACT_IDLE, false}
+	{DEL_ACT_XX_BLI, ST_ACT_OFF, EV_ACT_IDLE, false}
 };
 
 #define ACTUATOR_DTA_QTY	(sizeof(task_actuator_dta_list)/sizeof(task_actuator_dta_t))
