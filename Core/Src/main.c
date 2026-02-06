@@ -126,6 +126,8 @@ int main(void)
 
 	  /* Application Update */
 	  app_update();
+
+	  HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
   }
   /* USER CODE END 3 */
 }
@@ -373,6 +375,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(D9_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : DEBUG_PIN_Pin */
+  GPIO_InitStruct.Pin = DEBUG_PIN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(DEBUG_PIN_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : D7_Pin D8_Pin */
   GPIO_InitStruct.Pin = D7_Pin|D8_Pin;

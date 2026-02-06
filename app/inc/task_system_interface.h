@@ -67,6 +67,8 @@ void get_system_salud_dta(float *bat_volts, float *temp_int_c);
 
 bool get_system_riego_state(void);
 
+uint32_t get_system_remaining_time(void);
+
 
 
 /********************** End of CPP guard *************************************/

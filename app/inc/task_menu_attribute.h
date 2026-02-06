@@ -103,6 +103,7 @@ typedef struct
 
 typedef struct
 {
+	uint32_t			tick_display_update;
 	uint32_t			tick_st_feedback_user;
 
 	task_menu_st_t		state;
