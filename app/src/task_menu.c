@@ -52,6 +52,8 @@
 #include "task_menu_interface.h"
 #include "task_system_attribute.h"
 #include "task_system_interface.h"
+#include "task_actuator_attribute.h"
+#include "task_actuator_interface.h"
 #include "display.h"
 
 /********************** macros and definitions *******************************/
@@ -258,6 +260,12 @@ void task_menu_update(void *parameters)
 					p_task_menu_dta->state = ST_MEN_FALLA_SHOW;
 					p_task_menu_cfg->flag = false;
 				}
+				if ((EV_MEN_ENT_ACTIVE == p_task_menu_dta->event)
+						|| (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event)
+						|| (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+				{
+					put_event_task_actuator(EV_ACT_PULSE, ID_ACT_BUZZER);
+				}
 			}
 
 			switch (p_task_menu_dta->state)
@@ -312,7 +320,10 @@ void task_menu_update(void *parameters)
 
 
 				case ST_MEN_SALUD_SHOW:
-					if ((true == p_task_menu_cfg->flag) && (EV_MEN_ESC_ACTIVE == p_task_menu_dta->event))
+					if ((true == p_task_menu_cfg->flag) &&
+					                       ((EV_MEN_ESC_ACTIVE == p_task_menu_dta->event) ||
+					                        (EV_MEN_ENT_ACTIVE == p_task_menu_dta->event) ||
+					                        (EV_MEN_NEX_ACTIVE == p_task_menu_dta->event)))
 					{
 						p_task_menu_cfg->flag = false;
 						p_task_menu_dta->state = ST_MEN_MAIN;

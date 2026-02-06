@@ -83,16 +83,19 @@ typedef struct
 	uint32_t			tick;
 	bool				flag;
 	uint32_t			tick_means_max;
+	uint32_t			tick_timeout_max;
 } task_sht85_cfg_t;
 
 
 typedef struct
 {
 	uint32_t			tick_measure;
+	uint32_t 			tick_timeout;
 	task_sht85_st_t		state;
 	task_sht85_ev_t		event;
 
 	bool				i2c_op_complete;
+	bool				i2c_error;
 	uint8_t				i2c_rx_raw_values[6];
 	float				temperature;
 	float				humidity;

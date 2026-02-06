@@ -214,6 +214,7 @@ void task_system_update(void *parameters)
 				if (p_task_system_dta->state == ST_SYS_FALLA)
 				{
 					put_event_task_menu(EV_MEN_SYS_FALLA);
+					put_event_task_actuator(EV_ACT_ON, ID_ACT_BUZZER);
 				}
 
 				p_task_system_dta->last_state = p_task_system_dta->state;
@@ -413,6 +414,7 @@ void task_system_update(void *parameters)
 					{
 						put_event_task_sht85(EV_SEN_FALLA_OK);
 						put_event_task_adc(EV_ADC_FALLA_OK);
+						put_event_task_actuator(EV_ACT_OFF, ID_ACT_BUZZER);
 						p_task_system_dta->tick_idle = get_scaled_tick(p_task_system_cfg->tick_idle_max);
 						p_task_system_dta->state = ST_SYS_IDLE;
 					}
