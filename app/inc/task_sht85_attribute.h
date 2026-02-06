@@ -83,12 +83,14 @@ typedef struct
 	uint32_t			tick;
 	bool				flag;
 	uint32_t			tick_means_max;
+	uint32_t			tick_timeout_max;
 } task_sht85_cfg_t;
 
 
 typedef struct
 {
 	uint32_t			tick_measure;
+	uint32_t 			tick_timeout;
 	task_sht85_st_t		state;
 	task_sht85_ev_t		event;
 
