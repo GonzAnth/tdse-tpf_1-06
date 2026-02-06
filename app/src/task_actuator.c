@@ -61,7 +61,7 @@
 #define G_TASK_ACT_CNT_INIT			0ul
 #define G_TASK_ACT_TICK_CNT_INI		0ul
 
-#define DEL_ACT_XX_PUL				250ul
+#define DEL_ACT_XX_PUL				8ul
 #define DEL_ACT_XX_BLI				500ul
 #define DEL_ACT_XX_MIN				0ul
 
@@ -74,8 +74,8 @@ const task_actuator_cfg_t task_actuator_cfg_list[] = {
 #define ACTUATOR_CFG_QTY	(sizeof(task_actuator_cfg_list)/sizeof(task_actuator_cfg_t))
 
 task_actuator_dta_t task_actuator_dta_list[] = {
-	{DEL_ACT_XX_MIN, ST_ACT_OFF, EV_ACT_IDLE, false},
-	{DEL_ACT_XX_MIN, ST_ACT_OFF, EV_ACT_IDLE, false}
+	{DEL_ACT_XX_MIN, DEL_ACT_XX_MIN, ST_ACT_OFF, EV_ACT_IDLE, false},
+	{DEL_ACT_XX_MIN, DEL_ACT_XX_MIN, ST_ACT_OFF, EV_ACT_IDLE, false}
 };
 
 #define ACTUATOR_DTA_QTY	(sizeof(task_actuator_dta_list)/sizeof(task_actuator_dta_t))
@@ -183,11 +183,20 @@ void task_actuator_update(void *parameters)
 						HAL_GPIO_WritePin(p_task_actuator_cfg->gpio_port, p_task_actuator_cfg->pin, p_task_actuator_cfg->act_on);
 						p_task_actuator_dta->state = ST_ACT_ON;
 					}
+					else if ((true == p_task_actuator_dta->flag) && (EV_ACT_PULSE == p_task_actuator_dta->event))
+					{
+						p_task_actuator_dta->flag = false;
+						HAL_GPIO_WritePin(p_task_actuator_cfg->gpio_port, p_task_actuator_cfg->pin, p_task_actuator_cfg->act_on);
+
+						// Cargamos tiempo del pulso
+						p_task_actuator_dta->tick_pulse = p_task_actuator_cfg->tick_pulse_max;
+						p_task_actuator_dta->state = ST_ACT_PULSE;
+					}
 
 					break;
 
-				case ST_ACT_ON:
 
+				case ST_ACT_ON:
 					if ((true == p_task_actuator_dta->flag) && (EV_ACT_OFF == p_task_actuator_dta->event))
 					{
 						p_task_actuator_dta->flag = false;
@@ -196,6 +205,19 @@ void task_actuator_update(void *parameters)
 					}
 
 					break;
+
+
+				case ST_ACT_PULSE:
+					p_task_actuator_dta->tick_pulse--;
+					if ((DEL_ACT_XX_MIN == p_task_actuator_dta->tick_pulse))
+					{
+						HAL_GPIO_WritePin(p_task_actuator_cfg->gpio_port, p_task_actuator_cfg->pin, p_task_actuator_cfg->act_off);
+						p_task_actuator_dta->state = ST_ACT_OFF;
+					}
+
+					break;
+
+
 
 				default:
 					p_task_actuator_dta->state = ST_ACT_OFF;

@@ -107,11 +107,13 @@ extern "C" {
 /* Events to excite Task Actuator */
 typedef enum task_actuator_ev {EV_ACT_IDLE,
 							   EV_ACT_OFF,
-							   EV_ACT_ON} task_actuator_ev_t;
+							   EV_ACT_ON,
+							   EV_ACT_PULSE} task_actuator_ev_t;
 
 /* States of Task Actuator */
 typedef enum task_actuator_st {ST_ACT_ON,
-							   ST_ACT_OFF} task_actuator_st_t;
+							   ST_ACT_OFF,
+							   ST_ACT_PULSE} task_actuator_st_t;
 
 /* Identifier of Task Actuator */
 typedef enum task_actuator_id {ID_ACT_RELAY,
@@ -124,12 +126,13 @@ typedef struct
 	uint16_t			pin;
 	GPIO_PinState		act_on;
 	GPIO_PinState		act_off;
-	uint32_t			tick_pulse;
+	uint32_t			tick_pulse_max;
 } task_actuator_cfg_t;
 
 typedef struct
 {
 	uint32_t			tick;
+	uint32_t			tick_pulse;
 	task_actuator_st_t	state;
 	task_actuator_ev_t	event;
 	bool				flag;
