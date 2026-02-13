@@ -335,16 +335,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, RELAY_Pin|BUZZER_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, D6_Pin|D5_Pin|D4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, D7_Pin|D8_Pin, GPIO_PIN_RESET);
@@ -355,12 +352,18 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : RELAY_Pin D7_Pin D8_Pin */
-  GPIO_InitStruct.Pin = RELAY_Pin|D7_Pin|D8_Pin;
+  /*Configure GPIO pins : RELAY_Pin BUZZER_Pin D9_Pin */
+  GPIO_InitStruct.Pin = RELAY_Pin|BUZZER_Pin|D9_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : DEBUG_PIN_Pin */
+  GPIO_InitStruct.Pin = DEBUG_PIN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(DEBUG_PIN_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : D12_Pin D11_Pin D2_Pin */
   GPIO_InitStruct.Pin = D12_Pin|D11_Pin|D2_Pin;
@@ -375,18 +378,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : D9_Pin BUZZER_Pin */
-  GPIO_InitStruct.Pin = D9_Pin|BUZZER_Pin;
+  /*Configure GPIO pins : D7_Pin D8_Pin */
+  GPIO_InitStruct.Pin = D7_Pin|D8_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : DEBUG_PIN_Pin */
-  GPIO_InitStruct.Pin = DEBUG_PIN_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(DEBUG_PIN_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : D10_Pin */
   GPIO_InitStruct.Pin = D10_Pin;
