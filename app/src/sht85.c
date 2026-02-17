@@ -1,3 +1,10 @@
+/**
+ * @file    sht85.c
+ * @author  Gonzalo Antahuara & Dante Mele Ientile
+ * @brief   Driver sensor SHT85.
+ * @date    Dic 15, 2025
+ */
+
 #include "sht85.h"
 
 static I2C_HandleTypeDef *phi2c;

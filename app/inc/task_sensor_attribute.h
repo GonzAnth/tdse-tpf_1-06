@@ -48,48 +48,12 @@ extern "C" {
 /********************** macros ***********************************************/
 
 /********************** typedef **********************************************/
-/* Sensor Statechart - State Transition Table */
-/* 	------------------------+-----------------------+-----------------------+-----------------------+------------------------
- * 	| Current               | Event                 |                       | Next                  |                       |
- * 	| State                 | (Parameters)          | [Guard]               | State                 | Actions               |
- * 	|=======================+=======================+=======================+=======================+=======================|
- * 	| ST_BTN_XX_UP          | EV_BTN_XX_UP          |                       | ST_BTN_XX_UP          |                       |
- * 	|                       +-----------------------+-----------------------+-----------------------+-----------------------|
- * 	|                       | EV_BTN_XX_DOWN        |                       | ST_BTN_XX_FALLING     | tick = TICK_MAX       |
- * 	|-----------------------+-----------------------+-----------------------+-----------------------+-----------------------|
- * 	| ST_BTN_XX_FALLING     | EV_BTN_XX_UP          | [tick >  0]           | ST_BTN_XX_FALLING     | tick--                |
- * 	|                       |                       +-----------------------+-----------------------+-----------------------|
- * 	|                       |                       | [tick == 0]           | ST_BTN_XX_UP          |                       |
- * 	|                       +-----------------------+-----------------------+-----------------------+-----------------------|
- * 	|                       | EV_BTN_XX_DOWN        | [tick >  0]           | ST_BTN_XX_FALLING     | tick--                |
- * 	|                       |                       +-----------------------+-----------------------+-----------------------|
- * 	|                       |                       | [tick == 0]           | ST_BTN_XX_DOWN        | put_event_task_system |
- * 	|                       |                       |                       |                       |  (event)              |
- * 	|-----------------------+-----------------------+-----------------------+-----------------------+-----------------------|
- *	| ST_BTN_XX_DOWN        | EV_BTN_XX_UP          |                       | ST_BTN_XX_RISING      | tick = TICK_MAX       |
- * 	|                       +-----------------------+-----------------------+-----------------------+-----------------------|
- * 	|                       | EV_BTN_XX_DOWN        |                       | ST_BTN_XX_DOWN        |                       |
- * 	|-----------------------+-----------------------+-----------------------+-----------------------+-----------------------|
- * 	| ST_BTN_XX_RISING      | EV_BTN_XX_UP          | [tick >  0]           | ST_BTN_XX_RISING      | tick--                |
- * 	|                       |                       +-----------------------+-----------------------+-----------------------|
- * 	|                       |                       | [tick == 0]           | ST_BTN_XX_UP          | put_event_task_system |
- * 	|                       |                       |                       |                       |  (event)              |
- * 	|                       +-----------------------+-----------------------+-----------------------+-----------------------|
- * 	|                       | EV_BTN_XX_DOWN        | [tick >  0]           | ST_BTN_XX_RISING      | tick--                |
- * 	|                       |						+-----------------------+-----------------------+-----------------------|
- * 	|                       |                       | [tick == 0]           | ST_BTN_XX_DOWN        |                       |
- * 	------------------------+-----------------------+-----------------------+-----------------------+------------------------
- */
+
 
 /* Events to excite Task Sensor */
 typedef enum task_sensor_ev {EV_BTN_XX_UP,
 							 EV_BTN_XX_DOWN} task_sensor_ev_t;
-/* typedef struct {
-    // ... otros campos
-    task_system_ev_t signal_up;   // <--- Debería ser tipo SYSTEM, no SENSOR
-    task_system_ev_t signal_down;
-} task_sensor_cfg_t; podria ser asi para dejar en cladro que son ev para el sistema pero
-el este archivo del sensor pasaría a depender obligatoriamente del archivo del sistema y el profe lo hzo apra que sea indeoendiente*/
+
 
 /* States of Task Sensor */
 typedef enum task_sensor_st {ST_BTN_XX_UP,

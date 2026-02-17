@@ -38,7 +38,7 @@ void displayRowSplit(uint8_t row, uint8_t col_offset, const char *str, uint8_t p
 
 /**
  * @brief Imprime porciones de 5 caracteres
- * @param chunk_index Índice del bloque a imprimir.
+ * @param part_index Índice del bloque a imprimir.
  */
 void displayPrintPart(uint8_t row, uint8_t part_index, const char *str);
 

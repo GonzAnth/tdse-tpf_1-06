@@ -1,3 +1,11 @@
+/**
+ * @file    sht85.c
+ * @author  Gonzalo Antahuara & Dante Mele Ientile
+ * @brief   Driver sensor SHT85.
+ * @date    Dic 15, 2025
+ */
+
+
 //=====[#include guards - begin]===============================================
 #ifndef SHT85_H_
 #define SHT85_H_
