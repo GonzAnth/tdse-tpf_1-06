@@ -1,8 +1,8 @@
-/*
- * flash.h
- *
- *  Created on: Jan 29, 2026
- *      Author: Gonzalo
+/**
+ * @file    flash.h
+ * @author  Gonzalo Antahuara & Dante Mele Ientile
+ * @brief   Driver memoria flash.
+ * @date    Jan 28, 2025
  */
 
 #ifndef INC_FLASH_H_
