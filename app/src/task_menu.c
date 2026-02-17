@@ -659,7 +659,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 				if ((dta->sys_mode == SYS_MOD_MANUAL) && (false == dta->sys_riego_state))
 				{
-					dta->lines[3] = ">> VALVULA: OFF";
+					dta->lines[3] = ">> VALVULA APAGADA  ";
 				} else
 				{
 					uint32_t tiempo = get_system_remaining_time();
@@ -695,7 +695,7 @@ static void menu_display_print(task_menu_dta_t *dta){
 
 				int bat_e = (int)dta->sys_salud_bat_v;
 				int bat_d = (int)(fabs(dta->sys_salud_bat_v - bat_e) * 100);
-				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "Bateria: %d.%02d V", bat_e, bat_d);
+				snprintf(dta->aux_str_buf, ANCHO_LCD+1, "Alimentacion: %d.%02d V", bat_e, bat_d);
 				dta->lines[2] = dta->aux_str_buf;
 
 
