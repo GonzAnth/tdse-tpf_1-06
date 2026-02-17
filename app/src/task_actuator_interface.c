@@ -29,53 +29,45 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @file   : task_system_interface.h
+ *
+ * @file   : task_actuator_interface.c
  * @date   : Set 26, 2023
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  * @version	v1.0.0
  */
 
-#ifndef TASK_INC_TASK_SYSTEM_INTERFACE_H_
-#define TASK_INC_TASK_SYSTEM_INTERFACE_H_
-
-/********************** CPP guard ********************************************/
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /********************** inclusions *******************************************/
-#include <stdint.h>
-#include <stdbool.h>
+/* Project includes. */
+#include "main.h"
 
-/********************** macros ***********************************************/
+/* Demo includes. */
+#include "logger.h"
+#include "dwt.h"
 
-/********************** typedef **********************************************/
+/* Application & Tasks includes. */
+#include "board.h"
+#include "app.h"
+#include "task_actuator_attribute.h"
+
+/********************** macros and definitions *******************************/
+
+/********************** internal data declaration ****************************/
+
+/********************** internal functions declaration ***********************/
+
+/********************** internal data definition *****************************/
 
 /********************** external data declaration ****************************/
 
-/********************** external functions declaration ***********************/
-extern void init_queue_event_task_system(void);
-extern void put_event_task_system(task_system_ev_t event);
-extern task_system_ev_t get_event_task_system(void);
-extern bool any_event_task_system(void);
+/********************** external functions definition ************************/
+void put_event_task_actuator(task_actuator_ev_t event, task_actuator_id_t identifier)
+{
+	task_actuator_dta_t *p_task_actuator_dta;
 
-void set_system_config(uint32_t tick_idle, uint32_t tick_riego, uint32_t temperature, uint32_t humidity);
+	p_task_actuator_dta = &task_actuator_dta_list[identifier];
 
-void get_system_config(task_system_mode_t *mode, uint32_t *tick_idle, uint32_t *tick_riego, uint32_t *th_temp, uint32_t *th_hum);
-
-void get_system_salud_dta(float *bat_volts, float *temp_int_c);
-
-bool get_system_riego_state(void);
-
-uint32_t get_system_remaining_time(void);
-
-
-
-/********************** End of CPP guard *************************************/
-#ifdef __cplusplus
+	p_task_actuator_dta->event = event;
+	p_task_actuator_dta->flag = true;
 }
-#endif
-
-#endif /* TASK_INC_TASK_MENU_INTERFACE_H_ */
 
 /********************** end of file ******************************************/

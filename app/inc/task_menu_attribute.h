@@ -14,6 +14,9 @@ extern "C" {
 #endif
 
 /********************** inclusions *******************************************/
+#include "task_system_attribute.h"
+#include "display.h"
+
 
 /********************** macros ***********************************************/
 
@@ -26,50 +29,69 @@ typedef enum task_menu_ev {EV_MEN_ENT_IDLE,
 						   EV_MEN_NEX_ACTIVE,
 						   EV_MEN_ESC_IDLE,
 						   EV_MEN_ESC_ACTIVE,
-						   EV_MEN_ADC_REQ_OK} task_menu_ev_t;
+						   EV_MEN_ADC_REQ_OK,
+						   EV_MEN_SYS_FALLA} task_menu_ev_t;
 
 /* State of Task Menu */
 typedef enum task_menu_st {ST_MEN_MAIN,
+						   ST_MEN_SELECT_MODE,
 						   ST_MEN_MODE_MANUAL,
 						   ST_MEN_MODE_CONFIG,
 						   ST_MEN_MODE_SENSOR,
 						   ST_MEN_MODE_TIME,
 						   ST_MEN_RIEGO_ON,
 						   ST_MEN_RIEGO_OFF,
-						   ST_MEN_CONFIG_TIME,
-						   ST_MEN_CONFIG_TEMP,
-						   ST_MEN_CONFIG_HUME,
-						   ST_MEN_CHANGE_TIME,
+						   ST_MEN_CHANGE_IDLE_TIME,
+						   ST_MEN_CHANGE_RIEGO_TIME,
 						   ST_MEN_CHANGE_TEMP,
 						   ST_MEN_CHANGE_HUME,
 						   ST_MEN_SALUD_WAIT,
-						   ST_MEN_SALUD_SHOW} task_menu_st_t;
+						   ST_MEN_SALUD_SHOW,
+						   ST_MEN_FALLA_SHOW,
+						   ST_MEN_CONFIRM_CONFIG,
+						   ST_MEN_SAVE_CONFIG} task_menu_st_t;
 
 typedef struct
 {
 	uint32_t			tick;
 	bool				flag;
-	bool 				refresh_screen;
-	uint32_t			tick_idle_max;
-
-	task_menu_ev_t  	ev_sys_config_on; //eventos que genera el menu al systema
-	task_menu_ev_t  	ev_sys_config_off;
-	task_menu_ev_t  	ev_sys_riego_on;
-	task_menu_ev_t  	ev_sys_riego_off;
-	task_menu_ev_t  	ev_sys_adc_req;
-	task_menu_ev_t  	ev_sys_mod_time;
-	task_menu_ev_t  	ev_sys_mod_sensor;
+	uint32_t			tick_st_feedback_user_max;
 } task_menu_cfg_t;
 
 typedef struct
 {
-	uint32_t		tick_idle;
-	task_menu_st_t	state;
-	task_menu_st_t  last_state;
-	task_menu_ev_t	event;
-	bool			mode_time;
-	uint32_t		threshold_temperature;
-	uint32_t		threshold_humidity;
+	uint32_t			tick_display_update;
+	uint32_t			tick_st_feedback_user;
+
+	task_menu_st_t		state;
+	task_menu_st_t  	last_state;
+	task_menu_ev_t		event;
+
+
+	task_system_mode_t	sys_mode;
+
+	uint32_t			edit_sys_tick_idle;
+	uint32_t			edit_sys_tick_riego;
+	uint32_t			edit_sys_th_temperature;
+	uint32_t			edit_sys_th_humidity;
+	uint32_t			edit_val_backup;
+	bool 				edit_changes;
+
+	float				sys_salud_bat_v;
+	float				sys_salud_temp_int_c;
+	bool				sys_riego_state;
+
+	//Impresion display
+	bool 				refresh_screen; //Se debe actualizar la pantalla
+	bool				printing;		//Impresion por etapas
+	uint16_t 			etapa_print;	//Etapa de impresion
+	bool 				refresh_cursor;  //Se debe actualizar el cursor
+	uint16_t			cursor_pos;		//posición del cursor
+	uint16_t			cursor_offset;		//posición del cursor
+	const char 			*lines[4];
+
+	char 				aux_str_buf[ANCHO_LCD+1]; //Buffer auxiliar para snprintf
+	char 				aux_str_buf_2[ANCHO_LCD+1]; //Buffer auxiliar para snprintf
 } task_menu_dta_t;
 
 /********************** external data declaration ****************************/

@@ -34,35 +34,20 @@ extern ADC_HandleTypeDef hadc1;
 
 /********************** internal data declaration ****************************/
 task_adc_cfg_t task_adc_cfg = {
-	DEL_ADC_XX_MIN, false, EV_SYS_ADC_OK, EV_SYS_ADC_NOT_OK
+	DEL_ADC_XX_MIN, false
 };
 
 task_adc_dta_t task_adc_dta = {
-	ST_ADC_IDLE, EV_ADC_IDLE, false, 0, 0.0, 0, 0.0
+	.state		= ST_ADC_IDLE,
+	.event 		= EV_ADC_IDLE,
+	.flag_ready	= false
 };
 
 /********************** internal functions declaration ***********************/
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-	task_adc_dta.last_raw_lecture = HAL_ADC_GetValue(&hadc1);
 	task_adc_dta.flag_ready = true;
 }
-
-
-static void ADC_select_channel(uint32_t channel){
-	ADC_ChannelConfTypeDef sConfig = {0};
-	sConfig.Channel = channel;
-	sConfig.Rank = ADC_REGULAR_RANK_1;
-	if (channel == ADC_CHANNEL_TEMPSENSOR || channel == ADC_CHANNEL_VREFINT)
-	{
-		sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
-	} else {
-		sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
-	}
-
-	HAL_ADC_ConfigChannel(&hadc1, &sConfig); //No consideramos caso de falla
-}
-
 
 /********************** internal data definition *****************************/
 const char *p_task_adc 		= "Task ADC (Internal Sensors)";
@@ -172,62 +157,35 @@ void task_adc_update(void *parameters)
 					if ((true == p_task_adc_cfg->flag) && (EV_ADC_START == p_task_adc_dta->event))
 					{
 						p_task_adc_cfg->flag = false;
-						p_task_adc_dta->state = ST_ADC_TEMP_START;
+						p_task_adc_dta->flag_ready= false;
+
+						HAL_ADC_Start_DMA(&hadc1, (uint32_t*)p_task_adc_dta->adc_buffer, 2);
+						p_task_adc_dta->state = ST_ADC_WAITING;
+
 					}
 
 					break;
 
-				case ST_ADC_TEMP_START:
-
-					p_task_adc_dta->flag_ready = false;
-					ADC_select_channel(ADC_CHANNEL_TEMPSENSOR);
-					HAL_ADC_Start_IT(&hadc1);
-					p_task_adc_dta->state = ST_ADC_TEMP_WAITING;
-
-					break;
-
-				case ST_ADC_TEMP_WAITING:
-
-					if (p_task_adc_dta->flag_ready == true)
+				case ST_ADC_WAITING:
+					if (true == p_task_adc_dta->flag_ready)
 					{
-						p_task_adc_dta->temp_raw = p_task_adc_dta->last_raw_lecture;
-						if ((p_task_adc_dta->temp_raw == ADC_MIN_COUNT) || (p_task_adc_dta->temp_raw == ADC_MAX_COUNT))
+						p_task_adc_dta->temp_raw = (uint32_t)p_task_adc_dta->adc_buffer[0];
+						p_task_adc_dta->bat_raw  = (uint32_t)p_task_adc_dta->adc_buffer[1];
+
+
+						if ((p_task_adc_dta->bat_raw == ADC_MIN_COUNT) || (p_task_adc_dta->temp_raw == ADC_MAX_COUNT)) 
 						{
-							put_event_task_system(p_task_adc_cfg->ev_sys_adc_not_ok);
+							put_event_task_system(EV_SYS_ADC_NOT_OK);
 							p_task_adc_dta->state = ST_ADC_FALLA;
-						}
-						p_task_adc_dta->state = ST_ADC_BAT_START;
-					}
-
-					break;
-
-				case ST_ADC_BAT_START:
-
-					p_task_adc_dta->flag_ready = false;
-					ADC_select_channel(ADC_CHANNEL_VREFINT);
-					HAL_ADC_Start_IT(&hadc1);
-
-					p_task_adc_dta->state = ST_ADC_BAT_WAITING;
-
-					break;
-
-
-				case ST_ADC_BAT_WAITING:
-					if (p_task_adc_dta->flag_ready == true)
-					{
-						p_task_adc_dta->bat_raw = p_task_adc_dta->last_raw_lecture;
-
-						if (p_task_adc_dta->bat_raw > 0)
-						{
-							p_task_adc_dta->bat_volts = VREFINT_CAL_VOLTS * ADC_MAX_COUNT / (float)p_task_adc_dta->bat_raw;
-						} else {
-							p_task_adc_dta->state = ST_ADC_FALLA;
+							break;
 						}
 
-						float temp_v_read = ( (float)p_task_adc_dta->temp_raw * p_task_adc_dta->bat_volts ) / ADC_MAX_COUNT;
-						p_task_adc_dta->temp_cent = (TEMP_V25 - temp_v_read)/TEMP_AVG_SLOPE + 25.0f;
+						p_task_adc_dta->bat_volts = VREFINT_CAL_VOLTS * ADC_MAX_COUNT / (float)p_task_adc_dta->bat_raw;
 
-						put_event_task_system(p_task_adc_cfg->ev_sys_adc_ok);
+						float temp_v_read = ((float)p_task_adc_dta->temp_raw * p_task_adc_dta->bat_volts) / ADC_MAX_COUNT;
+						p_task_adc_dta->temp_cent = (TEMP_V25 - temp_v_read) / TEMP_AVG_SLOPE + 25.0f;
+
+						put_event_task_system(EV_SYS_ADC_OK);
 						p_task_adc_dta->state = ST_ADC_IDLE;
 					}
 

@@ -235,8 +235,6 @@ void task_sensor_update(void *parameters)
 					{
 						if (EV_BTN_XX_DOWN == p_task_sensor_dta->event)
 						{
-							//put_event_task_system(p_task_sensor_cfg->signal_down);
-							//put_event_task_sht85(p_task_sensor_cfg->signal_down);
 							put_event_task_menu(p_task_sensor_cfg->signal_down);
 							p_task_sensor_dta->state = ST_BTN_XX_DOWN;
 						}
@@ -265,8 +263,6 @@ void task_sensor_update(void *parameters)
 					{
 						if (EV_BTN_XX_UP == p_task_sensor_dta->event)
 						{
-							//put_event_task_system(p_task_sensor_cfg->signal_up);
-							//put_event_task_sht85(p_task_sensor_cfg->signal_up);
 							put_event_task_menu(p_task_sensor_cfg->signal_up);
 							p_task_sensor_dta->state = ST_BTN_XX_UP;
 						}

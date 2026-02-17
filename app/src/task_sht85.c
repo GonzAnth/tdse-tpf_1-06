@@ -31,27 +31,45 @@
 #define DEL_SEN_XX_MED				50ul
 #define DEL_SEN_XX_MAX				500ul
 
-#define DEL_SEN_MEAS_XX_MAX			20ul
+#define DEL_SEN_MEAS_XX_MAX			5ul
 #define DEL_SEN_MEAS_XX_MIN			0ul
+
+#define DEL_SEN_TIMEOUT_MAX			10ul
+#define DEL_SEN_TIMEOUT_MIN			0ul
 
 extern I2C_HandleTypeDef hi2c1;
 
 /********************** internal data declaration ****************************/
 task_sht85_cfg_t task_sht85_cfg = {
-	DEL_SEN_XX_MIN, false, DEL_SEN_MEAS_XX_MAX,
-	EV_SYS_FALLA_ON, EV_SYS_READY_ON, EV_SYS_CHECK_OK, EV_SYS_CHECK_NOT_OK
+	DEL_SEN_XX_MIN, false, DEL_SEN_MEAS_XX_MAX, DEL_SEN_TIMEOUT_MAX,
 };
 
 task_sht85_dta_t task_sht85_dta = {
-	DEL_SEN_MEAS_XX_MIN	, ST_SEN_IDLE, EV_SEN_MEASURE_OFF, true, false, 0, 0, 0
+	.tick_measure 		= DEL_SEN_MEAS_XX_MIN,
+	.tick_timeout		= DEL_SEN_TIMEOUT_MIN,
+	.state				= ST_SEN_IDLE,
+	.event				= EV_SEN_IDLE,
+	.i2c_op_complete	= false,
+	.i2c_error			= false
 };
 
 #define MENU_DTA_QTY	(sizeof(task_sen_dta)/sizeof(task_sen_dta_t))
 
 /********************** internal functions declaration ***********************/
+void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c) {
+	task_sht85_dta.i2c_op_complete = true;
+}
+
+void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c) {
+    task_sht85_dta.i2c_op_complete = true;
+}
+
+void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c) {
+    task_sht85_dta.i2c_error = true;
+}
 
 /********************** internal data definition *****************************/
-const char *p_task_sen 		= "Task Menu (Interactive Menu)";
+const char *p_task_sen 		= "Task SHT85";
 const char *p_task_sen_ 		= "Non-Blocking & Update By Time Code";
 
 /********************** external data declaration ****************************/
@@ -147,15 +165,8 @@ void task_sht85_update(void *parameters)
 		{
 			p_task_sht85_cfg->tick = DEL_SEN_XX_MAX;
 
-			 /* Aquí colocamos código a ejecutar cuando cambiamos de estado
 
-			if (p_task_sen_dta->state != p_task_sen_dta->last_state)
-			{
-			    p_task_sen_dta->refresh_screen = true;
-			    p_task_sen_dta->last_state = p_task_sen_dta->state;
-			}
-
-			 Implementacion maquina de estados */
+			/* Implementacion maquina de estados */
 			if (true == any_event_task_sht85())
 			{
 				p_task_sht85_cfg->flag = true;
@@ -169,107 +180,136 @@ void task_sht85_update(void *parameters)
 					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_ON == p_task_sht85_dta->event))
 					{
 						p_task_sht85_cfg->flag = false;
-						p_task_sht85_dta->state = ST_SEN_MEASURE;
+						p_task_sht85_dta->i2c_op_complete = false;
+						p_task_sht85_dta->i2c_error	= false;
+						if (true == SHT85_start_measure_IT())
+						{
+							p_task_sht85_dta->tick_timeout = p_task_sht85_cfg->tick_timeout_max;
+							p_task_sht85_dta->state = ST_SEN_WAIT_TX;
+						}
+						else
+						{
+							put_event_task_system(EV_SYS_FALLA);
+							p_task_sht85_dta->state = ST_SEN_FALLA;
+						}
 					}
 
 					break;
 
 
-				case ST_SEN_MEASURE:
-
-					p_task_sht85_dta->ready= SHT85_send_single_shot();
-
-					if (true == p_task_sht85_dta->ready)
+				case ST_SEN_WAIT_TX:
+					if (true == p_task_sht85_dta->i2c_error)
 					{
-						p_task_sht85_dta->tick_means = p_task_sht85_cfg->tick_means_max;
-						p_task_sht85_cfg->flag = false;
+						put_event_task_system(EV_SYS_FALLA);
+						p_task_sht85_dta->state = ST_SEN_FALLA;
+					}
+					else if (true == p_task_sht85_dta->i2c_op_complete)
+					{
+						p_task_sht85_dta->tick_measure = p_task_sht85_cfg->tick_means_max;
 						p_task_sht85_dta->state = ST_SEN_WAITING;
 					}
 					else
 					{
-						put_event_task_system(p_task_sht85_cfg->ev_sys_falla);
-						p_task_sht85_cfg->flag = false;
-						p_task_sht85_dta->state = ST_SEN_FALLA;
+						p_task_sht85_dta->tick_timeout--;
+						if (DEL_SEN_TIMEOUT_MIN == p_task_sht85_dta->tick_timeout)
+						{
+							put_event_task_system(EV_SYS_FALLA);
+							p_task_sht85_dta->state = ST_SEN_FALLA;
+						}
 					}
-					/* VERIFICACION CON EVENTOS
-					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_OK == p_task_sht85_dta->event))
-					{
-						p_task_sht85_dta->tick_means = p_task_sht85_cfg->tick_means_max;
-						p_task_sht85_cfg->flag = false;
-						p_task_sht85_dta->state = ST_SEN_WAITING;
-					}
-					else if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_NOT_OK  == p_task_sht85_dta->event))
-					{
-						put_event_task_system(p_task_sht85_cfg->ev_sys_falla);
-						p_task_sht85_cfg->flag = false;
-						p_task_sht85_dta->state = ST_SEN_FALLA;
-					}*/
 
 					break;
 
-				case ST_SEN_WAITING:
 
-					p_task_sht85_dta->tick_means--;
-					if (DEL_SEN_MEAS_XX_MIN == p_task_sht85_dta->tick_means)
+
+				case ST_SEN_WAITING:
+					p_task_sht85_dta->tick_measure--;
+					if (DEL_SEN_MEAS_XX_MIN == p_task_sht85_dta->tick_measure)
 					{
-						put_event_task_system(p_task_sht85_cfg->ev_sys_ready_on);
+						put_event_task_system(EV_SYS_READY);
 						p_task_sht85_dta->state = ST_SEN_READY;
 					}
 
 					break;
 
-				case ST_SEN_READY:
 
+				case ST_SEN_READY:
 					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_MEASURE_READ == p_task_sht85_dta->event))
 					{
-						p_task_sht85_dta->measure_check = SHT85_read(&p_task_sht85_dta->temperature, &p_task_sht85_dta->humidity);
-
-						if (p_task_sht85_dta->measure_check == true)
+						p_task_sht85_dta->i2c_op_complete = false;
+						p_task_sht85_dta->i2c_error = false;
+						if (true == SHT85_start_read_IT(p_task_sht85_dta->i2c_rx_raw_values))
 						{
-							put_event_task_system(p_task_sht85_cfg->ev_sys_check_ok);
-							p_task_sht85_dta->state = ST_SEN_IDLE;
+							p_task_sht85_dta->tick_timeout = p_task_sht85_cfg->tick_timeout_max;
+							p_task_sht85_dta->state = ST_SEN_WAIT_RX;
 						}
 						else
 						{
-							put_event_task_system(p_task_sht85_cfg->ev_sys_check_not_ok);
+							put_event_task_system(EV_SYS_CHECK_NOT_OK);
 							p_task_sht85_dta->state = ST_SEN_FALLA;
 						}
-
 						p_task_sht85_cfg->flag = false;
 					}
 
 					break;
 
-				// esto es otra opcion por si hace falta definir un estado de check
-				/*case ST_SEN_CHECK:
 
-					p_task_sht85_dta->measure_check = false; // funcion para verificar la medicion
-					if (p_task_sht85_dta->measure_check == true)
+				case ST_SEN_WAIT_RX:
+					if (true == p_task_sht85_dta->i2c_error)
 					{
-						p_task_sht85_dta->state = ST_SEN_IDLE;
+						put_event_task_system(EV_SYS_FALLA);
+						p_task_sht85_dta->state = ST_SEN_FALLA;
+					} else if (true == p_task_sht85_dta->i2c_op_complete)
+					{
+						bool calculo = SHT85_compute_values(p_task_sht85_dta->i2c_rx_raw_values,
+														&p_task_sht85_dta->temperature,
+														&p_task_sht85_dta->humidity);
+
+						if (true == calculo)
+						{
+							put_event_task_system(EV_SYS_CHECK_OK);
+							p_task_sht85_dta->state = ST_SEN_IDLE;
+						} else {
+							put_event_task_system(EV_SYS_CHECK_NOT_OK);
+							p_task_sht85_dta->state = ST_SEN_FALLA;
+						}
 					}
 					else
 					{
-						p_task_sht85_dta->state = ST_SEN_FALLA;
+						p_task_sht85_dta->tick_timeout--;
+						if (DEL_SEN_TIMEOUT_MIN == p_task_sht85_dta->tick_timeout)
+						{
+							put_event_task_system(EV_SYS_CHECK_NOT_OK);
+							p_task_sht85_dta->state = ST_SEN_FALLA;
+						}
+
 					}
 
-					break;*/
+
+					break;
+
 
 				case ST_SEN_FALLA:
-
 					if ((true == p_task_sht85_cfg->flag) && (EV_SEN_FALLA_OK == p_task_sht85_dta->event))
 					{
+						/* Reset I2C */
+						HAL_I2C_Master_Abort_IT(&hi2c1, SHT85_I2C_ADDR);
+						HAL_I2C_DeInit(&hi2c1);
+						HAL_I2C_Init(&hi2c1);
+
+						p_task_sht85_dta->i2c_op_complete = false;
+						p_task_sht85_dta->i2c_error = false;
 						p_task_sht85_cfg->flag = false;
 						p_task_sht85_dta->state = ST_SEN_IDLE;
 					}
 
 					break;
 
-				default:
 
+				default:
 					p_task_sht85_cfg->tick  = DEL_SEN_XX_MIN;
 					p_task_sht85_dta->state = ST_SEN_IDLE;
-					p_task_sht85_dta->event = EV_SEN_MEASURE_OFF;
+					p_task_sht85_dta->event = EV_SEN_IDLE;
 					p_task_sht85_cfg->flag  = false;
 
 					break;
