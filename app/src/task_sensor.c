@@ -79,8 +79,6 @@ task_sensor_dta_t task_sensor_dta_list[] = {
 	{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP},
 	{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP},
 	{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP},
-	//{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP},
-	//{DEL_BTN_XX_MIN, ST_BTN_XX_UP, EV_BTN_XX_UP}
 };
 
 #define SENSOR_DTA_QTY	(sizeof(task_sensor_dta_list)/sizeof(task_sensor_dta_t))

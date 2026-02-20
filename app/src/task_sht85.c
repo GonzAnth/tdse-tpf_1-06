@@ -53,7 +53,6 @@ task_sht85_dta_t task_sht85_dta = {
 	.i2c_error			= false
 };
 
-#define SHT_DTA_QTY	(sizeof(task_sht85_dta)/sizeof(task_sht85_dta_t))
 
 /********************** internal functions declaration ***********************/
 void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c) {
@@ -69,8 +68,8 @@ void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c) {
 }
 
 /********************** internal data definition *****************************/
-const char *p_task_sen 		= "Task SHT85";
-const char *p_task_sen_ 		= "Non-Blocking & Update By Time Code";
+const char *p_task_sht85 	= "Task SHT85";
+const char *p_task_sht85_ 	= "Non-Blocking & Update By Time Code";
 
 /********************** external data declaration ****************************/
 uint32_t g_task_sht85_cnt;
@@ -88,8 +87,8 @@ void task_sht85_init(void *parameters)
 	/* Inicializamos el driver de hardware con el handle del I2C */
 	SHT85_Init(&hi2c1);
 	/* Print out: Task Initialized */
-	LOGGER_LOG("  %s is running - %s\r\n", GET_NAME(task_sen_init), p_task_sen);
-	LOGGER_LOG("  %s is a %s\r\n", GET_NAME(task_sen), p_task_sen_);
+	LOGGER_LOG("  %s is running - %s\r\n", GET_NAME(task_sht85_init), p_task_sht85);
+	LOGGER_LOG("  %s is a %s\r\n", GET_NAME(task_sht85), p_task_sht85_);
 
 	g_task_sht85_cnt = G_TASK_SEN_CNT_INI;
 
@@ -122,7 +121,6 @@ void task_sht85_update(void *parameters)
 {
 	task_sht85_cfg_t *p_task_sht85_cfg;
 	task_sht85_dta_t *p_task_sht85_dta;
-	//task_motor_dta_t *p_task_motor_dta;
 
 	bool b_time_update_required = false;
 
