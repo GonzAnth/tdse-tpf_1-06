@@ -59,15 +59,6 @@ extern "C" {
 /* STM32 Nucleo Boards - 64 Pins */
 #if ((BOARD == NUCLEO_F103RC) || (BOARD == NUCLEO_F401RE) || (BOARD == NUCLEO_F446RE))
 
-#define BTN_A_PIN		B1_Pin
-#define BTN_A_PORT		B1_GPIO_Port
-#define BTN_A_PRESSED	GPIO_PIN_RESET
-#define BTN_A_HOVER		GPIO_PIN_SET
-
-#define BTN_A2_PIN		D2_Pin
-#define BTN_A2_PORT		D2_GPIO_Port
-#define BTN_A2_PRESSED	GPIO_PIN_RESET
-#define BTN_A2_HOVER	GPIO_PIN_SET
 
 #define BTN_ENT_PIN		D10_Pin
 #define BTN_ENT_PORT	D10_GPIO_Port

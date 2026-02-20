@@ -87,7 +87,7 @@ const task_cfg_t task_cfg_list[]	= {
 
 /********************** internal data definition *****************************/
 const char *p_sys	= " Bare Metal - Event-Triggered Systems (ETS)\r\n";
-const char *p_app	= " App - Interactive Menu\r\n";
+const char *p_app	= " App - Proyecto Final\r\n";
 
 /********************** external data declaration ****************************/
 uint32_t g_app_cnt;
@@ -134,6 +134,7 @@ void app_init(void)
 	g_task_sht85_tick_cnt = G_APP_TICK_CNT_INI;
 	g_task_menu_tick_cnt = G_APP_TICK_CNT_INI;
 	g_task_actuator_tick_cnt = G_APP_TICK_CNT_INI;
+	g_task_adc_tick_cnt = G_APP_TICK_CNT_INI;
     __asm("CPSIE i");	/* enable interrupts*/
 }
 
