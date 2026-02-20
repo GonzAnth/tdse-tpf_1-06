@@ -83,7 +83,8 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	initialise_monitor_handles();
+	//initialise_monitor_handles();
+	LOGGER_INIT();
 
   /* USER CODE END 1 */
 

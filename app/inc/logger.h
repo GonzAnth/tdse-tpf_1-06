@@ -51,20 +51,36 @@ extern "C" {
 
 /********************** macros ***********************************************/
 
-#define LOGGER_CONFIG_ENABLE                    (1)
+#ifdef DEBUG
+	#define LOGGER_CONFIG_ENABLE                    (1)
+#else
+	#define LOGGER_CONFIG_ENABLE                    (0)
+#endif
+
 #define LOGGER_CONFIG_MAXLEN                    (64)
 #define LOGGER_CONFIG_USE_SEMIHOSTING           (1)
 
 #if 1 == LOGGER_CONFIG_ENABLE
-#define LOGGER_LOG(...)\
-	__asm("CPSID i");	/* disable interrupts*/\
-    {\
-        logger_msg_len = snprintf(logger_msg, (LOGGER_CONFIG_MAXLEN - 1), __VA_ARGS__);\
-        logger_log_print_(logger_msg);\
-    }\
-	__asm("CPSIE i");	/* enable interrupts*/
+	extern void initialise_monitor_handles(void);
+	#define LOGGER_INIT()   initialise_monitor_handles()
+
+	#define LOGGER_LOG(...)\
+		__asm("CPSID i");	/* disable interrupts*/\
+		{\
+			logger_msg_len = snprintf(logger_msg, (LOGGER_CONFIG_MAXLEN - 1), __VA_ARGS__);\
+			logger_log_print_(logger_msg);\
+		}\
+		__asm("CPSIE i");	/* enable interrupts*/
 #else
-#define LOGGER_LOG(...)
+	#define LOGGER_INIT()   do { } while(0)
+
+	//Eliminamos warnings para prints en modo release
+	#define LOGGER_LOG(...) \
+		do { \
+			if (0) { \
+				snprintf(NULL, 0, __VA_ARGS__); \
+			} \
+		} while(0)
 #endif
 
 #define GET_NAME(var)  #var
