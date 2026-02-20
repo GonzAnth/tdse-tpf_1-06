@@ -48,7 +48,7 @@ typedef struct
 	task_adc_st_t		state;
 	task_adc_ev_t		event;
 
-	bool 				flag_ready;
+	volatile bool 		flag_ready;
 	uint32_t			adc_buffer[2];
 
 	uint16_t			temp_raw;
