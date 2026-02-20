@@ -48,10 +48,6 @@
 #include "board.h"
 #include "app.h"
 #include "task_sensor_attribute.h"
-#include "task_sht85_attribute.h"
-#include "task_sht85_interface.h"
-#include "task_system_attribute.h"
-#include "task_system_interface.h"
 #include "task_menu_attribute.h"
 #include "task_menu_interface.h"
 
@@ -65,43 +61,9 @@
 #define DEL_BTN_XX_MAX				50ul
 
 /********************** internal data declaration ****************************/
-// BOTONES PARA SIMULAR SHT85
-/*const task_sensor_cfg_t task_sensor_cfg_list[] = {
-	{ID_BTN_ENT,  BTN_ENT_PORT,  BTN_ENT_PIN,  BTN_ENT_PRESSED, DEL_BTN_XX_MAX,
-	 EV_SEN_MEASURE_OFF, EV_SEN_MEASURE_ON},
-	{ID_BTN_NEX,  BTN_NEX_PORT,  BTN_NEX_PIN,  BTN_NEX_PRESSED, DEL_BTN_XX_MAX,
-	EV_SEN_MEASURE_OK_OFF,  EV_SEN_MEASURE_OK},
-	{ID_BTN_ESC,  BTN_ESC_PORT,  BTN_ESC_PIN,  BTN_ESC_PRESSED, DEL_BTN_XX_MAX,
-	EV_SEN_MEASURE_NOT_OK_OFF,  EV_SEN_MEASURE_NOT_OK},
-	{ID_BTN_A,  BTN_A_PORT,  BTN_A_PIN,  BTN_A_PRESSED, DEL_BTN_XX_MAX,
-	EV_SEN_MEASURE_READ_OFF,  EV_SEN_MEASURE_READ},
-	{ID_BTN_A2,  BTN_A2_PORT,  BTN_A2_PIN,  BTN_A2_PRESSED, DEL_BTN_XX_MAX,
-	EV_SEN_FALLA_OK_OFF,  EV_SEN_FALLA_OK},
-};*/
 
-// BOTONES PARA SIMULAR SYSTEM
-/* const task_sensor_cfg_t task_sensor_cfg_list[] = {
-	{ID_BTN_ENT,  BTN_ENT_PORT,  BTN_ENT_PIN,  BTN_ENT_PRESSED, DEL_BTN_XX_MAX, // para utilizar estos eventos cambiar a put event sytem
-	EV_SYS_RIEGO_ACT_OFF, EV_SYS_RIEGO_ACT_ON},
-	{ID_BTN_NEX,  BTN_NEX_PORT,  BTN_NEX_PIN,  BTN_NEX_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_RIEGO_NACT_OFF, EV_SYS_RIEGO_NACT_ON},
-	{ID_BTN_ESC,  BTN_ESC_PORT,  BTN_ESC_PIN,  BTN_ESC_PRESSED, DEL_BTN_XX_MAX,
-	EV_SEN_MEASURE_OK_OFF,  EV_SEN_MEASURE_OK},
-	{ID_BTN_A,  BTN_A_PORT,  BTN_A_PIN,  BTN_A_PRESSED, DEL_BTN_XX_MAX,
-	EV_SEN_MEASURE_NOT_OK_OFF,  EV_SEN_MEASURE_NOT_OK},
-	{ID_BTN_A2,  BTN_A2_PORT,  BTN_A2_PIN,  BTN_A2_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_CHECK_OK_OFF,  EV_SYS_CHECK_OK},
-	{ID_BTN_ESC,  BTN_ESC_PORT,  BTN_ESC_PIN,  BTN_ESC_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_CONFIG_OFF,  EV_SYS_CONFIG_ON},
-	{ID_BTN_A,  BTN_A_PORT,  BTN_A_PIN,  BTN_A_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_NCONFIG_OFF,  EV_SYS_NCONFIG_ON},
-	{ID_BTN_A2,  BTN_A2_PORT,  BTN_A2_PIN,  BTN_A2_PRESSED, DEL_BTN_XX_MAX,
-	EV_SYS_FALLA_OFF,  EV_SYS_FALLA_ON},
-}; */
-
-// BOTONES PARA SIMULAR MENU
 const task_sensor_cfg_t task_sensor_cfg_list[] = {
-	{ID_BTN_ENT,  BTN_ENT_PORT,  BTN_ENT_PIN,  BTN_ENT_PRESSED, DEL_BTN_XX_MAX, // para utilizar estos eventos cambiar a put event sytem
+	{ID_BTN_ENT,  BTN_ENT_PORT,  BTN_ENT_PIN,  BTN_ENT_PRESSED, DEL_BTN_XX_MAX,
 	EV_MEN_ENT_IDLE, EV_MEN_ENT_ACTIVE},
 	{ID_BTN_NEX,  BTN_NEX_PORT,  BTN_NEX_PIN,  BTN_NEX_PRESSED, DEL_BTN_XX_MAX,
 	EV_MEN_NEX_IDLE, EV_MEN_NEX_ACTIVE},
@@ -126,7 +88,7 @@ task_sensor_dta_t task_sensor_dta_list[] = {
 /********************** internal functions declaration ***********************/
 
 /********************** internal data definition *****************************/
-const char *p_task_sensor 		= "Task Sensor (Sensor Statechart)";
+const char *p_task_sensor 		= "Task Sensor";
 const char *p_task_sensor_ 		= "Non-Blocking & Update By Time Code";
 
 /********************** external data declaration ****************************/
