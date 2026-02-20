@@ -1,0 +1,8 @@
+../app/src/task_system_interface.c:72:6:init_queue_event_task_system	2
+../app/src/task_system_interface.c:84:6:put_event_task_system	2
+../app/src/task_system_interface.c:93:18:get_event_task_system	2
+../app/src/task_system_interface.c:107:6:any_event_task_system	1
+../app/src/task_system_interface.c:113:6:set_system_config	1
+../app/src/task_system_interface.c:122:6:get_system_config	6
+../app/src/task_system_interface.c:132:6:get_system_salud_dta	3
+../app/src/task_system_interface.c:139:6:get_system_riego_state	1

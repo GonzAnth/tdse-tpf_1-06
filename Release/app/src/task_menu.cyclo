@@ -1,0 +1,3 @@
+../app/src/task_menu.c:92:6:task_menu_init	1
+../app/src/task_menu.c:142:6:task_menu_update	128
+../app/src/task_menu.c:638:13:menu_display_print	32

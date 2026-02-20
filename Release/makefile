@@ -9,6 +9,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include app/src/subdir.mk
 -include Drivers/STM32F1xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
@@ -52,6 +53,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 tdse-tpf_1-06.list \
 
+OBJCOPY_BIN += \
+tdse-tpf_1-06.bin \
+
 
 # All Target
 all: main-build
@@ -75,12 +79,17 @@ tdse-tpf_1-06.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+tdse-tpf_1-06.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "tdse-tpf_1-06.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) default.size.stdout tdse-tpf_1-06.elf tdse-tpf_1-06.list tdse-tpf_1-06.map
+	-$(RM) default.size.stdout tdse-tpf_1-06.bin tdse-tpf_1-06.elf tdse-tpf_1-06.list tdse-tpf_1-06.map
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
