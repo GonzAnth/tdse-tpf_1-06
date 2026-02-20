@@ -7,23 +7,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         00009070  0800010c  0800010c  0000110c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       000005e4  0800917c  0800917c  0000a17c  2**2
+  2 .rodata       000005d0  0800917c  0800917c  0000a17c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  08009760  08009760  0000b12c  2**0
+  3 .ARM.extab    00000000  0800974c  0800974c  0000b12c  2**0
                   CONTENTS
-  4 .ARM          00000000  08009760  08009760  0000b12c  2**0
+  4 .ARM          00000000  0800974c  0800974c  0000b12c  2**0
                   CONTENTS
-  5 .preinit_array 00000000  08009760  08009760  0000b12c  2**0
+  5 .preinit_array 00000000  0800974c  0800974c  0000b12c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08009760  08009760  0000a760  2**2
+  6 .init_array   00000004  0800974c  0800974c  0000a74c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .fini_array   00000004  08009764  08009764  0000a764  2**2
+  7 .fini_array   00000004  08009750  08009750  0000a750  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .data         0000012c  20000000  08009768  0000b000  2**2
+  8 .data         0000012c  20000000  08009754  0000b000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000003ec  20000130  08009894  0000b130  2**3
+  9 .bss          000003ec  20000130  08009880  0000b130  2**3
                   ALLOC
- 10 ._user_heap_stack 00000604  2000051c  08009894  0000b51c  2**0
+ 10 ._user_heap_stack 00000604  2000051c  08009880  0000b51c  2**0
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  0000b12c  2**0
                   CONTENTS, READONLY
@@ -2036,7 +2036,7 @@ Disassembly of section .text:
  800154e:	4770      	bx	lr
  8001550:	20000000 	.word	0x20000000
  8001554:	2000012c 	.word	0x2000012c
- 8001558:	08009768 	.word	0x08009768
+ 8001558:	08009754 	.word	0x08009754
  800155c:	20000130 	.word	0x20000130
  8001560:	2000051c 	.word	0x2000051c
 
@@ -9185,7 +9185,7 @@ Disassembly of section .text:
  8005302:	bf00      	nop
  8005304:	40022000 	.word	0x40022000
  8005308:	40021000 	.word	0x40021000
- 800530c:	0800965c 	.word	0x0800965c
+ 800530c:	08009648 	.word	0x08009648
  8005310:	20000000 	.word	0x20000000
  8005314:	20000004 	.word	0x20000004
 
@@ -9259,8 +9259,8 @@ Disassembly of section .text:
  80053aa:	bf00      	nop
  80053ac:	40021000 	.word	0x40021000
  80053b0:	007a1200 	.word	0x007a1200
- 80053b4:	08009674 	.word	0x08009674
- 80053b8:	08009684 	.word	0x08009684
+ 80053b4:	08009660 	.word	0x08009660
+ 80053b8:	08009670 	.word	0x08009670
  80053bc:	003d0900 	.word	0x003d0900
 
 080053c0 <HAL_RCC_GetHCLKFreq>:
@@ -9289,7 +9289,7 @@ Disassembly of section .text:
  80053f0:	4618      	mov	r0, r3
  80053f2:	bd80      	pop	{r7, pc}
  80053f4:	40021000 	.word	0x40021000
- 80053f8:	0800966c 	.word	0x0800966c
+ 80053f8:	08009658 	.word	0x08009658
 
 080053fc <HAL_RCC_GetPCLK2Freq>:
  80053fc:	b580      	push	{r7, lr}
@@ -9306,7 +9306,7 @@ Disassembly of section .text:
  8005418:	4618      	mov	r0, r3
  800541a:	bd80      	pop	{r7, pc}
  800541c:	40021000 	.word	0x40021000
- 8005420:	0800966c 	.word	0x0800966c
+ 8005420:	08009658 	.word	0x08009658
 
 08005424 <RCC_Delay>:
  8005424:	b480      	push	{r7}
@@ -9772,13 +9772,13 @@ Disassembly of section .text:
  800582c:	20000288 	.word	0x20000288
  8005830:	e000edf0 	.word	0xe000edf0
  8005834:	e0001000 	.word	0xe0001000
- 8005838:	08009688 	.word	0x08009688
+ 8005838:	08009674 	.word	0x08009674
  800583c:	20000294 	.word	0x20000294
  8005840:	20000290 	.word	0x20000290
- 8005844:	20000348 	.word	0x20000348
+ 8005844:	20000324 	.word	0x20000324
  8005848:	200003b4 	.word	0x200003b4
  800584c:	2000036c 	.word	0x2000036c
- 8005850:	2000030c 	.word	0x2000030c
+ 8005850:	2000032c 	.word	0x2000032c
  8005854:	200002bc 	.word	0x200002bc
  8005858:	200002e8 	.word	0x200002e8
 
@@ -9869,7 +9869,7 @@ Disassembly of section .text:
  800590c:	20000288 	.word	0x20000288
  8005910:	2000028c 	.word	0x2000028c
  8005914:	e0001000 	.word	0xe0001000
- 8005918:	08009688 	.word	0x08009688
+ 8005918:	08009674 	.word	0x08009674
  800591c:	20000000 	.word	0x20000000
  8005920:	431bde83 	.word	0x431bde83
  8005924:	20000294 	.word	0x20000294
@@ -9918,8 +9918,8 @@ Disassembly of section .text:
  8005978:	4770      	bx	lr
  800597a:	bf00      	nop
  800597c:	20000290 	.word	0x20000290
- 8005980:	20000348 	.word	0x20000348
- 8005984:	2000030c 	.word	0x2000030c
+ 8005980:	20000324 	.word	0x20000324
+ 8005984:	2000032c 	.word	0x2000032c
  8005988:	2000036c 	.word	0x2000036c
  800598c:	200003b4 	.word	0x200003b4
  8005990:	200002e8 	.word	0x200002e8
@@ -10826,7 +10826,7 @@ Disassembly of section .text:
  8006184:	46bd      	mov	sp, r7
  8006186:	bd80      	pop	{r7, pc}
  8006188:	200002b8 	.word	0x200002b8
- 800618c:	080096d0 	.word	0x080096d0
+ 800618c:	080096bc 	.word	0x080096bc
  8006190:	2000000c 	.word	0x2000000c
  8006194:	200002bc 	.word	0x200002bc
 
@@ -11021,7 +11021,7 @@ Disassembly of section .text:
  800631a:	bf00      	nop
  800631c:	200002b8 	.word	0x200002b8
  8006320:	200002bc 	.word	0x200002bc
- 8006324:	080096d0 	.word	0x080096d0
+ 8006324:	080096bc 	.word	0x080096bc
  8006328:	2000000c 	.word	0x2000000c
 
 0800632c <put_event_task_actuator>:
@@ -11525,2163 +11525,2163 @@ Disassembly of section .text:
  8006752:	4770      	bx	lr
  8006754:	200002c8 	.word	0x200002c8
 
-08006758 <task_menu_init>:
- 8006758:	b590      	push	{r4, r7, lr}
- 800675a:	b089      	sub	sp, #36	@ 0x24
- 800675c:	af02      	add	r7, sp, #8
+08006758 <task_button_init>:
+ 8006758:	b480      	push	{r7}
+ 800675a:	b087      	sub	sp, #28
+ 800675c:	af00      	add	r7, sp, #0
  800675e:	6078      	str	r0, [r7, #4]
- 8006760:	4b1f      	ldr	r3, [pc, #124]	@ (80067e0 <task_menu_init+0x88>)
+ 8006760:	4b0f      	ldr	r3, [pc, #60]	@ (80067a0 <task_button_init+0x48>)
  8006762:	2200      	movs	r2, #0
  8006764:	601a      	str	r2, [r3, #0]
- 8006766:	f001 f803 	bl	8007770 <init_queue_event_task_menu>
- 800676a:	4b1e      	ldr	r3, [pc, #120]	@ (80067e4 <task_menu_init+0x8c>)
- 800676c:	613b      	str	r3, [r7, #16]
- 800676e:	4b1e      	ldr	r3, [pc, #120]	@ (80067e8 <task_menu_init+0x90>)
- 8006770:	617b      	str	r3, [r7, #20]
- 8006772:	697b      	ldr	r3, [r7, #20]
- 8006774:	7a1b      	ldrb	r3, [r3, #8]
- 8006776:	73fb      	strb	r3, [r7, #15]
- 8006778:	697b      	ldr	r3, [r7, #20]
- 800677a:	7a9b      	ldrb	r3, [r3, #10]
- 800677c:	73bb      	strb	r3, [r7, #14]
- 800677e:	693b      	ldr	r3, [r7, #16]
- 8006780:	791b      	ldrb	r3, [r3, #4]
- 8006782:	737b      	strb	r3, [r7, #13]
- 8006784:	4b19      	ldr	r3, [pc, #100]	@ (80067ec <task_menu_init+0x94>)
- 8006786:	68db      	ldr	r3, [r3, #12]
- 8006788:	4a18      	ldr	r2, [pc, #96]	@ (80067ec <task_menu_init+0x94>)
- 800678a:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
- 800678e:	60d3      	str	r3, [r2, #12]
- 8006790:	4b17      	ldr	r3, [pc, #92]	@ (80067f0 <task_menu_init+0x98>)
- 8006792:	2200      	movs	r2, #0
- 8006794:	605a      	str	r2, [r3, #4]
- 8006796:	4b16      	ldr	r3, [pc, #88]	@ (80067f0 <task_menu_init+0x98>)
- 8006798:	681b      	ldr	r3, [r3, #0]
- 800679a:	4a15      	ldr	r2, [pc, #84]	@ (80067f0 <task_menu_init+0x98>)
- 800679c:	f043 0301 	orr.w	r3, r3, #1
- 80067a0:	6013      	str	r3, [r2, #0]
- 80067a2:	4b13      	ldr	r3, [pc, #76]	@ (80067f0 <task_menu_init+0x98>)
- 80067a4:	2200      	movs	r2, #0
- 80067a6:	605a      	str	r2, [r3, #4]
- 80067a8:	2000      	movs	r0, #0
- 80067aa:	f7ff f8f5 	bl	8005998 <displayInit>
- 80067ae:	697b      	ldr	r3, [r7, #20]
- 80067b0:	f103 000b 	add.w	r0, r3, #11
- 80067b4:	697b      	ldr	r3, [r7, #20]
- 80067b6:	f103 010c 	add.w	r1, r3, #12
- 80067ba:	697b      	ldr	r3, [r7, #20]
- 80067bc:	f103 0210 	add.w	r2, r3, #16
- 80067c0:	697b      	ldr	r3, [r7, #20]
- 80067c2:	f103 0414 	add.w	r4, r3, #20
- 80067c6:	697b      	ldr	r3, [r7, #20]
- 80067c8:	3318      	adds	r3, #24
- 80067ca:	9300      	str	r3, [sp, #0]
- 80067cc:	4623      	mov	r3, r4
- 80067ce:	f001 ffa9 	bl	8008724 <get_system_config>
- 80067d2:	4b08      	ldr	r3, [pc, #32]	@ (80067f4 <task_menu_init+0x9c>)
- 80067d4:	2200      	movs	r2, #0
- 80067d6:	601a      	str	r2, [r3, #0]
- 80067d8:	bf00      	nop
- 80067da:	371c      	adds	r7, #28
- 80067dc:	46bd      	mov	sp, r7
- 80067de:	bd90      	pop	{r4, r7, pc}
- 80067e0:	20000308 	.word	0x20000308
- 80067e4:	20000024 	.word	0x20000024
- 80067e8:	20000030 	.word	0x20000030
- 80067ec:	e000edf0 	.word	0xe000edf0
- 80067f0:	e0001000 	.word	0xe0001000
- 80067f4:	2000030c 	.word	0x2000030c
+ 8006766:	2300      	movs	r3, #0
+ 8006768:	617b      	str	r3, [r7, #20]
+ 800676a:	e00d      	b.n	8006788 <task_button_init+0x30>
+ 800676c:	697b      	ldr	r3, [r7, #20]
+ 800676e:	00db      	lsls	r3, r3, #3
+ 8006770:	4a0c      	ldr	r2, [pc, #48]	@ (80067a4 <task_button_init+0x4c>)
+ 8006772:	4413      	add	r3, r2
+ 8006774:	613b      	str	r3, [r7, #16]
+ 8006776:	693b      	ldr	r3, [r7, #16]
+ 8006778:	791b      	ldrb	r3, [r3, #4]
+ 800677a:	73fb      	strb	r3, [r7, #15]
+ 800677c:	693b      	ldr	r3, [r7, #16]
+ 800677e:	795b      	ldrb	r3, [r3, #5]
+ 8006780:	73bb      	strb	r3, [r7, #14]
+ 8006782:	697b      	ldr	r3, [r7, #20]
+ 8006784:	3301      	adds	r3, #1
+ 8006786:	617b      	str	r3, [r7, #20]
+ 8006788:	697b      	ldr	r3, [r7, #20]
+ 800678a:	2b02      	cmp	r3, #2
+ 800678c:	d9ee      	bls.n	800676c <task_button_init+0x14>
+ 800678e:	4b06      	ldr	r3, [pc, #24]	@ (80067a8 <task_button_init+0x50>)
+ 8006790:	2200      	movs	r2, #0
+ 8006792:	601a      	str	r2, [r3, #0]
+ 8006794:	bf00      	nop
+ 8006796:	371c      	adds	r7, #28
+ 8006798:	46bd      	mov	sp, r7
+ 800679a:	bc80      	pop	{r7}
+ 800679c:	4770      	bx	lr
+ 800679e:	bf00      	nop
+ 80067a0:	20000320 	.word	0x20000320
+ 80067a4:	20000308 	.word	0x20000308
+ 80067a8:	20000324 	.word	0x20000324
 
-080067f8 <task_menu_update>:
- 80067f8:	b580      	push	{r7, lr}
- 80067fa:	b088      	sub	sp, #32
- 80067fc:	af02      	add	r7, sp, #8
- 80067fe:	6078      	str	r0, [r7, #4]
- 8006800:	2300      	movs	r3, #0
- 8006802:	75fb      	strb	r3, [r7, #23]
- 8006804:	4ba4      	ldr	r3, [pc, #656]	@ (8006a98 <task_menu_update+0x2a0>)
- 8006806:	681b      	ldr	r3, [r3, #0]
- 8006808:	3301      	adds	r3, #1
- 800680a:	4aa3      	ldr	r2, [pc, #652]	@ (8006a98 <task_menu_update+0x2a0>)
- 800680c:	6013      	str	r3, [r2, #0]
- 800680e:	b672      	cpsid	i
- 8006810:	4ba2      	ldr	r3, [pc, #648]	@ (8006a9c <task_menu_update+0x2a4>)
- 8006812:	681b      	ldr	r3, [r3, #0]
- 8006814:	2b00      	cmp	r3, #0
- 8006816:	d006      	beq.n	8006826 <task_menu_update+0x2e>
- 8006818:	4ba0      	ldr	r3, [pc, #640]	@ (8006a9c <task_menu_update+0x2a4>)
- 800681a:	681b      	ldr	r3, [r3, #0]
- 800681c:	3b01      	subs	r3, #1
- 800681e:	4a9f      	ldr	r2, [pc, #636]	@ (8006a9c <task_menu_update+0x2a4>)
- 8006820:	6013      	str	r3, [r2, #0]
- 8006822:	2301      	movs	r3, #1
- 8006824:	75fb      	strb	r3, [r7, #23]
- 8006826:	b662      	cpsie	i
- 8006828:	f000 bcb2 	b.w	8007190 <task_menu_update+0x998>
- 800682c:	b672      	cpsid	i
- 800682e:	4b9b      	ldr	r3, [pc, #620]	@ (8006a9c <task_menu_update+0x2a4>)
- 8006830:	681b      	ldr	r3, [r3, #0]
- 8006832:	2b00      	cmp	r3, #0
- 8006834:	d007      	beq.n	8006846 <task_menu_update+0x4e>
- 8006836:	4b99      	ldr	r3, [pc, #612]	@ (8006a9c <task_menu_update+0x2a4>)
- 8006838:	681b      	ldr	r3, [r3, #0]
- 800683a:	3b01      	subs	r3, #1
- 800683c:	4a97      	ldr	r2, [pc, #604]	@ (8006a9c <task_menu_update+0x2a4>)
- 800683e:	6013      	str	r3, [r2, #0]
- 8006840:	2301      	movs	r3, #1
- 8006842:	75fb      	strb	r3, [r7, #23]
- 8006844:	e001      	b.n	800684a <task_menu_update+0x52>
- 8006846:	2300      	movs	r3, #0
- 8006848:	75fb      	strb	r3, [r7, #23]
- 800684a:	b662      	cpsie	i
- 800684c:	4b94      	ldr	r3, [pc, #592]	@ (8006aa0 <task_menu_update+0x2a8>)
- 800684e:	613b      	str	r3, [r7, #16]
- 8006850:	4b94      	ldr	r3, [pc, #592]	@ (8006aa4 <task_menu_update+0x2ac>)
- 8006852:	60fb      	str	r3, [r7, #12]
- 8006854:	693b      	ldr	r3, [r7, #16]
- 8006856:	681b      	ldr	r3, [r3, #0]
- 8006858:	2b00      	cmp	r3, #0
- 800685a:	d006      	beq.n	800686a <task_menu_update+0x72>
- 800685c:	693b      	ldr	r3, [r7, #16]
- 800685e:	681b      	ldr	r3, [r3, #0]
- 8006860:	1e5a      	subs	r2, r3, #1
- 8006862:	693b      	ldr	r3, [r7, #16]
- 8006864:	601a      	str	r2, [r3, #0]
- 8006866:	f000 bc93 	b.w	8007190 <task_menu_update+0x998>
- 800686a:	693b      	ldr	r3, [r7, #16]
- 800686c:	2204      	movs	r2, #4
- 800686e:	601a      	str	r2, [r3, #0]
- 8006870:	68f8      	ldr	r0, [r7, #12]
- 8006872:	f000 fc99 	bl	80071a8 <menu_display_print>
- 8006876:	68fb      	ldr	r3, [r7, #12]
- 8006878:	7a1a      	ldrb	r2, [r3, #8]
- 800687a:	68fb      	ldr	r3, [r7, #12]
- 800687c:	7a5b      	ldrb	r3, [r3, #9]
- 800687e:	429a      	cmp	r2, r3
- 8006880:	d04a      	beq.n	8006918 <task_menu_update+0x120>
- 8006882:	68fb      	ldr	r3, [r7, #12]
- 8006884:	2201      	movs	r2, #1
- 8006886:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
- 800688a:	68fb      	ldr	r3, [r7, #12]
- 800688c:	2200      	movs	r2, #0
- 800688e:	869a      	strh	r2, [r3, #52]	@ 0x34
- 8006890:	68fb      	ldr	r3, [r7, #12]
- 8006892:	7a1a      	ldrb	r2, [r3, #8]
- 8006894:	68fb      	ldr	r3, [r7, #12]
- 8006896:	725a      	strb	r2, [r3, #9]
- 8006898:	68fb      	ldr	r3, [r7, #12]
- 800689a:	7a1b      	ldrb	r3, [r3, #8]
- 800689c:	2b00      	cmp	r3, #0
- 800689e:	d111      	bne.n	80068c4 <task_menu_update+0xcc>
- 80068a0:	68fb      	ldr	r3, [r7, #12]
- 80068a2:	f103 000b 	add.w	r0, r3, #11
- 80068a6:	2300      	movs	r3, #0
- 80068a8:	9300      	str	r3, [sp, #0]
- 80068aa:	2300      	movs	r3, #0
- 80068ac:	2200      	movs	r2, #0
- 80068ae:	2100      	movs	r1, #0
- 80068b0:	f001 ff38 	bl	8008724 <get_system_config>
- 80068b4:	f001 ff82 	bl	80087bc <get_system_riego_state>
- 80068b8:	4603      	mov	r3, r0
- 80068ba:	461a      	mov	r2, r3
- 80068bc:	68fb      	ldr	r3, [r7, #12]
- 80068be:	f883 202c 	strb.w	r2, [r3, #44]	@ 0x2c
- 80068c2:	e029      	b.n	8006918 <task_menu_update+0x120>
- 80068c4:	68fb      	ldr	r3, [r7, #12]
- 80068c6:	7a1b      	ldrb	r3, [r3, #8]
- 80068c8:	2b03      	cmp	r3, #3
- 80068ca:	d118      	bne.n	80068fe <task_menu_update+0x106>
- 80068cc:	68fb      	ldr	r3, [r7, #12]
- 80068ce:	f893 3020 	ldrb.w	r3, [r3, #32]
- 80068d2:	f083 0301 	eor.w	r3, r3, #1
- 80068d6:	b2db      	uxtb	r3, r3
- 80068d8:	2b00      	cmp	r3, #0
- 80068da:	d01d      	beq.n	8006918 <task_menu_update+0x120>
- 80068dc:	68fb      	ldr	r3, [r7, #12]
- 80068de:	f103 010c 	add.w	r1, r3, #12
+080067ac <task_button_update>:
+ 80067ac:	b590      	push	{r4, r7, lr}
+ 80067ae:	b087      	sub	sp, #28
+ 80067b0:	af00      	add	r7, sp, #0
+ 80067b2:	6078      	str	r0, [r7, #4]
+ 80067b4:	2300      	movs	r3, #0
+ 80067b6:	74fb      	strb	r3, [r7, #19]
+ 80067b8:	4b61      	ldr	r3, [pc, #388]	@ (8006940 <task_button_update+0x194>)
+ 80067ba:	681b      	ldr	r3, [r3, #0]
+ 80067bc:	3301      	adds	r3, #1
+ 80067be:	4a60      	ldr	r2, [pc, #384]	@ (8006940 <task_button_update+0x194>)
+ 80067c0:	6013      	str	r3, [r2, #0]
+ 80067c2:	b672      	cpsid	i
+ 80067c4:	4b5f      	ldr	r3, [pc, #380]	@ (8006944 <task_button_update+0x198>)
+ 80067c6:	681b      	ldr	r3, [r3, #0]
+ 80067c8:	2b00      	cmp	r3, #0
+ 80067ca:	d006      	beq.n	80067da <task_button_update+0x2e>
+ 80067cc:	4b5d      	ldr	r3, [pc, #372]	@ (8006944 <task_button_update+0x198>)
+ 80067ce:	681b      	ldr	r3, [r3, #0]
+ 80067d0:	3b01      	subs	r3, #1
+ 80067d2:	4a5c      	ldr	r2, [pc, #368]	@ (8006944 <task_button_update+0x198>)
+ 80067d4:	6013      	str	r3, [r2, #0]
+ 80067d6:	2301      	movs	r3, #1
+ 80067d8:	74fb      	strb	r3, [r7, #19]
+ 80067da:	b662      	cpsie	i
+ 80067dc:	e0a6      	b.n	800692c <task_button_update+0x180>
+ 80067de:	b672      	cpsid	i
+ 80067e0:	4b58      	ldr	r3, [pc, #352]	@ (8006944 <task_button_update+0x198>)
+ 80067e2:	681b      	ldr	r3, [r3, #0]
+ 80067e4:	2b00      	cmp	r3, #0
+ 80067e6:	d007      	beq.n	80067f8 <task_button_update+0x4c>
+ 80067e8:	4b56      	ldr	r3, [pc, #344]	@ (8006944 <task_button_update+0x198>)
+ 80067ea:	681b      	ldr	r3, [r3, #0]
+ 80067ec:	3b01      	subs	r3, #1
+ 80067ee:	4a55      	ldr	r2, [pc, #340]	@ (8006944 <task_button_update+0x198>)
+ 80067f0:	6013      	str	r3, [r2, #0]
+ 80067f2:	2301      	movs	r3, #1
+ 80067f4:	74fb      	strb	r3, [r7, #19]
+ 80067f6:	e001      	b.n	80067fc <task_button_update+0x50>
+ 80067f8:	2300      	movs	r3, #0
+ 80067fa:	74fb      	strb	r3, [r7, #19]
+ 80067fc:	b662      	cpsie	i
+ 80067fe:	2300      	movs	r3, #0
+ 8006800:	617b      	str	r3, [r7, #20]
+ 8006802:	e08f      	b.n	8006924 <task_button_update+0x178>
+ 8006804:	697a      	ldr	r2, [r7, #20]
+ 8006806:	4613      	mov	r3, r2
+ 8006808:	009b      	lsls	r3, r3, #2
+ 800680a:	4413      	add	r3, r2
+ 800680c:	009b      	lsls	r3, r3, #2
+ 800680e:	4a4e      	ldr	r2, [pc, #312]	@ (8006948 <task_button_update+0x19c>)
+ 8006810:	4413      	add	r3, r2
+ 8006812:	60fb      	str	r3, [r7, #12]
+ 8006814:	697b      	ldr	r3, [r7, #20]
+ 8006816:	00db      	lsls	r3, r3, #3
+ 8006818:	4a4c      	ldr	r2, [pc, #304]	@ (800694c <task_button_update+0x1a0>)
+ 800681a:	4413      	add	r3, r2
+ 800681c:	60bb      	str	r3, [r7, #8]
+ 800681e:	68fb      	ldr	r3, [r7, #12]
+ 8006820:	7a9c      	ldrb	r4, [r3, #10]
+ 8006822:	68fb      	ldr	r3, [r7, #12]
+ 8006824:	685a      	ldr	r2, [r3, #4]
+ 8006826:	68fb      	ldr	r3, [r7, #12]
+ 8006828:	891b      	ldrh	r3, [r3, #8]
+ 800682a:	4619      	mov	r1, r3
+ 800682c:	4610      	mov	r0, r2
+ 800682e:	f7fc fadb 	bl	8002de8 <HAL_GPIO_ReadPin>
+ 8006832:	4603      	mov	r3, r0
+ 8006834:	429c      	cmp	r4, r3
+ 8006836:	d103      	bne.n	8006840 <task_button_update+0x94>
+ 8006838:	68bb      	ldr	r3, [r7, #8]
+ 800683a:	2201      	movs	r2, #1
+ 800683c:	715a      	strb	r2, [r3, #5]
+ 800683e:	e002      	b.n	8006846 <task_button_update+0x9a>
+ 8006840:	68bb      	ldr	r3, [r7, #8]
+ 8006842:	2200      	movs	r2, #0
+ 8006844:	715a      	strb	r2, [r3, #5]
+ 8006846:	68bb      	ldr	r3, [r7, #8]
+ 8006848:	791b      	ldrb	r3, [r3, #4]
+ 800684a:	2b03      	cmp	r3, #3
+ 800684c:	d856      	bhi.n	80068fc <task_button_update+0x150>
+ 800684e:	a201      	add	r2, pc, #4	@ (adr r2, 8006854 <task_button_update+0xa8>)
+ 8006850:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8006854:	08006865 	.word	0x08006865
+ 8006858:	0800687d 	.word	0x0800687d
+ 800685c:	080068b1 	.word	0x080068b1
+ 8006860:	080068c9 	.word	0x080068c9
+ 8006864:	68bb      	ldr	r3, [r7, #8]
+ 8006866:	795b      	ldrb	r3, [r3, #5]
+ 8006868:	2b01      	cmp	r3, #1
+ 800686a:	d151      	bne.n	8006910 <task_button_update+0x164>
+ 800686c:	68fb      	ldr	r3, [r7, #12]
+ 800686e:	68da      	ldr	r2, [r3, #12]
+ 8006870:	68bb      	ldr	r3, [r7, #8]
+ 8006872:	601a      	str	r2, [r3, #0]
+ 8006874:	68bb      	ldr	r3, [r7, #8]
+ 8006876:	2201      	movs	r2, #1
+ 8006878:	711a      	strb	r2, [r3, #4]
+ 800687a:	e049      	b.n	8006910 <task_button_update+0x164>
+ 800687c:	68bb      	ldr	r3, [r7, #8]
+ 800687e:	681b      	ldr	r3, [r3, #0]
+ 8006880:	1e5a      	subs	r2, r3, #1
+ 8006882:	68bb      	ldr	r3, [r7, #8]
+ 8006884:	601a      	str	r2, [r3, #0]
+ 8006886:	68bb      	ldr	r3, [r7, #8]
+ 8006888:	681b      	ldr	r3, [r3, #0]
+ 800688a:	2b00      	cmp	r3, #0
+ 800688c:	d142      	bne.n	8006914 <task_button_update+0x168>
+ 800688e:	68bb      	ldr	r3, [r7, #8]
+ 8006890:	795b      	ldrb	r3, [r3, #5]
+ 8006892:	2b01      	cmp	r3, #1
+ 8006894:	d108      	bne.n	80068a8 <task_button_update+0xfc>
+ 8006896:	68fb      	ldr	r3, [r7, #12]
+ 8006898:	7c5b      	ldrb	r3, [r3, #17]
+ 800689a:	4618      	mov	r0, r3
+ 800689c:	f001 f888 	bl	80079b0 <put_event_task_menu>
+ 80068a0:	68bb      	ldr	r3, [r7, #8]
+ 80068a2:	2202      	movs	r2, #2
+ 80068a4:	711a      	strb	r2, [r3, #4]
+ 80068a6:	e035      	b.n	8006914 <task_button_update+0x168>
+ 80068a8:	68bb      	ldr	r3, [r7, #8]
+ 80068aa:	2200      	movs	r2, #0
+ 80068ac:	711a      	strb	r2, [r3, #4]
+ 80068ae:	e031      	b.n	8006914 <task_button_update+0x168>
+ 80068b0:	68bb      	ldr	r3, [r7, #8]
+ 80068b2:	795b      	ldrb	r3, [r3, #5]
+ 80068b4:	2b00      	cmp	r3, #0
+ 80068b6:	d12f      	bne.n	8006918 <task_button_update+0x16c>
+ 80068b8:	68bb      	ldr	r3, [r7, #8]
+ 80068ba:	2203      	movs	r2, #3
+ 80068bc:	711a      	strb	r2, [r3, #4]
+ 80068be:	68fb      	ldr	r3, [r7, #12]
+ 80068c0:	68da      	ldr	r2, [r3, #12]
+ 80068c2:	68bb      	ldr	r3, [r7, #8]
+ 80068c4:	601a      	str	r2, [r3, #0]
+ 80068c6:	e027      	b.n	8006918 <task_button_update+0x16c>
+ 80068c8:	68bb      	ldr	r3, [r7, #8]
+ 80068ca:	681b      	ldr	r3, [r3, #0]
+ 80068cc:	1e5a      	subs	r2, r3, #1
+ 80068ce:	68bb      	ldr	r3, [r7, #8]
+ 80068d0:	601a      	str	r2, [r3, #0]
+ 80068d2:	68bb      	ldr	r3, [r7, #8]
+ 80068d4:	681b      	ldr	r3, [r3, #0]
+ 80068d6:	2b00      	cmp	r3, #0
+ 80068d8:	d120      	bne.n	800691c <task_button_update+0x170>
+ 80068da:	68bb      	ldr	r3, [r7, #8]
+ 80068dc:	795b      	ldrb	r3, [r3, #5]
+ 80068de:	2b00      	cmp	r3, #0
+ 80068e0:	d108      	bne.n	80068f4 <task_button_update+0x148>
  80068e2:	68fb      	ldr	r3, [r7, #12]
- 80068e4:	f103 0210 	add.w	r2, r3, #16
- 80068e8:	68fb      	ldr	r3, [r7, #12]
- 80068ea:	f103 0014 	add.w	r0, r3, #20
- 80068ee:	68fb      	ldr	r3, [r7, #12]
- 80068f0:	3318      	adds	r3, #24
- 80068f2:	9300      	str	r3, [sp, #0]
- 80068f4:	4603      	mov	r3, r0
- 80068f6:	2000      	movs	r0, #0
- 80068f8:	f001 ff14 	bl	8008724 <get_system_config>
- 80068fc:	e00c      	b.n	8006918 <task_menu_update+0x120>
- 80068fe:	68fb      	ldr	r3, [r7, #12]
- 8006900:	7a1b      	ldrb	r3, [r3, #8]
- 8006902:	2b0d      	cmp	r3, #13
- 8006904:	d108      	bne.n	8006918 <task_menu_update+0x120>
- 8006906:	68fb      	ldr	r3, [r7, #12]
- 8006908:	f103 0224 	add.w	r2, r3, #36	@ 0x24
- 800690c:	68fb      	ldr	r3, [r7, #12]
- 800690e:	3328      	adds	r3, #40	@ 0x28
- 8006910:	4619      	mov	r1, r3
- 8006912:	4610      	mov	r0, r2
- 8006914:	f001 ff38 	bl	8008788 <get_system_salud_dta>
- 8006918:	f000 ff96 	bl	8007848 <any_event_task_menu>
- 800691c:	4603      	mov	r3, r0
- 800691e:	2b00      	cmp	r3, #0
- 8006920:	d026      	beq.n	8006970 <task_menu_update+0x178>
- 8006922:	693b      	ldr	r3, [r7, #16]
- 8006924:	2201      	movs	r2, #1
- 8006926:	711a      	strb	r2, [r3, #4]
- 8006928:	f000 ff68 	bl	80077fc <get_event_task_menu>
- 800692c:	4603      	mov	r3, r0
- 800692e:	461a      	mov	r2, r3
- 8006930:	68fb      	ldr	r3, [r7, #12]
- 8006932:	729a      	strb	r2, [r3, #10]
- 8006934:	68fb      	ldr	r3, [r7, #12]
- 8006936:	7a9b      	ldrb	r3, [r3, #10]
- 8006938:	2b07      	cmp	r3, #7
- 800693a:	d109      	bne.n	8006950 <task_menu_update+0x158>
- 800693c:	68fb      	ldr	r3, [r7, #12]
- 800693e:	f44f 62c8 	mov.w	r2, #1600	@ 0x640
- 8006942:	605a      	str	r2, [r3, #4]
- 8006944:	68fb      	ldr	r3, [r7, #12]
- 8006946:	220e      	movs	r2, #14
- 8006948:	721a      	strb	r2, [r3, #8]
- 800694a:	693b      	ldr	r3, [r7, #16]
- 800694c:	2200      	movs	r2, #0
- 800694e:	711a      	strb	r2, [r3, #4]
- 8006950:	68fb      	ldr	r3, [r7, #12]
- 8006952:	7a9b      	ldrb	r3, [r3, #10]
- 8006954:	2b01      	cmp	r3, #1
- 8006956:	d007      	beq.n	8006968 <task_menu_update+0x170>
- 8006958:	68fb      	ldr	r3, [r7, #12]
- 800695a:	7a9b      	ldrb	r3, [r3, #10]
- 800695c:	2b03      	cmp	r3, #3
- 800695e:	d003      	beq.n	8006968 <task_menu_update+0x170>
- 8006960:	68fb      	ldr	r3, [r7, #12]
- 8006962:	7a9b      	ldrb	r3, [r3, #10]
- 8006964:	2b05      	cmp	r3, #5
- 8006966:	d103      	bne.n	8006970 <task_menu_update+0x178>
- 8006968:	2101      	movs	r1, #1
- 800696a:	2003      	movs	r0, #3
- 800696c:	f7ff fcde 	bl	800632c <put_event_task_actuator>
- 8006970:	68fb      	ldr	r3, [r7, #12]
- 8006972:	7a1b      	ldrb	r3, [r3, #8]
- 8006974:	2b10      	cmp	r3, #16
- 8006976:	f200 83df 	bhi.w	8007138 <task_menu_update+0x940>
- 800697a:	a201      	add	r2, pc, #4	@ (adr r2, 8006980 <task_menu_update+0x188>)
- 800697c:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
- 8006980:	080069c5 	.word	0x080069c5
- 8006984:	08006adb 	.word	0x08006adb
- 8006988:	08006bab 	.word	0x08006bab
- 800698c:	08006c4d 	.word	0x08006c4d
- 8006990:	08006d41 	.word	0x08006d41
- 8006994:	08006d73 	.word	0x08006d73
- 8006998:	08006da5 	.word	0x08006da5
- 800699c:	08006da5 	.word	0x08006da5
- 80069a0:	08006dd7 	.word	0x08006dd7
- 80069a4:	08006e65 	.word	0x08006e65
- 80069a8:	08006eef 	.word	0x08006eef
- 80069ac:	08006f79 	.word	0x08006f79
- 80069b0:	08006a59 	.word	0x08006a59
- 80069b4:	08006aa9 	.word	0x08006aa9
- 80069b8:	080070f9 	.word	0x080070f9
- 80069bc:	08007003 	.word	0x08007003
- 80069c0:	080070df 	.word	0x080070df
- 80069c4:	693b      	ldr	r3, [r7, #16]
- 80069c6:	791b      	ldrb	r3, [r3, #4]
- 80069c8:	2b00      	cmp	r3, #0
- 80069ca:	d00a      	beq.n	80069e2 <task_menu_update+0x1ea>
- 80069cc:	68fb      	ldr	r3, [r7, #12]
- 80069ce:	7a9b      	ldrb	r3, [r3, #10]
- 80069d0:	2b01      	cmp	r3, #1
- 80069d2:	d106      	bne.n	80069e2 <task_menu_update+0x1ea>
- 80069d4:	693b      	ldr	r3, [r7, #16]
- 80069d6:	2200      	movs	r2, #0
- 80069d8:	711a      	strb	r2, [r3, #4]
- 80069da:	68fb      	ldr	r3, [r7, #12]
- 80069dc:	2201      	movs	r2, #1
- 80069de:	721a      	strb	r2, [r3, #8]
- 80069e0:	e010      	b.n	8006a04 <task_menu_update+0x20c>
- 80069e2:	693b      	ldr	r3, [r7, #16]
- 80069e4:	791b      	ldrb	r3, [r3, #4]
- 80069e6:	2b00      	cmp	r3, #0
- 80069e8:	d00c      	beq.n	8006a04 <task_menu_update+0x20c>
- 80069ea:	68fb      	ldr	r3, [r7, #12]
- 80069ec:	7a9b      	ldrb	r3, [r3, #10]
- 80069ee:	2b03      	cmp	r3, #3
- 80069f0:	d108      	bne.n	8006a04 <task_menu_update+0x20c>
- 80069f2:	200a      	movs	r0, #10
- 80069f4:	f001 fe22 	bl	800863c <put_event_task_system>
- 80069f8:	693b      	ldr	r3, [r7, #16]
- 80069fa:	2200      	movs	r2, #0
- 80069fc:	711a      	strb	r2, [r3, #4]
- 80069fe:	68fb      	ldr	r3, [r7, #12]
- 8006a00:	220c      	movs	r2, #12
- 8006a02:	721a      	strb	r2, [r3, #8]
- 8006a04:	f001 feda 	bl	80087bc <get_system_riego_state>
- 8006a08:	4603      	mov	r3, r0
- 8006a0a:	72fb      	strb	r3, [r7, #11]
- 8006a0c:	68fb      	ldr	r3, [r7, #12]
- 8006a0e:	f893 302c 	ldrb.w	r3, [r3, #44]	@ 0x2c
- 8006a12:	7afa      	ldrb	r2, [r7, #11]
- 8006a14:	429a      	cmp	r2, r3
- 8006a16:	d007      	beq.n	8006a28 <task_menu_update+0x230>
- 8006a18:	68fb      	ldr	r3, [r7, #12]
- 8006a1a:	7afa      	ldrb	r2, [r7, #11]
- 8006a1c:	f883 202c 	strb.w	r2, [r3, #44]	@ 0x2c
- 8006a20:	68fb      	ldr	r3, [r7, #12]
- 8006a22:	2201      	movs	r2, #1
- 8006a24:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
- 8006a28:	68fb      	ldr	r3, [r7, #12]
- 8006a2a:	7adb      	ldrb	r3, [r3, #11]
- 8006a2c:	2b00      	cmp	r3, #0
- 8006a2e:	f000 8390 	beq.w	8007152 <task_menu_update+0x95a>
- 8006a32:	68fb      	ldr	r3, [r7, #12]
- 8006a34:	681b      	ldr	r3, [r3, #0]
- 8006a36:	1e5a      	subs	r2, r3, #1
- 8006a38:	68fb      	ldr	r3, [r7, #12]
- 8006a3a:	601a      	str	r2, [r3, #0]
- 8006a3c:	68fb      	ldr	r3, [r7, #12]
- 8006a3e:	681b      	ldr	r3, [r3, #0]
- 8006a40:	2b00      	cmp	r3, #0
- 8006a42:	f040 8386 	bne.w	8007152 <task_menu_update+0x95a>
- 8006a46:	68fb      	ldr	r3, [r7, #12]
- 8006a48:	2201      	movs	r2, #1
- 8006a4a:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
- 8006a4e:	68fb      	ldr	r3, [r7, #12]
- 8006a50:	f242 7210 	movw	r2, #10000	@ 0x2710
- 8006a54:	601a      	str	r2, [r3, #0]
- 8006a56:	e37c      	b.n	8007152 <task_menu_update+0x95a>
- 8006a58:	693b      	ldr	r3, [r7, #16]
- 8006a5a:	791b      	ldrb	r3, [r3, #4]
- 8006a5c:	2b00      	cmp	r3, #0
- 8006a5e:	d00a      	beq.n	8006a76 <task_menu_update+0x27e>
- 8006a60:	68fb      	ldr	r3, [r7, #12]
- 8006a62:	7a9b      	ldrb	r3, [r3, #10]
- 8006a64:	2b05      	cmp	r3, #5
- 8006a66:	d106      	bne.n	8006a76 <task_menu_update+0x27e>
- 8006a68:	693b      	ldr	r3, [r7, #16]
- 8006a6a:	2200      	movs	r2, #0
- 8006a6c:	711a      	strb	r2, [r3, #4]
+ 80068e4:	7c1b      	ldrb	r3, [r3, #16]
+ 80068e6:	4618      	mov	r0, r3
+ 80068e8:	f001 f862 	bl	80079b0 <put_event_task_menu>
+ 80068ec:	68bb      	ldr	r3, [r7, #8]
+ 80068ee:	2200      	movs	r2, #0
+ 80068f0:	711a      	strb	r2, [r3, #4]
+ 80068f2:	e013      	b.n	800691c <task_button_update+0x170>
+ 80068f4:	68bb      	ldr	r3, [r7, #8]
+ 80068f6:	2202      	movs	r2, #2
+ 80068f8:	711a      	strb	r2, [r3, #4]
+ 80068fa:	e00f      	b.n	800691c <task_button_update+0x170>
+ 80068fc:	68bb      	ldr	r3, [r7, #8]
+ 80068fe:	2200      	movs	r2, #0
+ 8006900:	601a      	str	r2, [r3, #0]
+ 8006902:	68bb      	ldr	r3, [r7, #8]
+ 8006904:	2200      	movs	r2, #0
+ 8006906:	711a      	strb	r2, [r3, #4]
+ 8006908:	68bb      	ldr	r3, [r7, #8]
+ 800690a:	2200      	movs	r2, #0
+ 800690c:	715a      	strb	r2, [r3, #5]
+ 800690e:	e006      	b.n	800691e <task_button_update+0x172>
+ 8006910:	bf00      	nop
+ 8006912:	e004      	b.n	800691e <task_button_update+0x172>
+ 8006914:	bf00      	nop
+ 8006916:	e002      	b.n	800691e <task_button_update+0x172>
+ 8006918:	bf00      	nop
+ 800691a:	e000      	b.n	800691e <task_button_update+0x172>
+ 800691c:	bf00      	nop
+ 800691e:	697b      	ldr	r3, [r7, #20]
+ 8006920:	3301      	adds	r3, #1
+ 8006922:	617b      	str	r3, [r7, #20]
+ 8006924:	697b      	ldr	r3, [r7, #20]
+ 8006926:	2b02      	cmp	r3, #2
+ 8006928:	f67f af6c 	bls.w	8006804 <task_button_update+0x58>
+ 800692c:	7cfb      	ldrb	r3, [r7, #19]
+ 800692e:	2b00      	cmp	r3, #0
+ 8006930:	f47f af55 	bne.w	80067de <task_button_update+0x32>
+ 8006934:	bf00      	nop
+ 8006936:	bf00      	nop
+ 8006938:	371c      	adds	r7, #28
+ 800693a:	46bd      	mov	sp, r7
+ 800693c:	bd90      	pop	{r4, r7, pc}
+ 800693e:	bf00      	nop
+ 8006940:	20000320 	.word	0x20000320
+ 8006944:	20000324 	.word	0x20000324
+ 8006948:	080096dc 	.word	0x080096dc
+ 800694c:	20000308 	.word	0x20000308
+
+08006950 <task_menu_init>:
+ 8006950:	b590      	push	{r4, r7, lr}
+ 8006952:	b089      	sub	sp, #36	@ 0x24
+ 8006954:	af02      	add	r7, sp, #8
+ 8006956:	6078      	str	r0, [r7, #4]
+ 8006958:	4b1f      	ldr	r3, [pc, #124]	@ (80069d8 <task_menu_init+0x88>)
+ 800695a:	2200      	movs	r2, #0
+ 800695c:	601a      	str	r2, [r3, #0]
+ 800695e:	f001 f803 	bl	8007968 <init_queue_event_task_menu>
+ 8006962:	4b1e      	ldr	r3, [pc, #120]	@ (80069dc <task_menu_init+0x8c>)
+ 8006964:	613b      	str	r3, [r7, #16]
+ 8006966:	4b1e      	ldr	r3, [pc, #120]	@ (80069e0 <task_menu_init+0x90>)
+ 8006968:	617b      	str	r3, [r7, #20]
+ 800696a:	697b      	ldr	r3, [r7, #20]
+ 800696c:	7a1b      	ldrb	r3, [r3, #8]
+ 800696e:	73fb      	strb	r3, [r7, #15]
+ 8006970:	697b      	ldr	r3, [r7, #20]
+ 8006972:	7a9b      	ldrb	r3, [r3, #10]
+ 8006974:	73bb      	strb	r3, [r7, #14]
+ 8006976:	693b      	ldr	r3, [r7, #16]
+ 8006978:	791b      	ldrb	r3, [r3, #4]
+ 800697a:	737b      	strb	r3, [r7, #13]
+ 800697c:	4b19      	ldr	r3, [pc, #100]	@ (80069e4 <task_menu_init+0x94>)
+ 800697e:	68db      	ldr	r3, [r3, #12]
+ 8006980:	4a18      	ldr	r2, [pc, #96]	@ (80069e4 <task_menu_init+0x94>)
+ 8006982:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 8006986:	60d3      	str	r3, [r2, #12]
+ 8006988:	4b17      	ldr	r3, [pc, #92]	@ (80069e8 <task_menu_init+0x98>)
+ 800698a:	2200      	movs	r2, #0
+ 800698c:	605a      	str	r2, [r3, #4]
+ 800698e:	4b16      	ldr	r3, [pc, #88]	@ (80069e8 <task_menu_init+0x98>)
+ 8006990:	681b      	ldr	r3, [r3, #0]
+ 8006992:	4a15      	ldr	r2, [pc, #84]	@ (80069e8 <task_menu_init+0x98>)
+ 8006994:	f043 0301 	orr.w	r3, r3, #1
+ 8006998:	6013      	str	r3, [r2, #0]
+ 800699a:	4b13      	ldr	r3, [pc, #76]	@ (80069e8 <task_menu_init+0x98>)
+ 800699c:	2200      	movs	r2, #0
+ 800699e:	605a      	str	r2, [r3, #4]
+ 80069a0:	2000      	movs	r0, #0
+ 80069a2:	f7fe fff9 	bl	8005998 <displayInit>
+ 80069a6:	697b      	ldr	r3, [r7, #20]
+ 80069a8:	f103 000b 	add.w	r0, r3, #11
+ 80069ac:	697b      	ldr	r3, [r7, #20]
+ 80069ae:	f103 010c 	add.w	r1, r3, #12
+ 80069b2:	697b      	ldr	r3, [r7, #20]
+ 80069b4:	f103 0210 	add.w	r2, r3, #16
+ 80069b8:	697b      	ldr	r3, [r7, #20]
+ 80069ba:	f103 0414 	add.w	r4, r3, #20
+ 80069be:	697b      	ldr	r3, [r7, #20]
+ 80069c0:	3318      	adds	r3, #24
+ 80069c2:	9300      	str	r3, [sp, #0]
+ 80069c4:	4623      	mov	r3, r4
+ 80069c6:	f001 fead 	bl	8008724 <get_system_config>
+ 80069ca:	4b08      	ldr	r3, [pc, #32]	@ (80069ec <task_menu_init+0x9c>)
+ 80069cc:	2200      	movs	r2, #0
+ 80069ce:	601a      	str	r2, [r3, #0]
+ 80069d0:	bf00      	nop
+ 80069d2:	371c      	adds	r7, #28
+ 80069d4:	46bd      	mov	sp, r7
+ 80069d6:	bd90      	pop	{r4, r7, pc}
+ 80069d8:	20000328 	.word	0x20000328
+ 80069dc:	20000024 	.word	0x20000024
+ 80069e0:	20000030 	.word	0x20000030
+ 80069e4:	e000edf0 	.word	0xe000edf0
+ 80069e8:	e0001000 	.word	0xe0001000
+ 80069ec:	2000032c 	.word	0x2000032c
+
+080069f0 <task_menu_update>:
+ 80069f0:	b580      	push	{r7, lr}
+ 80069f2:	b088      	sub	sp, #32
+ 80069f4:	af02      	add	r7, sp, #8
+ 80069f6:	6078      	str	r0, [r7, #4]
+ 80069f8:	2300      	movs	r3, #0
+ 80069fa:	75fb      	strb	r3, [r7, #23]
+ 80069fc:	4ba4      	ldr	r3, [pc, #656]	@ (8006c90 <task_menu_update+0x2a0>)
+ 80069fe:	681b      	ldr	r3, [r3, #0]
+ 8006a00:	3301      	adds	r3, #1
+ 8006a02:	4aa3      	ldr	r2, [pc, #652]	@ (8006c90 <task_menu_update+0x2a0>)
+ 8006a04:	6013      	str	r3, [r2, #0]
+ 8006a06:	b672      	cpsid	i
+ 8006a08:	4ba2      	ldr	r3, [pc, #648]	@ (8006c94 <task_menu_update+0x2a4>)
+ 8006a0a:	681b      	ldr	r3, [r3, #0]
+ 8006a0c:	2b00      	cmp	r3, #0
+ 8006a0e:	d006      	beq.n	8006a1e <task_menu_update+0x2e>
+ 8006a10:	4ba0      	ldr	r3, [pc, #640]	@ (8006c94 <task_menu_update+0x2a4>)
+ 8006a12:	681b      	ldr	r3, [r3, #0]
+ 8006a14:	3b01      	subs	r3, #1
+ 8006a16:	4a9f      	ldr	r2, [pc, #636]	@ (8006c94 <task_menu_update+0x2a4>)
+ 8006a18:	6013      	str	r3, [r2, #0]
+ 8006a1a:	2301      	movs	r3, #1
+ 8006a1c:	75fb      	strb	r3, [r7, #23]
+ 8006a1e:	b662      	cpsie	i
+ 8006a20:	f000 bcb2 	b.w	8007388 <task_menu_update+0x998>
+ 8006a24:	b672      	cpsid	i
+ 8006a26:	4b9b      	ldr	r3, [pc, #620]	@ (8006c94 <task_menu_update+0x2a4>)
+ 8006a28:	681b      	ldr	r3, [r3, #0]
+ 8006a2a:	2b00      	cmp	r3, #0
+ 8006a2c:	d007      	beq.n	8006a3e <task_menu_update+0x4e>
+ 8006a2e:	4b99      	ldr	r3, [pc, #612]	@ (8006c94 <task_menu_update+0x2a4>)
+ 8006a30:	681b      	ldr	r3, [r3, #0]
+ 8006a32:	3b01      	subs	r3, #1
+ 8006a34:	4a97      	ldr	r2, [pc, #604]	@ (8006c94 <task_menu_update+0x2a4>)
+ 8006a36:	6013      	str	r3, [r2, #0]
+ 8006a38:	2301      	movs	r3, #1
+ 8006a3a:	75fb      	strb	r3, [r7, #23]
+ 8006a3c:	e001      	b.n	8006a42 <task_menu_update+0x52>
+ 8006a3e:	2300      	movs	r3, #0
+ 8006a40:	75fb      	strb	r3, [r7, #23]
+ 8006a42:	b662      	cpsie	i
+ 8006a44:	4b94      	ldr	r3, [pc, #592]	@ (8006c98 <task_menu_update+0x2a8>)
+ 8006a46:	613b      	str	r3, [r7, #16]
+ 8006a48:	4b94      	ldr	r3, [pc, #592]	@ (8006c9c <task_menu_update+0x2ac>)
+ 8006a4a:	60fb      	str	r3, [r7, #12]
+ 8006a4c:	693b      	ldr	r3, [r7, #16]
+ 8006a4e:	681b      	ldr	r3, [r3, #0]
+ 8006a50:	2b00      	cmp	r3, #0
+ 8006a52:	d006      	beq.n	8006a62 <task_menu_update+0x72>
+ 8006a54:	693b      	ldr	r3, [r7, #16]
+ 8006a56:	681b      	ldr	r3, [r3, #0]
+ 8006a58:	1e5a      	subs	r2, r3, #1
+ 8006a5a:	693b      	ldr	r3, [r7, #16]
+ 8006a5c:	601a      	str	r2, [r3, #0]
+ 8006a5e:	f000 bc93 	b.w	8007388 <task_menu_update+0x998>
+ 8006a62:	693b      	ldr	r3, [r7, #16]
+ 8006a64:	2204      	movs	r2, #4
+ 8006a66:	601a      	str	r2, [r3, #0]
+ 8006a68:	68f8      	ldr	r0, [r7, #12]
+ 8006a6a:	f000 fc99 	bl	80073a0 <menu_display_print>
  8006a6e:	68fb      	ldr	r3, [r7, #12]
- 8006a70:	2200      	movs	r2, #0
- 8006a72:	721a      	strb	r2, [r3, #8]
- 8006a74:	e36f      	b.n	8007156 <task_menu_update+0x95e>
- 8006a76:	693b      	ldr	r3, [r7, #16]
- 8006a78:	791b      	ldrb	r3, [r3, #4]
- 8006a7a:	2b00      	cmp	r3, #0
- 8006a7c:	f000 836b 	beq.w	8007156 <task_menu_update+0x95e>
- 8006a80:	68fb      	ldr	r3, [r7, #12]
- 8006a82:	7a9b      	ldrb	r3, [r3, #10]
- 8006a84:	2b06      	cmp	r3, #6
- 8006a86:	f040 8366 	bne.w	8007156 <task_menu_update+0x95e>
- 8006a8a:	693b      	ldr	r3, [r7, #16]
- 8006a8c:	2200      	movs	r2, #0
- 8006a8e:	711a      	strb	r2, [r3, #4]
+ 8006a70:	7a1a      	ldrb	r2, [r3, #8]
+ 8006a72:	68fb      	ldr	r3, [r7, #12]
+ 8006a74:	7a5b      	ldrb	r3, [r3, #9]
+ 8006a76:	429a      	cmp	r2, r3
+ 8006a78:	d04a      	beq.n	8006b10 <task_menu_update+0x120>
+ 8006a7a:	68fb      	ldr	r3, [r7, #12]
+ 8006a7c:	2201      	movs	r2, #1
+ 8006a7e:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
+ 8006a82:	68fb      	ldr	r3, [r7, #12]
+ 8006a84:	2200      	movs	r2, #0
+ 8006a86:	869a      	strh	r2, [r3, #52]	@ 0x34
+ 8006a88:	68fb      	ldr	r3, [r7, #12]
+ 8006a8a:	7a1a      	ldrb	r2, [r3, #8]
+ 8006a8c:	68fb      	ldr	r3, [r7, #12]
+ 8006a8e:	725a      	strb	r2, [r3, #9]
  8006a90:	68fb      	ldr	r3, [r7, #12]
- 8006a92:	220d      	movs	r2, #13
- 8006a94:	721a      	strb	r2, [r3, #8]
- 8006a96:	e35e      	b.n	8007156 <task_menu_update+0x95e>
- 8006a98:	20000308 	.word	0x20000308
- 8006a9c:	2000030c 	.word	0x2000030c
- 8006aa0:	20000024 	.word	0x20000024
- 8006aa4:	20000030 	.word	0x20000030
- 8006aa8:	693b      	ldr	r3, [r7, #16]
- 8006aaa:	791b      	ldrb	r3, [r3, #4]
- 8006aac:	2b00      	cmp	r3, #0
- 8006aae:	f000 8354 	beq.w	800715a <task_menu_update+0x962>
- 8006ab2:	68fb      	ldr	r3, [r7, #12]
- 8006ab4:	7a9b      	ldrb	r3, [r3, #10]
- 8006ab6:	2b05      	cmp	r3, #5
- 8006ab8:	d008      	beq.n	8006acc <task_menu_update+0x2d4>
- 8006aba:	68fb      	ldr	r3, [r7, #12]
- 8006abc:	7a9b      	ldrb	r3, [r3, #10]
- 8006abe:	2b01      	cmp	r3, #1
- 8006ac0:	d004      	beq.n	8006acc <task_menu_update+0x2d4>
- 8006ac2:	68fb      	ldr	r3, [r7, #12]
- 8006ac4:	7a9b      	ldrb	r3, [r3, #10]
- 8006ac6:	2b03      	cmp	r3, #3
- 8006ac8:	f040 8347 	bne.w	800715a <task_menu_update+0x962>
- 8006acc:	693b      	ldr	r3, [r7, #16]
- 8006ace:	2200      	movs	r2, #0
- 8006ad0:	711a      	strb	r2, [r3, #4]
- 8006ad2:	68fb      	ldr	r3, [r7, #12]
- 8006ad4:	2200      	movs	r2, #0
- 8006ad6:	721a      	strb	r2, [r3, #8]
- 8006ad8:	e33f      	b.n	800715a <task_menu_update+0x962>
- 8006ada:	693b      	ldr	r3, [r7, #16]
- 8006adc:	791b      	ldrb	r3, [r3, #4]
- 8006ade:	2b00      	cmp	r3, #0
- 8006ae0:	d018      	beq.n	8006b14 <task_menu_update+0x31c>
- 8006ae2:	68fb      	ldr	r3, [r7, #12]
- 8006ae4:	7a9b      	ldrb	r3, [r3, #10]
- 8006ae6:	2b03      	cmp	r3, #3
- 8006ae8:	d114      	bne.n	8006b14 <task_menu_update+0x31c>
- 8006aea:	693b      	ldr	r3, [r7, #16]
- 8006aec:	2200      	movs	r2, #0
- 8006aee:	711a      	strb	r2, [r3, #4]
- 8006af0:	68fb      	ldr	r3, [r7, #12]
- 8006af2:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
- 8006af4:	3301      	adds	r3, #1
- 8006af6:	425a      	negs	r2, r3
- 8006af8:	f003 0303 	and.w	r3, r3, #3
- 8006afc:	f002 0203 	and.w	r2, r2, #3
- 8006b00:	bf58      	it	pl
- 8006b02:	4253      	negpl	r3, r2
- 8006b04:	b29a      	uxth	r2, r3
- 8006b06:	68fb      	ldr	r3, [r7, #12]
- 8006b08:	869a      	strh	r2, [r3, #52]	@ 0x34
- 8006b0a:	68fb      	ldr	r3, [r7, #12]
- 8006b0c:	2201      	movs	r2, #1
- 8006b0e:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
- 8006b12:	e049      	b.n	8006ba8 <task_menu_update+0x3b0>
- 8006b14:	693b      	ldr	r3, [r7, #16]
- 8006b16:	791b      	ldrb	r3, [r3, #4]
- 8006b18:	2b00      	cmp	r3, #0
- 8006b1a:	d033      	beq.n	8006b84 <task_menu_update+0x38c>
- 8006b1c:	68fb      	ldr	r3, [r7, #12]
- 8006b1e:	7a9b      	ldrb	r3, [r3, #10]
- 8006b20:	2b01      	cmp	r3, #1
- 8006b22:	d12f      	bne.n	8006b84 <task_menu_update+0x38c>
- 8006b24:	693b      	ldr	r3, [r7, #16]
- 8006b26:	2200      	movs	r2, #0
- 8006b28:	711a      	strb	r2, [r3, #4]
- 8006b2a:	693b      	ldr	r3, [r7, #16]
- 8006b2c:	689a      	ldr	r2, [r3, #8]
- 8006b2e:	68fb      	ldr	r3, [r7, #12]
- 8006b30:	605a      	str	r2, [r3, #4]
- 8006b32:	68fb      	ldr	r3, [r7, #12]
- 8006b34:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
- 8006b36:	2b03      	cmp	r3, #3
- 8006b38:	d835      	bhi.n	8006ba6 <task_menu_update+0x3ae>
- 8006b3a:	a201      	add	r2, pc, #4	@ (adr r2, 8006b40 <task_menu_update+0x348>)
- 8006b3c:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
- 8006b40:	08006b51 	.word	0x08006b51
- 8006b44:	08006b5f 	.word	0x08006b5f
- 8006b48:	08006b6d 	.word	0x08006b6d
- 8006b4c:	08006b7b 	.word	0x08006b7b
- 8006b50:	200d      	movs	r0, #13
- 8006b52:	f001 fd73 	bl	800863c <put_event_task_system>
- 8006b56:	68fb      	ldr	r3, [r7, #12]
- 8006b58:	2202      	movs	r2, #2
- 8006b5a:	721a      	strb	r2, [r3, #8]
- 8006b5c:	e011      	b.n	8006b82 <task_menu_update+0x38a>
- 8006b5e:	200f      	movs	r0, #15
- 8006b60:	f001 fd6c 	bl	800863c <put_event_task_system>
- 8006b64:	68fb      	ldr	r3, [r7, #12]
- 8006b66:	2204      	movs	r2, #4
- 8006b68:	721a      	strb	r2, [r3, #8]
- 8006b6a:	e00a      	b.n	8006b82 <task_menu_update+0x38a>
- 8006b6c:	200e      	movs	r0, #14
- 8006b6e:	f001 fd65 	bl	800863c <put_event_task_system>
- 8006b72:	68fb      	ldr	r3, [r7, #12]
- 8006b74:	2205      	movs	r2, #5
- 8006b76:	721a      	strb	r2, [r3, #8]
- 8006b78:	e003      	b.n	8006b82 <task_menu_update+0x38a>
- 8006b7a:	68fb      	ldr	r3, [r7, #12]
- 8006b7c:	2203      	movs	r2, #3
- 8006b7e:	721a      	strb	r2, [r3, #8]
- 8006b80:	bf00      	nop
- 8006b82:	e010      	b.n	8006ba6 <task_menu_update+0x3ae>
- 8006b84:	693b      	ldr	r3, [r7, #16]
- 8006b86:	791b      	ldrb	r3, [r3, #4]
- 8006b88:	2b00      	cmp	r3, #0
- 8006b8a:	f000 82e8 	beq.w	800715e <task_menu_update+0x966>
- 8006b8e:	68fb      	ldr	r3, [r7, #12]
- 8006b90:	7a9b      	ldrb	r3, [r3, #10]
- 8006b92:	2b05      	cmp	r3, #5
- 8006b94:	f040 82e3 	bne.w	800715e <task_menu_update+0x966>
- 8006b98:	693b      	ldr	r3, [r7, #16]
- 8006b9a:	2200      	movs	r2, #0
- 8006b9c:	711a      	strb	r2, [r3, #4]
- 8006b9e:	68fb      	ldr	r3, [r7, #12]
- 8006ba0:	2200      	movs	r2, #0
- 8006ba2:	721a      	strb	r2, [r3, #8]
- 8006ba4:	e2db      	b.n	800715e <task_menu_update+0x966>
- 8006ba6:	bf00      	nop
- 8006ba8:	e2d9      	b.n	800715e <task_menu_update+0x966>
- 8006baa:	693b      	ldr	r3, [r7, #16]
- 8006bac:	791b      	ldrb	r3, [r3, #4]
- 8006bae:	2b00      	cmp	r3, #0
- 8006bb0:	d015      	beq.n	8006bde <task_menu_update+0x3e6>
- 8006bb2:	68fb      	ldr	r3, [r7, #12]
- 8006bb4:	7a9b      	ldrb	r3, [r3, #10]
- 8006bb6:	2b03      	cmp	r3, #3
- 8006bb8:	d111      	bne.n	8006bde <task_menu_update+0x3e6>
- 8006bba:	693b      	ldr	r3, [r7, #16]
- 8006bbc:	2200      	movs	r2, #0
- 8006bbe:	711a      	strb	r2, [r3, #4]
- 8006bc0:	68fb      	ldr	r3, [r7, #12]
- 8006bc2:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
- 8006bc4:	3301      	adds	r3, #1
- 8006bc6:	2b00      	cmp	r3, #0
- 8006bc8:	f003 0301 	and.w	r3, r3, #1
- 8006bcc:	bfb8      	it	lt
- 8006bce:	425b      	neglt	r3, r3
- 8006bd0:	b29a      	uxth	r2, r3
+ 8006a92:	7a1b      	ldrb	r3, [r3, #8]
+ 8006a94:	2b00      	cmp	r3, #0
+ 8006a96:	d111      	bne.n	8006abc <task_menu_update+0xcc>
+ 8006a98:	68fb      	ldr	r3, [r7, #12]
+ 8006a9a:	f103 000b 	add.w	r0, r3, #11
+ 8006a9e:	2300      	movs	r3, #0
+ 8006aa0:	9300      	str	r3, [sp, #0]
+ 8006aa2:	2300      	movs	r3, #0
+ 8006aa4:	2200      	movs	r2, #0
+ 8006aa6:	2100      	movs	r1, #0
+ 8006aa8:	f001 fe3c 	bl	8008724 <get_system_config>
+ 8006aac:	f001 fe86 	bl	80087bc <get_system_riego_state>
+ 8006ab0:	4603      	mov	r3, r0
+ 8006ab2:	461a      	mov	r2, r3
+ 8006ab4:	68fb      	ldr	r3, [r7, #12]
+ 8006ab6:	f883 202c 	strb.w	r2, [r3, #44]	@ 0x2c
+ 8006aba:	e029      	b.n	8006b10 <task_menu_update+0x120>
+ 8006abc:	68fb      	ldr	r3, [r7, #12]
+ 8006abe:	7a1b      	ldrb	r3, [r3, #8]
+ 8006ac0:	2b03      	cmp	r3, #3
+ 8006ac2:	d118      	bne.n	8006af6 <task_menu_update+0x106>
+ 8006ac4:	68fb      	ldr	r3, [r7, #12]
+ 8006ac6:	f893 3020 	ldrb.w	r3, [r3, #32]
+ 8006aca:	f083 0301 	eor.w	r3, r3, #1
+ 8006ace:	b2db      	uxtb	r3, r3
+ 8006ad0:	2b00      	cmp	r3, #0
+ 8006ad2:	d01d      	beq.n	8006b10 <task_menu_update+0x120>
+ 8006ad4:	68fb      	ldr	r3, [r7, #12]
+ 8006ad6:	f103 010c 	add.w	r1, r3, #12
+ 8006ada:	68fb      	ldr	r3, [r7, #12]
+ 8006adc:	f103 0210 	add.w	r2, r3, #16
+ 8006ae0:	68fb      	ldr	r3, [r7, #12]
+ 8006ae2:	f103 0014 	add.w	r0, r3, #20
+ 8006ae6:	68fb      	ldr	r3, [r7, #12]
+ 8006ae8:	3318      	adds	r3, #24
+ 8006aea:	9300      	str	r3, [sp, #0]
+ 8006aec:	4603      	mov	r3, r0
+ 8006aee:	2000      	movs	r0, #0
+ 8006af0:	f001 fe18 	bl	8008724 <get_system_config>
+ 8006af4:	e00c      	b.n	8006b10 <task_menu_update+0x120>
+ 8006af6:	68fb      	ldr	r3, [r7, #12]
+ 8006af8:	7a1b      	ldrb	r3, [r3, #8]
+ 8006afa:	2b0d      	cmp	r3, #13
+ 8006afc:	d108      	bne.n	8006b10 <task_menu_update+0x120>
+ 8006afe:	68fb      	ldr	r3, [r7, #12]
+ 8006b00:	f103 0224 	add.w	r2, r3, #36	@ 0x24
+ 8006b04:	68fb      	ldr	r3, [r7, #12]
+ 8006b06:	3328      	adds	r3, #40	@ 0x28
+ 8006b08:	4619      	mov	r1, r3
+ 8006b0a:	4610      	mov	r0, r2
+ 8006b0c:	f001 fe3c 	bl	8008788 <get_system_salud_dta>
+ 8006b10:	f000 ff96 	bl	8007a40 <any_event_task_menu>
+ 8006b14:	4603      	mov	r3, r0
+ 8006b16:	2b00      	cmp	r3, #0
+ 8006b18:	d026      	beq.n	8006b68 <task_menu_update+0x178>
+ 8006b1a:	693b      	ldr	r3, [r7, #16]
+ 8006b1c:	2201      	movs	r2, #1
+ 8006b1e:	711a      	strb	r2, [r3, #4]
+ 8006b20:	f000 ff68 	bl	80079f4 <get_event_task_menu>
+ 8006b24:	4603      	mov	r3, r0
+ 8006b26:	461a      	mov	r2, r3
+ 8006b28:	68fb      	ldr	r3, [r7, #12]
+ 8006b2a:	729a      	strb	r2, [r3, #10]
+ 8006b2c:	68fb      	ldr	r3, [r7, #12]
+ 8006b2e:	7a9b      	ldrb	r3, [r3, #10]
+ 8006b30:	2b07      	cmp	r3, #7
+ 8006b32:	d109      	bne.n	8006b48 <task_menu_update+0x158>
+ 8006b34:	68fb      	ldr	r3, [r7, #12]
+ 8006b36:	f44f 62c8 	mov.w	r2, #1600	@ 0x640
+ 8006b3a:	605a      	str	r2, [r3, #4]
+ 8006b3c:	68fb      	ldr	r3, [r7, #12]
+ 8006b3e:	220e      	movs	r2, #14
+ 8006b40:	721a      	strb	r2, [r3, #8]
+ 8006b42:	693b      	ldr	r3, [r7, #16]
+ 8006b44:	2200      	movs	r2, #0
+ 8006b46:	711a      	strb	r2, [r3, #4]
+ 8006b48:	68fb      	ldr	r3, [r7, #12]
+ 8006b4a:	7a9b      	ldrb	r3, [r3, #10]
+ 8006b4c:	2b01      	cmp	r3, #1
+ 8006b4e:	d007      	beq.n	8006b60 <task_menu_update+0x170>
+ 8006b50:	68fb      	ldr	r3, [r7, #12]
+ 8006b52:	7a9b      	ldrb	r3, [r3, #10]
+ 8006b54:	2b03      	cmp	r3, #3
+ 8006b56:	d003      	beq.n	8006b60 <task_menu_update+0x170>
+ 8006b58:	68fb      	ldr	r3, [r7, #12]
+ 8006b5a:	7a9b      	ldrb	r3, [r3, #10]
+ 8006b5c:	2b05      	cmp	r3, #5
+ 8006b5e:	d103      	bne.n	8006b68 <task_menu_update+0x178>
+ 8006b60:	2101      	movs	r1, #1
+ 8006b62:	2003      	movs	r0, #3
+ 8006b64:	f7ff fbe2 	bl	800632c <put_event_task_actuator>
+ 8006b68:	68fb      	ldr	r3, [r7, #12]
+ 8006b6a:	7a1b      	ldrb	r3, [r3, #8]
+ 8006b6c:	2b10      	cmp	r3, #16
+ 8006b6e:	f200 83df 	bhi.w	8007330 <task_menu_update+0x940>
+ 8006b72:	a201      	add	r2, pc, #4	@ (adr r2, 8006b78 <task_menu_update+0x188>)
+ 8006b74:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8006b78:	08006bbd 	.word	0x08006bbd
+ 8006b7c:	08006cd3 	.word	0x08006cd3
+ 8006b80:	08006da3 	.word	0x08006da3
+ 8006b84:	08006e45 	.word	0x08006e45
+ 8006b88:	08006f39 	.word	0x08006f39
+ 8006b8c:	08006f6b 	.word	0x08006f6b
+ 8006b90:	08006f9d 	.word	0x08006f9d
+ 8006b94:	08006f9d 	.word	0x08006f9d
+ 8006b98:	08006fcf 	.word	0x08006fcf
+ 8006b9c:	0800705d 	.word	0x0800705d
+ 8006ba0:	080070e7 	.word	0x080070e7
+ 8006ba4:	08007171 	.word	0x08007171
+ 8006ba8:	08006c51 	.word	0x08006c51
+ 8006bac:	08006ca1 	.word	0x08006ca1
+ 8006bb0:	080072f1 	.word	0x080072f1
+ 8006bb4:	080071fb 	.word	0x080071fb
+ 8006bb8:	080072d7 	.word	0x080072d7
+ 8006bbc:	693b      	ldr	r3, [r7, #16]
+ 8006bbe:	791b      	ldrb	r3, [r3, #4]
+ 8006bc0:	2b00      	cmp	r3, #0
+ 8006bc2:	d00a      	beq.n	8006bda <task_menu_update+0x1ea>
+ 8006bc4:	68fb      	ldr	r3, [r7, #12]
+ 8006bc6:	7a9b      	ldrb	r3, [r3, #10]
+ 8006bc8:	2b01      	cmp	r3, #1
+ 8006bca:	d106      	bne.n	8006bda <task_menu_update+0x1ea>
+ 8006bcc:	693b      	ldr	r3, [r7, #16]
+ 8006bce:	2200      	movs	r2, #0
+ 8006bd0:	711a      	strb	r2, [r3, #4]
  8006bd2:	68fb      	ldr	r3, [r7, #12]
- 8006bd4:	869a      	strh	r2, [r3, #52]	@ 0x34
- 8006bd6:	68fb      	ldr	r3, [r7, #12]
- 8006bd8:	2201      	movs	r2, #1
- 8006bda:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
- 8006bde:	693b      	ldr	r3, [r7, #16]
- 8006be0:	791b      	ldrb	r3, [r3, #4]
- 8006be2:	2b00      	cmp	r3, #0
- 8006be4:	d020      	beq.n	8006c28 <task_menu_update+0x430>
- 8006be6:	68fb      	ldr	r3, [r7, #12]
- 8006be8:	7a9b      	ldrb	r3, [r3, #10]
- 8006bea:	2b01      	cmp	r3, #1
- 8006bec:	d11c      	bne.n	8006c28 <task_menu_update+0x430>
- 8006bee:	693b      	ldr	r3, [r7, #16]
- 8006bf0:	2200      	movs	r2, #0
- 8006bf2:	711a      	strb	r2, [r3, #4]
- 8006bf4:	693b      	ldr	r3, [r7, #16]
- 8006bf6:	689a      	ldr	r2, [r3, #8]
- 8006bf8:	68fb      	ldr	r3, [r7, #12]
- 8006bfa:	605a      	str	r2, [r3, #4]
- 8006bfc:	68fb      	ldr	r3, [r7, #12]
- 8006bfe:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
- 8006c00:	2b00      	cmp	r3, #0
- 8006c02:	d002      	beq.n	8006c0a <task_menu_update+0x412>
- 8006c04:	2b01      	cmp	r3, #1
- 8006c06:	d007      	beq.n	8006c18 <task_menu_update+0x420>
- 8006c08:	e01f      	b.n	8006c4a <task_menu_update+0x452>
- 8006c0a:	2002      	movs	r0, #2
- 8006c0c:	f001 fd16 	bl	800863c <put_event_task_system>
+ 8006bd4:	2201      	movs	r2, #1
+ 8006bd6:	721a      	strb	r2, [r3, #8]
+ 8006bd8:	e010      	b.n	8006bfc <task_menu_update+0x20c>
+ 8006bda:	693b      	ldr	r3, [r7, #16]
+ 8006bdc:	791b      	ldrb	r3, [r3, #4]
+ 8006bde:	2b00      	cmp	r3, #0
+ 8006be0:	d00c      	beq.n	8006bfc <task_menu_update+0x20c>
+ 8006be2:	68fb      	ldr	r3, [r7, #12]
+ 8006be4:	7a9b      	ldrb	r3, [r3, #10]
+ 8006be6:	2b03      	cmp	r3, #3
+ 8006be8:	d108      	bne.n	8006bfc <task_menu_update+0x20c>
+ 8006bea:	200a      	movs	r0, #10
+ 8006bec:	f001 fd26 	bl	800863c <put_event_task_system>
+ 8006bf0:	693b      	ldr	r3, [r7, #16]
+ 8006bf2:	2200      	movs	r2, #0
+ 8006bf4:	711a      	strb	r2, [r3, #4]
+ 8006bf6:	68fb      	ldr	r3, [r7, #12]
+ 8006bf8:	220c      	movs	r2, #12
+ 8006bfa:	721a      	strb	r2, [r3, #8]
+ 8006bfc:	f001 fdde 	bl	80087bc <get_system_riego_state>
+ 8006c00:	4603      	mov	r3, r0
+ 8006c02:	72fb      	strb	r3, [r7, #11]
+ 8006c04:	68fb      	ldr	r3, [r7, #12]
+ 8006c06:	f893 302c 	ldrb.w	r3, [r3, #44]	@ 0x2c
+ 8006c0a:	7afa      	ldrb	r2, [r7, #11]
+ 8006c0c:	429a      	cmp	r2, r3
+ 8006c0e:	d007      	beq.n	8006c20 <task_menu_update+0x230>
  8006c10:	68fb      	ldr	r3, [r7, #12]
- 8006c12:	2207      	movs	r2, #7
- 8006c14:	721a      	strb	r2, [r3, #8]
- 8006c16:	e006      	b.n	8006c26 <task_menu_update+0x42e>
- 8006c18:	2001      	movs	r0, #1
- 8006c1a:	f001 fd0f 	bl	800863c <put_event_task_system>
- 8006c1e:	68fb      	ldr	r3, [r7, #12]
- 8006c20:	2206      	movs	r2, #6
- 8006c22:	721a      	strb	r2, [r3, #8]
- 8006c24:	bf00      	nop
- 8006c26:	e010      	b.n	8006c4a <task_menu_update+0x452>
- 8006c28:	693b      	ldr	r3, [r7, #16]
- 8006c2a:	791b      	ldrb	r3, [r3, #4]
- 8006c2c:	2b00      	cmp	r3, #0
- 8006c2e:	f000 8298 	beq.w	8007162 <task_menu_update+0x96a>
- 8006c32:	68fb      	ldr	r3, [r7, #12]
- 8006c34:	7a9b      	ldrb	r3, [r3, #10]
- 8006c36:	2b05      	cmp	r3, #5
- 8006c38:	f040 8293 	bne.w	8007162 <task_menu_update+0x96a>
- 8006c3c:	693b      	ldr	r3, [r7, #16]
- 8006c3e:	2200      	movs	r2, #0
- 8006c40:	711a      	strb	r2, [r3, #4]
- 8006c42:	68fb      	ldr	r3, [r7, #12]
- 8006c44:	2201      	movs	r2, #1
- 8006c46:	721a      	strb	r2, [r3, #8]
- 8006c48:	e28b      	b.n	8007162 <task_menu_update+0x96a>
- 8006c4a:	e28a      	b.n	8007162 <task_menu_update+0x96a>
- 8006c4c:	693b      	ldr	r3, [r7, #16]
- 8006c4e:	791b      	ldrb	r3, [r3, #4]
- 8006c50:	2b00      	cmp	r3, #0
- 8006c52:	d018      	beq.n	8006c86 <task_menu_update+0x48e>
- 8006c54:	68fb      	ldr	r3, [r7, #12]
- 8006c56:	7a9b      	ldrb	r3, [r3, #10]
- 8006c58:	2b03      	cmp	r3, #3
- 8006c5a:	d114      	bne.n	8006c86 <task_menu_update+0x48e>
- 8006c5c:	693b      	ldr	r3, [r7, #16]
- 8006c5e:	2200      	movs	r2, #0
- 8006c60:	711a      	strb	r2, [r3, #4]
- 8006c62:	68fb      	ldr	r3, [r7, #12]
- 8006c64:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
- 8006c66:	3301      	adds	r3, #1
- 8006c68:	425a      	negs	r2, r3
- 8006c6a:	f003 0303 	and.w	r3, r3, #3
- 8006c6e:	f002 0203 	and.w	r2, r2, #3
- 8006c72:	bf58      	it	pl
- 8006c74:	4253      	negpl	r3, r2
- 8006c76:	b29a      	uxth	r2, r3
+ 8006c12:	7afa      	ldrb	r2, [r7, #11]
+ 8006c14:	f883 202c 	strb.w	r2, [r3, #44]	@ 0x2c
+ 8006c18:	68fb      	ldr	r3, [r7, #12]
+ 8006c1a:	2201      	movs	r2, #1
+ 8006c1c:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
+ 8006c20:	68fb      	ldr	r3, [r7, #12]
+ 8006c22:	7adb      	ldrb	r3, [r3, #11]
+ 8006c24:	2b00      	cmp	r3, #0
+ 8006c26:	f000 8390 	beq.w	800734a <task_menu_update+0x95a>
+ 8006c2a:	68fb      	ldr	r3, [r7, #12]
+ 8006c2c:	681b      	ldr	r3, [r3, #0]
+ 8006c2e:	1e5a      	subs	r2, r3, #1
+ 8006c30:	68fb      	ldr	r3, [r7, #12]
+ 8006c32:	601a      	str	r2, [r3, #0]
+ 8006c34:	68fb      	ldr	r3, [r7, #12]
+ 8006c36:	681b      	ldr	r3, [r3, #0]
+ 8006c38:	2b00      	cmp	r3, #0
+ 8006c3a:	f040 8386 	bne.w	800734a <task_menu_update+0x95a>
+ 8006c3e:	68fb      	ldr	r3, [r7, #12]
+ 8006c40:	2201      	movs	r2, #1
+ 8006c42:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
+ 8006c46:	68fb      	ldr	r3, [r7, #12]
+ 8006c48:	f242 7210 	movw	r2, #10000	@ 0x2710
+ 8006c4c:	601a      	str	r2, [r3, #0]
+ 8006c4e:	e37c      	b.n	800734a <task_menu_update+0x95a>
+ 8006c50:	693b      	ldr	r3, [r7, #16]
+ 8006c52:	791b      	ldrb	r3, [r3, #4]
+ 8006c54:	2b00      	cmp	r3, #0
+ 8006c56:	d00a      	beq.n	8006c6e <task_menu_update+0x27e>
+ 8006c58:	68fb      	ldr	r3, [r7, #12]
+ 8006c5a:	7a9b      	ldrb	r3, [r3, #10]
+ 8006c5c:	2b05      	cmp	r3, #5
+ 8006c5e:	d106      	bne.n	8006c6e <task_menu_update+0x27e>
+ 8006c60:	693b      	ldr	r3, [r7, #16]
+ 8006c62:	2200      	movs	r2, #0
+ 8006c64:	711a      	strb	r2, [r3, #4]
+ 8006c66:	68fb      	ldr	r3, [r7, #12]
+ 8006c68:	2200      	movs	r2, #0
+ 8006c6a:	721a      	strb	r2, [r3, #8]
+ 8006c6c:	e36f      	b.n	800734e <task_menu_update+0x95e>
+ 8006c6e:	693b      	ldr	r3, [r7, #16]
+ 8006c70:	791b      	ldrb	r3, [r3, #4]
+ 8006c72:	2b00      	cmp	r3, #0
+ 8006c74:	f000 836b 	beq.w	800734e <task_menu_update+0x95e>
  8006c78:	68fb      	ldr	r3, [r7, #12]
- 8006c7a:	869a      	strh	r2, [r3, #52]	@ 0x34
- 8006c7c:	68fb      	ldr	r3, [r7, #12]
- 8006c7e:	2201      	movs	r2, #1
- 8006c80:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
- 8006c84:	e05b      	b.n	8006d3e <task_menu_update+0x546>
- 8006c86:	693b      	ldr	r3, [r7, #16]
- 8006c88:	791b      	ldrb	r3, [r3, #4]
- 8006c8a:	2b00      	cmp	r3, #0
- 8006c8c:	d039      	beq.n	8006d02 <task_menu_update+0x50a>
- 8006c8e:	68fb      	ldr	r3, [r7, #12]
- 8006c90:	7a9b      	ldrb	r3, [r3, #10]
- 8006c92:	2b01      	cmp	r3, #1
- 8006c94:	d135      	bne.n	8006d02 <task_menu_update+0x50a>
- 8006c96:	693b      	ldr	r3, [r7, #16]
- 8006c98:	2200      	movs	r2, #0
- 8006c9a:	711a      	strb	r2, [r3, #4]
- 8006c9c:	2007      	movs	r0, #7
- 8006c9e:	f001 fccd 	bl	800863c <put_event_task_system>
- 8006ca2:	68fb      	ldr	r3, [r7, #12]
- 8006ca4:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
- 8006ca6:	2b03      	cmp	r3, #3
- 8006ca8:	d848      	bhi.n	8006d3c <task_menu_update+0x544>
- 8006caa:	a201      	add	r2, pc, #4	@ (adr r2, 8006cb0 <task_menu_update+0x4b8>)
- 8006cac:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
- 8006cb0:	08006cc1 	.word	0x08006cc1
- 8006cb4:	08006cd1 	.word	0x08006cd1
- 8006cb8:	08006ce1 	.word	0x08006ce1
- 8006cbc:	08006cf1 	.word	0x08006cf1
- 8006cc0:	68fb      	ldr	r3, [r7, #12]
- 8006cc2:	68da      	ldr	r2, [r3, #12]
- 8006cc4:	68fb      	ldr	r3, [r7, #12]
- 8006cc6:	61da      	str	r2, [r3, #28]
- 8006cc8:	68fb      	ldr	r3, [r7, #12]
- 8006cca:	2208      	movs	r2, #8
- 8006ccc:	721a      	strb	r2, [r3, #8]
- 8006cce:	e017      	b.n	8006d00 <task_menu_update+0x508>
- 8006cd0:	68fb      	ldr	r3, [r7, #12]
- 8006cd2:	691a      	ldr	r2, [r3, #16]
- 8006cd4:	68fb      	ldr	r3, [r7, #12]
- 8006cd6:	61da      	str	r2, [r3, #28]
- 8006cd8:	68fb      	ldr	r3, [r7, #12]
- 8006cda:	2209      	movs	r2, #9
- 8006cdc:	721a      	strb	r2, [r3, #8]
- 8006cde:	e00f      	b.n	8006d00 <task_menu_update+0x508>
- 8006ce0:	68fb      	ldr	r3, [r7, #12]
- 8006ce2:	695a      	ldr	r2, [r3, #20]
- 8006ce4:	68fb      	ldr	r3, [r7, #12]
- 8006ce6:	61da      	str	r2, [r3, #28]
+ 8006c7a:	7a9b      	ldrb	r3, [r3, #10]
+ 8006c7c:	2b06      	cmp	r3, #6
+ 8006c7e:	f040 8366 	bne.w	800734e <task_menu_update+0x95e>
+ 8006c82:	693b      	ldr	r3, [r7, #16]
+ 8006c84:	2200      	movs	r2, #0
+ 8006c86:	711a      	strb	r2, [r3, #4]
+ 8006c88:	68fb      	ldr	r3, [r7, #12]
+ 8006c8a:	220d      	movs	r2, #13
+ 8006c8c:	721a      	strb	r2, [r3, #8]
+ 8006c8e:	e35e      	b.n	800734e <task_menu_update+0x95e>
+ 8006c90:	20000328 	.word	0x20000328
+ 8006c94:	2000032c 	.word	0x2000032c
+ 8006c98:	20000024 	.word	0x20000024
+ 8006c9c:	20000030 	.word	0x20000030
+ 8006ca0:	693b      	ldr	r3, [r7, #16]
+ 8006ca2:	791b      	ldrb	r3, [r3, #4]
+ 8006ca4:	2b00      	cmp	r3, #0
+ 8006ca6:	f000 8354 	beq.w	8007352 <task_menu_update+0x962>
+ 8006caa:	68fb      	ldr	r3, [r7, #12]
+ 8006cac:	7a9b      	ldrb	r3, [r3, #10]
+ 8006cae:	2b05      	cmp	r3, #5
+ 8006cb0:	d008      	beq.n	8006cc4 <task_menu_update+0x2d4>
+ 8006cb2:	68fb      	ldr	r3, [r7, #12]
+ 8006cb4:	7a9b      	ldrb	r3, [r3, #10]
+ 8006cb6:	2b01      	cmp	r3, #1
+ 8006cb8:	d004      	beq.n	8006cc4 <task_menu_update+0x2d4>
+ 8006cba:	68fb      	ldr	r3, [r7, #12]
+ 8006cbc:	7a9b      	ldrb	r3, [r3, #10]
+ 8006cbe:	2b03      	cmp	r3, #3
+ 8006cc0:	f040 8347 	bne.w	8007352 <task_menu_update+0x962>
+ 8006cc4:	693b      	ldr	r3, [r7, #16]
+ 8006cc6:	2200      	movs	r2, #0
+ 8006cc8:	711a      	strb	r2, [r3, #4]
+ 8006cca:	68fb      	ldr	r3, [r7, #12]
+ 8006ccc:	2200      	movs	r2, #0
+ 8006cce:	721a      	strb	r2, [r3, #8]
+ 8006cd0:	e33f      	b.n	8007352 <task_menu_update+0x962>
+ 8006cd2:	693b      	ldr	r3, [r7, #16]
+ 8006cd4:	791b      	ldrb	r3, [r3, #4]
+ 8006cd6:	2b00      	cmp	r3, #0
+ 8006cd8:	d018      	beq.n	8006d0c <task_menu_update+0x31c>
+ 8006cda:	68fb      	ldr	r3, [r7, #12]
+ 8006cdc:	7a9b      	ldrb	r3, [r3, #10]
+ 8006cde:	2b03      	cmp	r3, #3
+ 8006ce0:	d114      	bne.n	8006d0c <task_menu_update+0x31c>
+ 8006ce2:	693b      	ldr	r3, [r7, #16]
+ 8006ce4:	2200      	movs	r2, #0
+ 8006ce6:	711a      	strb	r2, [r3, #4]
  8006ce8:	68fb      	ldr	r3, [r7, #12]
- 8006cea:	220a      	movs	r2, #10
- 8006cec:	721a      	strb	r2, [r3, #8]
- 8006cee:	e007      	b.n	8006d00 <task_menu_update+0x508>
- 8006cf0:	68fb      	ldr	r3, [r7, #12]
- 8006cf2:	699a      	ldr	r2, [r3, #24]
- 8006cf4:	68fb      	ldr	r3, [r7, #12]
- 8006cf6:	61da      	str	r2, [r3, #28]
- 8006cf8:	68fb      	ldr	r3, [r7, #12]
- 8006cfa:	220b      	movs	r2, #11
- 8006cfc:	721a      	strb	r2, [r3, #8]
- 8006cfe:	bf00      	nop
- 8006d00:	e01c      	b.n	8006d3c <task_menu_update+0x544>
- 8006d02:	693b      	ldr	r3, [r7, #16]
- 8006d04:	791b      	ldrb	r3, [r3, #4]
- 8006d06:	2b00      	cmp	r3, #0
- 8006d08:	f000 822d 	beq.w	8007166 <task_menu_update+0x96e>
- 8006d0c:	68fb      	ldr	r3, [r7, #12]
- 8006d0e:	7a9b      	ldrb	r3, [r3, #10]
- 8006d10:	2b05      	cmp	r3, #5
- 8006d12:	f040 8228 	bne.w	8007166 <task_menu_update+0x96e>
- 8006d16:	693b      	ldr	r3, [r7, #16]
- 8006d18:	2200      	movs	r2, #0
- 8006d1a:	711a      	strb	r2, [r3, #4]
- 8006d1c:	68fb      	ldr	r3, [r7, #12]
- 8006d1e:	f893 3020 	ldrb.w	r3, [r3, #32]
- 8006d22:	2b00      	cmp	r3, #0
- 8006d24:	d003      	beq.n	8006d2e <task_menu_update+0x536>
+ 8006cea:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
+ 8006cec:	3301      	adds	r3, #1
+ 8006cee:	425a      	negs	r2, r3
+ 8006cf0:	f003 0303 	and.w	r3, r3, #3
+ 8006cf4:	f002 0203 	and.w	r2, r2, #3
+ 8006cf8:	bf58      	it	pl
+ 8006cfa:	4253      	negpl	r3, r2
+ 8006cfc:	b29a      	uxth	r2, r3
+ 8006cfe:	68fb      	ldr	r3, [r7, #12]
+ 8006d00:	869a      	strh	r2, [r3, #52]	@ 0x34
+ 8006d02:	68fb      	ldr	r3, [r7, #12]
+ 8006d04:	2201      	movs	r2, #1
+ 8006d06:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
+ 8006d0a:	e049      	b.n	8006da0 <task_menu_update+0x3b0>
+ 8006d0c:	693b      	ldr	r3, [r7, #16]
+ 8006d0e:	791b      	ldrb	r3, [r3, #4]
+ 8006d10:	2b00      	cmp	r3, #0
+ 8006d12:	d033      	beq.n	8006d7c <task_menu_update+0x38c>
+ 8006d14:	68fb      	ldr	r3, [r7, #12]
+ 8006d16:	7a9b      	ldrb	r3, [r3, #10]
+ 8006d18:	2b01      	cmp	r3, #1
+ 8006d1a:	d12f      	bne.n	8006d7c <task_menu_update+0x38c>
+ 8006d1c:	693b      	ldr	r3, [r7, #16]
+ 8006d1e:	2200      	movs	r2, #0
+ 8006d20:	711a      	strb	r2, [r3, #4]
+ 8006d22:	693b      	ldr	r3, [r7, #16]
+ 8006d24:	689a      	ldr	r2, [r3, #8]
  8006d26:	68fb      	ldr	r3, [r7, #12]
- 8006d28:	220f      	movs	r2, #15
- 8006d2a:	721a      	strb	r2, [r3, #8]
- 8006d2c:	e21b      	b.n	8007166 <task_menu_update+0x96e>
- 8006d2e:	2009      	movs	r0, #9
- 8006d30:	f001 fc84 	bl	800863c <put_event_task_system>
- 8006d34:	68fb      	ldr	r3, [r7, #12]
- 8006d36:	2201      	movs	r2, #1
- 8006d38:	721a      	strb	r2, [r3, #8]
- 8006d3a:	e214      	b.n	8007166 <task_menu_update+0x96e>
- 8006d3c:	bf00      	nop
- 8006d3e:	e212      	b.n	8007166 <task_menu_update+0x96e>
- 8006d40:	68fb      	ldr	r3, [r7, #12]
- 8006d42:	685b      	ldr	r3, [r3, #4]
- 8006d44:	1e5a      	subs	r2, r3, #1
- 8006d46:	68fb      	ldr	r3, [r7, #12]
- 8006d48:	605a      	str	r2, [r3, #4]
- 8006d4a:	693b      	ldr	r3, [r7, #16]
- 8006d4c:	791b      	ldrb	r3, [r3, #4]
- 8006d4e:	2b00      	cmp	r3, #0
- 8006d50:	d003      	beq.n	8006d5a <task_menu_update+0x562>
- 8006d52:	68fb      	ldr	r3, [r7, #12]
- 8006d54:	7a9b      	ldrb	r3, [r3, #10]
- 8006d56:	2b05      	cmp	r3, #5
- 8006d58:	d004      	beq.n	8006d64 <task_menu_update+0x56c>
- 8006d5a:	68fb      	ldr	r3, [r7, #12]
- 8006d5c:	685b      	ldr	r3, [r3, #4]
- 8006d5e:	2b00      	cmp	r3, #0
- 8006d60:	f040 8203 	bne.w	800716a <task_menu_update+0x972>
- 8006d64:	693b      	ldr	r3, [r7, #16]
- 8006d66:	2200      	movs	r2, #0
- 8006d68:	711a      	strb	r2, [r3, #4]
+ 8006d28:	605a      	str	r2, [r3, #4]
+ 8006d2a:	68fb      	ldr	r3, [r7, #12]
+ 8006d2c:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
+ 8006d2e:	2b03      	cmp	r3, #3
+ 8006d30:	d835      	bhi.n	8006d9e <task_menu_update+0x3ae>
+ 8006d32:	a201      	add	r2, pc, #4	@ (adr r2, 8006d38 <task_menu_update+0x348>)
+ 8006d34:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8006d38:	08006d49 	.word	0x08006d49
+ 8006d3c:	08006d57 	.word	0x08006d57
+ 8006d40:	08006d65 	.word	0x08006d65
+ 8006d44:	08006d73 	.word	0x08006d73
+ 8006d48:	200d      	movs	r0, #13
+ 8006d4a:	f001 fc77 	bl	800863c <put_event_task_system>
+ 8006d4e:	68fb      	ldr	r3, [r7, #12]
+ 8006d50:	2202      	movs	r2, #2
+ 8006d52:	721a      	strb	r2, [r3, #8]
+ 8006d54:	e011      	b.n	8006d7a <task_menu_update+0x38a>
+ 8006d56:	200f      	movs	r0, #15
+ 8006d58:	f001 fc70 	bl	800863c <put_event_task_system>
+ 8006d5c:	68fb      	ldr	r3, [r7, #12]
+ 8006d5e:	2204      	movs	r2, #4
+ 8006d60:	721a      	strb	r2, [r3, #8]
+ 8006d62:	e00a      	b.n	8006d7a <task_menu_update+0x38a>
+ 8006d64:	200e      	movs	r0, #14
+ 8006d66:	f001 fc69 	bl	800863c <put_event_task_system>
  8006d6a:	68fb      	ldr	r3, [r7, #12]
- 8006d6c:	2200      	movs	r2, #0
+ 8006d6c:	2205      	movs	r2, #5
  8006d6e:	721a      	strb	r2, [r3, #8]
- 8006d70:	e1fb      	b.n	800716a <task_menu_update+0x972>
+ 8006d70:	e003      	b.n	8006d7a <task_menu_update+0x38a>
  8006d72:	68fb      	ldr	r3, [r7, #12]
- 8006d74:	685b      	ldr	r3, [r3, #4]
- 8006d76:	1e5a      	subs	r2, r3, #1
- 8006d78:	68fb      	ldr	r3, [r7, #12]
- 8006d7a:	605a      	str	r2, [r3, #4]
+ 8006d74:	2203      	movs	r2, #3
+ 8006d76:	721a      	strb	r2, [r3, #8]
+ 8006d78:	bf00      	nop
+ 8006d7a:	e010      	b.n	8006d9e <task_menu_update+0x3ae>
  8006d7c:	693b      	ldr	r3, [r7, #16]
  8006d7e:	791b      	ldrb	r3, [r3, #4]
  8006d80:	2b00      	cmp	r3, #0
- 8006d82:	d003      	beq.n	8006d8c <task_menu_update+0x594>
- 8006d84:	68fb      	ldr	r3, [r7, #12]
- 8006d86:	7a9b      	ldrb	r3, [r3, #10]
- 8006d88:	2b05      	cmp	r3, #5
- 8006d8a:	d004      	beq.n	8006d96 <task_menu_update+0x59e>
- 8006d8c:	68fb      	ldr	r3, [r7, #12]
- 8006d8e:	685b      	ldr	r3, [r3, #4]
- 8006d90:	2b00      	cmp	r3, #0
- 8006d92:	f040 81ec 	bne.w	800716e <task_menu_update+0x976>
- 8006d96:	693b      	ldr	r3, [r7, #16]
+ 8006d82:	f000 82e8 	beq.w	8007356 <task_menu_update+0x966>
+ 8006d86:	68fb      	ldr	r3, [r7, #12]
+ 8006d88:	7a9b      	ldrb	r3, [r3, #10]
+ 8006d8a:	2b05      	cmp	r3, #5
+ 8006d8c:	f040 82e3 	bne.w	8007356 <task_menu_update+0x966>
+ 8006d90:	693b      	ldr	r3, [r7, #16]
+ 8006d92:	2200      	movs	r2, #0
+ 8006d94:	711a      	strb	r2, [r3, #4]
+ 8006d96:	68fb      	ldr	r3, [r7, #12]
  8006d98:	2200      	movs	r2, #0
- 8006d9a:	711a      	strb	r2, [r3, #4]
- 8006d9c:	68fb      	ldr	r3, [r7, #12]
- 8006d9e:	2200      	movs	r2, #0
- 8006da0:	721a      	strb	r2, [r3, #8]
- 8006da2:	e1e4      	b.n	800716e <task_menu_update+0x976>
- 8006da4:	68fb      	ldr	r3, [r7, #12]
- 8006da6:	685b      	ldr	r3, [r3, #4]
- 8006da8:	1e5a      	subs	r2, r3, #1
+ 8006d9a:	721a      	strb	r2, [r3, #8]
+ 8006d9c:	e2db      	b.n	8007356 <task_menu_update+0x966>
+ 8006d9e:	bf00      	nop
+ 8006da0:	e2d9      	b.n	8007356 <task_menu_update+0x966>
+ 8006da2:	693b      	ldr	r3, [r7, #16]
+ 8006da4:	791b      	ldrb	r3, [r3, #4]
+ 8006da6:	2b00      	cmp	r3, #0
+ 8006da8:	d015      	beq.n	8006dd6 <task_menu_update+0x3e6>
  8006daa:	68fb      	ldr	r3, [r7, #12]
- 8006dac:	605a      	str	r2, [r3, #4]
- 8006dae:	693b      	ldr	r3, [r7, #16]
- 8006db0:	791b      	ldrb	r3, [r3, #4]
- 8006db2:	2b00      	cmp	r3, #0
- 8006db4:	d003      	beq.n	8006dbe <task_menu_update+0x5c6>
- 8006db6:	68fb      	ldr	r3, [r7, #12]
- 8006db8:	7a9b      	ldrb	r3, [r3, #10]
- 8006dba:	2b05      	cmp	r3, #5
- 8006dbc:	d004      	beq.n	8006dc8 <task_menu_update+0x5d0>
- 8006dbe:	68fb      	ldr	r3, [r7, #12]
- 8006dc0:	685b      	ldr	r3, [r3, #4]
- 8006dc2:	2b00      	cmp	r3, #0
- 8006dc4:	f040 81d5 	bne.w	8007172 <task_menu_update+0x97a>
- 8006dc8:	693b      	ldr	r3, [r7, #16]
- 8006dca:	2200      	movs	r2, #0
- 8006dcc:	711a      	strb	r2, [r3, #4]
+ 8006dac:	7a9b      	ldrb	r3, [r3, #10]
+ 8006dae:	2b03      	cmp	r3, #3
+ 8006db0:	d111      	bne.n	8006dd6 <task_menu_update+0x3e6>
+ 8006db2:	693b      	ldr	r3, [r7, #16]
+ 8006db4:	2200      	movs	r2, #0
+ 8006db6:	711a      	strb	r2, [r3, #4]
+ 8006db8:	68fb      	ldr	r3, [r7, #12]
+ 8006dba:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
+ 8006dbc:	3301      	adds	r3, #1
+ 8006dbe:	2b00      	cmp	r3, #0
+ 8006dc0:	f003 0301 	and.w	r3, r3, #1
+ 8006dc4:	bfb8      	it	lt
+ 8006dc6:	425b      	neglt	r3, r3
+ 8006dc8:	b29a      	uxth	r2, r3
+ 8006dca:	68fb      	ldr	r3, [r7, #12]
+ 8006dcc:	869a      	strh	r2, [r3, #52]	@ 0x34
  8006dce:	68fb      	ldr	r3, [r7, #12]
- 8006dd0:	2200      	movs	r2, #0
- 8006dd2:	721a      	strb	r2, [r3, #8]
- 8006dd4:	e1cd      	b.n	8007172 <task_menu_update+0x97a>
+ 8006dd0:	2201      	movs	r2, #1
+ 8006dd2:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
  8006dd6:	693b      	ldr	r3, [r7, #16]
  8006dd8:	791b      	ldrb	r3, [r3, #4]
  8006dda:	2b00      	cmp	r3, #0
- 8006ddc:	d019      	beq.n	8006e12 <task_menu_update+0x61a>
+ 8006ddc:	d020      	beq.n	8006e20 <task_menu_update+0x430>
  8006dde:	68fb      	ldr	r3, [r7, #12]
  8006de0:	7a9b      	ldrb	r3, [r3, #10]
- 8006de2:	2b03      	cmp	r3, #3
- 8006de4:	d115      	bne.n	8006e12 <task_menu_update+0x61a>
- 8006de6:	68fb      	ldr	r3, [r7, #12]
- 8006de8:	68db      	ldr	r3, [r3, #12]
- 8006dea:	f103 020f 	add.w	r2, r3, #15
- 8006dee:	68fb      	ldr	r3, [r7, #12]
- 8006df0:	60da      	str	r2, [r3, #12]
- 8006df2:	68fb      	ldr	r3, [r7, #12]
- 8006df4:	68db      	ldr	r3, [r3, #12]
- 8006df6:	f5b3 7fb4 	cmp.w	r3, #360	@ 0x168
- 8006dfa:	d902      	bls.n	8006e02 <task_menu_update+0x60a>
- 8006dfc:	68fb      	ldr	r3, [r7, #12]
- 8006dfe:	220f      	movs	r2, #15
- 8006e00:	60da      	str	r2, [r3, #12]
- 8006e02:	68fb      	ldr	r3, [r7, #12]
- 8006e04:	2201      	movs	r2, #1
- 8006e06:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
- 8006e0a:	693b      	ldr	r3, [r7, #16]
- 8006e0c:	2200      	movs	r2, #0
- 8006e0e:	711a      	strb	r2, [r3, #4]
- 8006e10:	e027      	b.n	8006e62 <task_menu_update+0x66a>
- 8006e12:	693b      	ldr	r3, [r7, #16]
- 8006e14:	791b      	ldrb	r3, [r3, #4]
- 8006e16:	2b00      	cmp	r3, #0
- 8006e18:	d00e      	beq.n	8006e38 <task_menu_update+0x640>
- 8006e1a:	68fb      	ldr	r3, [r7, #12]
- 8006e1c:	7a9b      	ldrb	r3, [r3, #10]
- 8006e1e:	2b01      	cmp	r3, #1
- 8006e20:	d10a      	bne.n	8006e38 <task_menu_update+0x640>
- 8006e22:	68fb      	ldr	r3, [r7, #12]
- 8006e24:	2201      	movs	r2, #1
- 8006e26:	f883 2020 	strb.w	r2, [r3, #32]
- 8006e2a:	693b      	ldr	r3, [r7, #16]
- 8006e2c:	2200      	movs	r2, #0
- 8006e2e:	711a      	strb	r2, [r3, #4]
- 8006e30:	68fb      	ldr	r3, [r7, #12]
- 8006e32:	220f      	movs	r2, #15
- 8006e34:	721a      	strb	r2, [r3, #8]
- 8006e36:	e014      	b.n	8006e62 <task_menu_update+0x66a>
- 8006e38:	693b      	ldr	r3, [r7, #16]
- 8006e3a:	791b      	ldrb	r3, [r3, #4]
- 8006e3c:	2b00      	cmp	r3, #0
- 8006e3e:	f000 819a 	beq.w	8007176 <task_menu_update+0x97e>
- 8006e42:	68fb      	ldr	r3, [r7, #12]
- 8006e44:	7a9b      	ldrb	r3, [r3, #10]
- 8006e46:	2b05      	cmp	r3, #5
- 8006e48:	f040 8195 	bne.w	8007176 <task_menu_update+0x97e>
+ 8006de2:	2b01      	cmp	r3, #1
+ 8006de4:	d11c      	bne.n	8006e20 <task_menu_update+0x430>
+ 8006de6:	693b      	ldr	r3, [r7, #16]
+ 8006de8:	2200      	movs	r2, #0
+ 8006dea:	711a      	strb	r2, [r3, #4]
+ 8006dec:	693b      	ldr	r3, [r7, #16]
+ 8006dee:	689a      	ldr	r2, [r3, #8]
+ 8006df0:	68fb      	ldr	r3, [r7, #12]
+ 8006df2:	605a      	str	r2, [r3, #4]
+ 8006df4:	68fb      	ldr	r3, [r7, #12]
+ 8006df6:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
+ 8006df8:	2b00      	cmp	r3, #0
+ 8006dfa:	d002      	beq.n	8006e02 <task_menu_update+0x412>
+ 8006dfc:	2b01      	cmp	r3, #1
+ 8006dfe:	d007      	beq.n	8006e10 <task_menu_update+0x420>
+ 8006e00:	e01f      	b.n	8006e42 <task_menu_update+0x452>
+ 8006e02:	2002      	movs	r0, #2
+ 8006e04:	f001 fc1a 	bl	800863c <put_event_task_system>
+ 8006e08:	68fb      	ldr	r3, [r7, #12]
+ 8006e0a:	2207      	movs	r2, #7
+ 8006e0c:	721a      	strb	r2, [r3, #8]
+ 8006e0e:	e006      	b.n	8006e1e <task_menu_update+0x42e>
+ 8006e10:	2001      	movs	r0, #1
+ 8006e12:	f001 fc13 	bl	800863c <put_event_task_system>
+ 8006e16:	68fb      	ldr	r3, [r7, #12]
+ 8006e18:	2206      	movs	r2, #6
+ 8006e1a:	721a      	strb	r2, [r3, #8]
+ 8006e1c:	bf00      	nop
+ 8006e1e:	e010      	b.n	8006e42 <task_menu_update+0x452>
+ 8006e20:	693b      	ldr	r3, [r7, #16]
+ 8006e22:	791b      	ldrb	r3, [r3, #4]
+ 8006e24:	2b00      	cmp	r3, #0
+ 8006e26:	f000 8298 	beq.w	800735a <task_menu_update+0x96a>
+ 8006e2a:	68fb      	ldr	r3, [r7, #12]
+ 8006e2c:	7a9b      	ldrb	r3, [r3, #10]
+ 8006e2e:	2b05      	cmp	r3, #5
+ 8006e30:	f040 8293 	bne.w	800735a <task_menu_update+0x96a>
+ 8006e34:	693b      	ldr	r3, [r7, #16]
+ 8006e36:	2200      	movs	r2, #0
+ 8006e38:	711a      	strb	r2, [r3, #4]
+ 8006e3a:	68fb      	ldr	r3, [r7, #12]
+ 8006e3c:	2201      	movs	r2, #1
+ 8006e3e:	721a      	strb	r2, [r3, #8]
+ 8006e40:	e28b      	b.n	800735a <task_menu_update+0x96a>
+ 8006e42:	e28a      	b.n	800735a <task_menu_update+0x96a>
+ 8006e44:	693b      	ldr	r3, [r7, #16]
+ 8006e46:	791b      	ldrb	r3, [r3, #4]
+ 8006e48:	2b00      	cmp	r3, #0
+ 8006e4a:	d018      	beq.n	8006e7e <task_menu_update+0x48e>
  8006e4c:	68fb      	ldr	r3, [r7, #12]
- 8006e4e:	69da      	ldr	r2, [r3, #28]
- 8006e50:	68fb      	ldr	r3, [r7, #12]
- 8006e52:	60da      	str	r2, [r3, #12]
+ 8006e4e:	7a9b      	ldrb	r3, [r3, #10]
+ 8006e50:	2b03      	cmp	r3, #3
+ 8006e52:	d114      	bne.n	8006e7e <task_menu_update+0x48e>
  8006e54:	693b      	ldr	r3, [r7, #16]
  8006e56:	2200      	movs	r2, #0
  8006e58:	711a      	strb	r2, [r3, #4]
  8006e5a:	68fb      	ldr	r3, [r7, #12]
- 8006e5c:	2203      	movs	r2, #3
- 8006e5e:	721a      	strb	r2, [r3, #8]
- 8006e60:	e189      	b.n	8007176 <task_menu_update+0x97e>
- 8006e62:	e188      	b.n	8007176 <task_menu_update+0x97e>
- 8006e64:	693b      	ldr	r3, [r7, #16]
- 8006e66:	791b      	ldrb	r3, [r3, #4]
- 8006e68:	2b00      	cmp	r3, #0
- 8006e6a:	d017      	beq.n	8006e9c <task_menu_update+0x6a4>
- 8006e6c:	68fb      	ldr	r3, [r7, #12]
- 8006e6e:	7a9b      	ldrb	r3, [r3, #10]
- 8006e70:	2b03      	cmp	r3, #3
- 8006e72:	d113      	bne.n	8006e9c <task_menu_update+0x6a4>
+ 8006e5c:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
+ 8006e5e:	3301      	adds	r3, #1
+ 8006e60:	425a      	negs	r2, r3
+ 8006e62:	f003 0303 	and.w	r3, r3, #3
+ 8006e66:	f002 0203 	and.w	r2, r2, #3
+ 8006e6a:	bf58      	it	pl
+ 8006e6c:	4253      	negpl	r3, r2
+ 8006e6e:	b29a      	uxth	r2, r3
+ 8006e70:	68fb      	ldr	r3, [r7, #12]
+ 8006e72:	869a      	strh	r2, [r3, #52]	@ 0x34
  8006e74:	68fb      	ldr	r3, [r7, #12]
- 8006e76:	691b      	ldr	r3, [r3, #16]
- 8006e78:	1d5a      	adds	r2, r3, #5
- 8006e7a:	68fb      	ldr	r3, [r7, #12]
- 8006e7c:	611a      	str	r2, [r3, #16]
- 8006e7e:	68fb      	ldr	r3, [r7, #12]
- 8006e80:	691b      	ldr	r3, [r3, #16]
- 8006e82:	2b3c      	cmp	r3, #60	@ 0x3c
- 8006e84:	d902      	bls.n	8006e8c <task_menu_update+0x694>
+ 8006e76:	2201      	movs	r2, #1
+ 8006e78:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
+ 8006e7c:	e05b      	b.n	8006f36 <task_menu_update+0x546>
+ 8006e7e:	693b      	ldr	r3, [r7, #16]
+ 8006e80:	791b      	ldrb	r3, [r3, #4]
+ 8006e82:	2b00      	cmp	r3, #0
+ 8006e84:	d039      	beq.n	8006efa <task_menu_update+0x50a>
  8006e86:	68fb      	ldr	r3, [r7, #12]
- 8006e88:	2205      	movs	r2, #5
- 8006e8a:	611a      	str	r2, [r3, #16]
- 8006e8c:	68fb      	ldr	r3, [r7, #12]
- 8006e8e:	2201      	movs	r2, #1
- 8006e90:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
- 8006e94:	693b      	ldr	r3, [r7, #16]
- 8006e96:	2200      	movs	r2, #0
- 8006e98:	711a      	strb	r2, [r3, #4]
- 8006e9a:	e027      	b.n	8006eec <task_menu_update+0x6f4>
- 8006e9c:	693b      	ldr	r3, [r7, #16]
- 8006e9e:	791b      	ldrb	r3, [r3, #4]
- 8006ea0:	2b00      	cmp	r3, #0
- 8006ea2:	d00e      	beq.n	8006ec2 <task_menu_update+0x6ca>
- 8006ea4:	68fb      	ldr	r3, [r7, #12]
- 8006ea6:	7a9b      	ldrb	r3, [r3, #10]
- 8006ea8:	2b01      	cmp	r3, #1
- 8006eaa:	d10a      	bne.n	8006ec2 <task_menu_update+0x6ca>
- 8006eac:	68fb      	ldr	r3, [r7, #12]
- 8006eae:	2201      	movs	r2, #1
- 8006eb0:	f883 2020 	strb.w	r2, [r3, #32]
- 8006eb4:	693b      	ldr	r3, [r7, #16]
- 8006eb6:	2200      	movs	r2, #0
- 8006eb8:	711a      	strb	r2, [r3, #4]
- 8006eba:	68fb      	ldr	r3, [r7, #12]
- 8006ebc:	220f      	movs	r2, #15
- 8006ebe:	721a      	strb	r2, [r3, #8]
- 8006ec0:	e014      	b.n	8006eec <task_menu_update+0x6f4>
- 8006ec2:	693b      	ldr	r3, [r7, #16]
- 8006ec4:	791b      	ldrb	r3, [r3, #4]
- 8006ec6:	2b00      	cmp	r3, #0
- 8006ec8:	f000 8157 	beq.w	800717a <task_menu_update+0x982>
+ 8006e88:	7a9b      	ldrb	r3, [r3, #10]
+ 8006e8a:	2b01      	cmp	r3, #1
+ 8006e8c:	d135      	bne.n	8006efa <task_menu_update+0x50a>
+ 8006e8e:	693b      	ldr	r3, [r7, #16]
+ 8006e90:	2200      	movs	r2, #0
+ 8006e92:	711a      	strb	r2, [r3, #4]
+ 8006e94:	2007      	movs	r0, #7
+ 8006e96:	f001 fbd1 	bl	800863c <put_event_task_system>
+ 8006e9a:	68fb      	ldr	r3, [r7, #12]
+ 8006e9c:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
+ 8006e9e:	2b03      	cmp	r3, #3
+ 8006ea0:	d848      	bhi.n	8006f34 <task_menu_update+0x544>
+ 8006ea2:	a201      	add	r2, pc, #4	@ (adr r2, 8006ea8 <task_menu_update+0x4b8>)
+ 8006ea4:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8006ea8:	08006eb9 	.word	0x08006eb9
+ 8006eac:	08006ec9 	.word	0x08006ec9
+ 8006eb0:	08006ed9 	.word	0x08006ed9
+ 8006eb4:	08006ee9 	.word	0x08006ee9
+ 8006eb8:	68fb      	ldr	r3, [r7, #12]
+ 8006eba:	68da      	ldr	r2, [r3, #12]
+ 8006ebc:	68fb      	ldr	r3, [r7, #12]
+ 8006ebe:	61da      	str	r2, [r3, #28]
+ 8006ec0:	68fb      	ldr	r3, [r7, #12]
+ 8006ec2:	2208      	movs	r2, #8
+ 8006ec4:	721a      	strb	r2, [r3, #8]
+ 8006ec6:	e017      	b.n	8006ef8 <task_menu_update+0x508>
+ 8006ec8:	68fb      	ldr	r3, [r7, #12]
+ 8006eca:	691a      	ldr	r2, [r3, #16]
  8006ecc:	68fb      	ldr	r3, [r7, #12]
- 8006ece:	7a9b      	ldrb	r3, [r3, #10]
- 8006ed0:	2b05      	cmp	r3, #5
- 8006ed2:	f040 8152 	bne.w	800717a <task_menu_update+0x982>
- 8006ed6:	68fb      	ldr	r3, [r7, #12]
- 8006ed8:	69da      	ldr	r2, [r3, #28]
- 8006eda:	68fb      	ldr	r3, [r7, #12]
- 8006edc:	611a      	str	r2, [r3, #16]
- 8006ede:	693b      	ldr	r3, [r7, #16]
- 8006ee0:	2200      	movs	r2, #0
- 8006ee2:	711a      	strb	r2, [r3, #4]
- 8006ee4:	68fb      	ldr	r3, [r7, #12]
- 8006ee6:	2203      	movs	r2, #3
- 8006ee8:	721a      	strb	r2, [r3, #8]
- 8006eea:	e146      	b.n	800717a <task_menu_update+0x982>
- 8006eec:	e145      	b.n	800717a <task_menu_update+0x982>
- 8006eee:	693b      	ldr	r3, [r7, #16]
- 8006ef0:	791b      	ldrb	r3, [r3, #4]
- 8006ef2:	2b00      	cmp	r3, #0
- 8006ef4:	d017      	beq.n	8006f26 <task_menu_update+0x72e>
- 8006ef6:	68fb      	ldr	r3, [r7, #12]
- 8006ef8:	7a9b      	ldrb	r3, [r3, #10]
- 8006efa:	2b03      	cmp	r3, #3
- 8006efc:	d113      	bne.n	8006f26 <task_menu_update+0x72e>
- 8006efe:	68fb      	ldr	r3, [r7, #12]
- 8006f00:	695b      	ldr	r3, [r3, #20]
- 8006f02:	1d5a      	adds	r2, r3, #5
+ 8006ece:	61da      	str	r2, [r3, #28]
+ 8006ed0:	68fb      	ldr	r3, [r7, #12]
+ 8006ed2:	2209      	movs	r2, #9
+ 8006ed4:	721a      	strb	r2, [r3, #8]
+ 8006ed6:	e00f      	b.n	8006ef8 <task_menu_update+0x508>
+ 8006ed8:	68fb      	ldr	r3, [r7, #12]
+ 8006eda:	695a      	ldr	r2, [r3, #20]
+ 8006edc:	68fb      	ldr	r3, [r7, #12]
+ 8006ede:	61da      	str	r2, [r3, #28]
+ 8006ee0:	68fb      	ldr	r3, [r7, #12]
+ 8006ee2:	220a      	movs	r2, #10
+ 8006ee4:	721a      	strb	r2, [r3, #8]
+ 8006ee6:	e007      	b.n	8006ef8 <task_menu_update+0x508>
+ 8006ee8:	68fb      	ldr	r3, [r7, #12]
+ 8006eea:	699a      	ldr	r2, [r3, #24]
+ 8006eec:	68fb      	ldr	r3, [r7, #12]
+ 8006eee:	61da      	str	r2, [r3, #28]
+ 8006ef0:	68fb      	ldr	r3, [r7, #12]
+ 8006ef2:	220b      	movs	r2, #11
+ 8006ef4:	721a      	strb	r2, [r3, #8]
+ 8006ef6:	bf00      	nop
+ 8006ef8:	e01c      	b.n	8006f34 <task_menu_update+0x544>
+ 8006efa:	693b      	ldr	r3, [r7, #16]
+ 8006efc:	791b      	ldrb	r3, [r3, #4]
+ 8006efe:	2b00      	cmp	r3, #0
+ 8006f00:	f000 822d 	beq.w	800735e <task_menu_update+0x96e>
  8006f04:	68fb      	ldr	r3, [r7, #12]
- 8006f06:	615a      	str	r2, [r3, #20]
- 8006f08:	68fb      	ldr	r3, [r7, #12]
- 8006f0a:	695b      	ldr	r3, [r3, #20]
- 8006f0c:	2b32      	cmp	r3, #50	@ 0x32
- 8006f0e:	d902      	bls.n	8006f16 <task_menu_update+0x71e>
- 8006f10:	68fb      	ldr	r3, [r7, #12]
- 8006f12:	2205      	movs	r2, #5
- 8006f14:	615a      	str	r2, [r3, #20]
- 8006f16:	68fb      	ldr	r3, [r7, #12]
- 8006f18:	2201      	movs	r2, #1
- 8006f1a:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
- 8006f1e:	693b      	ldr	r3, [r7, #16]
- 8006f20:	2200      	movs	r2, #0
- 8006f22:	711a      	strb	r2, [r3, #4]
- 8006f24:	e027      	b.n	8006f76 <task_menu_update+0x77e>
- 8006f26:	693b      	ldr	r3, [r7, #16]
- 8006f28:	791b      	ldrb	r3, [r3, #4]
- 8006f2a:	2b00      	cmp	r3, #0
- 8006f2c:	d00e      	beq.n	8006f4c <task_menu_update+0x754>
- 8006f2e:	68fb      	ldr	r3, [r7, #12]
- 8006f30:	7a9b      	ldrb	r3, [r3, #10]
- 8006f32:	2b01      	cmp	r3, #1
- 8006f34:	d10a      	bne.n	8006f4c <task_menu_update+0x754>
- 8006f36:	68fb      	ldr	r3, [r7, #12]
- 8006f38:	2201      	movs	r2, #1
- 8006f3a:	f883 2020 	strb.w	r2, [r3, #32]
- 8006f3e:	693b      	ldr	r3, [r7, #16]
- 8006f40:	2200      	movs	r2, #0
- 8006f42:	711a      	strb	r2, [r3, #4]
- 8006f44:	68fb      	ldr	r3, [r7, #12]
- 8006f46:	220f      	movs	r2, #15
- 8006f48:	721a      	strb	r2, [r3, #8]
- 8006f4a:	e014      	b.n	8006f76 <task_menu_update+0x77e>
- 8006f4c:	693b      	ldr	r3, [r7, #16]
- 8006f4e:	791b      	ldrb	r3, [r3, #4]
- 8006f50:	2b00      	cmp	r3, #0
- 8006f52:	f000 8114 	beq.w	800717e <task_menu_update+0x986>
- 8006f56:	68fb      	ldr	r3, [r7, #12]
- 8006f58:	7a9b      	ldrb	r3, [r3, #10]
- 8006f5a:	2b05      	cmp	r3, #5
- 8006f5c:	f040 810f 	bne.w	800717e <task_menu_update+0x986>
- 8006f60:	68fb      	ldr	r3, [r7, #12]
- 8006f62:	69da      	ldr	r2, [r3, #28]
- 8006f64:	68fb      	ldr	r3, [r7, #12]
- 8006f66:	615a      	str	r2, [r3, #20]
- 8006f68:	693b      	ldr	r3, [r7, #16]
- 8006f6a:	2200      	movs	r2, #0
- 8006f6c:	711a      	strb	r2, [r3, #4]
- 8006f6e:	68fb      	ldr	r3, [r7, #12]
- 8006f70:	2203      	movs	r2, #3
- 8006f72:	721a      	strb	r2, [r3, #8]
- 8006f74:	e103      	b.n	800717e <task_menu_update+0x986>
- 8006f76:	e102      	b.n	800717e <task_menu_update+0x986>
- 8006f78:	693b      	ldr	r3, [r7, #16]
- 8006f7a:	791b      	ldrb	r3, [r3, #4]
- 8006f7c:	2b00      	cmp	r3, #0
- 8006f7e:	d017      	beq.n	8006fb0 <task_menu_update+0x7b8>
- 8006f80:	68fb      	ldr	r3, [r7, #12]
- 8006f82:	7a9b      	ldrb	r3, [r3, #10]
- 8006f84:	2b03      	cmp	r3, #3
- 8006f86:	d113      	bne.n	8006fb0 <task_menu_update+0x7b8>
- 8006f88:	68fb      	ldr	r3, [r7, #12]
- 8006f8a:	699b      	ldr	r3, [r3, #24]
- 8006f8c:	1d5a      	adds	r2, r3, #5
- 8006f8e:	68fb      	ldr	r3, [r7, #12]
- 8006f90:	619a      	str	r2, [r3, #24]
- 8006f92:	68fb      	ldr	r3, [r7, #12]
- 8006f94:	699b      	ldr	r3, [r3, #24]
- 8006f96:	2b64      	cmp	r3, #100	@ 0x64
- 8006f98:	d902      	bls.n	8006fa0 <task_menu_update+0x7a8>
- 8006f9a:	68fb      	ldr	r3, [r7, #12]
- 8006f9c:	2205      	movs	r2, #5
- 8006f9e:	619a      	str	r2, [r3, #24]
- 8006fa0:	68fb      	ldr	r3, [r7, #12]
- 8006fa2:	2201      	movs	r2, #1
- 8006fa4:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
- 8006fa8:	693b      	ldr	r3, [r7, #16]
- 8006faa:	2200      	movs	r2, #0
- 8006fac:	711a      	strb	r2, [r3, #4]
- 8006fae:	e027      	b.n	8007000 <task_menu_update+0x808>
- 8006fb0:	693b      	ldr	r3, [r7, #16]
- 8006fb2:	791b      	ldrb	r3, [r3, #4]
- 8006fb4:	2b00      	cmp	r3, #0
- 8006fb6:	d00e      	beq.n	8006fd6 <task_menu_update+0x7de>
- 8006fb8:	68fb      	ldr	r3, [r7, #12]
- 8006fba:	7a9b      	ldrb	r3, [r3, #10]
- 8006fbc:	2b01      	cmp	r3, #1
- 8006fbe:	d10a      	bne.n	8006fd6 <task_menu_update+0x7de>
- 8006fc0:	68fb      	ldr	r3, [r7, #12]
- 8006fc2:	2201      	movs	r2, #1
- 8006fc4:	f883 2020 	strb.w	r2, [r3, #32]
- 8006fc8:	693b      	ldr	r3, [r7, #16]
- 8006fca:	2200      	movs	r2, #0
- 8006fcc:	711a      	strb	r2, [r3, #4]
- 8006fce:	68fb      	ldr	r3, [r7, #12]
- 8006fd0:	220f      	movs	r2, #15
- 8006fd2:	721a      	strb	r2, [r3, #8]
- 8006fd4:	e014      	b.n	8007000 <task_menu_update+0x808>
- 8006fd6:	693b      	ldr	r3, [r7, #16]
- 8006fd8:	791b      	ldrb	r3, [r3, #4]
- 8006fda:	2b00      	cmp	r3, #0
- 8006fdc:	f000 80d1 	beq.w	8007182 <task_menu_update+0x98a>
- 8006fe0:	68fb      	ldr	r3, [r7, #12]
- 8006fe2:	7a9b      	ldrb	r3, [r3, #10]
- 8006fe4:	2b05      	cmp	r3, #5
- 8006fe6:	f040 80cc 	bne.w	8007182 <task_menu_update+0x98a>
+ 8006f06:	7a9b      	ldrb	r3, [r3, #10]
+ 8006f08:	2b05      	cmp	r3, #5
+ 8006f0a:	f040 8228 	bne.w	800735e <task_menu_update+0x96e>
+ 8006f0e:	693b      	ldr	r3, [r7, #16]
+ 8006f10:	2200      	movs	r2, #0
+ 8006f12:	711a      	strb	r2, [r3, #4]
+ 8006f14:	68fb      	ldr	r3, [r7, #12]
+ 8006f16:	f893 3020 	ldrb.w	r3, [r3, #32]
+ 8006f1a:	2b00      	cmp	r3, #0
+ 8006f1c:	d003      	beq.n	8006f26 <task_menu_update+0x536>
+ 8006f1e:	68fb      	ldr	r3, [r7, #12]
+ 8006f20:	220f      	movs	r2, #15
+ 8006f22:	721a      	strb	r2, [r3, #8]
+ 8006f24:	e21b      	b.n	800735e <task_menu_update+0x96e>
+ 8006f26:	2009      	movs	r0, #9
+ 8006f28:	f001 fb88 	bl	800863c <put_event_task_system>
+ 8006f2c:	68fb      	ldr	r3, [r7, #12]
+ 8006f2e:	2201      	movs	r2, #1
+ 8006f30:	721a      	strb	r2, [r3, #8]
+ 8006f32:	e214      	b.n	800735e <task_menu_update+0x96e>
+ 8006f34:	bf00      	nop
+ 8006f36:	e212      	b.n	800735e <task_menu_update+0x96e>
+ 8006f38:	68fb      	ldr	r3, [r7, #12]
+ 8006f3a:	685b      	ldr	r3, [r3, #4]
+ 8006f3c:	1e5a      	subs	r2, r3, #1
+ 8006f3e:	68fb      	ldr	r3, [r7, #12]
+ 8006f40:	605a      	str	r2, [r3, #4]
+ 8006f42:	693b      	ldr	r3, [r7, #16]
+ 8006f44:	791b      	ldrb	r3, [r3, #4]
+ 8006f46:	2b00      	cmp	r3, #0
+ 8006f48:	d003      	beq.n	8006f52 <task_menu_update+0x562>
+ 8006f4a:	68fb      	ldr	r3, [r7, #12]
+ 8006f4c:	7a9b      	ldrb	r3, [r3, #10]
+ 8006f4e:	2b05      	cmp	r3, #5
+ 8006f50:	d004      	beq.n	8006f5c <task_menu_update+0x56c>
+ 8006f52:	68fb      	ldr	r3, [r7, #12]
+ 8006f54:	685b      	ldr	r3, [r3, #4]
+ 8006f56:	2b00      	cmp	r3, #0
+ 8006f58:	f040 8203 	bne.w	8007362 <task_menu_update+0x972>
+ 8006f5c:	693b      	ldr	r3, [r7, #16]
+ 8006f5e:	2200      	movs	r2, #0
+ 8006f60:	711a      	strb	r2, [r3, #4]
+ 8006f62:	68fb      	ldr	r3, [r7, #12]
+ 8006f64:	2200      	movs	r2, #0
+ 8006f66:	721a      	strb	r2, [r3, #8]
+ 8006f68:	e1fb      	b.n	8007362 <task_menu_update+0x972>
+ 8006f6a:	68fb      	ldr	r3, [r7, #12]
+ 8006f6c:	685b      	ldr	r3, [r3, #4]
+ 8006f6e:	1e5a      	subs	r2, r3, #1
+ 8006f70:	68fb      	ldr	r3, [r7, #12]
+ 8006f72:	605a      	str	r2, [r3, #4]
+ 8006f74:	693b      	ldr	r3, [r7, #16]
+ 8006f76:	791b      	ldrb	r3, [r3, #4]
+ 8006f78:	2b00      	cmp	r3, #0
+ 8006f7a:	d003      	beq.n	8006f84 <task_menu_update+0x594>
+ 8006f7c:	68fb      	ldr	r3, [r7, #12]
+ 8006f7e:	7a9b      	ldrb	r3, [r3, #10]
+ 8006f80:	2b05      	cmp	r3, #5
+ 8006f82:	d004      	beq.n	8006f8e <task_menu_update+0x59e>
+ 8006f84:	68fb      	ldr	r3, [r7, #12]
+ 8006f86:	685b      	ldr	r3, [r3, #4]
+ 8006f88:	2b00      	cmp	r3, #0
+ 8006f8a:	f040 81ec 	bne.w	8007366 <task_menu_update+0x976>
+ 8006f8e:	693b      	ldr	r3, [r7, #16]
+ 8006f90:	2200      	movs	r2, #0
+ 8006f92:	711a      	strb	r2, [r3, #4]
+ 8006f94:	68fb      	ldr	r3, [r7, #12]
+ 8006f96:	2200      	movs	r2, #0
+ 8006f98:	721a      	strb	r2, [r3, #8]
+ 8006f9a:	e1e4      	b.n	8007366 <task_menu_update+0x976>
+ 8006f9c:	68fb      	ldr	r3, [r7, #12]
+ 8006f9e:	685b      	ldr	r3, [r3, #4]
+ 8006fa0:	1e5a      	subs	r2, r3, #1
+ 8006fa2:	68fb      	ldr	r3, [r7, #12]
+ 8006fa4:	605a      	str	r2, [r3, #4]
+ 8006fa6:	693b      	ldr	r3, [r7, #16]
+ 8006fa8:	791b      	ldrb	r3, [r3, #4]
+ 8006faa:	2b00      	cmp	r3, #0
+ 8006fac:	d003      	beq.n	8006fb6 <task_menu_update+0x5c6>
+ 8006fae:	68fb      	ldr	r3, [r7, #12]
+ 8006fb0:	7a9b      	ldrb	r3, [r3, #10]
+ 8006fb2:	2b05      	cmp	r3, #5
+ 8006fb4:	d004      	beq.n	8006fc0 <task_menu_update+0x5d0>
+ 8006fb6:	68fb      	ldr	r3, [r7, #12]
+ 8006fb8:	685b      	ldr	r3, [r3, #4]
+ 8006fba:	2b00      	cmp	r3, #0
+ 8006fbc:	f040 81d5 	bne.w	800736a <task_menu_update+0x97a>
+ 8006fc0:	693b      	ldr	r3, [r7, #16]
+ 8006fc2:	2200      	movs	r2, #0
+ 8006fc4:	711a      	strb	r2, [r3, #4]
+ 8006fc6:	68fb      	ldr	r3, [r7, #12]
+ 8006fc8:	2200      	movs	r2, #0
+ 8006fca:	721a      	strb	r2, [r3, #8]
+ 8006fcc:	e1cd      	b.n	800736a <task_menu_update+0x97a>
+ 8006fce:	693b      	ldr	r3, [r7, #16]
+ 8006fd0:	791b      	ldrb	r3, [r3, #4]
+ 8006fd2:	2b00      	cmp	r3, #0
+ 8006fd4:	d019      	beq.n	800700a <task_menu_update+0x61a>
+ 8006fd6:	68fb      	ldr	r3, [r7, #12]
+ 8006fd8:	7a9b      	ldrb	r3, [r3, #10]
+ 8006fda:	2b03      	cmp	r3, #3
+ 8006fdc:	d115      	bne.n	800700a <task_menu_update+0x61a>
+ 8006fde:	68fb      	ldr	r3, [r7, #12]
+ 8006fe0:	68db      	ldr	r3, [r3, #12]
+ 8006fe2:	f103 020f 	add.w	r2, r3, #15
+ 8006fe6:	68fb      	ldr	r3, [r7, #12]
+ 8006fe8:	60da      	str	r2, [r3, #12]
  8006fea:	68fb      	ldr	r3, [r7, #12]
- 8006fec:	69da      	ldr	r2, [r3, #28]
- 8006fee:	68fb      	ldr	r3, [r7, #12]
- 8006ff0:	619a      	str	r2, [r3, #24]
- 8006ff2:	693b      	ldr	r3, [r7, #16]
- 8006ff4:	2200      	movs	r2, #0
- 8006ff6:	711a      	strb	r2, [r3, #4]
- 8006ff8:	68fb      	ldr	r3, [r7, #12]
- 8006ffa:	2203      	movs	r2, #3
- 8006ffc:	721a      	strb	r2, [r3, #8]
- 8006ffe:	e0c0      	b.n	8007182 <task_menu_update+0x98a>
- 8007000:	e0bf      	b.n	8007182 <task_menu_update+0x98a>
+ 8006fec:	68db      	ldr	r3, [r3, #12]
+ 8006fee:	f5b3 7fb4 	cmp.w	r3, #360	@ 0x168
+ 8006ff2:	d902      	bls.n	8006ffa <task_menu_update+0x60a>
+ 8006ff4:	68fb      	ldr	r3, [r7, #12]
+ 8006ff6:	220f      	movs	r2, #15
+ 8006ff8:	60da      	str	r2, [r3, #12]
+ 8006ffa:	68fb      	ldr	r3, [r7, #12]
+ 8006ffc:	2201      	movs	r2, #1
+ 8006ffe:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
  8007002:	693b      	ldr	r3, [r7, #16]
- 8007004:	791b      	ldrb	r3, [r3, #4]
- 8007006:	2b00      	cmp	r3, #0
- 8007008:	d01a      	beq.n	8007040 <task_menu_update+0x848>
- 800700a:	68fb      	ldr	r3, [r7, #12]
- 800700c:	7a9b      	ldrb	r3, [r3, #10]
- 800700e:	2b03      	cmp	r3, #3
- 8007010:	d116      	bne.n	8007040 <task_menu_update+0x848>
+ 8007004:	2200      	movs	r2, #0
+ 8007006:	711a      	strb	r2, [r3, #4]
+ 8007008:	e027      	b.n	800705a <task_menu_update+0x66a>
+ 800700a:	693b      	ldr	r3, [r7, #16]
+ 800700c:	791b      	ldrb	r3, [r3, #4]
+ 800700e:	2b00      	cmp	r3, #0
+ 8007010:	d00e      	beq.n	8007030 <task_menu_update+0x640>
  8007012:	68fb      	ldr	r3, [r7, #12]
- 8007014:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
- 8007016:	1c5a      	adds	r2, r3, #1
- 8007018:	4b62      	ldr	r3, [pc, #392]	@ (80071a4 <task_menu_update+0x9ac>)
- 800701a:	fb83 3102 	smull	r3, r1, r3, r2
- 800701e:	17d3      	asrs	r3, r2, #31
- 8007020:	1ac9      	subs	r1, r1, r3
- 8007022:	460b      	mov	r3, r1
- 8007024:	005b      	lsls	r3, r3, #1
- 8007026:	440b      	add	r3, r1
- 8007028:	1ad1      	subs	r1, r2, r3
- 800702a:	b28a      	uxth	r2, r1
- 800702c:	68fb      	ldr	r3, [r7, #12]
- 800702e:	869a      	strh	r2, [r3, #52]	@ 0x34
- 8007030:	68fb      	ldr	r3, [r7, #12]
- 8007032:	2201      	movs	r2, #1
- 8007034:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
- 8007038:	693b      	ldr	r3, [r7, #16]
- 800703a:	2200      	movs	r2, #0
- 800703c:	711a      	strb	r2, [r3, #4]
- 800703e:	e04d      	b.n	80070dc <task_menu_update+0x8e4>
- 8007040:	693b      	ldr	r3, [r7, #16]
- 8007042:	791b      	ldrb	r3, [r3, #4]
- 8007044:	2b00      	cmp	r3, #0
- 8007046:	d039      	beq.n	80070bc <task_menu_update+0x8c4>
+ 8007014:	7a9b      	ldrb	r3, [r3, #10]
+ 8007016:	2b01      	cmp	r3, #1
+ 8007018:	d10a      	bne.n	8007030 <task_menu_update+0x640>
+ 800701a:	68fb      	ldr	r3, [r7, #12]
+ 800701c:	2201      	movs	r2, #1
+ 800701e:	f883 2020 	strb.w	r2, [r3, #32]
+ 8007022:	693b      	ldr	r3, [r7, #16]
+ 8007024:	2200      	movs	r2, #0
+ 8007026:	711a      	strb	r2, [r3, #4]
+ 8007028:	68fb      	ldr	r3, [r7, #12]
+ 800702a:	220f      	movs	r2, #15
+ 800702c:	721a      	strb	r2, [r3, #8]
+ 800702e:	e014      	b.n	800705a <task_menu_update+0x66a>
+ 8007030:	693b      	ldr	r3, [r7, #16]
+ 8007032:	791b      	ldrb	r3, [r3, #4]
+ 8007034:	2b00      	cmp	r3, #0
+ 8007036:	f000 819a 	beq.w	800736e <task_menu_update+0x97e>
+ 800703a:	68fb      	ldr	r3, [r7, #12]
+ 800703c:	7a9b      	ldrb	r3, [r3, #10]
+ 800703e:	2b05      	cmp	r3, #5
+ 8007040:	f040 8195 	bne.w	800736e <task_menu_update+0x97e>
+ 8007044:	68fb      	ldr	r3, [r7, #12]
+ 8007046:	69da      	ldr	r2, [r3, #28]
  8007048:	68fb      	ldr	r3, [r7, #12]
- 800704a:	7a9b      	ldrb	r3, [r3, #10]
- 800704c:	2b01      	cmp	r3, #1
- 800704e:	d135      	bne.n	80070bc <task_menu_update+0x8c4>
- 8007050:	693b      	ldr	r3, [r7, #16]
- 8007052:	2200      	movs	r2, #0
- 8007054:	711a      	strb	r2, [r3, #4]
- 8007056:	68fb      	ldr	r3, [r7, #12]
- 8007058:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
- 800705a:	2b02      	cmp	r3, #2
- 800705c:	d022      	beq.n	80070a4 <task_menu_update+0x8ac>
- 800705e:	2b02      	cmp	r3, #2
- 8007060:	dc3b      	bgt.n	80070da <task_menu_update+0x8e2>
- 8007062:	2b00      	cmp	r3, #0
- 8007064:	d002      	beq.n	800706c <task_menu_update+0x874>
- 8007066:	2b01      	cmp	r3, #1
- 8007068:	d018      	beq.n	800709c <task_menu_update+0x8a4>
- 800706a:	e036      	b.n	80070da <task_menu_update+0x8e2>
+ 800704a:	60da      	str	r2, [r3, #12]
+ 800704c:	693b      	ldr	r3, [r7, #16]
+ 800704e:	2200      	movs	r2, #0
+ 8007050:	711a      	strb	r2, [r3, #4]
+ 8007052:	68fb      	ldr	r3, [r7, #12]
+ 8007054:	2203      	movs	r2, #3
+ 8007056:	721a      	strb	r2, [r3, #8]
+ 8007058:	e189      	b.n	800736e <task_menu_update+0x97e>
+ 800705a:	e188      	b.n	800736e <task_menu_update+0x97e>
+ 800705c:	693b      	ldr	r3, [r7, #16]
+ 800705e:	791b      	ldrb	r3, [r3, #4]
+ 8007060:	2b00      	cmp	r3, #0
+ 8007062:	d017      	beq.n	8007094 <task_menu_update+0x6a4>
+ 8007064:	68fb      	ldr	r3, [r7, #12]
+ 8007066:	7a9b      	ldrb	r3, [r3, #10]
+ 8007068:	2b03      	cmp	r3, #3
+ 800706a:	d113      	bne.n	8007094 <task_menu_update+0x6a4>
  800706c:	68fb      	ldr	r3, [r7, #12]
- 800706e:	68d8      	ldr	r0, [r3, #12]
- 8007070:	68fb      	ldr	r3, [r7, #12]
- 8007072:	6919      	ldr	r1, [r3, #16]
- 8007074:	68fb      	ldr	r3, [r7, #12]
- 8007076:	695a      	ldr	r2, [r3, #20]
- 8007078:	68fb      	ldr	r3, [r7, #12]
- 800707a:	699b      	ldr	r3, [r3, #24]
- 800707c:	f001 fb38 	bl	80086f0 <set_system_config>
- 8007080:	2008      	movs	r0, #8
- 8007082:	f001 fadb 	bl	800863c <put_event_task_system>
- 8007086:	68fb      	ldr	r3, [r7, #12]
- 8007088:	2200      	movs	r2, #0
- 800708a:	f883 2020 	strb.w	r2, [r3, #32]
- 800708e:	68fb      	ldr	r3, [r7, #12]
- 8007090:	22c8      	movs	r2, #200	@ 0xc8
- 8007092:	605a      	str	r2, [r3, #4]
- 8007094:	68fb      	ldr	r3, [r7, #12]
- 8007096:	2210      	movs	r2, #16
- 8007098:	721a      	strb	r2, [r3, #8]
- 800709a:	e00e      	b.n	80070ba <task_menu_update+0x8c2>
+ 800706e:	691b      	ldr	r3, [r3, #16]
+ 8007070:	1d5a      	adds	r2, r3, #5
+ 8007072:	68fb      	ldr	r3, [r7, #12]
+ 8007074:	611a      	str	r2, [r3, #16]
+ 8007076:	68fb      	ldr	r3, [r7, #12]
+ 8007078:	691b      	ldr	r3, [r3, #16]
+ 800707a:	2b3c      	cmp	r3, #60	@ 0x3c
+ 800707c:	d902      	bls.n	8007084 <task_menu_update+0x694>
+ 800707e:	68fb      	ldr	r3, [r7, #12]
+ 8007080:	2205      	movs	r2, #5
+ 8007082:	611a      	str	r2, [r3, #16]
+ 8007084:	68fb      	ldr	r3, [r7, #12]
+ 8007086:	2201      	movs	r2, #1
+ 8007088:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
+ 800708c:	693b      	ldr	r3, [r7, #16]
+ 800708e:	2200      	movs	r2, #0
+ 8007090:	711a      	strb	r2, [r3, #4]
+ 8007092:	e027      	b.n	80070e4 <task_menu_update+0x6f4>
+ 8007094:	693b      	ldr	r3, [r7, #16]
+ 8007096:	791b      	ldrb	r3, [r3, #4]
+ 8007098:	2b00      	cmp	r3, #0
+ 800709a:	d00e      	beq.n	80070ba <task_menu_update+0x6ca>
  800709c:	68fb      	ldr	r3, [r7, #12]
- 800709e:	2203      	movs	r2, #3
- 80070a0:	721a      	strb	r2, [r3, #8]
- 80070a2:	e00a      	b.n	80070ba <task_menu_update+0x8c2>
+ 800709e:	7a9b      	ldrb	r3, [r3, #10]
+ 80070a0:	2b01      	cmp	r3, #1
+ 80070a2:	d10a      	bne.n	80070ba <task_menu_update+0x6ca>
  80070a4:	68fb      	ldr	r3, [r7, #12]
- 80070a6:	2200      	movs	r2, #0
+ 80070a6:	2201      	movs	r2, #1
  80070a8:	f883 2020 	strb.w	r2, [r3, #32]
- 80070ac:	2009      	movs	r0, #9
- 80070ae:	f001 fac5 	bl	800863c <put_event_task_system>
+ 80070ac:	693b      	ldr	r3, [r7, #16]
+ 80070ae:	2200      	movs	r2, #0
+ 80070b0:	711a      	strb	r2, [r3, #4]
  80070b2:	68fb      	ldr	r3, [r7, #12]
- 80070b4:	2201      	movs	r2, #1
+ 80070b4:	220f      	movs	r2, #15
  80070b6:	721a      	strb	r2, [r3, #8]
- 80070b8:	bf00      	nop
- 80070ba:	e00e      	b.n	80070da <task_menu_update+0x8e2>
- 80070bc:	693b      	ldr	r3, [r7, #16]
- 80070be:	791b      	ldrb	r3, [r3, #4]
- 80070c0:	2b00      	cmp	r3, #0
- 80070c2:	d060      	beq.n	8007186 <task_menu_update+0x98e>
+ 80070b8:	e014      	b.n	80070e4 <task_menu_update+0x6f4>
+ 80070ba:	693b      	ldr	r3, [r7, #16]
+ 80070bc:	791b      	ldrb	r3, [r3, #4]
+ 80070be:	2b00      	cmp	r3, #0
+ 80070c0:	f000 8157 	beq.w	8007372 <task_menu_update+0x982>
  80070c4:	68fb      	ldr	r3, [r7, #12]
  80070c6:	7a9b      	ldrb	r3, [r3, #10]
  80070c8:	2b05      	cmp	r3, #5
- 80070ca:	d15c      	bne.n	8007186 <task_menu_update+0x98e>
- 80070cc:	693b      	ldr	r3, [r7, #16]
- 80070ce:	2200      	movs	r2, #0
- 80070d0:	711a      	strb	r2, [r3, #4]
+ 80070ca:	f040 8152 	bne.w	8007372 <task_menu_update+0x982>
+ 80070ce:	68fb      	ldr	r3, [r7, #12]
+ 80070d0:	69da      	ldr	r2, [r3, #28]
  80070d2:	68fb      	ldr	r3, [r7, #12]
- 80070d4:	2203      	movs	r2, #3
- 80070d6:	721a      	strb	r2, [r3, #8]
- 80070d8:	e055      	b.n	8007186 <task_menu_update+0x98e>
- 80070da:	bf00      	nop
- 80070dc:	e053      	b.n	8007186 <task_menu_update+0x98e>
- 80070de:	68fb      	ldr	r3, [r7, #12]
- 80070e0:	685b      	ldr	r3, [r3, #4]
- 80070e2:	1e5a      	subs	r2, r3, #1
- 80070e4:	68fb      	ldr	r3, [r7, #12]
- 80070e6:	605a      	str	r2, [r3, #4]
- 80070e8:	68fb      	ldr	r3, [r7, #12]
- 80070ea:	685b      	ldr	r3, [r3, #4]
- 80070ec:	2b00      	cmp	r3, #0
- 80070ee:	d14c      	bne.n	800718a <task_menu_update+0x992>
- 80070f0:	68fb      	ldr	r3, [r7, #12]
- 80070f2:	2200      	movs	r2, #0
- 80070f4:	721a      	strb	r2, [r3, #8]
- 80070f6:	e048      	b.n	800718a <task_menu_update+0x992>
- 80070f8:	68fb      	ldr	r3, [r7, #12]
- 80070fa:	685b      	ldr	r3, [r3, #4]
- 80070fc:	1e5a      	subs	r2, r3, #1
- 80070fe:	68fb      	ldr	r3, [r7, #12]
- 8007100:	605a      	str	r2, [r3, #4]
- 8007102:	68fb      	ldr	r3, [r7, #12]
- 8007104:	685b      	ldr	r3, [r3, #4]
- 8007106:	2b00      	cmp	r3, #0
- 8007108:	d00f      	beq.n	800712a <task_menu_update+0x932>
- 800710a:	693b      	ldr	r3, [r7, #16]
- 800710c:	791b      	ldrb	r3, [r3, #4]
- 800710e:	2b00      	cmp	r3, #0
- 8007110:	d003      	beq.n	800711a <task_menu_update+0x922>
- 8007112:	68fb      	ldr	r3, [r7, #12]
- 8007114:	7a9b      	ldrb	r3, [r3, #10]
- 8007116:	2b05      	cmp	r3, #5
- 8007118:	d007      	beq.n	800712a <task_menu_update+0x932>
- 800711a:	693b      	ldr	r3, [r7, #16]
- 800711c:	791b      	ldrb	r3, [r3, #4]
- 800711e:	2b00      	cmp	r3, #0
- 8007120:	d035      	beq.n	800718e <task_menu_update+0x996>
- 8007122:	68fb      	ldr	r3, [r7, #12]
- 8007124:	7a9b      	ldrb	r3, [r3, #10]
- 8007126:	2b01      	cmp	r3, #1
- 8007128:	d131      	bne.n	800718e <task_menu_update+0x996>
- 800712a:	68fb      	ldr	r3, [r7, #12]
- 800712c:	2200      	movs	r2, #0
- 800712e:	721a      	strb	r2, [r3, #8]
- 8007130:	693b      	ldr	r3, [r7, #16]
- 8007132:	2200      	movs	r2, #0
- 8007134:	711a      	strb	r2, [r3, #4]
- 8007136:	e02a      	b.n	800718e <task_menu_update+0x996>
- 8007138:	693b      	ldr	r3, [r7, #16]
- 800713a:	2200      	movs	r2, #0
- 800713c:	601a      	str	r2, [r3, #0]
- 800713e:	68fb      	ldr	r3, [r7, #12]
- 8007140:	2200      	movs	r2, #0
- 8007142:	721a      	strb	r2, [r3, #8]
- 8007144:	68fb      	ldr	r3, [r7, #12]
- 8007146:	2200      	movs	r2, #0
- 8007148:	729a      	strb	r2, [r3, #10]
- 800714a:	693b      	ldr	r3, [r7, #16]
- 800714c:	2200      	movs	r2, #0
- 800714e:	711a      	strb	r2, [r3, #4]
- 8007150:	e01e      	b.n	8007190 <task_menu_update+0x998>
- 8007152:	bf00      	nop
- 8007154:	e01c      	b.n	8007190 <task_menu_update+0x998>
- 8007156:	bf00      	nop
- 8007158:	e01a      	b.n	8007190 <task_menu_update+0x998>
- 800715a:	bf00      	nop
- 800715c:	e018      	b.n	8007190 <task_menu_update+0x998>
- 800715e:	bf00      	nop
- 8007160:	e016      	b.n	8007190 <task_menu_update+0x998>
- 8007162:	bf00      	nop
- 8007164:	e014      	b.n	8007190 <task_menu_update+0x998>
- 8007166:	bf00      	nop
- 8007168:	e012      	b.n	8007190 <task_menu_update+0x998>
- 800716a:	bf00      	nop
- 800716c:	e010      	b.n	8007190 <task_menu_update+0x998>
- 800716e:	bf00      	nop
- 8007170:	e00e      	b.n	8007190 <task_menu_update+0x998>
- 8007172:	bf00      	nop
- 8007174:	e00c      	b.n	8007190 <task_menu_update+0x998>
- 8007176:	bf00      	nop
- 8007178:	e00a      	b.n	8007190 <task_menu_update+0x998>
- 800717a:	bf00      	nop
- 800717c:	e008      	b.n	8007190 <task_menu_update+0x998>
- 800717e:	bf00      	nop
- 8007180:	e006      	b.n	8007190 <task_menu_update+0x998>
- 8007182:	bf00      	nop
- 8007184:	e004      	b.n	8007190 <task_menu_update+0x998>
- 8007186:	bf00      	nop
- 8007188:	e002      	b.n	8007190 <task_menu_update+0x998>
- 800718a:	bf00      	nop
- 800718c:	e000      	b.n	8007190 <task_menu_update+0x998>
- 800718e:	bf00      	nop
- 8007190:	7dfb      	ldrb	r3, [r7, #23]
- 8007192:	2b00      	cmp	r3, #0
- 8007194:	f47f ab4a 	bne.w	800682c <task_menu_update+0x34>
- 8007198:	bf00      	nop
- 800719a:	bf00      	nop
- 800719c:	3718      	adds	r7, #24
- 800719e:	46bd      	mov	sp, r7
- 80071a0:	bd80      	pop	{r7, pc}
- 80071a2:	bf00      	nop
- 80071a4:	55555556 	.word	0x55555556
-
-080071a8 <menu_display_print>:
- 80071a8:	b590      	push	{r4, r7, lr}
- 80071aa:	b08d      	sub	sp, #52	@ 0x34
- 80071ac:	af02      	add	r7, sp, #8
- 80071ae:	6078      	str	r0, [r7, #4]
- 80071b0:	687b      	ldr	r3, [r7, #4]
- 80071b2:	f893 302d 	ldrb.w	r3, [r3, #45]	@ 0x2d
- 80071b6:	2b00      	cmp	r3, #0
- 80071b8:	f000 8231 	beq.w	800761e <menu_display_print+0x476>
- 80071bc:	687b      	ldr	r3, [r7, #4]
- 80071be:	2200      	movs	r2, #0
- 80071c0:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
- 80071c4:	687b      	ldr	r3, [r7, #4]
- 80071c6:	2201      	movs	r2, #1
- 80071c8:	f883 202e 	strb.w	r2, [r3, #46]	@ 0x2e
- 80071cc:	687b      	ldr	r3, [r7, #4]
- 80071ce:	2200      	movs	r2, #0
- 80071d0:	861a      	strh	r2, [r3, #48]	@ 0x30
- 80071d2:	687b      	ldr	r3, [r7, #4]
- 80071d4:	2201      	movs	r2, #1
- 80071d6:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
- 80071da:	687b      	ldr	r3, [r7, #4]
- 80071dc:	4a9c      	ldr	r2, [pc, #624]	@ (8007450 <menu_display_print+0x2a8>)
- 80071de:	639a      	str	r2, [r3, #56]	@ 0x38
- 80071e0:	687b      	ldr	r3, [r7, #4]
- 80071e2:	4a9b      	ldr	r2, [pc, #620]	@ (8007450 <menu_display_print+0x2a8>)
- 80071e4:	63da      	str	r2, [r3, #60]	@ 0x3c
- 80071e6:	687b      	ldr	r3, [r7, #4]
- 80071e8:	4a99      	ldr	r2, [pc, #612]	@ (8007450 <menu_display_print+0x2a8>)
- 80071ea:	641a      	str	r2, [r3, #64]	@ 0x40
- 80071ec:	687b      	ldr	r3, [r7, #4]
- 80071ee:	4a98      	ldr	r2, [pc, #608]	@ (8007450 <menu_display_print+0x2a8>)
- 80071f0:	645a      	str	r2, [r3, #68]	@ 0x44
- 80071f2:	687b      	ldr	r3, [r7, #4]
- 80071f4:	7a1b      	ldrb	r3, [r3, #8]
- 80071f6:	2b10      	cmp	r3, #16
- 80071f8:	f200 8209 	bhi.w	800760e <menu_display_print+0x466>
- 80071fc:	a201      	add	r2, pc, #4	@ (adr r2, 8007204 <menu_display_print+0x5c>)
- 80071fe:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
- 8007202:	bf00      	nop
- 8007204:	08007249 	.word	0x08007249
- 8007208:	080073e9 	.word	0x080073e9
- 800720c:	08007409 	.word	0x08007409
- 8007210:	080074b9 	.word	0x080074b9
- 8007214:	080075cd 	.word	0x080075cd
- 8007218:	080075e1 	.word	0x080075e1
- 800721c:	0800743d 	.word	0x0800743d
- 8007220:	08007429 	.word	0x08007429
- 8007224:	080074d9 	.word	0x080074d9
- 8007228:	08007509 	.word	0x08007509
- 800722c:	08007539 	.word	0x08007539
- 8007230:	08007569 	.word	0x08007569
- 8007234:	080072e3 	.word	0x080072e3
- 8007238:	0800730f 	.word	0x0800730f
- 800723c:	080075f5 	.word	0x080075f5
- 8007240:	08007599 	.word	0x08007599
- 8007244:	080075b9 	.word	0x080075b9
- 8007248:	687b      	ldr	r3, [r7, #4]
- 800724a:	4a82      	ldr	r2, [pc, #520]	@ (8007454 <menu_display_print+0x2ac>)
- 800724c:	639a      	str	r2, [r3, #56]	@ 0x38
- 800724e:	687b      	ldr	r3, [r7, #4]
- 8007250:	7adb      	ldrb	r3, [r3, #11]
- 8007252:	2b00      	cmp	r3, #0
- 8007254:	d103      	bne.n	800725e <menu_display_print+0xb6>
- 8007256:	687b      	ldr	r3, [r7, #4]
- 8007258:	4a7f      	ldr	r2, [pc, #508]	@ (8007458 <menu_display_print+0x2b0>)
- 800725a:	641a      	str	r2, [r3, #64]	@ 0x40
- 800725c:	e00a      	b.n	8007274 <menu_display_print+0xcc>
- 800725e:	687b      	ldr	r3, [r7, #4]
- 8007260:	7adb      	ldrb	r3, [r3, #11]
- 8007262:	2b02      	cmp	r3, #2
- 8007264:	d103      	bne.n	800726e <menu_display_print+0xc6>
- 8007266:	687b      	ldr	r3, [r7, #4]
- 8007268:	4a7c      	ldr	r2, [pc, #496]	@ (800745c <menu_display_print+0x2b4>)
- 800726a:	641a      	str	r2, [r3, #64]	@ 0x40
- 800726c:	e002      	b.n	8007274 <menu_display_print+0xcc>
- 800726e:	687b      	ldr	r3, [r7, #4]
- 8007270:	4a7b      	ldr	r2, [pc, #492]	@ (8007460 <menu_display_print+0x2b8>)
- 8007272:	641a      	str	r2, [r3, #64]	@ 0x40
- 8007274:	687b      	ldr	r3, [r7, #4]
- 8007276:	7adb      	ldrb	r3, [r3, #11]
- 8007278:	2b00      	cmp	r3, #0
- 800727a:	d10b      	bne.n	8007294 <menu_display_print+0xec>
- 800727c:	687b      	ldr	r3, [r7, #4]
- 800727e:	f893 302c 	ldrb.w	r3, [r3, #44]	@ 0x2c
- 8007282:	f083 0301 	eor.w	r3, r3, #1
- 8007286:	b2db      	uxtb	r3, r3
- 8007288:	2b00      	cmp	r3, #0
- 800728a:	d003      	beq.n	8007294 <menu_display_print+0xec>
- 800728c:	687b      	ldr	r3, [r7, #4]
- 800728e:	4a75      	ldr	r2, [pc, #468]	@ (8007464 <menu_display_print+0x2bc>)
- 8007290:	645a      	str	r2, [r3, #68]	@ 0x44
- 8007292:	e022      	b.n	80072da <menu_display_print+0x132>
- 8007294:	f001 f98c 	bl	80085b0 <get_system_remaining_time>
- 8007298:	60f8      	str	r0, [r7, #12]
- 800729a:	687b      	ldr	r3, [r7, #4]
- 800729c:	f893 302c 	ldrb.w	r3, [r3, #44]	@ 0x2c
- 80072a0:	2b00      	cmp	r3, #0
- 80072a2:	d00d      	beq.n	80072c0 <menu_display_print+0x118>
- 80072a4:	687b      	ldr	r3, [r7, #4]
- 80072a6:	f103 0048 	add.w	r0, r3, #72	@ 0x48
+ 80070d4:	611a      	str	r2, [r3, #16]
+ 80070d6:	693b      	ldr	r3, [r7, #16]
+ 80070d8:	2200      	movs	r2, #0
+ 80070da:	711a      	strb	r2, [r3, #4]
+ 80070dc:	68fb      	ldr	r3, [r7, #12]
+ 80070de:	2203      	movs	r2, #3
+ 80070e0:	721a      	strb	r2, [r3, #8]
+ 80070e2:	e146      	b.n	8007372 <task_menu_update+0x982>
+ 80070e4:	e145      	b.n	8007372 <task_menu_update+0x982>
+ 80070e6:	693b      	ldr	r3, [r7, #16]
+ 80070e8:	791b      	ldrb	r3, [r3, #4]
+ 80070ea:	2b00      	cmp	r3, #0
+ 80070ec:	d017      	beq.n	800711e <task_menu_update+0x72e>
+ 80070ee:	68fb      	ldr	r3, [r7, #12]
+ 80070f0:	7a9b      	ldrb	r3, [r3, #10]
+ 80070f2:	2b03      	cmp	r3, #3
+ 80070f4:	d113      	bne.n	800711e <task_menu_update+0x72e>
+ 80070f6:	68fb      	ldr	r3, [r7, #12]
+ 80070f8:	695b      	ldr	r3, [r3, #20]
+ 80070fa:	1d5a      	adds	r2, r3, #5
+ 80070fc:	68fb      	ldr	r3, [r7, #12]
+ 80070fe:	615a      	str	r2, [r3, #20]
+ 8007100:	68fb      	ldr	r3, [r7, #12]
+ 8007102:	695b      	ldr	r3, [r3, #20]
+ 8007104:	2b32      	cmp	r3, #50	@ 0x32
+ 8007106:	d902      	bls.n	800710e <task_menu_update+0x71e>
+ 8007108:	68fb      	ldr	r3, [r7, #12]
+ 800710a:	2205      	movs	r2, #5
+ 800710c:	615a      	str	r2, [r3, #20]
+ 800710e:	68fb      	ldr	r3, [r7, #12]
+ 8007110:	2201      	movs	r2, #1
+ 8007112:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
+ 8007116:	693b      	ldr	r3, [r7, #16]
+ 8007118:	2200      	movs	r2, #0
+ 800711a:	711a      	strb	r2, [r3, #4]
+ 800711c:	e027      	b.n	800716e <task_menu_update+0x77e>
+ 800711e:	693b      	ldr	r3, [r7, #16]
+ 8007120:	791b      	ldrb	r3, [r3, #4]
+ 8007122:	2b00      	cmp	r3, #0
+ 8007124:	d00e      	beq.n	8007144 <task_menu_update+0x754>
+ 8007126:	68fb      	ldr	r3, [r7, #12]
+ 8007128:	7a9b      	ldrb	r3, [r3, #10]
+ 800712a:	2b01      	cmp	r3, #1
+ 800712c:	d10a      	bne.n	8007144 <task_menu_update+0x754>
+ 800712e:	68fb      	ldr	r3, [r7, #12]
+ 8007130:	2201      	movs	r2, #1
+ 8007132:	f883 2020 	strb.w	r2, [r3, #32]
+ 8007136:	693b      	ldr	r3, [r7, #16]
+ 8007138:	2200      	movs	r2, #0
+ 800713a:	711a      	strb	r2, [r3, #4]
+ 800713c:	68fb      	ldr	r3, [r7, #12]
+ 800713e:	220f      	movs	r2, #15
+ 8007140:	721a      	strb	r2, [r3, #8]
+ 8007142:	e014      	b.n	800716e <task_menu_update+0x77e>
+ 8007144:	693b      	ldr	r3, [r7, #16]
+ 8007146:	791b      	ldrb	r3, [r3, #4]
+ 8007148:	2b00      	cmp	r3, #0
+ 800714a:	f000 8114 	beq.w	8007376 <task_menu_update+0x986>
+ 800714e:	68fb      	ldr	r3, [r7, #12]
+ 8007150:	7a9b      	ldrb	r3, [r3, #10]
+ 8007152:	2b05      	cmp	r3, #5
+ 8007154:	f040 810f 	bne.w	8007376 <task_menu_update+0x986>
+ 8007158:	68fb      	ldr	r3, [r7, #12]
+ 800715a:	69da      	ldr	r2, [r3, #28]
+ 800715c:	68fb      	ldr	r3, [r7, #12]
+ 800715e:	615a      	str	r2, [r3, #20]
+ 8007160:	693b      	ldr	r3, [r7, #16]
+ 8007162:	2200      	movs	r2, #0
+ 8007164:	711a      	strb	r2, [r3, #4]
+ 8007166:	68fb      	ldr	r3, [r7, #12]
+ 8007168:	2203      	movs	r2, #3
+ 800716a:	721a      	strb	r2, [r3, #8]
+ 800716c:	e103      	b.n	8007376 <task_menu_update+0x986>
+ 800716e:	e102      	b.n	8007376 <task_menu_update+0x986>
+ 8007170:	693b      	ldr	r3, [r7, #16]
+ 8007172:	791b      	ldrb	r3, [r3, #4]
+ 8007174:	2b00      	cmp	r3, #0
+ 8007176:	d017      	beq.n	80071a8 <task_menu_update+0x7b8>
+ 8007178:	68fb      	ldr	r3, [r7, #12]
+ 800717a:	7a9b      	ldrb	r3, [r3, #10]
+ 800717c:	2b03      	cmp	r3, #3
+ 800717e:	d113      	bne.n	80071a8 <task_menu_update+0x7b8>
+ 8007180:	68fb      	ldr	r3, [r7, #12]
+ 8007182:	699b      	ldr	r3, [r3, #24]
+ 8007184:	1d5a      	adds	r2, r3, #5
+ 8007186:	68fb      	ldr	r3, [r7, #12]
+ 8007188:	619a      	str	r2, [r3, #24]
+ 800718a:	68fb      	ldr	r3, [r7, #12]
+ 800718c:	699b      	ldr	r3, [r3, #24]
+ 800718e:	2b64      	cmp	r3, #100	@ 0x64
+ 8007190:	d902      	bls.n	8007198 <task_menu_update+0x7a8>
+ 8007192:	68fb      	ldr	r3, [r7, #12]
+ 8007194:	2205      	movs	r2, #5
+ 8007196:	619a      	str	r2, [r3, #24]
+ 8007198:	68fb      	ldr	r3, [r7, #12]
+ 800719a:	2201      	movs	r2, #1
+ 800719c:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
+ 80071a0:	693b      	ldr	r3, [r7, #16]
+ 80071a2:	2200      	movs	r2, #0
+ 80071a4:	711a      	strb	r2, [r3, #4]
+ 80071a6:	e027      	b.n	80071f8 <task_menu_update+0x808>
+ 80071a8:	693b      	ldr	r3, [r7, #16]
+ 80071aa:	791b      	ldrb	r3, [r3, #4]
+ 80071ac:	2b00      	cmp	r3, #0
+ 80071ae:	d00e      	beq.n	80071ce <task_menu_update+0x7de>
+ 80071b0:	68fb      	ldr	r3, [r7, #12]
+ 80071b2:	7a9b      	ldrb	r3, [r3, #10]
+ 80071b4:	2b01      	cmp	r3, #1
+ 80071b6:	d10a      	bne.n	80071ce <task_menu_update+0x7de>
+ 80071b8:	68fb      	ldr	r3, [r7, #12]
+ 80071ba:	2201      	movs	r2, #1
+ 80071bc:	f883 2020 	strb.w	r2, [r3, #32]
+ 80071c0:	693b      	ldr	r3, [r7, #16]
+ 80071c2:	2200      	movs	r2, #0
+ 80071c4:	711a      	strb	r2, [r3, #4]
+ 80071c6:	68fb      	ldr	r3, [r7, #12]
+ 80071c8:	220f      	movs	r2, #15
+ 80071ca:	721a      	strb	r2, [r3, #8]
+ 80071cc:	e014      	b.n	80071f8 <task_menu_update+0x808>
+ 80071ce:	693b      	ldr	r3, [r7, #16]
+ 80071d0:	791b      	ldrb	r3, [r3, #4]
+ 80071d2:	2b00      	cmp	r3, #0
+ 80071d4:	f000 80d1 	beq.w	800737a <task_menu_update+0x98a>
+ 80071d8:	68fb      	ldr	r3, [r7, #12]
+ 80071da:	7a9b      	ldrb	r3, [r3, #10]
+ 80071dc:	2b05      	cmp	r3, #5
+ 80071de:	f040 80cc 	bne.w	800737a <task_menu_update+0x98a>
+ 80071e2:	68fb      	ldr	r3, [r7, #12]
+ 80071e4:	69da      	ldr	r2, [r3, #28]
+ 80071e6:	68fb      	ldr	r3, [r7, #12]
+ 80071e8:	619a      	str	r2, [r3, #24]
+ 80071ea:	693b      	ldr	r3, [r7, #16]
+ 80071ec:	2200      	movs	r2, #0
+ 80071ee:	711a      	strb	r2, [r3, #4]
+ 80071f0:	68fb      	ldr	r3, [r7, #12]
+ 80071f2:	2203      	movs	r2, #3
+ 80071f4:	721a      	strb	r2, [r3, #8]
+ 80071f6:	e0c0      	b.n	800737a <task_menu_update+0x98a>
+ 80071f8:	e0bf      	b.n	800737a <task_menu_update+0x98a>
+ 80071fa:	693b      	ldr	r3, [r7, #16]
+ 80071fc:	791b      	ldrb	r3, [r3, #4]
+ 80071fe:	2b00      	cmp	r3, #0
+ 8007200:	d01a      	beq.n	8007238 <task_menu_update+0x848>
+ 8007202:	68fb      	ldr	r3, [r7, #12]
+ 8007204:	7a9b      	ldrb	r3, [r3, #10]
+ 8007206:	2b03      	cmp	r3, #3
+ 8007208:	d116      	bne.n	8007238 <task_menu_update+0x848>
+ 800720a:	68fb      	ldr	r3, [r7, #12]
+ 800720c:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
+ 800720e:	1c5a      	adds	r2, r3, #1
+ 8007210:	4b62      	ldr	r3, [pc, #392]	@ (800739c <task_menu_update+0x9ac>)
+ 8007212:	fb83 3102 	smull	r3, r1, r3, r2
+ 8007216:	17d3      	asrs	r3, r2, #31
+ 8007218:	1ac9      	subs	r1, r1, r3
+ 800721a:	460b      	mov	r3, r1
+ 800721c:	005b      	lsls	r3, r3, #1
+ 800721e:	440b      	add	r3, r1
+ 8007220:	1ad1      	subs	r1, r2, r3
+ 8007222:	b28a      	uxth	r2, r1
+ 8007224:	68fb      	ldr	r3, [r7, #12]
+ 8007226:	869a      	strh	r2, [r3, #52]	@ 0x34
+ 8007228:	68fb      	ldr	r3, [r7, #12]
+ 800722a:	2201      	movs	r2, #1
+ 800722c:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
+ 8007230:	693b      	ldr	r3, [r7, #16]
+ 8007232:	2200      	movs	r2, #0
+ 8007234:	711a      	strb	r2, [r3, #4]
+ 8007236:	e04d      	b.n	80072d4 <task_menu_update+0x8e4>
+ 8007238:	693b      	ldr	r3, [r7, #16]
+ 800723a:	791b      	ldrb	r3, [r3, #4]
+ 800723c:	2b00      	cmp	r3, #0
+ 800723e:	d039      	beq.n	80072b4 <task_menu_update+0x8c4>
+ 8007240:	68fb      	ldr	r3, [r7, #12]
+ 8007242:	7a9b      	ldrb	r3, [r3, #10]
+ 8007244:	2b01      	cmp	r3, #1
+ 8007246:	d135      	bne.n	80072b4 <task_menu_update+0x8c4>
+ 8007248:	693b      	ldr	r3, [r7, #16]
+ 800724a:	2200      	movs	r2, #0
+ 800724c:	711a      	strb	r2, [r3, #4]
+ 800724e:	68fb      	ldr	r3, [r7, #12]
+ 8007250:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
+ 8007252:	2b02      	cmp	r3, #2
+ 8007254:	d022      	beq.n	800729c <task_menu_update+0x8ac>
+ 8007256:	2b02      	cmp	r3, #2
+ 8007258:	dc3b      	bgt.n	80072d2 <task_menu_update+0x8e2>
+ 800725a:	2b00      	cmp	r3, #0
+ 800725c:	d002      	beq.n	8007264 <task_menu_update+0x874>
+ 800725e:	2b01      	cmp	r3, #1
+ 8007260:	d018      	beq.n	8007294 <task_menu_update+0x8a4>
+ 8007262:	e036      	b.n	80072d2 <task_menu_update+0x8e2>
+ 8007264:	68fb      	ldr	r3, [r7, #12]
+ 8007266:	68d8      	ldr	r0, [r3, #12]
+ 8007268:	68fb      	ldr	r3, [r7, #12]
+ 800726a:	6919      	ldr	r1, [r3, #16]
+ 800726c:	68fb      	ldr	r3, [r7, #12]
+ 800726e:	695a      	ldr	r2, [r3, #20]
+ 8007270:	68fb      	ldr	r3, [r7, #12]
+ 8007272:	699b      	ldr	r3, [r3, #24]
+ 8007274:	f001 fa3c 	bl	80086f0 <set_system_config>
+ 8007278:	2008      	movs	r0, #8
+ 800727a:	f001 f9df 	bl	800863c <put_event_task_system>
+ 800727e:	68fb      	ldr	r3, [r7, #12]
+ 8007280:	2200      	movs	r2, #0
+ 8007282:	f883 2020 	strb.w	r2, [r3, #32]
+ 8007286:	68fb      	ldr	r3, [r7, #12]
+ 8007288:	22c8      	movs	r2, #200	@ 0xc8
+ 800728a:	605a      	str	r2, [r3, #4]
+ 800728c:	68fb      	ldr	r3, [r7, #12]
+ 800728e:	2210      	movs	r2, #16
+ 8007290:	721a      	strb	r2, [r3, #8]
+ 8007292:	e00e      	b.n	80072b2 <task_menu_update+0x8c2>
+ 8007294:	68fb      	ldr	r3, [r7, #12]
+ 8007296:	2203      	movs	r2, #3
+ 8007298:	721a      	strb	r2, [r3, #8]
+ 800729a:	e00a      	b.n	80072b2 <task_menu_update+0x8c2>
+ 800729c:	68fb      	ldr	r3, [r7, #12]
+ 800729e:	2200      	movs	r2, #0
+ 80072a0:	f883 2020 	strb.w	r2, [r3, #32]
+ 80072a4:	2009      	movs	r0, #9
+ 80072a6:	f001 f9c9 	bl	800863c <put_event_task_system>
  80072aa:	68fb      	ldr	r3, [r7, #12]
- 80072ac:	4a6e      	ldr	r2, [pc, #440]	@ (8007468 <menu_display_print+0x2c0>)
- 80072ae:	2115      	movs	r1, #21
- 80072b0:	f001 fa94 	bl	80087dc <sniprintf>
- 80072b4:	687b      	ldr	r3, [r7, #4]
- 80072b6:	f103 0248 	add.w	r2, r3, #72	@ 0x48
- 80072ba:	687b      	ldr	r3, [r7, #4]
- 80072bc:	645a      	str	r2, [r3, #68]	@ 0x44
- 80072be:	e00c      	b.n	80072da <menu_display_print+0x132>
- 80072c0:	687b      	ldr	r3, [r7, #4]
- 80072c2:	f103 0048 	add.w	r0, r3, #72	@ 0x48
- 80072c6:	68fb      	ldr	r3, [r7, #12]
- 80072c8:	4a68      	ldr	r2, [pc, #416]	@ (800746c <menu_display_print+0x2c4>)
- 80072ca:	2115      	movs	r1, #21
- 80072cc:	f001 fa86 	bl	80087dc <sniprintf>
- 80072d0:	687b      	ldr	r3, [r7, #4]
- 80072d2:	f103 0248 	add.w	r2, r3, #72	@ 0x48
- 80072d6:	687b      	ldr	r3, [r7, #4]
- 80072d8:	645a      	str	r2, [r3, #68]	@ 0x44
- 80072da:	687b      	ldr	r3, [r7, #4]
- 80072dc:	22ff      	movs	r2, #255	@ 0xff
- 80072de:	86da      	strh	r2, [r3, #54]	@ 0x36
- 80072e0:	e19c      	b.n	800761c <menu_display_print+0x474>
- 80072e2:	687b      	ldr	r3, [r7, #4]
- 80072e4:	4a62      	ldr	r2, [pc, #392]	@ (8007470 <menu_display_print+0x2c8>)
- 80072e6:	639a      	str	r2, [r3, #56]	@ 0x38
- 80072e8:	687b      	ldr	r3, [r7, #4]
- 80072ea:	f893 302c 	ldrb.w	r3, [r3, #44]	@ 0x2c
- 80072ee:	2b00      	cmp	r3, #0
- 80072f0:	d006      	beq.n	8007300 <menu_display_print+0x158>
- 80072f2:	687b      	ldr	r3, [r7, #4]
- 80072f4:	4a5f      	ldr	r2, [pc, #380]	@ (8007474 <menu_display_print+0x2cc>)
- 80072f6:	641a      	str	r2, [r3, #64]	@ 0x40
- 80072f8:	687b      	ldr	r3, [r7, #4]
- 80072fa:	4a5f      	ldr	r2, [pc, #380]	@ (8007478 <menu_display_print+0x2d0>)
- 80072fc:	645a      	str	r2, [r3, #68]	@ 0x44
- 80072fe:	e002      	b.n	8007306 <menu_display_print+0x15e>
- 8007300:	687b      	ldr	r3, [r7, #4]
- 8007302:	4a5e      	ldr	r2, [pc, #376]	@ (800747c <menu_display_print+0x2d4>)
- 8007304:	641a      	str	r2, [r3, #64]	@ 0x40
- 8007306:	687b      	ldr	r3, [r7, #4]
- 8007308:	22ff      	movs	r2, #255	@ 0xff
- 800730a:	86da      	strh	r2, [r3, #54]	@ 0x36
- 800730c:	e186      	b.n	800761c <menu_display_print+0x474>
- 800730e:	687b      	ldr	r3, [r7, #4]
- 8007310:	4a57      	ldr	r2, [pc, #348]	@ (8007470 <menu_display_print+0x2c8>)
- 8007312:	639a      	str	r2, [r3, #56]	@ 0x38
- 8007314:	687b      	ldr	r3, [r7, #4]
- 8007316:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
- 8007318:	4618      	mov	r0, r3
- 800731a:	f7f9 fcf9 	bl	8000d10 <__aeabi_f2iz>
- 800731e:	4603      	mov	r3, r0
- 8007320:	61fb      	str	r3, [r7, #28]
- 8007322:	687b      	ldr	r3, [r7, #4]
- 8007324:	6a5c      	ldr	r4, [r3, #36]	@ 0x24
- 8007326:	69f8      	ldr	r0, [r7, #28]
- 8007328:	f7f9 fad8 	bl	80008dc <__aeabi_i2f>
- 800732c:	4603      	mov	r3, r0
- 800732e:	4619      	mov	r1, r3
- 8007330:	4620      	mov	r0, r4
- 8007332:	f7f9 fa1d 	bl	8000770 <__aeabi_fsub>
- 8007336:	4603      	mov	r3, r0
- 8007338:	f023 4300 	bic.w	r3, r3, #2147483648	@ 0x80000000
- 800733c:	4618      	mov	r0, r3
- 800733e:	f7f9 f993 	bl	8000668 <__aeabi_f2d>
- 8007342:	f04f 0200 	mov.w	r2, #0
- 8007346:	4b4e      	ldr	r3, [pc, #312]	@ (8007480 <menu_display_print+0x2d8>)
- 8007348:	f7f8 ff00 	bl	800014c <__aeabi_dmul>
- 800734c:	4602      	mov	r2, r0
- 800734e:	460b      	mov	r3, r1
- 8007350:	4610      	mov	r0, r2
- 8007352:	4619      	mov	r1, r3
- 8007354:	f7f9 f9e0 	bl	8000718 <__aeabi_d2iz>
- 8007358:	4603      	mov	r3, r0
- 800735a:	61bb      	str	r3, [r7, #24]
- 800735c:	687b      	ldr	r3, [r7, #4]
- 800735e:	f103 0048 	add.w	r0, r3, #72	@ 0x48
- 8007362:	69bb      	ldr	r3, [r7, #24]
- 8007364:	9300      	str	r3, [sp, #0]
- 8007366:	69fb      	ldr	r3, [r7, #28]
- 8007368:	4a46      	ldr	r2, [pc, #280]	@ (8007484 <menu_display_print+0x2dc>)
- 800736a:	2115      	movs	r1, #21
- 800736c:	f001 fa36 	bl	80087dc <sniprintf>
- 8007370:	687b      	ldr	r3, [r7, #4]
- 8007372:	f103 0248 	add.w	r2, r3, #72	@ 0x48
- 8007376:	687b      	ldr	r3, [r7, #4]
- 8007378:	641a      	str	r2, [r3, #64]	@ 0x40
- 800737a:	687b      	ldr	r3, [r7, #4]
- 800737c:	6a9b      	ldr	r3, [r3, #40]	@ 0x28
- 800737e:	4618      	mov	r0, r3
- 8007380:	f7f9 fcc6 	bl	8000d10 <__aeabi_f2iz>
- 8007384:	4603      	mov	r3, r0
- 8007386:	617b      	str	r3, [r7, #20]
- 8007388:	687b      	ldr	r3, [r7, #4]
- 800738a:	6a9c      	ldr	r4, [r3, #40]	@ 0x28
- 800738c:	6978      	ldr	r0, [r7, #20]
- 800738e:	f7f9 faa5 	bl	80008dc <__aeabi_i2f>
- 8007392:	4603      	mov	r3, r0
- 8007394:	4619      	mov	r1, r3
- 8007396:	4620      	mov	r0, r4
- 8007398:	f7f9 f9ea 	bl	8000770 <__aeabi_fsub>
- 800739c:	4603      	mov	r3, r0
- 800739e:	f023 4300 	bic.w	r3, r3, #2147483648	@ 0x80000000
- 80073a2:	4618      	mov	r0, r3
- 80073a4:	f7f9 f960 	bl	8000668 <__aeabi_f2d>
- 80073a8:	f04f 0200 	mov.w	r2, #0
- 80073ac:	4b34      	ldr	r3, [pc, #208]	@ (8007480 <menu_display_print+0x2d8>)
- 80073ae:	f7f8 fecd 	bl	800014c <__aeabi_dmul>
- 80073b2:	4602      	mov	r2, r0
- 80073b4:	460b      	mov	r3, r1
- 80073b6:	4610      	mov	r0, r2
- 80073b8:	4619      	mov	r1, r3
- 80073ba:	f7f9 f9ad 	bl	8000718 <__aeabi_d2iz>
- 80073be:	4603      	mov	r3, r0
- 80073c0:	613b      	str	r3, [r7, #16]
- 80073c2:	687b      	ldr	r3, [r7, #4]
- 80073c4:	f103 005d 	add.w	r0, r3, #93	@ 0x5d
- 80073c8:	693b      	ldr	r3, [r7, #16]
- 80073ca:	9300      	str	r3, [sp, #0]
- 80073cc:	697b      	ldr	r3, [r7, #20]
- 80073ce:	4a2e      	ldr	r2, [pc, #184]	@ (8007488 <menu_display_print+0x2e0>)
- 80073d0:	2115      	movs	r1, #21
- 80073d2:	f001 fa03 	bl	80087dc <sniprintf>
- 80073d6:	687b      	ldr	r3, [r7, #4]
- 80073d8:	f103 025d 	add.w	r2, r3, #93	@ 0x5d
- 80073dc:	687b      	ldr	r3, [r7, #4]
- 80073de:	645a      	str	r2, [r3, #68]	@ 0x44
- 80073e0:	687b      	ldr	r3, [r7, #4]
- 80073e2:	22ff      	movs	r2, #255	@ 0xff
- 80073e4:	86da      	strh	r2, [r3, #54]	@ 0x36
- 80073e6:	e119      	b.n	800761c <menu_display_print+0x474>
- 80073e8:	687b      	ldr	r3, [r7, #4]
- 80073ea:	4a28      	ldr	r2, [pc, #160]	@ (800748c <menu_display_print+0x2e4>)
- 80073ec:	639a      	str	r2, [r3, #56]	@ 0x38
- 80073ee:	687b      	ldr	r3, [r7, #4]
- 80073f0:	4a27      	ldr	r2, [pc, #156]	@ (8007490 <menu_display_print+0x2e8>)
- 80073f2:	63da      	str	r2, [r3, #60]	@ 0x3c
- 80073f4:	687b      	ldr	r3, [r7, #4]
- 80073f6:	4a27      	ldr	r2, [pc, #156]	@ (8007494 <menu_display_print+0x2ec>)
- 80073f8:	641a      	str	r2, [r3, #64]	@ 0x40
- 80073fa:	687b      	ldr	r3, [r7, #4]
- 80073fc:	4a26      	ldr	r2, [pc, #152]	@ (8007498 <menu_display_print+0x2f0>)
- 80073fe:	645a      	str	r2, [r3, #68]	@ 0x44
- 8007400:	687b      	ldr	r3, [r7, #4]
- 8007402:	2200      	movs	r2, #0
- 8007404:	86da      	strh	r2, [r3, #54]	@ 0x36
- 8007406:	e109      	b.n	800761c <menu_display_print+0x474>
- 8007408:	687b      	ldr	r3, [r7, #4]
- 800740a:	4a24      	ldr	r2, [pc, #144]	@ (800749c <menu_display_print+0x2f4>)
- 800740c:	639a      	str	r2, [r3, #56]	@ 0x38
- 800740e:	687b      	ldr	r3, [r7, #4]
- 8007410:	4a23      	ldr	r2, [pc, #140]	@ (80074a0 <menu_display_print+0x2f8>)
- 8007412:	63da      	str	r2, [r3, #60]	@ 0x3c
- 8007414:	687b      	ldr	r3, [r7, #4]
- 8007416:	4a23      	ldr	r2, [pc, #140]	@ (80074a4 <menu_display_print+0x2fc>)
- 8007418:	641a      	str	r2, [r3, #64]	@ 0x40
- 800741a:	687b      	ldr	r3, [r7, #4]
- 800741c:	4a22      	ldr	r2, [pc, #136]	@ (80074a8 <menu_display_print+0x300>)
- 800741e:	645a      	str	r2, [r3, #68]	@ 0x44
- 8007420:	687b      	ldr	r3, [r7, #4]
- 8007422:	2202      	movs	r2, #2
- 8007424:	86da      	strh	r2, [r3, #54]	@ 0x36
- 8007426:	e0f9      	b.n	800761c <menu_display_print+0x474>
- 8007428:	687b      	ldr	r3, [r7, #4]
- 800742a:	4a20      	ldr	r2, [pc, #128]	@ (80074ac <menu_display_print+0x304>)
- 800742c:	639a      	str	r2, [r3, #56]	@ 0x38
- 800742e:	687b      	ldr	r3, [r7, #4]
- 8007430:	4a1f      	ldr	r2, [pc, #124]	@ (80074b0 <menu_display_print+0x308>)
- 8007432:	641a      	str	r2, [r3, #64]	@ 0x40
- 8007434:	687b      	ldr	r3, [r7, #4]
- 8007436:	22ff      	movs	r2, #255	@ 0xff
- 8007438:	86da      	strh	r2, [r3, #54]	@ 0x36
- 800743a:	e0ef      	b.n	800761c <menu_display_print+0x474>
- 800743c:	687b      	ldr	r3, [r7, #4]
- 800743e:	4a1b      	ldr	r2, [pc, #108]	@ (80074ac <menu_display_print+0x304>)
- 8007440:	639a      	str	r2, [r3, #56]	@ 0x38
- 8007442:	687b      	ldr	r3, [r7, #4]
- 8007444:	4a1b      	ldr	r2, [pc, #108]	@ (80074b4 <menu_display_print+0x30c>)
- 8007446:	641a      	str	r2, [r3, #64]	@ 0x40
- 8007448:	687b      	ldr	r3, [r7, #4]
- 800744a:	22ff      	movs	r2, #255	@ 0xff
- 800744c:	86da      	strh	r2, [r3, #54]	@ 0x36
- 800744e:	e0e5      	b.n	800761c <menu_display_print+0x474>
- 8007450:	080091c0 	.word	0x080091c0
- 8007454:	080091c4 	.word	0x080091c4
- 8007458:	080091dc 	.word	0x080091dc
- 800745c:	080091ec 	.word	0x080091ec
- 8007460:	08009204 	.word	0x08009204
- 8007464:	08009210 	.word	0x08009210
- 8007468:	08009228 	.word	0x08009228
- 800746c:	08009240 	.word	0x08009240
- 8007470:	08009254 	.word	0x08009254
- 8007474:	0800926c 	.word	0x0800926c
- 8007478:	08009284 	.word	0x08009284
- 800747c:	0800929c 	.word	0x0800929c
- 8007480:	40590000 	.word	0x40590000
- 8007484:	080092b4 	.word	0x080092b4
- 8007488:	080092cc 	.word	0x080092cc
- 800748c:	080092e4 	.word	0x080092e4
- 8007490:	080092f4 	.word	0x080092f4
- 8007494:	0800930c 	.word	0x0800930c
- 8007498:	08009318 	.word	0x08009318
- 800749c:	0800932c 	.word	0x0800932c
- 80074a0:	08009344 	.word	0x08009344
- 80074a4:	0800935c 	.word	0x0800935c
- 80074a8:	08009370 	.word	0x08009370
- 80074ac:	08009380 	.word	0x08009380
- 80074b0:	08009398 	.word	0x08009398
- 80074b4:	080093b0 	.word	0x080093b0
+ 80072ac:	2201      	movs	r2, #1
+ 80072ae:	721a      	strb	r2, [r3, #8]
+ 80072b0:	bf00      	nop
+ 80072b2:	e00e      	b.n	80072d2 <task_menu_update+0x8e2>
+ 80072b4:	693b      	ldr	r3, [r7, #16]
+ 80072b6:	791b      	ldrb	r3, [r3, #4]
+ 80072b8:	2b00      	cmp	r3, #0
+ 80072ba:	d060      	beq.n	800737e <task_menu_update+0x98e>
+ 80072bc:	68fb      	ldr	r3, [r7, #12]
+ 80072be:	7a9b      	ldrb	r3, [r3, #10]
+ 80072c0:	2b05      	cmp	r3, #5
+ 80072c2:	d15c      	bne.n	800737e <task_menu_update+0x98e>
+ 80072c4:	693b      	ldr	r3, [r7, #16]
+ 80072c6:	2200      	movs	r2, #0
+ 80072c8:	711a      	strb	r2, [r3, #4]
+ 80072ca:	68fb      	ldr	r3, [r7, #12]
+ 80072cc:	2203      	movs	r2, #3
+ 80072ce:	721a      	strb	r2, [r3, #8]
+ 80072d0:	e055      	b.n	800737e <task_menu_update+0x98e>
+ 80072d2:	bf00      	nop
+ 80072d4:	e053      	b.n	800737e <task_menu_update+0x98e>
+ 80072d6:	68fb      	ldr	r3, [r7, #12]
+ 80072d8:	685b      	ldr	r3, [r3, #4]
+ 80072da:	1e5a      	subs	r2, r3, #1
+ 80072dc:	68fb      	ldr	r3, [r7, #12]
+ 80072de:	605a      	str	r2, [r3, #4]
+ 80072e0:	68fb      	ldr	r3, [r7, #12]
+ 80072e2:	685b      	ldr	r3, [r3, #4]
+ 80072e4:	2b00      	cmp	r3, #0
+ 80072e6:	d14c      	bne.n	8007382 <task_menu_update+0x992>
+ 80072e8:	68fb      	ldr	r3, [r7, #12]
+ 80072ea:	2200      	movs	r2, #0
+ 80072ec:	721a      	strb	r2, [r3, #8]
+ 80072ee:	e048      	b.n	8007382 <task_menu_update+0x992>
+ 80072f0:	68fb      	ldr	r3, [r7, #12]
+ 80072f2:	685b      	ldr	r3, [r3, #4]
+ 80072f4:	1e5a      	subs	r2, r3, #1
+ 80072f6:	68fb      	ldr	r3, [r7, #12]
+ 80072f8:	605a      	str	r2, [r3, #4]
+ 80072fa:	68fb      	ldr	r3, [r7, #12]
+ 80072fc:	685b      	ldr	r3, [r3, #4]
+ 80072fe:	2b00      	cmp	r3, #0
+ 8007300:	d00f      	beq.n	8007322 <task_menu_update+0x932>
+ 8007302:	693b      	ldr	r3, [r7, #16]
+ 8007304:	791b      	ldrb	r3, [r3, #4]
+ 8007306:	2b00      	cmp	r3, #0
+ 8007308:	d003      	beq.n	8007312 <task_menu_update+0x922>
+ 800730a:	68fb      	ldr	r3, [r7, #12]
+ 800730c:	7a9b      	ldrb	r3, [r3, #10]
+ 800730e:	2b05      	cmp	r3, #5
+ 8007310:	d007      	beq.n	8007322 <task_menu_update+0x932>
+ 8007312:	693b      	ldr	r3, [r7, #16]
+ 8007314:	791b      	ldrb	r3, [r3, #4]
+ 8007316:	2b00      	cmp	r3, #0
+ 8007318:	d035      	beq.n	8007386 <task_menu_update+0x996>
+ 800731a:	68fb      	ldr	r3, [r7, #12]
+ 800731c:	7a9b      	ldrb	r3, [r3, #10]
+ 800731e:	2b01      	cmp	r3, #1
+ 8007320:	d131      	bne.n	8007386 <task_menu_update+0x996>
+ 8007322:	68fb      	ldr	r3, [r7, #12]
+ 8007324:	2200      	movs	r2, #0
+ 8007326:	721a      	strb	r2, [r3, #8]
+ 8007328:	693b      	ldr	r3, [r7, #16]
+ 800732a:	2200      	movs	r2, #0
+ 800732c:	711a      	strb	r2, [r3, #4]
+ 800732e:	e02a      	b.n	8007386 <task_menu_update+0x996>
+ 8007330:	693b      	ldr	r3, [r7, #16]
+ 8007332:	2200      	movs	r2, #0
+ 8007334:	601a      	str	r2, [r3, #0]
+ 8007336:	68fb      	ldr	r3, [r7, #12]
+ 8007338:	2200      	movs	r2, #0
+ 800733a:	721a      	strb	r2, [r3, #8]
+ 800733c:	68fb      	ldr	r3, [r7, #12]
+ 800733e:	2200      	movs	r2, #0
+ 8007340:	729a      	strb	r2, [r3, #10]
+ 8007342:	693b      	ldr	r3, [r7, #16]
+ 8007344:	2200      	movs	r2, #0
+ 8007346:	711a      	strb	r2, [r3, #4]
+ 8007348:	e01e      	b.n	8007388 <task_menu_update+0x998>
+ 800734a:	bf00      	nop
+ 800734c:	e01c      	b.n	8007388 <task_menu_update+0x998>
+ 800734e:	bf00      	nop
+ 8007350:	e01a      	b.n	8007388 <task_menu_update+0x998>
+ 8007352:	bf00      	nop
+ 8007354:	e018      	b.n	8007388 <task_menu_update+0x998>
+ 8007356:	bf00      	nop
+ 8007358:	e016      	b.n	8007388 <task_menu_update+0x998>
+ 800735a:	bf00      	nop
+ 800735c:	e014      	b.n	8007388 <task_menu_update+0x998>
+ 800735e:	bf00      	nop
+ 8007360:	e012      	b.n	8007388 <task_menu_update+0x998>
+ 8007362:	bf00      	nop
+ 8007364:	e010      	b.n	8007388 <task_menu_update+0x998>
+ 8007366:	bf00      	nop
+ 8007368:	e00e      	b.n	8007388 <task_menu_update+0x998>
+ 800736a:	bf00      	nop
+ 800736c:	e00c      	b.n	8007388 <task_menu_update+0x998>
+ 800736e:	bf00      	nop
+ 8007370:	e00a      	b.n	8007388 <task_menu_update+0x998>
+ 8007372:	bf00      	nop
+ 8007374:	e008      	b.n	8007388 <task_menu_update+0x998>
+ 8007376:	bf00      	nop
+ 8007378:	e006      	b.n	8007388 <task_menu_update+0x998>
+ 800737a:	bf00      	nop
+ 800737c:	e004      	b.n	8007388 <task_menu_update+0x998>
+ 800737e:	bf00      	nop
+ 8007380:	e002      	b.n	8007388 <task_menu_update+0x998>
+ 8007382:	bf00      	nop
+ 8007384:	e000      	b.n	8007388 <task_menu_update+0x998>
+ 8007386:	bf00      	nop
+ 8007388:	7dfb      	ldrb	r3, [r7, #23]
+ 800738a:	2b00      	cmp	r3, #0
+ 800738c:	f47f ab4a 	bne.w	8006a24 <task_menu_update+0x34>
+ 8007390:	bf00      	nop
+ 8007392:	bf00      	nop
+ 8007394:	3718      	adds	r7, #24
+ 8007396:	46bd      	mov	sp, r7
+ 8007398:	bd80      	pop	{r7, pc}
+ 800739a:	bf00      	nop
+ 800739c:	55555556 	.word	0x55555556
+
+080073a0 <menu_display_print>:
+ 80073a0:	b590      	push	{r4, r7, lr}
+ 80073a2:	b08d      	sub	sp, #52	@ 0x34
+ 80073a4:	af02      	add	r7, sp, #8
+ 80073a6:	6078      	str	r0, [r7, #4]
+ 80073a8:	687b      	ldr	r3, [r7, #4]
+ 80073aa:	f893 302d 	ldrb.w	r3, [r3, #45]	@ 0x2d
+ 80073ae:	2b00      	cmp	r3, #0
+ 80073b0:	f000 8231 	beq.w	8007816 <menu_display_print+0x476>
+ 80073b4:	687b      	ldr	r3, [r7, #4]
+ 80073b6:	2200      	movs	r2, #0
+ 80073b8:	f883 202d 	strb.w	r2, [r3, #45]	@ 0x2d
+ 80073bc:	687b      	ldr	r3, [r7, #4]
+ 80073be:	2201      	movs	r2, #1
+ 80073c0:	f883 202e 	strb.w	r2, [r3, #46]	@ 0x2e
+ 80073c4:	687b      	ldr	r3, [r7, #4]
+ 80073c6:	2200      	movs	r2, #0
+ 80073c8:	861a      	strh	r2, [r3, #48]	@ 0x30
+ 80073ca:	687b      	ldr	r3, [r7, #4]
+ 80073cc:	2201      	movs	r2, #1
+ 80073ce:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
+ 80073d2:	687b      	ldr	r3, [r7, #4]
+ 80073d4:	4a9c      	ldr	r2, [pc, #624]	@ (8007648 <menu_display_print+0x2a8>)
+ 80073d6:	639a      	str	r2, [r3, #56]	@ 0x38
+ 80073d8:	687b      	ldr	r3, [r7, #4]
+ 80073da:	4a9b      	ldr	r2, [pc, #620]	@ (8007648 <menu_display_print+0x2a8>)
+ 80073dc:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 80073de:	687b      	ldr	r3, [r7, #4]
+ 80073e0:	4a99      	ldr	r2, [pc, #612]	@ (8007648 <menu_display_print+0x2a8>)
+ 80073e2:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80073e4:	687b      	ldr	r3, [r7, #4]
+ 80073e6:	4a98      	ldr	r2, [pc, #608]	@ (8007648 <menu_display_print+0x2a8>)
+ 80073e8:	645a      	str	r2, [r3, #68]	@ 0x44
+ 80073ea:	687b      	ldr	r3, [r7, #4]
+ 80073ec:	7a1b      	ldrb	r3, [r3, #8]
+ 80073ee:	2b10      	cmp	r3, #16
+ 80073f0:	f200 8209 	bhi.w	8007806 <menu_display_print+0x466>
+ 80073f4:	a201      	add	r2, pc, #4	@ (adr r2, 80073fc <menu_display_print+0x5c>)
+ 80073f6:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 80073fa:	bf00      	nop
+ 80073fc:	08007441 	.word	0x08007441
+ 8007400:	080075e1 	.word	0x080075e1
+ 8007404:	08007601 	.word	0x08007601
+ 8007408:	080076b1 	.word	0x080076b1
+ 800740c:	080077c5 	.word	0x080077c5
+ 8007410:	080077d9 	.word	0x080077d9
+ 8007414:	08007635 	.word	0x08007635
+ 8007418:	08007621 	.word	0x08007621
+ 800741c:	080076d1 	.word	0x080076d1
+ 8007420:	08007701 	.word	0x08007701
+ 8007424:	08007731 	.word	0x08007731
+ 8007428:	08007761 	.word	0x08007761
+ 800742c:	080074db 	.word	0x080074db
+ 8007430:	08007507 	.word	0x08007507
+ 8007434:	080077ed 	.word	0x080077ed
+ 8007438:	08007791 	.word	0x08007791
+ 800743c:	080077b1 	.word	0x080077b1
+ 8007440:	687b      	ldr	r3, [r7, #4]
+ 8007442:	4a82      	ldr	r2, [pc, #520]	@ (800764c <menu_display_print+0x2ac>)
+ 8007444:	639a      	str	r2, [r3, #56]	@ 0x38
+ 8007446:	687b      	ldr	r3, [r7, #4]
+ 8007448:	7adb      	ldrb	r3, [r3, #11]
+ 800744a:	2b00      	cmp	r3, #0
+ 800744c:	d103      	bne.n	8007456 <menu_display_print+0xb6>
+ 800744e:	687b      	ldr	r3, [r7, #4]
+ 8007450:	4a7f      	ldr	r2, [pc, #508]	@ (8007650 <menu_display_print+0x2b0>)
+ 8007452:	641a      	str	r2, [r3, #64]	@ 0x40
+ 8007454:	e00a      	b.n	800746c <menu_display_print+0xcc>
+ 8007456:	687b      	ldr	r3, [r7, #4]
+ 8007458:	7adb      	ldrb	r3, [r3, #11]
+ 800745a:	2b02      	cmp	r3, #2
+ 800745c:	d103      	bne.n	8007466 <menu_display_print+0xc6>
+ 800745e:	687b      	ldr	r3, [r7, #4]
+ 8007460:	4a7c      	ldr	r2, [pc, #496]	@ (8007654 <menu_display_print+0x2b4>)
+ 8007462:	641a      	str	r2, [r3, #64]	@ 0x40
+ 8007464:	e002      	b.n	800746c <menu_display_print+0xcc>
+ 8007466:	687b      	ldr	r3, [r7, #4]
+ 8007468:	4a7b      	ldr	r2, [pc, #492]	@ (8007658 <menu_display_print+0x2b8>)
+ 800746a:	641a      	str	r2, [r3, #64]	@ 0x40
+ 800746c:	687b      	ldr	r3, [r7, #4]
+ 800746e:	7adb      	ldrb	r3, [r3, #11]
+ 8007470:	2b00      	cmp	r3, #0
+ 8007472:	d10b      	bne.n	800748c <menu_display_print+0xec>
+ 8007474:	687b      	ldr	r3, [r7, #4]
+ 8007476:	f893 302c 	ldrb.w	r3, [r3, #44]	@ 0x2c
+ 800747a:	f083 0301 	eor.w	r3, r3, #1
+ 800747e:	b2db      	uxtb	r3, r3
+ 8007480:	2b00      	cmp	r3, #0
+ 8007482:	d003      	beq.n	800748c <menu_display_print+0xec>
+ 8007484:	687b      	ldr	r3, [r7, #4]
+ 8007486:	4a75      	ldr	r2, [pc, #468]	@ (800765c <menu_display_print+0x2bc>)
+ 8007488:	645a      	str	r2, [r3, #68]	@ 0x44
+ 800748a:	e022      	b.n	80074d2 <menu_display_print+0x132>
+ 800748c:	f001 f890 	bl	80085b0 <get_system_remaining_time>
+ 8007490:	60f8      	str	r0, [r7, #12]
+ 8007492:	687b      	ldr	r3, [r7, #4]
+ 8007494:	f893 302c 	ldrb.w	r3, [r3, #44]	@ 0x2c
+ 8007498:	2b00      	cmp	r3, #0
+ 800749a:	d00d      	beq.n	80074b8 <menu_display_print+0x118>
+ 800749c:	687b      	ldr	r3, [r7, #4]
+ 800749e:	f103 0048 	add.w	r0, r3, #72	@ 0x48
+ 80074a2:	68fb      	ldr	r3, [r7, #12]
+ 80074a4:	4a6e      	ldr	r2, [pc, #440]	@ (8007660 <menu_display_print+0x2c0>)
+ 80074a6:	2115      	movs	r1, #21
+ 80074a8:	f001 f998 	bl	80087dc <sniprintf>
+ 80074ac:	687b      	ldr	r3, [r7, #4]
+ 80074ae:	f103 0248 	add.w	r2, r3, #72	@ 0x48
+ 80074b2:	687b      	ldr	r3, [r7, #4]
+ 80074b4:	645a      	str	r2, [r3, #68]	@ 0x44
+ 80074b6:	e00c      	b.n	80074d2 <menu_display_print+0x132>
  80074b8:	687b      	ldr	r3, [r7, #4]
- 80074ba:	4a92      	ldr	r2, [pc, #584]	@ (8007704 <menu_display_print+0x55c>)
- 80074bc:	639a      	str	r2, [r3, #56]	@ 0x38
- 80074be:	687b      	ldr	r3, [r7, #4]
- 80074c0:	4a91      	ldr	r2, [pc, #580]	@ (8007708 <menu_display_print+0x560>)
- 80074c2:	63da      	str	r2, [r3, #60]	@ 0x3c
- 80074c4:	687b      	ldr	r3, [r7, #4]
- 80074c6:	4a91      	ldr	r2, [pc, #580]	@ (800770c <menu_display_print+0x564>)
- 80074c8:	641a      	str	r2, [r3, #64]	@ 0x40
- 80074ca:	687b      	ldr	r3, [r7, #4]
- 80074cc:	4a90      	ldr	r2, [pc, #576]	@ (8007710 <menu_display_print+0x568>)
- 80074ce:	645a      	str	r2, [r3, #68]	@ 0x44
- 80074d0:	687b      	ldr	r3, [r7, #4]
- 80074d2:	2200      	movs	r2, #0
- 80074d4:	86da      	strh	r2, [r3, #54]	@ 0x36
- 80074d6:	e0a1      	b.n	800761c <menu_display_print+0x474>
- 80074d8:	687b      	ldr	r3, [r7, #4]
- 80074da:	4a8e      	ldr	r2, [pc, #568]	@ (8007714 <menu_display_print+0x56c>)
- 80074dc:	639a      	str	r2, [r3, #56]	@ 0x38
- 80074de:	687b      	ldr	r3, [r7, #4]
- 80074e0:	f103 0048 	add.w	r0, r3, #72	@ 0x48
- 80074e4:	687b      	ldr	r3, [r7, #4]
- 80074e6:	68db      	ldr	r3, [r3, #12]
- 80074e8:	4a8b      	ldr	r2, [pc, #556]	@ (8007718 <menu_display_print+0x570>)
- 80074ea:	2115      	movs	r1, #21
- 80074ec:	f001 f976 	bl	80087dc <sniprintf>
+ 80074ba:	f103 0048 	add.w	r0, r3, #72	@ 0x48
+ 80074be:	68fb      	ldr	r3, [r7, #12]
+ 80074c0:	4a68      	ldr	r2, [pc, #416]	@ (8007664 <menu_display_print+0x2c4>)
+ 80074c2:	2115      	movs	r1, #21
+ 80074c4:	f001 f98a 	bl	80087dc <sniprintf>
+ 80074c8:	687b      	ldr	r3, [r7, #4]
+ 80074ca:	f103 0248 	add.w	r2, r3, #72	@ 0x48
+ 80074ce:	687b      	ldr	r3, [r7, #4]
+ 80074d0:	645a      	str	r2, [r3, #68]	@ 0x44
+ 80074d2:	687b      	ldr	r3, [r7, #4]
+ 80074d4:	22ff      	movs	r2, #255	@ 0xff
+ 80074d6:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 80074d8:	e19c      	b.n	8007814 <menu_display_print+0x474>
+ 80074da:	687b      	ldr	r3, [r7, #4]
+ 80074dc:	4a62      	ldr	r2, [pc, #392]	@ (8007668 <menu_display_print+0x2c8>)
+ 80074de:	639a      	str	r2, [r3, #56]	@ 0x38
+ 80074e0:	687b      	ldr	r3, [r7, #4]
+ 80074e2:	f893 302c 	ldrb.w	r3, [r3, #44]	@ 0x2c
+ 80074e6:	2b00      	cmp	r3, #0
+ 80074e8:	d006      	beq.n	80074f8 <menu_display_print+0x158>
+ 80074ea:	687b      	ldr	r3, [r7, #4]
+ 80074ec:	4a5f      	ldr	r2, [pc, #380]	@ (800766c <menu_display_print+0x2cc>)
+ 80074ee:	641a      	str	r2, [r3, #64]	@ 0x40
  80074f0:	687b      	ldr	r3, [r7, #4]
- 80074f2:	f103 0248 	add.w	r2, r3, #72	@ 0x48
- 80074f6:	687b      	ldr	r3, [r7, #4]
- 80074f8:	641a      	str	r2, [r3, #64]	@ 0x40
- 80074fa:	687b      	ldr	r3, [r7, #4]
- 80074fc:	4a87      	ldr	r2, [pc, #540]	@ (800771c <menu_display_print+0x574>)
- 80074fe:	645a      	str	r2, [r3, #68]	@ 0x44
- 8007500:	687b      	ldr	r3, [r7, #4]
- 8007502:	22ff      	movs	r2, #255	@ 0xff
- 8007504:	86da      	strh	r2, [r3, #54]	@ 0x36
- 8007506:	e089      	b.n	800761c <menu_display_print+0x474>
- 8007508:	687b      	ldr	r3, [r7, #4]
- 800750a:	4a85      	ldr	r2, [pc, #532]	@ (8007720 <menu_display_print+0x578>)
- 800750c:	639a      	str	r2, [r3, #56]	@ 0x38
- 800750e:	687b      	ldr	r3, [r7, #4]
- 8007510:	f103 0048 	add.w	r0, r3, #72	@ 0x48
- 8007514:	687b      	ldr	r3, [r7, #4]
- 8007516:	691b      	ldr	r3, [r3, #16]
- 8007518:	4a7f      	ldr	r2, [pc, #508]	@ (8007718 <menu_display_print+0x570>)
- 800751a:	2115      	movs	r1, #21
- 800751c:	f001 f95e 	bl	80087dc <sniprintf>
- 8007520:	687b      	ldr	r3, [r7, #4]
- 8007522:	f103 0248 	add.w	r2, r3, #72	@ 0x48
- 8007526:	687b      	ldr	r3, [r7, #4]
- 8007528:	641a      	str	r2, [r3, #64]	@ 0x40
- 800752a:	687b      	ldr	r3, [r7, #4]
- 800752c:	4a7b      	ldr	r2, [pc, #492]	@ (800771c <menu_display_print+0x574>)
- 800752e:	645a      	str	r2, [r3, #68]	@ 0x44
- 8007530:	687b      	ldr	r3, [r7, #4]
- 8007532:	22ff      	movs	r2, #255	@ 0xff
- 8007534:	86da      	strh	r2, [r3, #54]	@ 0x36
- 8007536:	e071      	b.n	800761c <menu_display_print+0x474>
- 8007538:	687b      	ldr	r3, [r7, #4]
- 800753a:	4a7a      	ldr	r2, [pc, #488]	@ (8007724 <menu_display_print+0x57c>)
- 800753c:	639a      	str	r2, [r3, #56]	@ 0x38
- 800753e:	687b      	ldr	r3, [r7, #4]
- 8007540:	f103 0048 	add.w	r0, r3, #72	@ 0x48
- 8007544:	687b      	ldr	r3, [r7, #4]
- 8007546:	695b      	ldr	r3, [r3, #20]
- 8007548:	4a77      	ldr	r2, [pc, #476]	@ (8007728 <menu_display_print+0x580>)
- 800754a:	2115      	movs	r1, #21
- 800754c:	f001 f946 	bl	80087dc <sniprintf>
- 8007550:	687b      	ldr	r3, [r7, #4]
- 8007552:	f103 0248 	add.w	r2, r3, #72	@ 0x48
- 8007556:	687b      	ldr	r3, [r7, #4]
- 8007558:	641a      	str	r2, [r3, #64]	@ 0x40
- 800755a:	687b      	ldr	r3, [r7, #4]
- 800755c:	4a6f      	ldr	r2, [pc, #444]	@ (800771c <menu_display_print+0x574>)
- 800755e:	645a      	str	r2, [r3, #68]	@ 0x44
- 8007560:	687b      	ldr	r3, [r7, #4]
- 8007562:	22ff      	movs	r2, #255	@ 0xff
- 8007564:	86da      	strh	r2, [r3, #54]	@ 0x36
- 8007566:	e059      	b.n	800761c <menu_display_print+0x474>
+ 80074f2:	4a5f      	ldr	r2, [pc, #380]	@ (8007670 <menu_display_print+0x2d0>)
+ 80074f4:	645a      	str	r2, [r3, #68]	@ 0x44
+ 80074f6:	e002      	b.n	80074fe <menu_display_print+0x15e>
+ 80074f8:	687b      	ldr	r3, [r7, #4]
+ 80074fa:	4a5e      	ldr	r2, [pc, #376]	@ (8007674 <menu_display_print+0x2d4>)
+ 80074fc:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80074fe:	687b      	ldr	r3, [r7, #4]
+ 8007500:	22ff      	movs	r2, #255	@ 0xff
+ 8007502:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 8007504:	e186      	b.n	8007814 <menu_display_print+0x474>
+ 8007506:	687b      	ldr	r3, [r7, #4]
+ 8007508:	4a57      	ldr	r2, [pc, #348]	@ (8007668 <menu_display_print+0x2c8>)
+ 800750a:	639a      	str	r2, [r3, #56]	@ 0x38
+ 800750c:	687b      	ldr	r3, [r7, #4]
+ 800750e:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
+ 8007510:	4618      	mov	r0, r3
+ 8007512:	f7f9 fbfd 	bl	8000d10 <__aeabi_f2iz>
+ 8007516:	4603      	mov	r3, r0
+ 8007518:	61fb      	str	r3, [r7, #28]
+ 800751a:	687b      	ldr	r3, [r7, #4]
+ 800751c:	6a5c      	ldr	r4, [r3, #36]	@ 0x24
+ 800751e:	69f8      	ldr	r0, [r7, #28]
+ 8007520:	f7f9 f9dc 	bl	80008dc <__aeabi_i2f>
+ 8007524:	4603      	mov	r3, r0
+ 8007526:	4619      	mov	r1, r3
+ 8007528:	4620      	mov	r0, r4
+ 800752a:	f7f9 f921 	bl	8000770 <__aeabi_fsub>
+ 800752e:	4603      	mov	r3, r0
+ 8007530:	f023 4300 	bic.w	r3, r3, #2147483648	@ 0x80000000
+ 8007534:	4618      	mov	r0, r3
+ 8007536:	f7f9 f897 	bl	8000668 <__aeabi_f2d>
+ 800753a:	f04f 0200 	mov.w	r2, #0
+ 800753e:	4b4e      	ldr	r3, [pc, #312]	@ (8007678 <menu_display_print+0x2d8>)
+ 8007540:	f7f8 fe04 	bl	800014c <__aeabi_dmul>
+ 8007544:	4602      	mov	r2, r0
+ 8007546:	460b      	mov	r3, r1
+ 8007548:	4610      	mov	r0, r2
+ 800754a:	4619      	mov	r1, r3
+ 800754c:	f7f9 f8e4 	bl	8000718 <__aeabi_d2iz>
+ 8007550:	4603      	mov	r3, r0
+ 8007552:	61bb      	str	r3, [r7, #24]
+ 8007554:	687b      	ldr	r3, [r7, #4]
+ 8007556:	f103 0048 	add.w	r0, r3, #72	@ 0x48
+ 800755a:	69bb      	ldr	r3, [r7, #24]
+ 800755c:	9300      	str	r3, [sp, #0]
+ 800755e:	69fb      	ldr	r3, [r7, #28]
+ 8007560:	4a46      	ldr	r2, [pc, #280]	@ (800767c <menu_display_print+0x2dc>)
+ 8007562:	2115      	movs	r1, #21
+ 8007564:	f001 f93a 	bl	80087dc <sniprintf>
  8007568:	687b      	ldr	r3, [r7, #4]
- 800756a:	4a70      	ldr	r2, [pc, #448]	@ (800772c <menu_display_print+0x584>)
- 800756c:	639a      	str	r2, [r3, #56]	@ 0x38
+ 800756a:	f103 0248 	add.w	r2, r3, #72	@ 0x48
  800756e:	687b      	ldr	r3, [r7, #4]
- 8007570:	f103 0048 	add.w	r0, r3, #72	@ 0x48
- 8007574:	687b      	ldr	r3, [r7, #4]
- 8007576:	699b      	ldr	r3, [r3, #24]
- 8007578:	4a6d      	ldr	r2, [pc, #436]	@ (8007730 <menu_display_print+0x588>)
- 800757a:	2115      	movs	r1, #21
- 800757c:	f001 f92e 	bl	80087dc <sniprintf>
+ 8007570:	641a      	str	r2, [r3, #64]	@ 0x40
+ 8007572:	687b      	ldr	r3, [r7, #4]
+ 8007574:	6a9b      	ldr	r3, [r3, #40]	@ 0x28
+ 8007576:	4618      	mov	r0, r3
+ 8007578:	f7f9 fbca 	bl	8000d10 <__aeabi_f2iz>
+ 800757c:	4603      	mov	r3, r0
+ 800757e:	617b      	str	r3, [r7, #20]
  8007580:	687b      	ldr	r3, [r7, #4]
- 8007582:	f103 0248 	add.w	r2, r3, #72	@ 0x48
- 8007586:	687b      	ldr	r3, [r7, #4]
- 8007588:	641a      	str	r2, [r3, #64]	@ 0x40
- 800758a:	687b      	ldr	r3, [r7, #4]
- 800758c:	4a63      	ldr	r2, [pc, #396]	@ (800771c <menu_display_print+0x574>)
- 800758e:	645a      	str	r2, [r3, #68]	@ 0x44
- 8007590:	687b      	ldr	r3, [r7, #4]
- 8007592:	22ff      	movs	r2, #255	@ 0xff
- 8007594:	86da      	strh	r2, [r3, #54]	@ 0x36
- 8007596:	e041      	b.n	800761c <menu_display_print+0x474>
- 8007598:	687b      	ldr	r3, [r7, #4]
- 800759a:	4a66      	ldr	r2, [pc, #408]	@ (8007734 <menu_display_print+0x58c>)
- 800759c:	639a      	str	r2, [r3, #56]	@ 0x38
- 800759e:	687b      	ldr	r3, [r7, #4]
- 80075a0:	4a65      	ldr	r2, [pc, #404]	@ (8007738 <menu_display_print+0x590>)
- 80075a2:	63da      	str	r2, [r3, #60]	@ 0x3c
- 80075a4:	687b      	ldr	r3, [r7, #4]
- 80075a6:	4a65      	ldr	r2, [pc, #404]	@ (800773c <menu_display_print+0x594>)
- 80075a8:	641a      	str	r2, [r3, #64]	@ 0x40
- 80075aa:	687b      	ldr	r3, [r7, #4]
- 80075ac:	4a64      	ldr	r2, [pc, #400]	@ (8007740 <menu_display_print+0x598>)
- 80075ae:	645a      	str	r2, [r3, #68]	@ 0x44
- 80075b0:	687b      	ldr	r3, [r7, #4]
- 80075b2:	2201      	movs	r2, #1
- 80075b4:	86da      	strh	r2, [r3, #54]	@ 0x36
- 80075b6:	e031      	b.n	800761c <menu_display_print+0x474>
- 80075b8:	687b      	ldr	r3, [r7, #4]
- 80075ba:	4a62      	ldr	r2, [pc, #392]	@ (8007744 <menu_display_print+0x59c>)
- 80075bc:	63da      	str	r2, [r3, #60]	@ 0x3c
- 80075be:	687b      	ldr	r3, [r7, #4]
- 80075c0:	4a61      	ldr	r2, [pc, #388]	@ (8007748 <menu_display_print+0x5a0>)
- 80075c2:	641a      	str	r2, [r3, #64]	@ 0x40
- 80075c4:	687b      	ldr	r3, [r7, #4]
- 80075c6:	22ff      	movs	r2, #255	@ 0xff
- 80075c8:	86da      	strh	r2, [r3, #54]	@ 0x36
- 80075ca:	e027      	b.n	800761c <menu_display_print+0x474>
- 80075cc:	687b      	ldr	r3, [r7, #4]
- 80075ce:	4a5f      	ldr	r2, [pc, #380]	@ (800774c <menu_display_print+0x5a4>)
- 80075d0:	63da      	str	r2, [r3, #60]	@ 0x3c
- 80075d2:	687b      	ldr	r3, [r7, #4]
- 80075d4:	4a5e      	ldr	r2, [pc, #376]	@ (8007750 <menu_display_print+0x5a8>)
- 80075d6:	641a      	str	r2, [r3, #64]	@ 0x40
+ 8007582:	6a9c      	ldr	r4, [r3, #40]	@ 0x28
+ 8007584:	6978      	ldr	r0, [r7, #20]
+ 8007586:	f7f9 f9a9 	bl	80008dc <__aeabi_i2f>
+ 800758a:	4603      	mov	r3, r0
+ 800758c:	4619      	mov	r1, r3
+ 800758e:	4620      	mov	r0, r4
+ 8007590:	f7f9 f8ee 	bl	8000770 <__aeabi_fsub>
+ 8007594:	4603      	mov	r3, r0
+ 8007596:	f023 4300 	bic.w	r3, r3, #2147483648	@ 0x80000000
+ 800759a:	4618      	mov	r0, r3
+ 800759c:	f7f9 f864 	bl	8000668 <__aeabi_f2d>
+ 80075a0:	f04f 0200 	mov.w	r2, #0
+ 80075a4:	4b34      	ldr	r3, [pc, #208]	@ (8007678 <menu_display_print+0x2d8>)
+ 80075a6:	f7f8 fdd1 	bl	800014c <__aeabi_dmul>
+ 80075aa:	4602      	mov	r2, r0
+ 80075ac:	460b      	mov	r3, r1
+ 80075ae:	4610      	mov	r0, r2
+ 80075b0:	4619      	mov	r1, r3
+ 80075b2:	f7f9 f8b1 	bl	8000718 <__aeabi_d2iz>
+ 80075b6:	4603      	mov	r3, r0
+ 80075b8:	613b      	str	r3, [r7, #16]
+ 80075ba:	687b      	ldr	r3, [r7, #4]
+ 80075bc:	f103 005d 	add.w	r0, r3, #93	@ 0x5d
+ 80075c0:	693b      	ldr	r3, [r7, #16]
+ 80075c2:	9300      	str	r3, [sp, #0]
+ 80075c4:	697b      	ldr	r3, [r7, #20]
+ 80075c6:	4a2e      	ldr	r2, [pc, #184]	@ (8007680 <menu_display_print+0x2e0>)
+ 80075c8:	2115      	movs	r1, #21
+ 80075ca:	f001 f907 	bl	80087dc <sniprintf>
+ 80075ce:	687b      	ldr	r3, [r7, #4]
+ 80075d0:	f103 025d 	add.w	r2, r3, #93	@ 0x5d
+ 80075d4:	687b      	ldr	r3, [r7, #4]
+ 80075d6:	645a      	str	r2, [r3, #68]	@ 0x44
  80075d8:	687b      	ldr	r3, [r7, #4]
  80075da:	22ff      	movs	r2, #255	@ 0xff
  80075dc:	86da      	strh	r2, [r3, #54]	@ 0x36
- 80075de:	e01d      	b.n	800761c <menu_display_print+0x474>
+ 80075de:	e119      	b.n	8007814 <menu_display_print+0x474>
  80075e0:	687b      	ldr	r3, [r7, #4]
- 80075e2:	4a5c      	ldr	r2, [pc, #368]	@ (8007754 <menu_display_print+0x5ac>)
- 80075e4:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 80075e2:	4a28      	ldr	r2, [pc, #160]	@ (8007684 <menu_display_print+0x2e4>)
+ 80075e4:	639a      	str	r2, [r3, #56]	@ 0x38
  80075e6:	687b      	ldr	r3, [r7, #4]
- 80075e8:	4a59      	ldr	r2, [pc, #356]	@ (8007750 <menu_display_print+0x5a8>)
- 80075ea:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80075e8:	4a27      	ldr	r2, [pc, #156]	@ (8007688 <menu_display_print+0x2e8>)
+ 80075ea:	63da      	str	r2, [r3, #60]	@ 0x3c
  80075ec:	687b      	ldr	r3, [r7, #4]
- 80075ee:	22ff      	movs	r2, #255	@ 0xff
- 80075f0:	86da      	strh	r2, [r3, #54]	@ 0x36
- 80075f2:	e013      	b.n	800761c <menu_display_print+0x474>
- 80075f4:	687b      	ldr	r3, [r7, #4]
- 80075f6:	4a58      	ldr	r2, [pc, #352]	@ (8007758 <menu_display_print+0x5b0>)
- 80075f8:	639a      	str	r2, [r3, #56]	@ 0x38
- 80075fa:	687b      	ldr	r3, [r7, #4]
- 80075fc:	4a57      	ldr	r2, [pc, #348]	@ (800775c <menu_display_print+0x5b4>)
- 80075fe:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 80075ee:	4a27      	ldr	r2, [pc, #156]	@ (800768c <menu_display_print+0x2ec>)
+ 80075f0:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80075f2:	687b      	ldr	r3, [r7, #4]
+ 80075f4:	4a26      	ldr	r2, [pc, #152]	@ (8007690 <menu_display_print+0x2f0>)
+ 80075f6:	645a      	str	r2, [r3, #68]	@ 0x44
+ 80075f8:	687b      	ldr	r3, [r7, #4]
+ 80075fa:	2200      	movs	r2, #0
+ 80075fc:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 80075fe:	e109      	b.n	8007814 <menu_display_print+0x474>
  8007600:	687b      	ldr	r3, [r7, #4]
- 8007602:	4a57      	ldr	r2, [pc, #348]	@ (8007760 <menu_display_print+0x5b8>)
- 8007604:	645a      	str	r2, [r3, #68]	@ 0x44
+ 8007602:	4a24      	ldr	r2, [pc, #144]	@ (8007694 <menu_display_print+0x2f4>)
+ 8007604:	639a      	str	r2, [r3, #56]	@ 0x38
  8007606:	687b      	ldr	r3, [r7, #4]
- 8007608:	22ff      	movs	r2, #255	@ 0xff
- 800760a:	86da      	strh	r2, [r3, #54]	@ 0x36
- 800760c:	e006      	b.n	800761c <menu_display_print+0x474>
- 800760e:	687b      	ldr	r3, [r7, #4]
- 8007610:	4a54      	ldr	r2, [pc, #336]	@ (8007764 <menu_display_print+0x5bc>)
- 8007612:	639a      	str	r2, [r3, #56]	@ 0x38
- 8007614:	687b      	ldr	r3, [r7, #4]
- 8007616:	22ff      	movs	r2, #255	@ 0xff
- 8007618:	86da      	strh	r2, [r3, #54]	@ 0x36
- 800761a:	bf00      	nop
- 800761c:	e06f      	b.n	80076fe <menu_display_print+0x556>
- 800761e:	687b      	ldr	r3, [r7, #4]
- 8007620:	f893 302e 	ldrb.w	r3, [r3, #46]	@ 0x2e
- 8007624:	2b00      	cmp	r3, #0
- 8007626:	d029      	beq.n	800767c <menu_display_print+0x4d4>
- 8007628:	687b      	ldr	r3, [r7, #4]
- 800762a:	8e1b      	ldrh	r3, [r3, #48]	@ 0x30
- 800762c:	2b0f      	cmp	r3, #15
- 800762e:	d820      	bhi.n	8007672 <menu_display_print+0x4ca>
- 8007630:	687b      	ldr	r3, [r7, #4]
- 8007632:	8e1b      	ldrh	r3, [r3, #48]	@ 0x30
- 8007634:	089b      	lsrs	r3, r3, #2
- 8007636:	b29b      	uxth	r3, r3
- 8007638:	f887 3022 	strb.w	r3, [r7, #34]	@ 0x22
- 800763c:	687b      	ldr	r3, [r7, #4]
- 800763e:	8e1b      	ldrh	r3, [r3, #48]	@ 0x30
- 8007640:	b2db      	uxtb	r3, r3
- 8007642:	f003 0303 	and.w	r3, r3, #3
- 8007646:	f887 3021 	strb.w	r3, [r7, #33]	@ 0x21
- 800764a:	f897 2022 	ldrb.w	r2, [r7, #34]	@ 0x22
- 800764e:	687b      	ldr	r3, [r7, #4]
- 8007650:	320e      	adds	r2, #14
- 8007652:	f853 2022 	ldr.w	r2, [r3, r2, lsl #2]
- 8007656:	f897 1021 	ldrb.w	r1, [r7, #33]	@ 0x21
- 800765a:	f897 3022 	ldrb.w	r3, [r7, #34]	@ 0x22
- 800765e:	4618      	mov	r0, r3
- 8007660:	f7fe fa62 	bl	8005b28 <displayPrintPart>
- 8007664:	687b      	ldr	r3, [r7, #4]
- 8007666:	8e1b      	ldrh	r3, [r3, #48]	@ 0x30
- 8007668:	3301      	adds	r3, #1
- 800766a:	b29a      	uxth	r2, r3
- 800766c:	687b      	ldr	r3, [r7, #4]
- 800766e:	861a      	strh	r2, [r3, #48]	@ 0x30
- 8007670:	e045      	b.n	80076fe <menu_display_print+0x556>
- 8007672:	687b      	ldr	r3, [r7, #4]
- 8007674:	2200      	movs	r2, #0
- 8007676:	f883 202e 	strb.w	r2, [r3, #46]	@ 0x2e
- 800767a:	e040      	b.n	80076fe <menu_display_print+0x556>
- 800767c:	687b      	ldr	r3, [r7, #4]
- 800767e:	f893 302e 	ldrb.w	r3, [r3, #46]	@ 0x2e
- 8007682:	f083 0301 	eor.w	r3, r3, #1
- 8007686:	b2db      	uxtb	r3, r3
- 8007688:	2b00      	cmp	r3, #0
- 800768a:	d038      	beq.n	80076fe <menu_display_print+0x556>
- 800768c:	687b      	ldr	r3, [r7, #4]
- 800768e:	f893 3032 	ldrb.w	r3, [r3, #50]	@ 0x32
- 8007692:	2b00      	cmp	r3, #0
- 8007694:	d033      	beq.n	80076fe <menu_display_print+0x556>
- 8007696:	687b      	ldr	r3, [r7, #4]
- 8007698:	2200      	movs	r2, #0
- 800769a:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
- 800769e:	687b      	ldr	r3, [r7, #4]
- 80076a0:	8edb      	ldrh	r3, [r3, #54]	@ 0x36
- 80076a2:	2bff      	cmp	r3, #255	@ 0xff
- 80076a4:	d02b      	beq.n	80076fe <menu_display_print+0x556>
- 80076a6:	687b      	ldr	r3, [r7, #4]
- 80076a8:	8edb      	ldrh	r3, [r3, #54]	@ 0x36
- 80076aa:	627b      	str	r3, [r7, #36]	@ 0x24
- 80076ac:	e00b      	b.n	80076c6 <menu_display_print+0x51e>
- 80076ae:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
- 80076b0:	b2db      	uxtb	r3, r3
- 80076b2:	4619      	mov	r1, r3
- 80076b4:	2000      	movs	r0, #0
- 80076b6:	f7fe f9d7 	bl	8005a68 <displayCharPositionWrite>
- 80076ba:	482b      	ldr	r0, [pc, #172]	@ (8007768 <menu_display_print+0x5c0>)
- 80076bc:	f7fe fa1e 	bl	8005afc <displayStringWrite>
- 80076c0:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
- 80076c2:	3301      	adds	r3, #1
- 80076c4:	627b      	str	r3, [r7, #36]	@ 0x24
- 80076c6:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
- 80076c8:	2b03      	cmp	r3, #3
- 80076ca:	ddf0      	ble.n	80076ae <menu_display_print+0x506>
- 80076cc:	687b      	ldr	r3, [r7, #4]
- 80076ce:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
- 80076d0:	b2da      	uxtb	r2, r3
- 80076d2:	687b      	ldr	r3, [r7, #4]
- 80076d4:	8edb      	ldrh	r3, [r3, #54]	@ 0x36
- 80076d6:	b2db      	uxtb	r3, r3
- 80076d8:	4413      	add	r3, r2
- 80076da:	f887 3023 	strb.w	r3, [r7, #35]	@ 0x23
- 80076de:	f897 3023 	ldrb.w	r3, [r7, #35]	@ 0x23
- 80076e2:	2b03      	cmp	r3, #3
- 80076e4:	d902      	bls.n	80076ec <menu_display_print+0x544>
- 80076e6:	2303      	movs	r3, #3
- 80076e8:	f887 3023 	strb.w	r3, [r7, #35]	@ 0x23
- 80076ec:	f897 3023 	ldrb.w	r3, [r7, #35]	@ 0x23
- 80076f0:	4619      	mov	r1, r3
- 80076f2:	2000      	movs	r0, #0
- 80076f4:	f7fe f9b8 	bl	8005a68 <displayCharPositionWrite>
- 80076f8:	481c      	ldr	r0, [pc, #112]	@ (800776c <menu_display_print+0x5c4>)
- 80076fa:	f7fe f9ff 	bl	8005afc <displayStringWrite>
- 80076fe:	372c      	adds	r7, #44	@ 0x2c
- 8007700:	46bd      	mov	sp, r7
- 8007702:	bd90      	pop	{r4, r7, pc}
- 8007704:	080093c8 	.word	0x080093c8
- 8007708:	080093e0 	.word	0x080093e0
- 800770c:	080093f8 	.word	0x080093f8
- 8007710:	0800940c 	.word	0x0800940c
- 8007714:	08009420 	.word	0x08009420
- 8007718:	08009438 	.word	0x08009438
- 800771c:	08009450 	.word	0x08009450
- 8007720:	08009468 	.word	0x08009468
- 8007724:	08009480 	.word	0x08009480
- 8007728:	08009498 	.word	0x08009498
- 800772c:	080094ac 	.word	0x080094ac
- 8007730:	080094c4 	.word	0x080094c4
- 8007734:	080094d8 	.word	0x080094d8
- 8007738:	080094f0 	.word	0x080094f0
- 800773c:	08009504 	.word	0x08009504
- 8007740:	08009518 	.word	0x08009518
- 8007744:	08009524 	.word	0x08009524
- 8007748:	0800953c 	.word	0x0800953c
- 800774c:	08009554 	.word	0x08009554
- 8007750:	0800956c 	.word	0x0800956c
- 8007754:	08009584 	.word	0x08009584
- 8007758:	0800959c 	.word	0x0800959c
- 800775c:	080095b4 	.word	0x080095b4
- 8007760:	080095cc 	.word	0x080095cc
- 8007764:	080095e4 	.word	0x080095e4
- 8007768:	080095fc 	.word	0x080095fc
- 800776c:	08009600 	.word	0x08009600
-
-08007770 <init_queue_event_task_menu>:
- 8007770:	b480      	push	{r7}
- 8007772:	b083      	sub	sp, #12
- 8007774:	af00      	add	r7, sp, #0
- 8007776:	4b0f      	ldr	r3, [pc, #60]	@ (80077b4 <init_queue_event_task_menu+0x44>)
- 8007778:	2200      	movs	r2, #0
- 800777a:	601a      	str	r2, [r3, #0]
- 800777c:	4b0d      	ldr	r3, [pc, #52]	@ (80077b4 <init_queue_event_task_menu+0x44>)
- 800777e:	2200      	movs	r2, #0
- 8007780:	605a      	str	r2, [r3, #4]
- 8007782:	4b0c      	ldr	r3, [pc, #48]	@ (80077b4 <init_queue_event_task_menu+0x44>)
- 8007784:	2200      	movs	r2, #0
- 8007786:	609a      	str	r2, [r3, #8]
- 8007788:	2300      	movs	r3, #0
- 800778a:	607b      	str	r3, [r7, #4]
- 800778c:	e008      	b.n	80077a0 <init_queue_event_task_menu+0x30>
- 800778e:	4a09      	ldr	r2, [pc, #36]	@ (80077b4 <init_queue_event_task_menu+0x44>)
+ 8007608:	4a23      	ldr	r2, [pc, #140]	@ (8007698 <menu_display_print+0x2f8>)
+ 800760a:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 800760c:	687b      	ldr	r3, [r7, #4]
+ 800760e:	4a23      	ldr	r2, [pc, #140]	@ (800769c <menu_display_print+0x2fc>)
+ 8007610:	641a      	str	r2, [r3, #64]	@ 0x40
+ 8007612:	687b      	ldr	r3, [r7, #4]
+ 8007614:	4a22      	ldr	r2, [pc, #136]	@ (80076a0 <menu_display_print+0x300>)
+ 8007616:	645a      	str	r2, [r3, #68]	@ 0x44
+ 8007618:	687b      	ldr	r3, [r7, #4]
+ 800761a:	2202      	movs	r2, #2
+ 800761c:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 800761e:	e0f9      	b.n	8007814 <menu_display_print+0x474>
+ 8007620:	687b      	ldr	r3, [r7, #4]
+ 8007622:	4a20      	ldr	r2, [pc, #128]	@ (80076a4 <menu_display_print+0x304>)
+ 8007624:	639a      	str	r2, [r3, #56]	@ 0x38
+ 8007626:	687b      	ldr	r3, [r7, #4]
+ 8007628:	4a1f      	ldr	r2, [pc, #124]	@ (80076a8 <menu_display_print+0x308>)
+ 800762a:	641a      	str	r2, [r3, #64]	@ 0x40
+ 800762c:	687b      	ldr	r3, [r7, #4]
+ 800762e:	22ff      	movs	r2, #255	@ 0xff
+ 8007630:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 8007632:	e0ef      	b.n	8007814 <menu_display_print+0x474>
+ 8007634:	687b      	ldr	r3, [r7, #4]
+ 8007636:	4a1b      	ldr	r2, [pc, #108]	@ (80076a4 <menu_display_print+0x304>)
+ 8007638:	639a      	str	r2, [r3, #56]	@ 0x38
+ 800763a:	687b      	ldr	r3, [r7, #4]
+ 800763c:	4a1b      	ldr	r2, [pc, #108]	@ (80076ac <menu_display_print+0x30c>)
+ 800763e:	641a      	str	r2, [r3, #64]	@ 0x40
+ 8007640:	687b      	ldr	r3, [r7, #4]
+ 8007642:	22ff      	movs	r2, #255	@ 0xff
+ 8007644:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 8007646:	e0e5      	b.n	8007814 <menu_display_print+0x474>
+ 8007648:	080091c0 	.word	0x080091c0
+ 800764c:	080091c4 	.word	0x080091c4
+ 8007650:	080091dc 	.word	0x080091dc
+ 8007654:	080091ec 	.word	0x080091ec
+ 8007658:	08009204 	.word	0x08009204
+ 800765c:	08009210 	.word	0x08009210
+ 8007660:	08009228 	.word	0x08009228
+ 8007664:	08009240 	.word	0x08009240
+ 8007668:	08009254 	.word	0x08009254
+ 800766c:	0800926c 	.word	0x0800926c
+ 8007670:	08009284 	.word	0x08009284
+ 8007674:	0800929c 	.word	0x0800929c
+ 8007678:	40590000 	.word	0x40590000
+ 800767c:	080092b4 	.word	0x080092b4
+ 8007680:	080092cc 	.word	0x080092cc
+ 8007684:	080092e4 	.word	0x080092e4
+ 8007688:	080092f4 	.word	0x080092f4
+ 800768c:	0800930c 	.word	0x0800930c
+ 8007690:	08009318 	.word	0x08009318
+ 8007694:	0800932c 	.word	0x0800932c
+ 8007698:	08009344 	.word	0x08009344
+ 800769c:	0800935c 	.word	0x0800935c
+ 80076a0:	08009370 	.word	0x08009370
+ 80076a4:	08009380 	.word	0x08009380
+ 80076a8:	08009398 	.word	0x08009398
+ 80076ac:	080093b0 	.word	0x080093b0
+ 80076b0:	687b      	ldr	r3, [r7, #4]
+ 80076b2:	4a92      	ldr	r2, [pc, #584]	@ (80078fc <menu_display_print+0x55c>)
+ 80076b4:	639a      	str	r2, [r3, #56]	@ 0x38
+ 80076b6:	687b      	ldr	r3, [r7, #4]
+ 80076b8:	4a91      	ldr	r2, [pc, #580]	@ (8007900 <menu_display_print+0x560>)
+ 80076ba:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 80076bc:	687b      	ldr	r3, [r7, #4]
+ 80076be:	4a91      	ldr	r2, [pc, #580]	@ (8007904 <menu_display_print+0x564>)
+ 80076c0:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80076c2:	687b      	ldr	r3, [r7, #4]
+ 80076c4:	4a90      	ldr	r2, [pc, #576]	@ (8007908 <menu_display_print+0x568>)
+ 80076c6:	645a      	str	r2, [r3, #68]	@ 0x44
+ 80076c8:	687b      	ldr	r3, [r7, #4]
+ 80076ca:	2200      	movs	r2, #0
+ 80076cc:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 80076ce:	e0a1      	b.n	8007814 <menu_display_print+0x474>
+ 80076d0:	687b      	ldr	r3, [r7, #4]
+ 80076d2:	4a8e      	ldr	r2, [pc, #568]	@ (800790c <menu_display_print+0x56c>)
+ 80076d4:	639a      	str	r2, [r3, #56]	@ 0x38
+ 80076d6:	687b      	ldr	r3, [r7, #4]
+ 80076d8:	f103 0048 	add.w	r0, r3, #72	@ 0x48
+ 80076dc:	687b      	ldr	r3, [r7, #4]
+ 80076de:	68db      	ldr	r3, [r3, #12]
+ 80076e0:	4a8b      	ldr	r2, [pc, #556]	@ (8007910 <menu_display_print+0x570>)
+ 80076e2:	2115      	movs	r1, #21
+ 80076e4:	f001 f87a 	bl	80087dc <sniprintf>
+ 80076e8:	687b      	ldr	r3, [r7, #4]
+ 80076ea:	f103 0248 	add.w	r2, r3, #72	@ 0x48
+ 80076ee:	687b      	ldr	r3, [r7, #4]
+ 80076f0:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80076f2:	687b      	ldr	r3, [r7, #4]
+ 80076f4:	4a87      	ldr	r2, [pc, #540]	@ (8007914 <menu_display_print+0x574>)
+ 80076f6:	645a      	str	r2, [r3, #68]	@ 0x44
+ 80076f8:	687b      	ldr	r3, [r7, #4]
+ 80076fa:	22ff      	movs	r2, #255	@ 0xff
+ 80076fc:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 80076fe:	e089      	b.n	8007814 <menu_display_print+0x474>
+ 8007700:	687b      	ldr	r3, [r7, #4]
+ 8007702:	4a85      	ldr	r2, [pc, #532]	@ (8007918 <menu_display_print+0x578>)
+ 8007704:	639a      	str	r2, [r3, #56]	@ 0x38
+ 8007706:	687b      	ldr	r3, [r7, #4]
+ 8007708:	f103 0048 	add.w	r0, r3, #72	@ 0x48
+ 800770c:	687b      	ldr	r3, [r7, #4]
+ 800770e:	691b      	ldr	r3, [r3, #16]
+ 8007710:	4a7f      	ldr	r2, [pc, #508]	@ (8007910 <menu_display_print+0x570>)
+ 8007712:	2115      	movs	r1, #21
+ 8007714:	f001 f862 	bl	80087dc <sniprintf>
+ 8007718:	687b      	ldr	r3, [r7, #4]
+ 800771a:	f103 0248 	add.w	r2, r3, #72	@ 0x48
+ 800771e:	687b      	ldr	r3, [r7, #4]
+ 8007720:	641a      	str	r2, [r3, #64]	@ 0x40
+ 8007722:	687b      	ldr	r3, [r7, #4]
+ 8007724:	4a7b      	ldr	r2, [pc, #492]	@ (8007914 <menu_display_print+0x574>)
+ 8007726:	645a      	str	r2, [r3, #68]	@ 0x44
+ 8007728:	687b      	ldr	r3, [r7, #4]
+ 800772a:	22ff      	movs	r2, #255	@ 0xff
+ 800772c:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 800772e:	e071      	b.n	8007814 <menu_display_print+0x474>
+ 8007730:	687b      	ldr	r3, [r7, #4]
+ 8007732:	4a7a      	ldr	r2, [pc, #488]	@ (800791c <menu_display_print+0x57c>)
+ 8007734:	639a      	str	r2, [r3, #56]	@ 0x38
+ 8007736:	687b      	ldr	r3, [r7, #4]
+ 8007738:	f103 0048 	add.w	r0, r3, #72	@ 0x48
+ 800773c:	687b      	ldr	r3, [r7, #4]
+ 800773e:	695b      	ldr	r3, [r3, #20]
+ 8007740:	4a77      	ldr	r2, [pc, #476]	@ (8007920 <menu_display_print+0x580>)
+ 8007742:	2115      	movs	r1, #21
+ 8007744:	f001 f84a 	bl	80087dc <sniprintf>
+ 8007748:	687b      	ldr	r3, [r7, #4]
+ 800774a:	f103 0248 	add.w	r2, r3, #72	@ 0x48
+ 800774e:	687b      	ldr	r3, [r7, #4]
+ 8007750:	641a      	str	r2, [r3, #64]	@ 0x40
+ 8007752:	687b      	ldr	r3, [r7, #4]
+ 8007754:	4a6f      	ldr	r2, [pc, #444]	@ (8007914 <menu_display_print+0x574>)
+ 8007756:	645a      	str	r2, [r3, #68]	@ 0x44
+ 8007758:	687b      	ldr	r3, [r7, #4]
+ 800775a:	22ff      	movs	r2, #255	@ 0xff
+ 800775c:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 800775e:	e059      	b.n	8007814 <menu_display_print+0x474>
+ 8007760:	687b      	ldr	r3, [r7, #4]
+ 8007762:	4a70      	ldr	r2, [pc, #448]	@ (8007924 <menu_display_print+0x584>)
+ 8007764:	639a      	str	r2, [r3, #56]	@ 0x38
+ 8007766:	687b      	ldr	r3, [r7, #4]
+ 8007768:	f103 0048 	add.w	r0, r3, #72	@ 0x48
+ 800776c:	687b      	ldr	r3, [r7, #4]
+ 800776e:	699b      	ldr	r3, [r3, #24]
+ 8007770:	4a6d      	ldr	r2, [pc, #436]	@ (8007928 <menu_display_print+0x588>)
+ 8007772:	2115      	movs	r1, #21
+ 8007774:	f001 f832 	bl	80087dc <sniprintf>
+ 8007778:	687b      	ldr	r3, [r7, #4]
+ 800777a:	f103 0248 	add.w	r2, r3, #72	@ 0x48
+ 800777e:	687b      	ldr	r3, [r7, #4]
+ 8007780:	641a      	str	r2, [r3, #64]	@ 0x40
+ 8007782:	687b      	ldr	r3, [r7, #4]
+ 8007784:	4a63      	ldr	r2, [pc, #396]	@ (8007914 <menu_display_print+0x574>)
+ 8007786:	645a      	str	r2, [r3, #68]	@ 0x44
+ 8007788:	687b      	ldr	r3, [r7, #4]
+ 800778a:	22ff      	movs	r2, #255	@ 0xff
+ 800778c:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 800778e:	e041      	b.n	8007814 <menu_display_print+0x474>
  8007790:	687b      	ldr	r3, [r7, #4]
- 8007792:	4413      	add	r3, r2
- 8007794:	330c      	adds	r3, #12
- 8007796:	22ff      	movs	r2, #255	@ 0xff
- 8007798:	701a      	strb	r2, [r3, #0]
- 800779a:	687b      	ldr	r3, [r7, #4]
- 800779c:	3301      	adds	r3, #1
- 800779e:	607b      	str	r3, [r7, #4]
- 80077a0:	687b      	ldr	r3, [r7, #4]
- 80077a2:	2b0f      	cmp	r3, #15
- 80077a4:	d9f3      	bls.n	800778e <init_queue_event_task_menu+0x1e>
- 80077a6:	bf00      	nop
- 80077a8:	bf00      	nop
- 80077aa:	370c      	adds	r7, #12
- 80077ac:	46bd      	mov	sp, r7
- 80077ae:	bc80      	pop	{r7}
- 80077b0:	4770      	bx	lr
- 80077b2:	bf00      	nop
- 80077b4:	20000310 	.word	0x20000310
+ 8007792:	4a66      	ldr	r2, [pc, #408]	@ (800792c <menu_display_print+0x58c>)
+ 8007794:	639a      	str	r2, [r3, #56]	@ 0x38
+ 8007796:	687b      	ldr	r3, [r7, #4]
+ 8007798:	4a65      	ldr	r2, [pc, #404]	@ (8007930 <menu_display_print+0x590>)
+ 800779a:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 800779c:	687b      	ldr	r3, [r7, #4]
+ 800779e:	4a65      	ldr	r2, [pc, #404]	@ (8007934 <menu_display_print+0x594>)
+ 80077a0:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80077a2:	687b      	ldr	r3, [r7, #4]
+ 80077a4:	4a64      	ldr	r2, [pc, #400]	@ (8007938 <menu_display_print+0x598>)
+ 80077a6:	645a      	str	r2, [r3, #68]	@ 0x44
+ 80077a8:	687b      	ldr	r3, [r7, #4]
+ 80077aa:	2201      	movs	r2, #1
+ 80077ac:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 80077ae:	e031      	b.n	8007814 <menu_display_print+0x474>
+ 80077b0:	687b      	ldr	r3, [r7, #4]
+ 80077b2:	4a62      	ldr	r2, [pc, #392]	@ (800793c <menu_display_print+0x59c>)
+ 80077b4:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 80077b6:	687b      	ldr	r3, [r7, #4]
+ 80077b8:	4a61      	ldr	r2, [pc, #388]	@ (8007940 <menu_display_print+0x5a0>)
+ 80077ba:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80077bc:	687b      	ldr	r3, [r7, #4]
+ 80077be:	22ff      	movs	r2, #255	@ 0xff
+ 80077c0:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 80077c2:	e027      	b.n	8007814 <menu_display_print+0x474>
+ 80077c4:	687b      	ldr	r3, [r7, #4]
+ 80077c6:	4a5f      	ldr	r2, [pc, #380]	@ (8007944 <menu_display_print+0x5a4>)
+ 80077c8:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 80077ca:	687b      	ldr	r3, [r7, #4]
+ 80077cc:	4a5e      	ldr	r2, [pc, #376]	@ (8007948 <menu_display_print+0x5a8>)
+ 80077ce:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80077d0:	687b      	ldr	r3, [r7, #4]
+ 80077d2:	22ff      	movs	r2, #255	@ 0xff
+ 80077d4:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 80077d6:	e01d      	b.n	8007814 <menu_display_print+0x474>
+ 80077d8:	687b      	ldr	r3, [r7, #4]
+ 80077da:	4a5c      	ldr	r2, [pc, #368]	@ (800794c <menu_display_print+0x5ac>)
+ 80077dc:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 80077de:	687b      	ldr	r3, [r7, #4]
+ 80077e0:	4a59      	ldr	r2, [pc, #356]	@ (8007948 <menu_display_print+0x5a8>)
+ 80077e2:	641a      	str	r2, [r3, #64]	@ 0x40
+ 80077e4:	687b      	ldr	r3, [r7, #4]
+ 80077e6:	22ff      	movs	r2, #255	@ 0xff
+ 80077e8:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 80077ea:	e013      	b.n	8007814 <menu_display_print+0x474>
+ 80077ec:	687b      	ldr	r3, [r7, #4]
+ 80077ee:	4a58      	ldr	r2, [pc, #352]	@ (8007950 <menu_display_print+0x5b0>)
+ 80077f0:	639a      	str	r2, [r3, #56]	@ 0x38
+ 80077f2:	687b      	ldr	r3, [r7, #4]
+ 80077f4:	4a57      	ldr	r2, [pc, #348]	@ (8007954 <menu_display_print+0x5b4>)
+ 80077f6:	63da      	str	r2, [r3, #60]	@ 0x3c
+ 80077f8:	687b      	ldr	r3, [r7, #4]
+ 80077fa:	4a57      	ldr	r2, [pc, #348]	@ (8007958 <menu_display_print+0x5b8>)
+ 80077fc:	645a      	str	r2, [r3, #68]	@ 0x44
+ 80077fe:	687b      	ldr	r3, [r7, #4]
+ 8007800:	22ff      	movs	r2, #255	@ 0xff
+ 8007802:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 8007804:	e006      	b.n	8007814 <menu_display_print+0x474>
+ 8007806:	687b      	ldr	r3, [r7, #4]
+ 8007808:	4a54      	ldr	r2, [pc, #336]	@ (800795c <menu_display_print+0x5bc>)
+ 800780a:	639a      	str	r2, [r3, #56]	@ 0x38
+ 800780c:	687b      	ldr	r3, [r7, #4]
+ 800780e:	22ff      	movs	r2, #255	@ 0xff
+ 8007810:	86da      	strh	r2, [r3, #54]	@ 0x36
+ 8007812:	bf00      	nop
+ 8007814:	e06f      	b.n	80078f6 <menu_display_print+0x556>
+ 8007816:	687b      	ldr	r3, [r7, #4]
+ 8007818:	f893 302e 	ldrb.w	r3, [r3, #46]	@ 0x2e
+ 800781c:	2b00      	cmp	r3, #0
+ 800781e:	d029      	beq.n	8007874 <menu_display_print+0x4d4>
+ 8007820:	687b      	ldr	r3, [r7, #4]
+ 8007822:	8e1b      	ldrh	r3, [r3, #48]	@ 0x30
+ 8007824:	2b0f      	cmp	r3, #15
+ 8007826:	d820      	bhi.n	800786a <menu_display_print+0x4ca>
+ 8007828:	687b      	ldr	r3, [r7, #4]
+ 800782a:	8e1b      	ldrh	r3, [r3, #48]	@ 0x30
+ 800782c:	089b      	lsrs	r3, r3, #2
+ 800782e:	b29b      	uxth	r3, r3
+ 8007830:	f887 3022 	strb.w	r3, [r7, #34]	@ 0x22
+ 8007834:	687b      	ldr	r3, [r7, #4]
+ 8007836:	8e1b      	ldrh	r3, [r3, #48]	@ 0x30
+ 8007838:	b2db      	uxtb	r3, r3
+ 800783a:	f003 0303 	and.w	r3, r3, #3
+ 800783e:	f887 3021 	strb.w	r3, [r7, #33]	@ 0x21
+ 8007842:	f897 2022 	ldrb.w	r2, [r7, #34]	@ 0x22
+ 8007846:	687b      	ldr	r3, [r7, #4]
+ 8007848:	320e      	adds	r2, #14
+ 800784a:	f853 2022 	ldr.w	r2, [r3, r2, lsl #2]
+ 800784e:	f897 1021 	ldrb.w	r1, [r7, #33]	@ 0x21
+ 8007852:	f897 3022 	ldrb.w	r3, [r7, #34]	@ 0x22
+ 8007856:	4618      	mov	r0, r3
+ 8007858:	f7fe f966 	bl	8005b28 <displayPrintPart>
+ 800785c:	687b      	ldr	r3, [r7, #4]
+ 800785e:	8e1b      	ldrh	r3, [r3, #48]	@ 0x30
+ 8007860:	3301      	adds	r3, #1
+ 8007862:	b29a      	uxth	r2, r3
+ 8007864:	687b      	ldr	r3, [r7, #4]
+ 8007866:	861a      	strh	r2, [r3, #48]	@ 0x30
+ 8007868:	e045      	b.n	80078f6 <menu_display_print+0x556>
+ 800786a:	687b      	ldr	r3, [r7, #4]
+ 800786c:	2200      	movs	r2, #0
+ 800786e:	f883 202e 	strb.w	r2, [r3, #46]	@ 0x2e
+ 8007872:	e040      	b.n	80078f6 <menu_display_print+0x556>
+ 8007874:	687b      	ldr	r3, [r7, #4]
+ 8007876:	f893 302e 	ldrb.w	r3, [r3, #46]	@ 0x2e
+ 800787a:	f083 0301 	eor.w	r3, r3, #1
+ 800787e:	b2db      	uxtb	r3, r3
+ 8007880:	2b00      	cmp	r3, #0
+ 8007882:	d038      	beq.n	80078f6 <menu_display_print+0x556>
+ 8007884:	687b      	ldr	r3, [r7, #4]
+ 8007886:	f893 3032 	ldrb.w	r3, [r3, #50]	@ 0x32
+ 800788a:	2b00      	cmp	r3, #0
+ 800788c:	d033      	beq.n	80078f6 <menu_display_print+0x556>
+ 800788e:	687b      	ldr	r3, [r7, #4]
+ 8007890:	2200      	movs	r2, #0
+ 8007892:	f883 2032 	strb.w	r2, [r3, #50]	@ 0x32
+ 8007896:	687b      	ldr	r3, [r7, #4]
+ 8007898:	8edb      	ldrh	r3, [r3, #54]	@ 0x36
+ 800789a:	2bff      	cmp	r3, #255	@ 0xff
+ 800789c:	d02b      	beq.n	80078f6 <menu_display_print+0x556>
+ 800789e:	687b      	ldr	r3, [r7, #4]
+ 80078a0:	8edb      	ldrh	r3, [r3, #54]	@ 0x36
+ 80078a2:	627b      	str	r3, [r7, #36]	@ 0x24
+ 80078a4:	e00b      	b.n	80078be <menu_display_print+0x51e>
+ 80078a6:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
+ 80078a8:	b2db      	uxtb	r3, r3
+ 80078aa:	4619      	mov	r1, r3
+ 80078ac:	2000      	movs	r0, #0
+ 80078ae:	f7fe f8db 	bl	8005a68 <displayCharPositionWrite>
+ 80078b2:	482b      	ldr	r0, [pc, #172]	@ (8007960 <menu_display_print+0x5c0>)
+ 80078b4:	f7fe f922 	bl	8005afc <displayStringWrite>
+ 80078b8:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
+ 80078ba:	3301      	adds	r3, #1
+ 80078bc:	627b      	str	r3, [r7, #36]	@ 0x24
+ 80078be:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
+ 80078c0:	2b03      	cmp	r3, #3
+ 80078c2:	ddf0      	ble.n	80078a6 <menu_display_print+0x506>
+ 80078c4:	687b      	ldr	r3, [r7, #4]
+ 80078c6:	8e9b      	ldrh	r3, [r3, #52]	@ 0x34
+ 80078c8:	b2da      	uxtb	r2, r3
+ 80078ca:	687b      	ldr	r3, [r7, #4]
+ 80078cc:	8edb      	ldrh	r3, [r3, #54]	@ 0x36
+ 80078ce:	b2db      	uxtb	r3, r3
+ 80078d0:	4413      	add	r3, r2
+ 80078d2:	f887 3023 	strb.w	r3, [r7, #35]	@ 0x23
+ 80078d6:	f897 3023 	ldrb.w	r3, [r7, #35]	@ 0x23
+ 80078da:	2b03      	cmp	r3, #3
+ 80078dc:	d902      	bls.n	80078e4 <menu_display_print+0x544>
+ 80078de:	2303      	movs	r3, #3
+ 80078e0:	f887 3023 	strb.w	r3, [r7, #35]	@ 0x23
+ 80078e4:	f897 3023 	ldrb.w	r3, [r7, #35]	@ 0x23
+ 80078e8:	4619      	mov	r1, r3
+ 80078ea:	2000      	movs	r0, #0
+ 80078ec:	f7fe f8bc 	bl	8005a68 <displayCharPositionWrite>
+ 80078f0:	481c      	ldr	r0, [pc, #112]	@ (8007964 <menu_display_print+0x5c4>)
+ 80078f2:	f7fe f903 	bl	8005afc <displayStringWrite>
+ 80078f6:	372c      	adds	r7, #44	@ 0x2c
+ 80078f8:	46bd      	mov	sp, r7
+ 80078fa:	bd90      	pop	{r4, r7, pc}
+ 80078fc:	080093c8 	.word	0x080093c8
+ 8007900:	080093e0 	.word	0x080093e0
+ 8007904:	080093f8 	.word	0x080093f8
+ 8007908:	0800940c 	.word	0x0800940c
+ 800790c:	08009420 	.word	0x08009420
+ 8007910:	08009438 	.word	0x08009438
+ 8007914:	08009450 	.word	0x08009450
+ 8007918:	08009468 	.word	0x08009468
+ 800791c:	08009480 	.word	0x08009480
+ 8007920:	08009498 	.word	0x08009498
+ 8007924:	080094ac 	.word	0x080094ac
+ 8007928:	080094c4 	.word	0x080094c4
+ 800792c:	080094d8 	.word	0x080094d8
+ 8007930:	080094f0 	.word	0x080094f0
+ 8007934:	08009504 	.word	0x08009504
+ 8007938:	08009518 	.word	0x08009518
+ 800793c:	08009524 	.word	0x08009524
+ 8007940:	0800953c 	.word	0x0800953c
+ 8007944:	08009554 	.word	0x08009554
+ 8007948:	0800956c 	.word	0x0800956c
+ 800794c:	08009584 	.word	0x08009584
+ 8007950:	0800959c 	.word	0x0800959c
+ 8007954:	080095b4 	.word	0x080095b4
+ 8007958:	080095cc 	.word	0x080095cc
+ 800795c:	080095e4 	.word	0x080095e4
+ 8007960:	080095fc 	.word	0x080095fc
+ 8007964:	08009600 	.word	0x08009600
 
-080077b8 <put_event_task_menu>:
- 80077b8:	b480      	push	{r7}
- 80077ba:	b083      	sub	sp, #12
- 80077bc:	af00      	add	r7, sp, #0
- 80077be:	4603      	mov	r3, r0
- 80077c0:	71fb      	strb	r3, [r7, #7]
- 80077c2:	4b0d      	ldr	r3, [pc, #52]	@ (80077f8 <put_event_task_menu+0x40>)
- 80077c4:	689b      	ldr	r3, [r3, #8]
- 80077c6:	3301      	adds	r3, #1
- 80077c8:	4a0b      	ldr	r2, [pc, #44]	@ (80077f8 <put_event_task_menu+0x40>)
- 80077ca:	6093      	str	r3, [r2, #8]
- 80077cc:	4b0a      	ldr	r3, [pc, #40]	@ (80077f8 <put_event_task_menu+0x40>)
- 80077ce:	681b      	ldr	r3, [r3, #0]
- 80077d0:	1c5a      	adds	r2, r3, #1
- 80077d2:	4909      	ldr	r1, [pc, #36]	@ (80077f8 <put_event_task_menu+0x40>)
- 80077d4:	600a      	str	r2, [r1, #0]
- 80077d6:	4a08      	ldr	r2, [pc, #32]	@ (80077f8 <put_event_task_menu+0x40>)
- 80077d8:	4413      	add	r3, r2
- 80077da:	79fa      	ldrb	r2, [r7, #7]
- 80077dc:	731a      	strb	r2, [r3, #12]
- 80077de:	4b06      	ldr	r3, [pc, #24]	@ (80077f8 <put_event_task_menu+0x40>)
- 80077e0:	681b      	ldr	r3, [r3, #0]
- 80077e2:	2b10      	cmp	r3, #16
- 80077e4:	d102      	bne.n	80077ec <put_event_task_menu+0x34>
- 80077e6:	4b04      	ldr	r3, [pc, #16]	@ (80077f8 <put_event_task_menu+0x40>)
- 80077e8:	2200      	movs	r2, #0
- 80077ea:	601a      	str	r2, [r3, #0]
- 80077ec:	bf00      	nop
- 80077ee:	370c      	adds	r7, #12
- 80077f0:	46bd      	mov	sp, r7
- 80077f2:	bc80      	pop	{r7}
- 80077f4:	4770      	bx	lr
- 80077f6:	bf00      	nop
- 80077f8:	20000310 	.word	0x20000310
+08007968 <init_queue_event_task_menu>:
+ 8007968:	b480      	push	{r7}
+ 800796a:	b083      	sub	sp, #12
+ 800796c:	af00      	add	r7, sp, #0
+ 800796e:	4b0f      	ldr	r3, [pc, #60]	@ (80079ac <init_queue_event_task_menu+0x44>)
+ 8007970:	2200      	movs	r2, #0
+ 8007972:	601a      	str	r2, [r3, #0]
+ 8007974:	4b0d      	ldr	r3, [pc, #52]	@ (80079ac <init_queue_event_task_menu+0x44>)
+ 8007976:	2200      	movs	r2, #0
+ 8007978:	605a      	str	r2, [r3, #4]
+ 800797a:	4b0c      	ldr	r3, [pc, #48]	@ (80079ac <init_queue_event_task_menu+0x44>)
+ 800797c:	2200      	movs	r2, #0
+ 800797e:	609a      	str	r2, [r3, #8]
+ 8007980:	2300      	movs	r3, #0
+ 8007982:	607b      	str	r3, [r7, #4]
+ 8007984:	e008      	b.n	8007998 <init_queue_event_task_menu+0x30>
+ 8007986:	4a09      	ldr	r2, [pc, #36]	@ (80079ac <init_queue_event_task_menu+0x44>)
+ 8007988:	687b      	ldr	r3, [r7, #4]
+ 800798a:	4413      	add	r3, r2
+ 800798c:	330c      	adds	r3, #12
+ 800798e:	22ff      	movs	r2, #255	@ 0xff
+ 8007990:	701a      	strb	r2, [r3, #0]
+ 8007992:	687b      	ldr	r3, [r7, #4]
+ 8007994:	3301      	adds	r3, #1
+ 8007996:	607b      	str	r3, [r7, #4]
+ 8007998:	687b      	ldr	r3, [r7, #4]
+ 800799a:	2b0f      	cmp	r3, #15
+ 800799c:	d9f3      	bls.n	8007986 <init_queue_event_task_menu+0x1e>
+ 800799e:	bf00      	nop
+ 80079a0:	bf00      	nop
+ 80079a2:	370c      	adds	r7, #12
+ 80079a4:	46bd      	mov	sp, r7
+ 80079a6:	bc80      	pop	{r7}
+ 80079a8:	4770      	bx	lr
+ 80079aa:	bf00      	nop
+ 80079ac:	20000330 	.word	0x20000330
 
-080077fc <get_event_task_menu>:
- 80077fc:	b480      	push	{r7}
- 80077fe:	b083      	sub	sp, #12
- 8007800:	af00      	add	r7, sp, #0
- 8007802:	4b10      	ldr	r3, [pc, #64]	@ (8007844 <get_event_task_menu+0x48>)
- 8007804:	689b      	ldr	r3, [r3, #8]
- 8007806:	3b01      	subs	r3, #1
- 8007808:	4a0e      	ldr	r2, [pc, #56]	@ (8007844 <get_event_task_menu+0x48>)
- 800780a:	6093      	str	r3, [r2, #8]
- 800780c:	4b0d      	ldr	r3, [pc, #52]	@ (8007844 <get_event_task_menu+0x48>)
- 800780e:	685b      	ldr	r3, [r3, #4]
- 8007810:	4a0c      	ldr	r2, [pc, #48]	@ (8007844 <get_event_task_menu+0x48>)
- 8007812:	4413      	add	r3, r2
- 8007814:	7b1b      	ldrb	r3, [r3, #12]
- 8007816:	71fb      	strb	r3, [r7, #7]
- 8007818:	4b0a      	ldr	r3, [pc, #40]	@ (8007844 <get_event_task_menu+0x48>)
- 800781a:	685b      	ldr	r3, [r3, #4]
- 800781c:	1c5a      	adds	r2, r3, #1
- 800781e:	4909      	ldr	r1, [pc, #36]	@ (8007844 <get_event_task_menu+0x48>)
- 8007820:	604a      	str	r2, [r1, #4]
- 8007822:	4a08      	ldr	r2, [pc, #32]	@ (8007844 <get_event_task_menu+0x48>)
- 8007824:	4413      	add	r3, r2
- 8007826:	22ff      	movs	r2, #255	@ 0xff
- 8007828:	731a      	strb	r2, [r3, #12]
- 800782a:	4b06      	ldr	r3, [pc, #24]	@ (8007844 <get_event_task_menu+0x48>)
- 800782c:	685b      	ldr	r3, [r3, #4]
- 800782e:	2b10      	cmp	r3, #16
- 8007830:	d102      	bne.n	8007838 <get_event_task_menu+0x3c>
- 8007832:	4b04      	ldr	r3, [pc, #16]	@ (8007844 <get_event_task_menu+0x48>)
- 8007834:	2200      	movs	r2, #0
- 8007836:	605a      	str	r2, [r3, #4]
- 8007838:	79fb      	ldrb	r3, [r7, #7]
- 800783a:	4618      	mov	r0, r3
- 800783c:	370c      	adds	r7, #12
- 800783e:	46bd      	mov	sp, r7
- 8007840:	bc80      	pop	{r7}
- 8007842:	4770      	bx	lr
- 8007844:	20000310 	.word	0x20000310
+080079b0 <put_event_task_menu>:
+ 80079b0:	b480      	push	{r7}
+ 80079b2:	b083      	sub	sp, #12
+ 80079b4:	af00      	add	r7, sp, #0
+ 80079b6:	4603      	mov	r3, r0
+ 80079b8:	71fb      	strb	r3, [r7, #7]
+ 80079ba:	4b0d      	ldr	r3, [pc, #52]	@ (80079f0 <put_event_task_menu+0x40>)
+ 80079bc:	689b      	ldr	r3, [r3, #8]
+ 80079be:	3301      	adds	r3, #1
+ 80079c0:	4a0b      	ldr	r2, [pc, #44]	@ (80079f0 <put_event_task_menu+0x40>)
+ 80079c2:	6093      	str	r3, [r2, #8]
+ 80079c4:	4b0a      	ldr	r3, [pc, #40]	@ (80079f0 <put_event_task_menu+0x40>)
+ 80079c6:	681b      	ldr	r3, [r3, #0]
+ 80079c8:	1c5a      	adds	r2, r3, #1
+ 80079ca:	4909      	ldr	r1, [pc, #36]	@ (80079f0 <put_event_task_menu+0x40>)
+ 80079cc:	600a      	str	r2, [r1, #0]
+ 80079ce:	4a08      	ldr	r2, [pc, #32]	@ (80079f0 <put_event_task_menu+0x40>)
+ 80079d0:	4413      	add	r3, r2
+ 80079d2:	79fa      	ldrb	r2, [r7, #7]
+ 80079d4:	731a      	strb	r2, [r3, #12]
+ 80079d6:	4b06      	ldr	r3, [pc, #24]	@ (80079f0 <put_event_task_menu+0x40>)
+ 80079d8:	681b      	ldr	r3, [r3, #0]
+ 80079da:	2b10      	cmp	r3, #16
+ 80079dc:	d102      	bne.n	80079e4 <put_event_task_menu+0x34>
+ 80079de:	4b04      	ldr	r3, [pc, #16]	@ (80079f0 <put_event_task_menu+0x40>)
+ 80079e0:	2200      	movs	r2, #0
+ 80079e2:	601a      	str	r2, [r3, #0]
+ 80079e4:	bf00      	nop
+ 80079e6:	370c      	adds	r7, #12
+ 80079e8:	46bd      	mov	sp, r7
+ 80079ea:	bc80      	pop	{r7}
+ 80079ec:	4770      	bx	lr
+ 80079ee:	bf00      	nop
+ 80079f0:	20000330 	.word	0x20000330
 
-08007848 <any_event_task_menu>:
- 8007848:	b480      	push	{r7}
- 800784a:	af00      	add	r7, sp, #0
- 800784c:	4b06      	ldr	r3, [pc, #24]	@ (8007868 <any_event_task_menu+0x20>)
- 800784e:	681a      	ldr	r2, [r3, #0]
- 8007850:	4b05      	ldr	r3, [pc, #20]	@ (8007868 <any_event_task_menu+0x20>)
- 8007852:	685b      	ldr	r3, [r3, #4]
- 8007854:	429a      	cmp	r2, r3
- 8007856:	bf14      	ite	ne
- 8007858:	2301      	movne	r3, #1
- 800785a:	2300      	moveq	r3, #0
- 800785c:	b2db      	uxtb	r3, r3
- 800785e:	4618      	mov	r0, r3
- 8007860:	46bd      	mov	sp, r7
- 8007862:	bc80      	pop	{r7}
- 8007864:	4770      	bx	lr
- 8007866:	bf00      	nop
- 8007868:	20000310 	.word	0x20000310
+080079f4 <get_event_task_menu>:
+ 80079f4:	b480      	push	{r7}
+ 80079f6:	b083      	sub	sp, #12
+ 80079f8:	af00      	add	r7, sp, #0
+ 80079fa:	4b10      	ldr	r3, [pc, #64]	@ (8007a3c <get_event_task_menu+0x48>)
+ 80079fc:	689b      	ldr	r3, [r3, #8]
+ 80079fe:	3b01      	subs	r3, #1
+ 8007a00:	4a0e      	ldr	r2, [pc, #56]	@ (8007a3c <get_event_task_menu+0x48>)
+ 8007a02:	6093      	str	r3, [r2, #8]
+ 8007a04:	4b0d      	ldr	r3, [pc, #52]	@ (8007a3c <get_event_task_menu+0x48>)
+ 8007a06:	685b      	ldr	r3, [r3, #4]
+ 8007a08:	4a0c      	ldr	r2, [pc, #48]	@ (8007a3c <get_event_task_menu+0x48>)
+ 8007a0a:	4413      	add	r3, r2
+ 8007a0c:	7b1b      	ldrb	r3, [r3, #12]
+ 8007a0e:	71fb      	strb	r3, [r7, #7]
+ 8007a10:	4b0a      	ldr	r3, [pc, #40]	@ (8007a3c <get_event_task_menu+0x48>)
+ 8007a12:	685b      	ldr	r3, [r3, #4]
+ 8007a14:	1c5a      	adds	r2, r3, #1
+ 8007a16:	4909      	ldr	r1, [pc, #36]	@ (8007a3c <get_event_task_menu+0x48>)
+ 8007a18:	604a      	str	r2, [r1, #4]
+ 8007a1a:	4a08      	ldr	r2, [pc, #32]	@ (8007a3c <get_event_task_menu+0x48>)
+ 8007a1c:	4413      	add	r3, r2
+ 8007a1e:	22ff      	movs	r2, #255	@ 0xff
+ 8007a20:	731a      	strb	r2, [r3, #12]
+ 8007a22:	4b06      	ldr	r3, [pc, #24]	@ (8007a3c <get_event_task_menu+0x48>)
+ 8007a24:	685b      	ldr	r3, [r3, #4]
+ 8007a26:	2b10      	cmp	r3, #16
+ 8007a28:	d102      	bne.n	8007a30 <get_event_task_menu+0x3c>
+ 8007a2a:	4b04      	ldr	r3, [pc, #16]	@ (8007a3c <get_event_task_menu+0x48>)
+ 8007a2c:	2200      	movs	r2, #0
+ 8007a2e:	605a      	str	r2, [r3, #4]
+ 8007a30:	79fb      	ldrb	r3, [r7, #7]
+ 8007a32:	4618      	mov	r0, r3
+ 8007a34:	370c      	adds	r7, #12
+ 8007a36:	46bd      	mov	sp, r7
+ 8007a38:	bc80      	pop	{r7}
+ 8007a3a:	4770      	bx	lr
+ 8007a3c:	20000330 	.word	0x20000330
 
-0800786c <task_sensor_init>:
- 800786c:	b480      	push	{r7}
- 800786e:	b087      	sub	sp, #28
- 8007870:	af00      	add	r7, sp, #0
- 8007872:	6078      	str	r0, [r7, #4]
- 8007874:	4b0f      	ldr	r3, [pc, #60]	@ (80078b4 <task_sensor_init+0x48>)
- 8007876:	2200      	movs	r2, #0
- 8007878:	601a      	str	r2, [r3, #0]
- 800787a:	2300      	movs	r3, #0
- 800787c:	617b      	str	r3, [r7, #20]
- 800787e:	e00d      	b.n	800789c <task_sensor_init+0x30>
- 8007880:	697b      	ldr	r3, [r7, #20]
- 8007882:	00db      	lsls	r3, r3, #3
- 8007884:	4a0c      	ldr	r2, [pc, #48]	@ (80078b8 <task_sensor_init+0x4c>)
- 8007886:	4413      	add	r3, r2
- 8007888:	613b      	str	r3, [r7, #16]
- 800788a:	693b      	ldr	r3, [r7, #16]
- 800788c:	791b      	ldrb	r3, [r3, #4]
- 800788e:	73fb      	strb	r3, [r7, #15]
- 8007890:	693b      	ldr	r3, [r7, #16]
- 8007892:	795b      	ldrb	r3, [r3, #5]
- 8007894:	73bb      	strb	r3, [r7, #14]
- 8007896:	697b      	ldr	r3, [r7, #20]
- 8007898:	3301      	adds	r3, #1
- 800789a:	617b      	str	r3, [r7, #20]
- 800789c:	697b      	ldr	r3, [r7, #20]
- 800789e:	2b02      	cmp	r3, #2
- 80078a0:	d9ee      	bls.n	8007880 <task_sensor_init+0x14>
- 80078a2:	4b06      	ldr	r3, [pc, #24]	@ (80078bc <task_sensor_init+0x50>)
- 80078a4:	2200      	movs	r2, #0
- 80078a6:	601a      	str	r2, [r3, #0]
- 80078a8:	bf00      	nop
- 80078aa:	371c      	adds	r7, #28
- 80078ac:	46bd      	mov	sp, r7
- 80078ae:	bc80      	pop	{r7}
- 80078b0:	4770      	bx	lr
- 80078b2:	bf00      	nop
- 80078b4:	20000344 	.word	0x20000344
- 80078b8:	2000032c 	.word	0x2000032c
- 80078bc:	20000348 	.word	0x20000348
-
-080078c0 <task_sensor_update>:
- 80078c0:	b590      	push	{r4, r7, lr}
- 80078c2:	b087      	sub	sp, #28
- 80078c4:	af00      	add	r7, sp, #0
- 80078c6:	6078      	str	r0, [r7, #4]
- 80078c8:	2300      	movs	r3, #0
- 80078ca:	74fb      	strb	r3, [r7, #19]
- 80078cc:	4b61      	ldr	r3, [pc, #388]	@ (8007a54 <task_sensor_update+0x194>)
- 80078ce:	681b      	ldr	r3, [r3, #0]
- 80078d0:	3301      	adds	r3, #1
- 80078d2:	4a60      	ldr	r2, [pc, #384]	@ (8007a54 <task_sensor_update+0x194>)
- 80078d4:	6013      	str	r3, [r2, #0]
- 80078d6:	b672      	cpsid	i
- 80078d8:	4b5f      	ldr	r3, [pc, #380]	@ (8007a58 <task_sensor_update+0x198>)
- 80078da:	681b      	ldr	r3, [r3, #0]
- 80078dc:	2b00      	cmp	r3, #0
- 80078de:	d006      	beq.n	80078ee <task_sensor_update+0x2e>
- 80078e0:	4b5d      	ldr	r3, [pc, #372]	@ (8007a58 <task_sensor_update+0x198>)
- 80078e2:	681b      	ldr	r3, [r3, #0]
- 80078e4:	3b01      	subs	r3, #1
- 80078e6:	4a5c      	ldr	r2, [pc, #368]	@ (8007a58 <task_sensor_update+0x198>)
- 80078e8:	6013      	str	r3, [r2, #0]
- 80078ea:	2301      	movs	r3, #1
- 80078ec:	74fb      	strb	r3, [r7, #19]
- 80078ee:	b662      	cpsie	i
- 80078f0:	e0a6      	b.n	8007a40 <task_sensor_update+0x180>
- 80078f2:	b672      	cpsid	i
- 80078f4:	4b58      	ldr	r3, [pc, #352]	@ (8007a58 <task_sensor_update+0x198>)
- 80078f6:	681b      	ldr	r3, [r3, #0]
- 80078f8:	2b00      	cmp	r3, #0
- 80078fa:	d007      	beq.n	800790c <task_sensor_update+0x4c>
- 80078fc:	4b56      	ldr	r3, [pc, #344]	@ (8007a58 <task_sensor_update+0x198>)
- 80078fe:	681b      	ldr	r3, [r3, #0]
- 8007900:	3b01      	subs	r3, #1
- 8007902:	4a55      	ldr	r2, [pc, #340]	@ (8007a58 <task_sensor_update+0x198>)
- 8007904:	6013      	str	r3, [r2, #0]
- 8007906:	2301      	movs	r3, #1
- 8007908:	74fb      	strb	r3, [r7, #19]
- 800790a:	e001      	b.n	8007910 <task_sensor_update+0x50>
- 800790c:	2300      	movs	r3, #0
- 800790e:	74fb      	strb	r3, [r7, #19]
- 8007910:	b662      	cpsie	i
- 8007912:	2300      	movs	r3, #0
- 8007914:	617b      	str	r3, [r7, #20]
- 8007916:	e08f      	b.n	8007a38 <task_sensor_update+0x178>
- 8007918:	697a      	ldr	r2, [r7, #20]
- 800791a:	4613      	mov	r3, r2
- 800791c:	009b      	lsls	r3, r3, #2
- 800791e:	4413      	add	r3, r2
- 8007920:	009b      	lsls	r3, r3, #2
- 8007922:	4a4e      	ldr	r2, [pc, #312]	@ (8007a5c <task_sensor_update+0x19c>)
- 8007924:	4413      	add	r3, r2
- 8007926:	60fb      	str	r3, [r7, #12]
- 8007928:	697b      	ldr	r3, [r7, #20]
- 800792a:	00db      	lsls	r3, r3, #3
- 800792c:	4a4c      	ldr	r2, [pc, #304]	@ (8007a60 <task_sensor_update+0x1a0>)
- 800792e:	4413      	add	r3, r2
- 8007930:	60bb      	str	r3, [r7, #8]
- 8007932:	68fb      	ldr	r3, [r7, #12]
- 8007934:	7a9c      	ldrb	r4, [r3, #10]
- 8007936:	68fb      	ldr	r3, [r7, #12]
- 8007938:	685a      	ldr	r2, [r3, #4]
- 800793a:	68fb      	ldr	r3, [r7, #12]
- 800793c:	891b      	ldrh	r3, [r3, #8]
- 800793e:	4619      	mov	r1, r3
- 8007940:	4610      	mov	r0, r2
- 8007942:	f7fb fa51 	bl	8002de8 <HAL_GPIO_ReadPin>
- 8007946:	4603      	mov	r3, r0
- 8007948:	429c      	cmp	r4, r3
- 800794a:	d103      	bne.n	8007954 <task_sensor_update+0x94>
- 800794c:	68bb      	ldr	r3, [r7, #8]
- 800794e:	2201      	movs	r2, #1
- 8007950:	715a      	strb	r2, [r3, #5]
- 8007952:	e002      	b.n	800795a <task_sensor_update+0x9a>
- 8007954:	68bb      	ldr	r3, [r7, #8]
- 8007956:	2200      	movs	r2, #0
- 8007958:	715a      	strb	r2, [r3, #5]
- 800795a:	68bb      	ldr	r3, [r7, #8]
- 800795c:	791b      	ldrb	r3, [r3, #4]
- 800795e:	2b03      	cmp	r3, #3
- 8007960:	d856      	bhi.n	8007a10 <task_sensor_update+0x150>
- 8007962:	a201      	add	r2, pc, #4	@ (adr r2, 8007968 <task_sensor_update+0xa8>)
- 8007964:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
- 8007968:	08007979 	.word	0x08007979
- 800796c:	08007991 	.word	0x08007991
- 8007970:	080079c5 	.word	0x080079c5
- 8007974:	080079dd 	.word	0x080079dd
- 8007978:	68bb      	ldr	r3, [r7, #8]
- 800797a:	795b      	ldrb	r3, [r3, #5]
- 800797c:	2b01      	cmp	r3, #1
- 800797e:	d151      	bne.n	8007a24 <task_sensor_update+0x164>
- 8007980:	68fb      	ldr	r3, [r7, #12]
- 8007982:	68da      	ldr	r2, [r3, #12]
- 8007984:	68bb      	ldr	r3, [r7, #8]
- 8007986:	601a      	str	r2, [r3, #0]
- 8007988:	68bb      	ldr	r3, [r7, #8]
- 800798a:	2201      	movs	r2, #1
- 800798c:	711a      	strb	r2, [r3, #4]
- 800798e:	e049      	b.n	8007a24 <task_sensor_update+0x164>
- 8007990:	68bb      	ldr	r3, [r7, #8]
- 8007992:	681b      	ldr	r3, [r3, #0]
- 8007994:	1e5a      	subs	r2, r3, #1
- 8007996:	68bb      	ldr	r3, [r7, #8]
- 8007998:	601a      	str	r2, [r3, #0]
- 800799a:	68bb      	ldr	r3, [r7, #8]
- 800799c:	681b      	ldr	r3, [r3, #0]
- 800799e:	2b00      	cmp	r3, #0
- 80079a0:	d142      	bne.n	8007a28 <task_sensor_update+0x168>
- 80079a2:	68bb      	ldr	r3, [r7, #8]
- 80079a4:	795b      	ldrb	r3, [r3, #5]
- 80079a6:	2b01      	cmp	r3, #1
- 80079a8:	d108      	bne.n	80079bc <task_sensor_update+0xfc>
- 80079aa:	68fb      	ldr	r3, [r7, #12]
- 80079ac:	7c5b      	ldrb	r3, [r3, #17]
- 80079ae:	4618      	mov	r0, r3
- 80079b0:	f7ff ff02 	bl	80077b8 <put_event_task_menu>
- 80079b4:	68bb      	ldr	r3, [r7, #8]
- 80079b6:	2202      	movs	r2, #2
- 80079b8:	711a      	strb	r2, [r3, #4]
- 80079ba:	e035      	b.n	8007a28 <task_sensor_update+0x168>
- 80079bc:	68bb      	ldr	r3, [r7, #8]
- 80079be:	2200      	movs	r2, #0
- 80079c0:	711a      	strb	r2, [r3, #4]
- 80079c2:	e031      	b.n	8007a28 <task_sensor_update+0x168>
- 80079c4:	68bb      	ldr	r3, [r7, #8]
- 80079c6:	795b      	ldrb	r3, [r3, #5]
- 80079c8:	2b00      	cmp	r3, #0
- 80079ca:	d12f      	bne.n	8007a2c <task_sensor_update+0x16c>
- 80079cc:	68bb      	ldr	r3, [r7, #8]
- 80079ce:	2203      	movs	r2, #3
- 80079d0:	711a      	strb	r2, [r3, #4]
- 80079d2:	68fb      	ldr	r3, [r7, #12]
- 80079d4:	68da      	ldr	r2, [r3, #12]
- 80079d6:	68bb      	ldr	r3, [r7, #8]
- 80079d8:	601a      	str	r2, [r3, #0]
- 80079da:	e027      	b.n	8007a2c <task_sensor_update+0x16c>
- 80079dc:	68bb      	ldr	r3, [r7, #8]
- 80079de:	681b      	ldr	r3, [r3, #0]
- 80079e0:	1e5a      	subs	r2, r3, #1
- 80079e2:	68bb      	ldr	r3, [r7, #8]
- 80079e4:	601a      	str	r2, [r3, #0]
- 80079e6:	68bb      	ldr	r3, [r7, #8]
- 80079e8:	681b      	ldr	r3, [r3, #0]
- 80079ea:	2b00      	cmp	r3, #0
- 80079ec:	d120      	bne.n	8007a30 <task_sensor_update+0x170>
- 80079ee:	68bb      	ldr	r3, [r7, #8]
- 80079f0:	795b      	ldrb	r3, [r3, #5]
- 80079f2:	2b00      	cmp	r3, #0
- 80079f4:	d108      	bne.n	8007a08 <task_sensor_update+0x148>
- 80079f6:	68fb      	ldr	r3, [r7, #12]
- 80079f8:	7c1b      	ldrb	r3, [r3, #16]
- 80079fa:	4618      	mov	r0, r3
- 80079fc:	f7ff fedc 	bl	80077b8 <put_event_task_menu>
- 8007a00:	68bb      	ldr	r3, [r7, #8]
- 8007a02:	2200      	movs	r2, #0
- 8007a04:	711a      	strb	r2, [r3, #4]
- 8007a06:	e013      	b.n	8007a30 <task_sensor_update+0x170>
- 8007a08:	68bb      	ldr	r3, [r7, #8]
- 8007a0a:	2202      	movs	r2, #2
- 8007a0c:	711a      	strb	r2, [r3, #4]
- 8007a0e:	e00f      	b.n	8007a30 <task_sensor_update+0x170>
- 8007a10:	68bb      	ldr	r3, [r7, #8]
- 8007a12:	2200      	movs	r2, #0
- 8007a14:	601a      	str	r2, [r3, #0]
- 8007a16:	68bb      	ldr	r3, [r7, #8]
- 8007a18:	2200      	movs	r2, #0
- 8007a1a:	711a      	strb	r2, [r3, #4]
- 8007a1c:	68bb      	ldr	r3, [r7, #8]
- 8007a1e:	2200      	movs	r2, #0
- 8007a20:	715a      	strb	r2, [r3, #5]
- 8007a22:	e006      	b.n	8007a32 <task_sensor_update+0x172>
- 8007a24:	bf00      	nop
- 8007a26:	e004      	b.n	8007a32 <task_sensor_update+0x172>
- 8007a28:	bf00      	nop
- 8007a2a:	e002      	b.n	8007a32 <task_sensor_update+0x172>
- 8007a2c:	bf00      	nop
- 8007a2e:	e000      	b.n	8007a32 <task_sensor_update+0x172>
- 8007a30:	bf00      	nop
- 8007a32:	697b      	ldr	r3, [r7, #20]
- 8007a34:	3301      	adds	r3, #1
- 8007a36:	617b      	str	r3, [r7, #20]
- 8007a38:	697b      	ldr	r3, [r7, #20]
- 8007a3a:	2b02      	cmp	r3, #2
- 8007a3c:	f67f af6c 	bls.w	8007918 <task_sensor_update+0x58>
- 8007a40:	7cfb      	ldrb	r3, [r7, #19]
- 8007a42:	2b00      	cmp	r3, #0
- 8007a44:	f47f af55 	bne.w	80078f2 <task_sensor_update+0x32>
- 8007a48:	bf00      	nop
- 8007a4a:	bf00      	nop
- 8007a4c:	371c      	adds	r7, #28
- 8007a4e:	46bd      	mov	sp, r7
- 8007a50:	bd90      	pop	{r4, r7, pc}
- 8007a52:	bf00      	nop
- 8007a54:	20000344 	.word	0x20000344
- 8007a58:	20000348 	.word	0x20000348
- 8007a5c:	080096f0 	.word	0x080096f0
- 8007a60:	2000032c 	.word	0x2000032c
+08007a40 <any_event_task_menu>:
+ 8007a40:	b480      	push	{r7}
+ 8007a42:	af00      	add	r7, sp, #0
+ 8007a44:	4b06      	ldr	r3, [pc, #24]	@ (8007a60 <any_event_task_menu+0x20>)
+ 8007a46:	681a      	ldr	r2, [r3, #0]
+ 8007a48:	4b05      	ldr	r3, [pc, #20]	@ (8007a60 <any_event_task_menu+0x20>)
+ 8007a4a:	685b      	ldr	r3, [r3, #4]
+ 8007a4c:	429a      	cmp	r2, r3
+ 8007a4e:	bf14      	ite	ne
+ 8007a50:	2301      	movne	r3, #1
+ 8007a52:	2300      	moveq	r3, #0
+ 8007a54:	b2db      	uxtb	r3, r3
+ 8007a56:	4618      	mov	r0, r3
+ 8007a58:	46bd      	mov	sp, r7
+ 8007a5a:	bc80      	pop	{r7}
+ 8007a5c:	4770      	bx	lr
+ 8007a5e:	bf00      	nop
+ 8007a60:	20000330 	.word	0x20000330
 
 08007a64 <HAL_I2C_MasterTxCpltCallback>:
  8007a64:	b480      	push	{r7}
@@ -14365,7 +14365,7 @@ Disassembly of section .text:
  8008020:	e0001000 	.word	0xe0001000
  8008024:	200003b4 	.word	0x200003b4
  8008028:	abcd1234 	.word	0xabcd1234
- 800802c:	08009648 	.word	0x08009648
+ 800802c:	08009634 	.word	0x08009634
 
 08008030 <task_system_update>:
  8008030:	b590      	push	{r4, r7, lr}
@@ -14437,7 +14437,7 @@ Disassembly of section .text:
  80080be:	2b05      	cmp	r3, #5
  80080c0:	d106      	bne.n	80080d0 <task_system_update+0xa0>
  80080c2:	2007      	movs	r0, #7
- 80080c4:	f7ff fb78 	bl	80077b8 <put_event_task_menu>
+ 80080c4:	f7ff fc74 	bl	80079b0 <put_event_task_menu>
  80080c8:	2101      	movs	r1, #1
  80080ca:	2002      	movs	r0, #2
  80080cc:	f7fe f92e 	bl	800632c <put_event_task_actuator>
@@ -14799,7 +14799,7 @@ Disassembly of section .text:
  80083ec:	2205      	movs	r2, #5
  80083ee:	731a      	strb	r2, [r3, #12]
  80083f0:	2006      	movs	r0, #6
- 80083f2:	f7ff f9e1 	bl	80077b8 <put_event_task_menu>
+ 80083f2:	f7ff fadd 	bl	80079b0 <put_event_task_menu>
  80083f6:	6a3b      	ldr	r3, [r7, #32]
  80083f8:	2200      	movs	r2, #0
  80083fa:	711a      	strb	r2, [r3, #4]
@@ -15376,10 +15376,10 @@ Disassembly of section .text:
  8008892:	4798      	blx	r3
  8008894:	3601      	adds	r6, #1
  8008896:	e7f2      	b.n	800887e <__libc_init_array+0x1e>
- 8008898:	08009760 	.word	0x08009760
- 800889c:	08009760 	.word	0x08009760
- 80088a0:	08009760 	.word	0x08009760
- 80088a4:	08009764 	.word	0x08009764
+ 8008898:	0800974c 	.word	0x0800974c
+ 800889c:	0800974c 	.word	0x0800974c
+ 80088a0:	0800974c 	.word	0x0800974c
+ 80088a4:	08009750 	.word	0x08009750
 
 080088a8 <__retarget_lock_acquire_recursive>:
  80088a8:	4770      	bx	lr
@@ -15896,9 +15896,9 @@ Disassembly of section .text:
  8008d48:	a904      	add	r1, sp, #16
  8008d4a:	f000 f87d 	bl	8008e48 <_printf_i>
  8008d4e:	e7ed      	b.n	8008d2c <_svfiprintf_r+0x1c0>
- 8008d50:	0800972c 	.word	0x0800972c
- 8008d54:	08009732 	.word	0x08009732
- 8008d58:	08009736 	.word	0x08009736
+ 8008d50:	08009718 	.word	0x08009718
+ 8008d54:	0800971e 	.word	0x0800971e
+ 8008d58:	08009722 	.word	0x08009722
  8008d5c:	00000000 	.word	0x00000000
  8008d60:	08008ab5 	.word	0x08008ab5
 
@@ -16232,8 +16232,8 @@ Disassembly of section .text:
  8009078:	2500      	movs	r5, #0
  800907a:	f104 0619 	add.w	r6, r4, #25
  800907e:	e7f5      	b.n	800906c <_printf_i+0x224>
- 8009080:	0800973d 	.word	0x0800973d
- 8009084:	0800974e 	.word	0x0800974e
+ 8009080:	08009729 	.word	0x08009729
+ 8009084:	0800973a 	.word	0x0800973a
 
 08009088 <memmove>:
  8009088:	4288      	cmp	r0, r1

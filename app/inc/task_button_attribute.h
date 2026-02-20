@@ -29,14 +29,14 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @file   : task_sensor_attribute.h
+ * @file   : task_button_attribute.h
  * @date   : Set 26, 2023
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  * @version	v1.0.0
  */
 
-#ifndef TASK_INC_TASK_SENSOR_ATTRIBUTE_H_
-#define TASK_INC_TASK_SENSOR_ATTRIBUTE_H_
+#ifndef TASK_INC_TASK_BUTTON_ATTRIBUTE_H_
+#define TASK_INC_TASK_BUTTON_ATTRIBUTE_H_
 
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
@@ -44,47 +44,46 @@ extern "C" {
 #endif
 
 /********************** inclusions *******************************************/
-
+#include "main.h"
+//#include <stdbool.h>
 /********************** macros ***********************************************/
 
 /********************** typedef **********************************************/
 
 
 /* Events to excite Task Sensor */
-typedef enum task_sensor_ev {EV_BTN_XX_UP,
-							 EV_BTN_XX_DOWN} task_sensor_ev_t;
+typedef enum task_button_ev {EV_BTN_XX_UP,
+							 EV_BTN_XX_DOWN} task_button_ev_t;
 
 
 /* States of Task Sensor */
-typedef enum task_sensor_st {ST_BTN_XX_UP,
+typedef enum task_button_st {ST_BTN_XX_UP,
 							 ST_BTN_XX_FALLING,
 							 ST_BTN_XX_DOWN,
-						     ST_BTN_XX_RISING} task_sensor_st_t;
+						     ST_BTN_XX_RISING} task_button_st_t;
 
 /* Identifier of Task Sensor */
-typedef enum task_sensor_id {ID_BTN_ENT,
+typedef enum task_button_id {ID_BTN_ENT,
 							 ID_BTN_NEX,
-							 ID_BTN_ESC,
-							 ID_BTN_A,
-							 ID_BTN_A2} task_sensor_id_t;
+							 ID_BTN_ESC} task_button_id_t;
 
 typedef struct
 {
-	task_sensor_id_t	identifier;
+	task_button_id_t	identifier;
 	GPIO_TypeDef *		gpio_port;
 	uint16_t			pin;
 	GPIO_PinState		pressed;
 	uint32_t			tick_max;
-	task_sensor_ev_t	signal_up; // eventos que genera los botones
-	task_sensor_ev_t	signal_down;
-} task_sensor_cfg_t;
+	task_button_ev_t	signal_up; // eventos que genera los botones
+	task_button_ev_t	signal_down;
+} task_button_cfg_t;
 
 typedef struct
 {
 	uint32_t			tick;
-	task_sensor_st_t	state;
-	task_sensor_ev_t	event;
-} task_sensor_dta_t;
+	task_button_st_t	state;
+	task_button_ev_t	event;
+} task_button_dta_t;
 
 /********************** external data declaration ****************************/
 
@@ -95,6 +94,6 @@ typedef struct
 }
 #endif
 
-#endif /* TASK_INC_TASK_SENSOR_ATTRIBUTE_H_ */
+#endif /* TASK_INC_TASK_BUTTON_ATTRIBUTE_H_ */
 
 /********************** end of file ******************************************/
