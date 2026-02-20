@@ -97,6 +97,6 @@ extern task_system_cfg_t task_system_cfg;
 }
 #endif
 
-#endif /* TASK_INC_TASK_MENU_ATTRIBUTE_H_ */
+#endif /* TASK_INC_TASK_SYSTEM_ATTRIBUTE_H_ */
 
 /********************** end of file ******************************************/

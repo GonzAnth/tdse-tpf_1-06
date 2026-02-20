@@ -5,7 +5,7 @@
  * @date    Jan 24, 2026
  */
 
-#ifndef TASK_INC_TASK_ACTUATOR_ATTRIBUTESH_
+#ifndef TASK_INC_TASK_ACTUATOR_ATTRIBUTE_H_
 #define TASK_INC_TASK_ACTUATOR_ATTRIBUTE_H_
 
 /********************** CPP guard ********************************************/
