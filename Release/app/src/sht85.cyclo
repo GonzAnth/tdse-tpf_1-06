@@ -1,0 +1,5 @@
+../app/src/sht85.c:21:6:SHT85_Init	1
+../app/src/sht85.c:28:6:SHT85_start_measure_IT	2
+../app/src/sht85.c:44:6:SHT85_start_read_IT	2
+../app/src/sht85.c:54:6:SHT85_compute_values	5
+../app/src/sht85.c:74:16:CalculateCRC	4

@@ -51,8 +51,8 @@ typedef struct
 	task_sht85_st_t		state;
 	task_sht85_ev_t		event;
 
-	bool				i2c_op_complete;
-	bool				i2c_error;
+	volatile bool		i2c_op_complete;
+	volatile bool		i2c_error;
 	uint8_t				i2c_rx_raw_values[6];
 	float				temperature;
 	float				humidity;

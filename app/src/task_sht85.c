@@ -53,7 +53,7 @@ task_sht85_dta_t task_sht85_dta = {
 	.i2c_error			= false
 };
 
-#define MENU_DTA_QTY	(sizeof(task_sen_dta)/sizeof(task_sen_dta_t))
+#define SHT_DTA_QTY	(sizeof(task_sht85_dta)/sizeof(task_sht85_dta_t))
 
 /********************** internal functions declaration ***********************/
 void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c) {
