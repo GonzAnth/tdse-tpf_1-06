@@ -1,5 +1,0 @@
-../app/src/task_sht85_interface.c:72:6:init_queue_event_task_sht85	2
-../app/src/task_sht85_interface.c:84:6:put_event_task_sht85	2
-../app/src/task_sht85_interface.c:93:17:get_event_task_sht85	2
-../app/src/task_sht85_interface.c:107:6:any_event_task_sht85	1
-../app/src/task_sht85_interface.c:114:6:get_values_task_sht85	1

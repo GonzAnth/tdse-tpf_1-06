@@ -5,7 +5,7 @@
  * @date    Jan 10, 2026
  */
 
-#ifndef TASK_INC_TASK_system_H_
+#ifndef TASK_INC_TASK_SYSTEM_H_
 #define TASK_INC_TASK_SYSTEM_H_
 
 /********************** CPP guard ********************************************/
@@ -32,6 +32,6 @@ extern void task_system_update(void *parameters);
 }
 #endif
 
-#endif /* TASK_INC_TASK_MENU_H_ */
+#endif /* TASK_INC_TASK_SYSTEM_H_ */
 
 /********************** end of file ******************************************/

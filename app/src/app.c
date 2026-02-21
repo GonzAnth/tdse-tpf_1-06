@@ -37,6 +37,7 @@
 
 /********************** inclusions *******************************************/
 /* Project includes. */
+#include <task_button.h>
 #include "main.h"
 
 /* Demo includes. */
@@ -45,7 +46,6 @@
 
 /* Application & Tasks includes. */
 #include "board.h"
-#include "task_sensor.h"
 #include "task_sht85.h"
 #include "task_system.h"
 #include "task_menu.h"
@@ -73,7 +73,7 @@ typedef struct {
 
 /********************** internal data declaration ****************************/
 const task_cfg_t task_cfg_list[]	= {
-		{task_sensor_init,	task_sensor_update, 	NULL},
+		{task_button_init,	task_button_update, 	NULL},
 		{task_sht85_init,	task_sht85_update, 		NULL},
 		{task_system_init, 	task_system_update, 	NULL},
 		{task_menu_init,	task_menu_update, 		NULL},
@@ -87,7 +87,7 @@ const task_cfg_t task_cfg_list[]	= {
 
 /********************** internal data definition *****************************/
 const char *p_sys	= " Bare Metal - Event-Triggered Systems (ETS)\r\n";
-const char *p_app	= " App - Interactive Menu\r\n";
+const char *p_app	= " App - Proyecto Final\r\n";
 
 /********************** external data declaration ****************************/
 uint32_t g_app_cnt;
@@ -129,11 +129,12 @@ void app_init(void)
 
 	__asm("CPSID i");	/* disable interrupts*/
 	g_app_tick_cnt = G_APP_TICK_CNT_INI;
-	g_task_sensor_tick_cnt = G_APP_TICK_CNT_INI;
+	g_task_button_tick_cnt = G_APP_TICK_CNT_INI;
 	g_task_system_tick_cnt = G_APP_TICK_CNT_INI;
 	g_task_sht85_tick_cnt = G_APP_TICK_CNT_INI;
 	g_task_menu_tick_cnt = G_APP_TICK_CNT_INI;
 	g_task_actuator_tick_cnt = G_APP_TICK_CNT_INI;
+	g_task_adc_tick_cnt = G_APP_TICK_CNT_INI;
     __asm("CPSIE i");	/* enable interrupts*/
 }
 
@@ -175,7 +176,7 @@ void app_update(void)
 void HAL_SYSTICK_Callback(void)
 {
 	g_app_tick_cnt++;
-	g_task_sensor_tick_cnt++;
+	g_task_button_tick_cnt++;
 	g_task_menu_tick_cnt++;
 	g_task_sht85_tick_cnt++;
 	g_task_system_tick_cnt++;

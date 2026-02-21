@@ -68,8 +68,8 @@ void task_adc_init(void *parameters)
 	bool b_event;
 
 	/* Print out: Task Initialized */
-	LOGGER_LOG("  %s is running - %s\r\n", GET_NAME(task_sen_init), p_task_adc);
-	LOGGER_LOG("  %s is a %s\r\n", GET_NAME(task_sen), p_task_adc_);
+	LOGGER_LOG("  %s is running - %s\r\n", GET_NAME(task_adc_init), p_task_adc);
+	LOGGER_LOG("  %s is a %s\r\n", GET_NAME(task_adc), p_task_adc_);
 
 	g_task_adc_cnt = G_TASK_ADC_CNT_INI;
 

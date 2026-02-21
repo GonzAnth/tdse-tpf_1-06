@@ -25,7 +25,6 @@ typedef struct __attribute__((aligned(4))) {
 } flash_setup_t;
 
 
-// Prototipos
 void Flash_Write_Setup(flash_setup_t *setup);
 void Flash_Read_Setup(flash_setup_t *setup);
 

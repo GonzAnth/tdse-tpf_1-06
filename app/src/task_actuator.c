@@ -46,7 +46,7 @@ task_actuator_dta_t task_actuator_dta_list[] = {
 /********************** internal functions declaration ***********************/
 
 /********************** internal data definition *****************************/
-const char *p_task_actuator 		= "Task Actuator (Actuator Statechart)";
+const char *p_task_actuator 		= "Task Actuator";
 const char *p_task_actuator_ 		= "Non-Blocking & Update By Time Code";
 
 /********************** external data declaration ****************************/

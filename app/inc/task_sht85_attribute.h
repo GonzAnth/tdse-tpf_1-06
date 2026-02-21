@@ -25,7 +25,7 @@ extern "C" {
 typedef enum task_sht85_ev {EV_SEN_IDLE,
 							EV_SEN_MEASURE_ON,
 						    EV_SEN_MEASURE_READ,
-						    EV_SEN_FALLA_OK,} task_sht85_ev_t;
+						    EV_SEN_FALLA_OK} task_sht85_ev_t;
 
 /* State of Task Menu */
 typedef enum task_sht85_st {ST_SEN_IDLE,
@@ -69,6 +69,6 @@ extern task_sht85_dta_t task_sht85_dta;
 }
 #endif
 
-#endif /* TASK_INC_TASK_MENU_ATTRIBUTE_H_ */
+#endif /* TASK_INC_TASK_SHT85_ATTRIBUTE_H_ */
 
 /********************** end of file ******************************************/

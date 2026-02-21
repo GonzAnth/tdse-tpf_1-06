@@ -84,7 +84,7 @@ uint32_t get_system_remaining_time(void);
 
 
 /********************** internal data definition *****************************/
-const char *p_task_system 		= "Task Menu (Interactive Menu)";
+const char *p_task_system 		= "Task Menu";
 const char *p_task_system_ 		= "Non-Blocking & Update By Time Code";
 
 /********************** external data declaration ****************************/
