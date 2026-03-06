@@ -62,7 +62,7 @@ El ciclo de desarrollo se gestiona aplicando estándares de control de versiones
 ## Documentación Adicional
 
 * **[Memoria del Trabajo Final - Grupo 6](LINK)**.
-* **[Presentación TDSE - Grupo 6](LINK)**.
+* **[Presentación TDSE - Grupo 6](https://github.com/GonzAnth/tdse-tpf_1-06/blob/main/3_Presentaci%C3%B3n%20TDSE%20-%20Grupo%206.pdf)**.
 
 ## 👥 Autores
 * **Gonzalo Antahuara**
