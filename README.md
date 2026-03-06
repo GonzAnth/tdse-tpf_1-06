@@ -15,7 +15,6 @@
 
 [![C](https://img.shields.io/badge/Language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![STM32](https://img.shields.io/badge/MCU-STM32F103RB-orange.svg)](https://www.st.com/en/microcontrollers-microprocessors/stm32f103rb.html)
-[![License](https://img.shields.io/badge/License-MIT%20%2F%20BSD--3-brightgreen.svg)](LICENSE)
 
 </div>
 
