@@ -1,0 +1,13 @@
+../app/src/display.c:115:6:displayInit	3
+../app/src/display.c:190:6:displayCharPositionWrite	5
+../app/src/display.c:227:6:displayStringWrite	2
+../app/src/display.c:234:6:displayWritePart	3
+../app/src/display.c:245:6:displayClearPart	2
+../app/src/display.c:255:6:displayRowSplit	5
+../app/src/display.c:286:6:displayPrintPart	5
+../app/src/display.c:309:6:displayUpdateRow	3
+../app/src/display.c:329:6:displayClearRow	1
+../app/src/display.c:336:13:displayCodeWrite	2
+../app/src/display.c:346:13:displayPinWrite	9
+../app/src/display.c:384:13:displayDataBusWrite	4
+../app/src/display.c:428:6:display_delay_us	2

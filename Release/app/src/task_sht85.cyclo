@@ -1,0 +1,5 @@
+../app/src/task_sht85.c:58:6:HAL_I2C_MasterTxCpltCallback	1
+../app/src/task_sht85.c:62:6:HAL_I2C_MasterRxCpltCallback	1
+../app/src/task_sht85.c:66:6:HAL_I2C_ErrorCallback	1
+../app/src/task_sht85.c:79:6:task_sht85_init	1
+../app/src/task_sht85.c:120:6:task_sht85_update	28

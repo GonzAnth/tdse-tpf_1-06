@@ -1,0 +1,4 @@
+../app/src/task_system.c:95:6:task_system_init	2
+../app/src/task_system.c:161:6:task_system_update	52
+../app/src/task_system.c:438:17:get_scaled_tick	2
+../app/src/task_system.c:448:10:get_system_remaining_time	3

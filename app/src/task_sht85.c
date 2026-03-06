@@ -31,10 +31,10 @@
 #define DEL_SEN_XX_MED				50ul
 #define DEL_SEN_XX_MAX				500ul
 
-#define DEL_SEN_MEAS_XX_MAX			5ul
+#define DEL_SEN_MEAS_XX_MAX			20ul
 #define DEL_SEN_MEAS_XX_MIN			0ul
 
-#define DEL_SEN_TIMEOUT_MAX			10ul
+#define DEL_SEN_TIMEOUT_MAX			100ul
 #define DEL_SEN_TIMEOUT_MIN			0ul
 
 extern I2C_HandleTypeDef hi2c1;
@@ -161,7 +161,7 @@ void task_sht85_update(void *parameters)
 		}
 		else
 		{
-			p_task_sht85_cfg->tick = DEL_SEN_XX_MAX;
+			p_task_sht85_cfg->tick = DEL_SEN_XX_MED;
 
 
 			/* Implementacion maquina de estados */

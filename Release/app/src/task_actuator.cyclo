@@ -1,0 +1,2 @@
+../app/src/task_actuator.c:57:6:task_actuator_init	2
+../app/src/task_actuator.c:99:6:task_actuator_update	16
